@@ -1,0 +1,127 @@
+Spectral spaces and their topological theory
+Coherent topos
+Adic perverse sheaves
+
+(\phi,\Gamma)-modules
+isocrystals
+
+etale cohomology --> Berthelot's rigid cohomology
+lisse sheaves --> overconvergent F-isocrystals
+constructible sheaves --> arithmetic D-modules
+
+https://www-fourier.ujf-grenoble.fr/~pulitaa/Imperial-Conference/slides/Kedlaya-slides.pdf
+
+Colmez: p-adic Langlands for GL_2(Q_p)
+
+Arithmetic intersection theory on Shimura varieties
+	https://aimath.org/workshops/upcoming/intersectshimura/
+	https://arxiv.org/pdf/1202.6378.pdf
+	Arithmetic Fundamental Lemma
+	Arithmetic of K3 Surfaces
+
+Fix understanding of rigid analytic geometry
+	You can't approach discs as naively as you have here
+Use Drinfeld's dictionary to explicitly describe some Drinfeld modules
+Spa
+Spm
+Spf
+Spec
+Zariski-Riemann space
+
+For compactifying spaces of shtukas, it's common to consider reflexive or torsion-free sheaves as "degenerations" of vector bundles
+	What about general coherent sheaves (perhaps generically of some fixed rank)?
+	The version of a shtuka we are considering in Drinfeld's theorem is "Iwahori-style" because we are requiring the existence of a "full flag" of subbundles
+
+affinoid
+totally disconnected
+strictly totally disconnected
+
+etale
+pro-etale
+quasi-pro-etale
+
+diamond
+perfectoid space
+sousperfectoid
+spatial
+
+v-topology
+v-sheaf
+small v-sheaf
+
+tilt
+untilt
+
+rational subset
+
+Tate ring
+Tate algebra
+perfectoid ring
+perfectoid algebra
+perfectoid field
+
+Banach-Colmez space
+
+Rigid open unit disc is not rational subset (it's not even affinoid!)
+
+It is perhaps more natural to require that a Huber ring is analytic instead of Tate
+	Analytic means that the topologically nilpotent elements generate the unit ideal
+
+How do we get a "good" theory of coherent sheaves on adic spaces?
+	Vector bundles are apparently decently well behaved
+	Kedlaya-Liu define a notion of pseudo-coherent sheaves
+
+All analytic adic spaces over Z_p can be "accessed" in a certain precise sense using pro-etale descent from perfectoid spaces in char p
+
+What do we mean by vanishing locus in the setting of adic spaces?
+What do we mean by Cartier divisor for perfectoid spaces?
+	We should still be looking at something that is locally principal, with generators corresponding to untilts basically because of Witt vector stuff...
+
+Connection between Fargues-Fontaine curve and Lubin-Tate group
+	Formal stuff given by power series rings (theorem of Tate)
+	Take inverse limit over Frobenius for formal group (looking at some kind of universal cover)
+
+Formal groups
+	Can be recovered as group objects in formal schemes
+	Connection to local class field theory
+	Connection to deformation theory
+
+Newton and Hodge polygons for F-crystals and F-isocrystals
+	Eisenstein's criterion is a particularly simple consequence of working with Newton polygons
+
+Hodge-Tate period map
+
+Shilov boundary
+Convergence Newton polygon
+Behavior of p-adic (and other "nonarchimedean") differential equations
+
+Lubin-Tate formal group comparison (key motivation...)
+	Section II.2.1 (pg. 59/350)
+
+Kottwitz map
+Bernstein-Zelevinsky duality
+
+What is the state of the art for an adelic variant of Arakelov geometry?
+For now we will take an arithmetic variety to be a regular scheme projective and flat over Z
+	We may relax these conditions later...
+	Can we replace "projective" by "proper?"
+	One consequence of these assumptions is that X/p is smooth for cofinitely many p
+We want our Hermitian metrics to be invariant under the appropriate complex conjugation
+	This makes sense from a usability perspective
+We take algebraic cycles to be finite formal sums of closed irreducible subvarieties?
+	Why do we want them to be closed?
+	Why do we want them to be irreducible?
+Arithmetic cycles include the data of algebraic cycles but we also need to choose Green currents
+
+All zero cycles on Spec Z are rationally equivalent to 0
+Arithmetic var. = quasi-proj. var. over arithmetic ring
+Arithmetic ring = regular Noetherian excellent integral domain with distinguished set of complex embeddings (more on this later)
+
+A dream: intersection theory with Z coefficients for arbitrary regular schemes
+	Why is this only a dream right now and not a reality?
+	In more detail, how do we deal with "non-proper" intersections?
+
+Dreams:
+	Arithmetic Chow groups with coefficients
+	Analytic perspective at finite places
+	Derived perspective at the infinite place

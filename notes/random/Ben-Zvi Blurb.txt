@@ -1,0 +1,39 @@
+Some version of Poincare duality (under nice conditions) relating the theories of Weil divisors and (effective) Cartier divisors
+A line bundle with a distinguished atlas is the same data as a Cech cohomology class for the unit sheaf associated to the structure sheaf
+Torsion-free line bundles (maybe even for higher rank) over smooth curves are necessarily locally free, which need not be the case for schemes of higher dimension
+There are several ways to describe Chern classes, line bundles, Abel-Jacobi maps, etc. in the holomorphic case, all of which coincide
+The union of the coordinate axes in A^2 is an interesting and poorly behaved space in many ways
+
+C.f. Chriss and Ginzburg, Representation Theory and Complex Geometry for exposition on the following:
+A G_m-equivariant affine scheme is the same thing as a graded ring
+There is an equivalence of categories between the category of G_m-equivariant line bundles on A^1 and the category of filtered modules with exhaustive filtration
+This gives motivation for Rees construction since functor relates exhaustively filtered module with its associated graded
+We obtain flat degeneration which is an isomorphism everywhere except at 0, where we get the associated graded
+
+Category theory approach to G_m makes presence of graded rings more intuitive.
+Discussion of weighted projective spaces.
+Discussion of extra data needed to think of Proj as an adjoint.
+Gives some geometric and algebraic applications of Proj.
+
+Suppose we are working in positive characteristic p.
+Let A be a perfect F_p-algebra and f an element of A. 
+Then, the localization A_f is also a perfect F_p-algebra because inverting an element also inverts all powers of that element.
+This has important implications for rational open Cech covers of perfect analytic spaces (we might need to modify the adjectives here).
+
+Let X=Spec k[w,x,y,z]/(wz-xy) and consider the sections defined on D(y) and D(w) by z/y and x/w, respectively. 
+These glue to give a section defined on the union of D(y) and D(w). 
+Why is this section not globally cut out by a single equation?
+
+Rigid geometry sits somewhere between Spec k[[t]] and Spf k[[t]] = colim Spec k[t]/t^n 
+One is a local disc which still carries a generic point while the other is a formal disc where the generic point has been cut out in some sense to make the disc "extra local"
+
+Q: Which functors can we build from representable ones?
+
+qcqs pushforward of qcoh is qcoh
+projective pushforward of coh is coh
+
+On a Noetherian scheme, does qcqs imply projective?
+
+Different perspectives:
+Sieves (tell me how to restrict)
+Cech descent data (tell me how to glue along intersections)
