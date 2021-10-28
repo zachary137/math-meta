@@ -1,0 +1,185 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\I}{\mathcal{I}}
+\renewcommand{\phi}{\varphi}
+
+\begin{document}
+\title{Category Theory Background}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+This document will briefly address the small hodgepodge of category theory I think is good to know at the outset of our course. We will fix several notational and other conventions. Unless otherwise stated, $\C$ denotes a category.
+
+We say that $\C$ is \textbf{small} if it has a set of objects and a set of morphisms.\footnote{The difference with a more general category is that we only require the objects and morphisms to form proper classes instead of sets. Examples of small categories include finite categories (i.e., those with finitely many objects and morphisms). Unfortunately, many common categories of interest are not small. This is usually not a problem since we typically only consider a relatively small collection (almost always a set and often a finite set) of objects and morphisms at any given time.} There are many scenarios where it is technically most correct to restrict attention only to small categories, but we will sweep this under the rug in accordance with the time-honored categorical tradition of ignoring set-theoretic difficulties whenever possible. We (abusively) use the notation $X\in\C$ as shorthand for $X$ being an object of $\C$. Given $X,Y\in\C$, we denote the set of morphisms from $X$ to $Y$ in $\C$ by $\Hom_{\C}(X,Y)$. 
+
+\begin{example}
+Let $\Set$, $\Ab$, and $\CRing$ respectively denote the categories of sets, abelian groups, and commutative (unital) rings. Given $A\in\CRing$, we let $\Mod_A$ denote the category of (left) $A$-modules. We also have the category $\Grp$ of groups.\footnote{Using language developed later, we see that $\Ab$ is a full subcategory of $\Grp$.}
+\end{example}
+
+Given another category $\D$, we let $\Fun(\C,\D)$ denote the category whose objects are functors from $\C$ to $\D$ and morphisms are natural transformations. The category $\C$ is often called the \textbf{domain} or \textbf{source}, while $\D$ is often called the \textbf{codomain} or \textbf{target}. Given $F,G\in\Fun(\C,\D)$, we denote a natural transformation from $\C$ to $\D$ by either $F\to G$ or (sometimes) $F\implies G$. For the sake of being explicit, the data of a natural transformation $\eta: F\to G$ is the data of morphisms $\eta_X\in\Hom_{\D}(F(X),G(X))$ natural in the sense that 
+\begin{center}
+\begin{tikzcd}
+F(X) \arrow[r, "\eta_X"] \arrow[d, "F(\phi)"'] & G(X) \arrow[d, "G(\phi)"] \\
+F(Y) \arrow[r, "\eta_Y"'] & G(Y)
+\end{tikzcd}
+\end{center}
+commutes for every $\phi\in\Hom_{\C}(X,Y)$. Corresponding to $\C$ is the \textbf{opposite} category $\C^{\op}$ of $\C$, whose objects are the same as those of $\C$ but the morphisms satisfy
+$$\Hom_{\C^{\op}}(X,Y)=\Hom_{\C}(Y,X).$$
+Thinking about $\C$ informally as a directed graph whose vertices are objects and edges are morphisms, $\C^{\op}$ is obtained from $\C$ by reversing the direction of all of the arrows.
+
+\begin{exercise}
+Make sense of the \textbf{product} category $\C\times\D$. What should the objects and morphisms look like? Prove that your construction is a category.
+\end{exercise}
+
+When are two categories $\C$ and $\D$ equivalent to each other? There is a notion called \emph{isomorphism of categories} that is a potential candidate for equivalence, but unfortunately turns out to be much too strong in practice. We instead go for the weaker notion of an \textbf{equivalence of categories}. This is the data of $F\in\Fun(\C,\D)$ and $G\in\Fun(\D,\C)$ such that there exist natural isomorphisms $F\circ G\iso\id_{\D}$ and $G\circ F\iso\id_{\C}$.\footnote{Beware that these natural isomorphisms are not considered to be part of the data of an equivalence -- i.e., we do not fix a particular choice of natural isomorphisms.} If such $F$ and $G$ exist then we say that $\C$ and $\D$ are \textbf{equivalent} and write $\C\simeq\D$. The functor $F$ itself is called an \textbf{equivalence of categories} (and we immediately conclude that $G$ is also an equivalence of categories).
+
+\begin{exercise}
+Show that $(\C^{\op})^{\op}\simeq\C$. This is the cornerstone of the principle of duality in category theory.
+\end{exercise}
+
+\begin{exercise}
+Show that $\Fun(\C^{\op},\D)\simeq\Fun(\C,\D)^{\op}\simeq\Fun(\C,\D^{\op})$.
+\end{exercise}
+
+\begin{remark}
+We have by definition taken our functors to be \emph{covariant} in the sense that they preserve the direction of arrows. There is a dual notion of \emph{contravariant} functors, which reverse the direction of arrows. By the previous exercise, the category of contravariant functors from $\C$ to $\D$ can be thought of as any one of the equivalent categories $\Fun(\C^{\op},\D)$, $\Fun(\C,\D)^{\op}$, or $\Fun(\C,\D^{\op})$.
+\end{remark} 
+
+\begin{exercise}
+Show that $\Hom_{\C}$ naturally induces a functor $\Hom_{\C}(\cdot,\cdot): \C^{\op}\times\C\to\Set$.
+\end{exercise}
+
+Since it is often cumbersome to construct the\footnote{Technically speaking, inverses of equivalences are not unique. They are, however, unique up to unique isomorphism.} inverse $G$ in practice, it's good to have other criteria for establishing equivalence.
+
+\begin{definition}
+Fix $F\in\Fun(\C,\D)$. This induces a functor $\Hom_{\D}(F(\cdot),F(\cdot)): \C^{\op}\times\C\to\Set$ defined on objects $(X,Y)\in\C^{\op}\times\C$ by 
+$$(X,Y)\mapsto\Hom_{\D}(F(X),F(Y))$$
+and on morphisms as expected. Note that there is an obvious natural transformation
+$$\Hom_{\C}(\cdot,\cdot)\to\Hom_{\D}(F(\cdot),F(\cdot)),$$
+which we will call $\xi(F)$ for convenience.\footnote{This is not standard notation.} We say $F$ is \textbf{faithful} (respectively, \textbf{full}) if 
+$$\xi(F)_{X,Y}: \Hom_{\C}(X,Y)\to\Hom_{\D}(F(X),F(Y))$$ 
+is injective (respectively, surjective) for every $(X,Y)\in\C^{\op}\times\C$. If $F$ is both full and faithful then we say it is \textbf{fully faithful} or an \textbf{embedding}. Given $A\in\D$, we say $A$ is in the \textbf{essential image} of $F$ if there is an isomorphism $A\iso F(X)$ for some $X\in\C$ (as expected, the objects $F(X)$ comprise the \textbf{image} of $F$). We say that $F$ is \textbf{essentially surjective} if its essential image is $\D$.
+
+Given a subcategory $\C'\subset\C$ (obtained by taking only some of the objects in $\C$ and morphisms between them, possibly imposing extra conditions), we say $\C'$ is a \textbf{full subcategory} if the inclusion functor $\C'\inj\C$ (which is always faithful) is full. Given a collection of objects in $\C$, the full subcategory of $\C$ \textbf{spanned} by those objects is the smallest full subcategory of $\C$ containing the relevant objects.
+\end{definition}
+
+\begin{proposition}
+Let $F\in\Fun(\C,\D)$. Then, $F$ is an equivalence of categories if and only if it is fully faithful and essentially surjective.
+\end{proposition}
+
+\begin{definition}
+Fix a category $\I$ (typically the underlying category of a poset). A \textbf{(commutative) diagram in $\C$ of shape $\I$} is a functor $J: \I\to\C$. The category $\I$ is often called an \textbf{index category}, and may be omitted if it is clear from context. The \textbf{limit} of $J$, denoted $\lim J$, is the data of an object $L(J)\in\C$ together with compatible morphisms from $L(J)$ to the image of $J$ such that, given any object $X\in\C$ with compatible morphisms from $X$ to the image of $J$, there exists a unique morphism in $\C$ from $X$ to $L(J)$ that is compatible with the image of $J$. Dually, the \textbf{colimit} of $J$, denoted $\colim J$, is the data of an object $C(J)\in\C$ together with compatible morphisms from the image of $J$ to $C(J)$ such that, given any object $X\in\C$ with compatible morphisms from the image of $J$ to $C(J)$, there exists a unique morphism in $\C$ from $C(J)$ to $X$ that is compatible with the image of $J$.
+\end{definition}
+
+\begin{remark}
+In general, neither $\lim J$ nor $\colim J$ need exist! Please keep this in mind!
+\end{remark}
+
+In practice, we often call the\footnote{The object $L(J)$ in the above definition is technically not unique but is unique up to unique isomorphism. The same applies to $C(J)$.} object $L(J)$ the limit as opposed to all of $\lim J$ (note, however, that we do need to remember the compatibility data even if we don't explicitly write it down). The same comments apply to colimits.
+
+\begin{exercise}
+Show that there are well-defined (up to unique isomorphism) functors 
+$$\lim,\colim: \Fun(\I,\C)\to\C,$$
+assuming that the relevant limits and colimits exist. For an added challenge, try to make sense of ``larger'' target categories that completely capture the data of the functors $\lim$ and $\colim$ (this exercise is vague on purpose to get you to explore).
+\end{exercise}
+
+\begin{example}
+Let $\square$ be the category 
+\begin{center}
+\begin{tikzcd}
+\bullet \arrow[r] \arrow[d] & \bullet \arrow[d] \\
+\bullet \arrow[r] & \bullet
+\end{tikzcd}
+\end{center}
+Following standard convention, we have suppressed both the identity morphisms and the diagonal composition morphism. The advantage of this category is that a commutative square in $\C$ is nothing more than a functor $\square\to\C$. Other common shapes include:
+\begin{enum}{\arabic}
+\item $\bullet$
+\item $\bullet\;\;\bullet$
+\item $\bullet\rightarrow\bullet\leftarrow\bullet$
+\item $\bullet\leftarrow\bullet\rightarrow\bullet$
+\end{enum}
+\end{example}
+
+\begin{exercise}
+Let $\I$ be one of the numbered shapes from the previous example and fix a diagram $J\in\Fun(\I,\C)$.
+\begin{enum}{\roman}
+\item Explicitly describe the data of $J$. To help with this, note that each $\bullet$ gets ``filled in'' with an object of $\C$.
+
+\item Describe the limit and colimit of $J$, assuming that they exist. 
+\end{enum}
+\end{exercise}
+
+Sticking with the conventions of the previous exercise, let $X,Y,Z\in\C$. Moving from left to right, suppose in case (2) that $J$ fills in the $\bullet$'s with $X$ and $Y$. Then, we call $X\times Y:=\lim J$ the \textbf{product} and $X\coprod Y$ the \textbf{coproduct}. In both cases (3) and (4), suppose $J$ fills in the $\bullet$'s with $X$, $Z$, and $Y$ in that order. In case (3), we call $X\times_ZY:=\lim J$ the \textbf{pullback} or \textbf{fiber product} of $X$ and $Y$ over $Z$. In case (4), we call $X\coprod_ZY:=\colim J$ the \textbf{pushout} or \textbf{fiber coproduct} of $X$ and $Y$ with respect to $Z$.
+
+\begin{proposition}
+Limits commute with limits. Dually, colimits commute with colimits.
+\end{proposition}
+
+\begin{exercise}
+Make rigorous sense of the previous proposition and then prove it. Note that you only need to prove the statement for limits since the corresponding statement for colimits follows by duality.
+\end{exercise}
+
+\begin{definition}
+\textcolor{red}{TO DO: Define filtered categories. Describe the underlying category of a poset. Describe inverse systems using the appropriate categorical language.}
+
+Fix a diagram $F\in\Fun(\I,\C)$. We say that $\lim F$ is \textbf{filtered}, \textbf{finite}, or \textbf{small} if $\I$ has the corresponding property. The same comments apply to colimits. We say that $\C$ is \textbf{complete} if it admits all small limits (i.e., they exist) and \textbf{cocomplete} if it admits all small colimits.
+\end{definition}
+
+\textcolor{red}{TO DO: continuous and cocontinuous functors}
+
+\begin{example}
+The category $\Set$ is complete and cocomplete with products given by Cartesian product $\times$ and coproducts given by disjoint union $\coprod$ (this is the reason for the general notation for products and coproducts).
+\end{example}
+
+\begin{proposition}
+\textcolor{red}{TO DO: define and describe equalizers and coequalizers}
+
+$\C$ is complete if and only if it admits all products and equalizers. Dually, $\C$ is cocomplete if and only if it admits all coproducts and coequalizers.
+\end{proposition}
+
+\begin{proposition}
+Filtered colimits commute with finite limits. Dually, filtered limits commute with finite colimits.
+\end{proposition}
+
+\textcolor{red}{TO DO: details of adjunction and more about equivalences of categories}
+
+\begin{proposition}
+Right adjoints preserve limits. Dually, left adjoints preserve colimits.
+\end{proposition}
+
+The first half of this result is often remembered by the mnemonic RAPL. A partial converse of this result is the following important and amazing theorem.
+
+\begin{theorem}[Adjoint Functor Theorem]
+\textcolor{red}{TO DO!!!}
+\end{theorem}
+
+Let $\Pre(\C):=\Fun(\C^{\op},\Set)$ denote the category of \textbf{presheaves} on $\C$ (valued in $\Set$). More generally, we call $\Fun(\C^{\op},\D)$ the category of presheaves on $\C$ valued in a category $\D$.\footnote{In the case that $\D$ is not $\Set$, we typically take it to be an abelian category (to be defined later).} For convenience, we also let $\twid{\C}:=\Fun(\C,\Set)$.\footnote{The notation $\Pre(\C)$ is relatively standard, while $\twid{\C}$ is highly nonstandard.}
+
+\begin{definition}
+Given $X\in\C$, we have induced functors
+$$h^X:=\Hom_{\C}(\cdot,X): \C^{\op}\to\Set$$
+$$h_X:=\Hom_{\C}(X,\cdot): \C\to\Set$$
+By construction, $h^X\in\Pre(\C)$ and $h_X\in\twid{\C}$. We call elements in $\Pre(\C)$ of the form $h^X$ \textbf{representable} presheaves.\footnote{Note that this is stronger than requiring that an object $F\in\Pre(\C)$ is (naturally) isomorphic to some $h^X$. An intermediate notion between the two keeps track of an isomorphism $F\iso h^X$.} Similarly, we call elements in $\twid{\C}$ of the form $h_X$ \textbf{corepresentable} presheaves.
+\end{definition}
+
+\begin{theorem}[Yoneda's Lemma]
+The functor 
+$$\C\to\Pre(\C),\qquad X\mapsto h^X$$
+is fully faithful.
+\end{theorem}
+
+We call this functor the \textbf{Yoneda embedding} and often simply denote it by $\C\inj\Pre(\C)$. In this way we can view $\C$ as a full subcategory of $\Pre(\C)$ or, equivalently, $\Pre(\C)$ as some kind of extension of $\C$. This viewpoint is bolstered even more by the following result.
+
+\begin{proposition}
+The category $\Pre(\C)$ is both complete and cocomplete, with limits and colimits obtained by ``pointwise'' evaluation.
+\end{proposition}
+
+\begin{proposition}
+Every presheaf in $\Pre(\C)$ is canonically a colimit of representable presheaves.
+\end{proposition}
+\end{document}

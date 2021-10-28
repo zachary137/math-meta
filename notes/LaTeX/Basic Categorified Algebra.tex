@@ -1,0 +1,455 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\EE}{\mathcal{E}}
+\renewcommand{\F}{\mathcal{F}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\M}{\mathscr{M}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\U}{\mathscr{U}}
+
+\renewcommand{\A}{\mathscr{A}}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\R}{\mathscr{R}}
+
+\DeclareMathOperator{\add}{add} % addition
+\DeclareMathOperator{\cat}{cat} % category
+\DeclareMathOperator{\lleft}{left} % left
+\DeclareMathOperator{\Hopf}{Hopf} % Hopf
+\DeclareMathOperator{\mult}{mult} % multiplication
+\DeclareMathOperator{\pair}{pair} % pairing
+\DeclareMathOperator{\rright}{right} % right
+\DeclareMathOperator{\sub}{sub} % subtraction
+
+\begin{document}
+\title{Basic Categorified Algebra}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+The following table indicates common categories we will encounter.
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Category & Objects & Morphisms \\
+\hline
+$\Ab$ & abelian groups & group homomorphisms \\
+$\Alg$ & (associative, left) $A$-algebras & $A$-algebra homomorphisms \\
+$\CAlg_A$ & commutative (associative, left) $A$-algebras & $A$-algebra homomorphisms \\
+$\CMon$ & commutative (associative) monoids & monoid homomorphisms \\
+$\CRing$ & commutative (unital) rings & ring homomorphisms \\
+$\Grp$ & groups & group homomorphisms \\
+$\Mod_A$ & (left) $A$-modules & $A$-module homomorphisms \\
+$\Mon$ & (associative) monoids & monoid homomorphisms \\
+$\Set$ & sets & functions \\
+\hline
+\end{tabular}
+\end{center}
+Note that $A\in\CRing$ denotes a fixed commutative ring in the above table.
+
+\begin{remark}
+Many authors use the term \emph{$A$-linear map} synonymously with the term \emph{$A$-module homomorphism}. Since there is potential confusion with the term \emph{$A$-algebra homomorphism} we will not use this term.
+\end{remark}
+
+\section{Categorified Groups}
+Let $\C$ be a category with finite products -- in particular, $\C$ has a (binary) product $\times$ and a terminal object $*$.\footnote{The terminal object $*$ is given by the limit of the empty category (which can be viewed in some sense as the ``initial'' category).} Given any $X,Y\in\C$, we let $\pr_i$ denote the projection morphism from $X\times Y$ to its $i$th factor.
+
+\begin{exercise}
+Fix $X,Y,Z,W\in\C$. 
+\begin{enum}{\alph}
+\item Show that there is a natural diagonal morphism $\Delta=\Delta_X\in\Hom_{\C}(X,X\times X)$ such that each composition
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Delta"] & X\times X \arrow[r, shift left, "\pr_1"] \arrow[r, shift right, "\pr_2"'] & X
+\end{tikzcd}
+\end{center}
+is $\id_X$.
+
+\item Suppose we have $f\in\Hom_{\C}(X,Z)$ and $g\in\Hom_{\C}(Y,W)$. Show that there is a natural map $f\times g\in\Hom_{\C}(X\times Y,Z\times W)$.
+
+\item Show that there is a unique\footnote{This assumes we have chosen a \emph{particular} object in $\C$ representing the product $X\times Y$ for every pair of objects $X,Y\in\C$. If we don't make such a choice then we only have uniqueness up to unique isomorphism.} natural commutativity isomorphism $c_{X,Y}\in\Isom_{\C}(X\times Y,Y\times X)$. For convenience, we call this a \textbf{commutator} morphism.
+
+\item Show that there is a unique natural associativity isomorphism 
+$$a_{X,Y,Z}\in\Isom_{\C}((X\times Y)\times Z,X\times(Y\times Z)).$$
+For convenience, we call this an \textbf{associator} morphism.
+\end{enum}
+\end{exercise}
+
+A \textbf{group object} in $\C$ should be thought of as an object of $\C$ with a ``functorial group structure.'' More precisely, a group object in $\C$ is the data of an object $G\in\C$ together with morphisms 
+$$m\in\Hom_{\C}(G\times G,G),\qquad i\in\Hom_{\C}(G,G),\qquad e\in\Hom_{\C}(*,G)$$ 
+such that $m$, $i$, and $e$ respectively ``behave like'' multiplication, inversion, and the identity in a group. That is, the following diagrams commute:
+\begin{enum}{\roman}
+\item[] (Associativity)
+
+\begin{center}
+\begin{tikzcd}
+(G\times G)\times G \arrow[rr, "a_{G,G,G}"] \arrow[rd, "m\times\id_G"'] & & G\times(G\times G) \arrow[ld, "\id_G\times m"] \\
+& G\times G \arrow[d, "m"] & \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Identity)
+
+\begin{center}
+\begin{tikzcd}
+G\times* \arrow[r, "\id_G\times e"] \arrow[rd, "\pr_1"'] & G\times G \arrow[d, "m"] & *\times G \arrow[l, "e\times\id_G"'] \arrow[ld, "\pr_2"] \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Invertibility)
+
+\begin{center}
+\begin{tikzcd}
+G \arrow[d] \arrow[r, "\Delta"] & G\times G \arrow[dd, bend left, "i\times\id_G"] \arrow[dd, bend right, "\id_G\times i"'] \\
+* \arrow[d, "e"'] & \\
+G & G\times G \arrow[l, "m"]
+\end{tikzcd}
+\end{center}
+\end{enum}
+
+\begin{remark}
+The morphism $G\to*\xto{e}G$ can be thought of as ``coherently picking out'' an identity for $G$. We will call this morphism $e_G$ in the future.
+\end{remark}
+
+If we need to keep track of morphisms then we write the tuple $(G,m,i,e)$. We let $\C^{\grp}$ denote the category whose objects are group objects in $\C$ and morphisms are morphisms in $\C$ compatible with the above diagrams. We obtain a ``forgetful'' functor $\C^{\grp}\to\C$ by forgetting the group structure on group objects of $\C$. Of course, explicitly writing down all of this data can be a bit cumbersome and so it's helpful to have an alternative perspective on group objects. Yoneda's Lemma tells us that the functor
+$$\C\inj\Pre(\C):=\Fun(\C^{\op},\Set),\qquad X\mapsto h^X:=\Hom_{\C}(\cdot,X)$$
+sending $X\in\C$ to its ``functor-of-points'' $h^X$ is an embedding with (essential) image $\Pre_{\rep}(\C)$. Thus, we may identify objects of $\C$ with presheaves in $\Pre(\C)$. Given $F\in\Pre(\C)$, we can demand that each $F(X)\in\Set$ has a group structure funtorial in $X$ -- i.e., that $F$ factors through $\Grp$. It then seems reasonable to call a group object in $\C$ a representable presheaf in $\Pre(\C,\Grp):=\Fun(\C^{\op},\Grp)$. We denote the category of such representable presheaves by $\Pre_{\rep}(\C,\Grp)$.
+
+\begin{remark}
+It's worth reiterating the above to really drive the point home. An object of $\Pre_{\rep}(\C,\Grp)$ can be thought of as a functor $F: \C^{\op}\to\Grp$ such that $F\iso h^X$ \emph{as functors} from $\C^{\op}$ to $\Grp$. The significance of this is that, for every $Y\in\C^{\op}$, the set
+$$h^X(Y)=\Hom_{\C}(Y,X)$$
+has a group structure functorial in $Y$ provided by the isomorphism with $F(Y)$. Note that this is much stronger than simply putting a group structure on each $\Hom_{\C}(Y,X)$.
+\end{remark}
+
+\begin{exercise}
+Let $1_{\cat}$ denote the ``terminal'' category that has one object and one morphism (the identity). Show that $(1_{\cat})^{\grp}\simeq1_{\cat}$.
+\end{exercise}
+
+\begin{exercise}
+Fix $G\in\C^{\grp}$. Show that $h^G\in\Pre_{\rep}(\C)$ factors through $\Grp$. Use this to show that the Yoneda embedding $\C\inj\Pre(\C)$ induces an equivalence of categories $\C^{\grp}\xto{\sim}\Pre_{\rep}(\C,\Grp)$.
+\end{exercise}
+
+In practice, instead of saying that an object of $\C$ is a group object we use the word ``group'' as an adjective. For example, a group object in $\Ring$ is called a \emph{group ring}.
+
+\begin{exercise}
+Fix $R\in\Ring$ and $G\in\Grp$. Recall that we define the group ring $R[G]$ to be the ring of finite $R$-linear (formal) sums of elements of $G$. Show that $R[G]$ is naturally an object of $\Ring^{\grp}$. Show that every object in $\Ring^{\grp}$ has this form.\footnote{Precisely, this means that the image of the forgetful functor $\Ring^{\grp}\to\Ring$ consists precisely of the rings $R[G]$. This shows that both meanings of the term ``group ring'' coincide.} Does the same analysis carry through if we restrict attention to $\CRing^{\grp}$?
+\end{exercise}
+
+\begin{exercise}
+Show that $\Set^{\grp}\simeq\Grp$ and $\Grp^{\grp}\simeq\Ab$. This indicates that we must be a little careful, since a group object in $\Grp$ is not a general group but in fact an \emph{abelian} group.
+\end{exercise}
+
+\begin{exercise}
+Show that $\C^{\grp}$ is closed under finite products, first directly using the definition and second using the equivalence $\C^{\grp}\simeq\Pre_{\rep}(\C,\Grp)$.
+\end{exercise}
+
+\begin{exercise}
+Does the forgetful functor $\C^{\grp}\to\C$ preserve limits? How about colimits? Is this enough to conclude that this functor is left or right adjoint? You might find it helpful to know that the forgetful functor $\Grp\to\Set$ induces a functor $\Pre_{\rep}(\C,\Grp)\to\Pre_{\rep}(\C)$ compatible with $\C^{\grp}\to\C$ under the above equivalence of categories.
+\end{exercise}
+
+We make sense of the category $\Ab(\C)$ of \emph{abelian group objects} in $\C$ as before, except that we need an extra commutative diagram:
+
+\begin{enum}{\roman}
+\item[] (Commutativity)
+
+\begin{center}
+\begin{tikzcd}
+G\times G \arrow[rr, "c_{G,G}"] \arrow[rd, "m"'] & & G\times G \arrow[ld, "m"] \\
+& G &
+\end{tikzcd}
+\end{center}
+\end{enum}
+
+\begin{exercise}
+Show that there is an equivalence of categories $\Ab(\C)\simeq\Pre_{\rep}(\C,\Ab)$. You may want to make use of the equivalence $\Grp^{\grp}\simeq\Ab$.
+\end{exercise}
+
+By definition, a \textbf{monoid} is a set together with an associative binary operation and an identity element. We obtain a category $\Mon$ whose morphisms are functions that preserve identity elements. Inside of this is the full subcategory $\CMon$ of \emph{commutative monoids}, which have the additional property that the binary operation is commutative. We already have the diagrams to make sense of the categories $\Mon(\C)$ and $\CMon(\C)$. 
+
+\begin{exercise}
+Show that $\Mon(\C)\simeq\Pre_{\rep}(\C,\Mon)$ and $\CMon(\C)\simeq\Pre_{\rep}(\C,\CMon)$.
+\end{exercise}
+
+\section{Categorified Rings}
+Our goal now is to make sense of commutative algebra objects in $\C$. Note first of all that $\CRing\simeq\CAlg_{\Z}$ since $\Z$ is the initial object of $\CRing$ and so we often write $\CAlg$ in place of $\CRing$. Thus, the category $\CAlg(\C)$ of commutative algebra objects in $\C$ should be the same thing as the category of commutative ring objects (more on this later). What data do we need? Let $R\in\C$ with 
+$$(R,\add,\sub,0)\in\Ab(\C),\qquad (R,\mult,1)\in\CMon(\C).$$
+We need to make sense of distributivity. We could write a big commutative diagram, but let us instead say that the compositions
+\begin{center}
+\begin{tikzcd}
+R\times R\times R \arrow[r, "\id_R\times\add"] & R\times R \arrow[r, "\mult"] & R
+\end{tikzcd}
+\end{center}
+and
+\begin{center}
+\begin{tikzcd}[column sep=10ex]
+R\times R\times R \arrow[r, "\Delta\times\id_{R\times R}"] & R\times R\times R\times R \arrow[r, "\id_R\times c_{R,R}\times\id_R"] & R\times R\times R\times R \arrow[r, "\mult\times\mult"] & R\times R \arrow[r, "\add"] & R
+\end{tikzcd}
+\end{center}
+are equivalent. One then shows that $\CAlg(\C)\simeq\Pre_{\rep}(\C,\CAlg)$.
+
+\begin{exercise}
+Note that the first entry $R\times R\times R$ should really be written as $R\times(R\times R)$. This is, however, harmless since there are only two ways to ``group up'' a triple product which are related by an associator. What about quadruple products? Some of the ways to group up a quadruple product can be compared using associators. For example, 
+$$\alpha_{R,R,R}\times\id_R: ((R\times R)\times R)\times R\xto{\sim}(R\times(R\times R)\times R.$$
+However, groupings such as $(R\times R)\times(R\times R)$ cannot be compared with the rest simply using associators. The relevant universal properties guarantee that there is a unique isomophism between any pair of groupings. Some of these will look like $\alpha_{R,R,R}\times\id_R$ above, but some of these will be brand new. We think of these new morphisms as ``higher order'' associators.
+\begin{enum}{\alph}
+\item Arrange all of the above associator information into a diagram. Do we get some kind of ``nice'' shape? Does this help us understand something about associators?
+
+\item Our approach so far can be viewed as an inductive, bottom-up argument. We could instead do things in a top-down manner. $R\times R\times R\times R$ exists and has its own universal property (as a limit of the appropriate diagram), which guarantees that there is a unique isomorphism from $R\times R\times R\times R$ to any of the groupings. Can this be used to construct associators?
+
+\item Apply the same top-down approach to triple products.
+
+\item Investigate the relationship of $(R\times R\times R)\times R$ and $R\times(R\times R\times R)$ to quadruple products.
+
+\item What about quintuple products?
+
+\item Convince yourself that nothing changes if we consider arbitrary finite collections of objects in $\C$.
+\end{enum}
+\end{exercise}
+
+\begin{exercise}
+Make sense of the category $\Ring(\C)$. Note that we only have $(R,\mult,1)\in\Mon(\C)$ in this case. Note also that you will need to write down a few more diagrams than for $\CAlg(\C)$ since commutativity of multiplication simplifies a lot of things. 
+\end{exercise}
+
+\begin{remark}
+It might help to use different notational conventions when thinking of group objects as objects of $\C$ versus presheaves. For example, you could use $G$ for an object in $\Grp(\C)=\C^{\grp}$ versus $\ms{G}$ for the corresponding object in $\Pre_{\rep}(\C,\Grp)$. Similarly, you could have $R\in\CAlg(\C)$ and $\ms{R}\in\Pre_{\rep}(\C,\CRing)$.
+\end{remark}
+
+\section{Categorified Modules}
+Fix $A\in\CRing$. There are several important categories that are defined relative to $A$. The first of these is the category of commutative $A$-algebras $\CAlg_A\simeq\CRing_{A/}$. We also have the categories $\Mod_A^{\lleft}$ and $\Mod_A^{\rright}$ of left and right $A$-modules (superscripts for emphasis). These two categories are equivalent to one another in a canonical way. With this in mind, we shall follow convention and always have $\Mod_A$ denote $\Mod_A^{\lleft}$. We begin by tackling $\Mod_A(\C)$.
+
+Our first step is to ``categorify'' the scalar action of a commutative ring on an abelian group. Let $(R,\add,\sub,0,\mult,1)\in\CAlg(\C)$ be a ring object and $(M,\add_M,\sub_M,0_M)\in\Ab(\C)$ a module object. A \emph{(left) scalar action} of $R$ on $M$ should be a morphism $\sigma=\sigma_{R,M}\in\Hom_{\C}(R\times M,M)$ which behaves heuristically as follows. Thinking of $R$ and $M$ as sets and letting $a,b,1\in R$ and $m,n\in M$, we have the following identity and distributivity laws.
+\begin{itemize}
+\item $1\cdot m=m$.
+
+\item $a\cdot(m+n)=a\cdot m+a\cdot n$.
+
+\item $(a+b)\cdot m=a\cdot m+b\cdot m$.
+
+\item $(ab)\cdot m=a\cdot(b\cdot m)$.
+\end{itemize}
+
+We will write down the diagrams corresponding to these first two laws, leaving the last two as an exercise to the reader.
+
+\begin{enum}{\roman}
+\item[] (Identity scalar multiplication)
+
+\begin{center}
+\begin{tikzcd}
+*\times M \arrow[rr, "1\times\id_M"] \arrow[rd, "\pr_2"'] & & R\times M \arrow[ld, "\sigma"] \\
+& M &
+\end{tikzcd}
+\end{center}
+
+\item[] (Distributivity of scalar multiplication over abelian group addition)
+
+\begin{center}
+\begin{tikzcd}
+R\times M\times M \arrow[r,equals] \arrow[ddd, "\id_R\times\add_M"'] & R\times M\times M \arrow[d, "\Delta_R\times\id_{M\times M}"] \\
+& R\times R\times M\times M \arrow[d, "\id_R\times c_{R,M}\times\id_M"] \\
+& R\times M\times R\times M \arrow[d, "\sigma\times\sigma"] \\
+R\times M \arrow[d, "\sigma"'] & M\times M \arrow[d, "\add_M"] \\
+M \arrow[r, equals] & M
+\end{tikzcd}
+\end{center}
+\end{enum}
+
+We can define the tuple $(R,M,\sigma)$ to be a \emph{module object} in $\C$, yielding a category $\Mod(\C)$. Now comes the magical part. Given $R\in\CAlg(\C)$, the map $\mult_R: R\times R\to R$ naturally defines a scalar action of $R$ on itself.\footnote{We forget the multiplicative structure on the second copy of $R$ in $R\times R$.} Hence, we have a natural module object $(R,R,\mult_R)\in\Mod(\C)$. We can then form the undercategory $\Mod_R(\C):=\Mod(\C)_{(R,R,\mult_R)/}$ of \emph{$R$-module objects} on $\C$, thinking of $(R,R,\mult_R)$ as an object of $\Mod(\C)_{(R,R,\mult_R)/}$ via $\id_R$. 
+
+At this point it's worth making explicit what morphisms in $\Mod(\C)$ look like. So, let $(R,M,\sigma)$ and $(S,N,\tau)$ be objects in $\Mod(\C)$. A morphism from $(R,M,\sigma)$ to $(S,N,\tau)$ should obviously involve $\phi\in\Hom_{\CAlg(\C)}(R,S)$ and $f\in\Hom_{\Ab(\C)}(M,N)$. These morphisms $\phi,f$ need to be compatible with $\sigma$ and $\tau$. This means that the diagram
+\begin{center}
+\begin{tikzcd}
+R\times M \arrow[r, "\sigma"] \arrow[d, "\phi\times f"'] & M \arrow[d, "f"] \\
+S\times N \arrow[r, "\tau"'] & N
+\end{tikzcd}
+\end{center}
+commutes.
+
+How do we bring $A$ into the picture? All we need to do is construct a ring object corresponding to $A$. Consider the constant functor $\A: \C^{\op}\to\CRing$ that sends every object of $\C$ to $A$ and every morphism in $\C$ to $\id_A$.
+
+\textbf{\un{Golden Question}:} Is $\A$ representable?
+
+If the answer is yes then $\A$ is an object of $\Pre_{\rep}(\C,\CRing)$ and so corresponds to an object $\un{A}\in\CAlg(\C)$ (which is unique up to unique isomorphism). We can then define $\Mod_A(\C):=\Mod_{\un{A}}(\C)$. The unfortunate truth is that $\A$ need not be representable for general $\C$. The saving grace is that $\A$ is often representable for many common categories of interest. More generally, we have powerful theorems that guarantee representability of functors \emph{without} having to construct representatives. How then do we define $\Mod_A(\C)$ in general?
+
+\begin{exercise}
+Let $\EE$ be a concrete category, so objects of $\EE$ are sets with extra structure and morphisms are functions with extra structure (in other words, there is a well-defined forgetful functor $\EE\to\Set$). Convince yourself that the category $\EE(\C)$ of $\EE$-objects in $\C$ should be obtained by ``pulling back'' $\Pre_{\rep}(\C,\EE)$ by the Yoneda embedding $\C\inj\Pre(\C)$.\footnote{This pullback by Yoneda only makes sense if $\EE$ is concrete. If $\EE$ is not concrete then we need a more general version of Yoneda's Lemma to make sense of $\C(\EE)$ in this way.} This way of thinking can be used to describe a sort of ``universal property'' for $\EE(\C)$.\footnote{In particular, this ``universal property'' should characterize $\EE(\C)$ up to equivalence of categories.}
+\end{exercise}
+
+So, we can simply define $\Mod_A(\C):=\Pre_{\rep}(\C,\Mod_A)$. Notice, however, that $\A$ appears nowhere in this construction. We can remedy this discrepancy by viewing $A$ as an $A$-module in the natural way. Then, $\A$ factors through both $\Mod_A$ and $\Ab$ and so we can view $\A$ as an element of both $\Pre(\C,\Mod_A)$ and $\Pre(\C,\Ab)$. Using the equivalence $\Ab_{A/}\simeq\Mod_A$, we see that $\Pre(\C,\Ab)_{\A/}\simeq\Pre(\C,\Mod_A)$ and so 
+$$\Pre_{\rep}(\C,\Ab)_{\A/}\simeq\Pre_{\rep}(\C,\Mod_A)=:\Mod_A(\C).$$
+
+\begin{exercise}
+Suppose that $\A$ is represented by $\un{A}\in\CAlg(\C)$. Show that $\Mod_{\un{A}}(\C)\simeq\Mod_A(\C)$.
+\end{exercise}
+
+\begin{exercise}
+Show that $\Mod_A(\Set)\simeq\Mod_A$.
+\end{exercise}
+
+\begin{exercise}
+What is $\Mod(\Set)$? Is there an equivalence between $\Mod$ and $\Mod_{\Z}\simeq\Ab$?
+\end{exercise}
+
+\begin{exercise}
+Work out the ``categorified'' theory of right modules. If you want to work bottom-up then you might first construct $\Mod^{\rright}(\C)$.
+\end{exercise}
+
+\begin{exercise}
+Make sense of the notion of ideal object.
+\end{exercise}
+
+\begin{exercise}
+How would you define a \emph{comodule}? What about a \emph{comodule object}?
+\end{exercise}
+
+\section{Categorified Algebras}
+Let's now turn our attention to categorifying commutative $A$-algebras. We may equivalently view a commutative $A$-algebra as a(n)
+\begin{enum}{\arabic}
+\item commutative ring with a ring homomorphism from $A$;
+
+\item commutative ring with compatible $A$-module structure; 
+
+\item $A$-module equipped with compatible symmetric $A$-bilinear pairing that has a multiplicative identity.
+\end{enum}
+All three perspectives can be categorified, though perspective (1) is the most amenable to the theory we have developed so far. We have no good reason to restrict attention to just $\CAlg_A(\C)$, so we will also define $\CAlg_R(\C)$ for $R\in\CAlg(\C)$. With this in mind, fix $R\in\CAlg(\C)$. We want to make sense of:
+\begin{enum}{\arabic}
+\item commutative rings in $\C$ with a ring homomorphism from $R$;
+
+\item commutative rings in $\C$ with a compatible $R$-module structure; 
+
+\item $R$-modules in $\C$ equipped with a compatible symmetric $R$-bilinear pairing that has a multiplicative identity.
+\end{enum}
+The categorification of perspective (1) yields simply $\CAlg(\C)_{R/}$. 
+
+\begin{exercise}
+Categorify perspective \textup{(2)} and show that the resulting category is equivalent to $\CAlg(\C)_{R/}$. Note that part of this exercise is showing that the resulting category admits forgetful functors to $\CAlg(\C)$ and $\Mod_R(\C)$.
+\end{exercise}
+
+We will now categorify perspective \textup{(3)} to obtain the category $\CAlg_R(\C)$. The first issue that presents itself can be phrased as a question.
+
+\textbf{\un{Question}:} Which ``model'' of $\Mod_R$ do we choose?
+
+The answer is that it doesn't matter since we will get a (canonically) equivalent category in the end.\footnote{The verification of this claim is, of course, left as an exercise to the reader.} So, we simply take $\Mod(\C)_{(R,R,\mult_R)/}$ to be our ``model'' for $\Mod_R(\C)$. Now let $V\in\Mod_R(\C)$, which by definition comes equipped with a suitable scalar multiplication map $\sigma_V: R\times V\to V$. We equip $V$ with a pairing $\pair_V: V\times V\to V$, which is symmetric with unit in the sense that we specify $1_V: *\to V$ such that $(V,\pair_V,1_V)\in\CMon(\C)$. What about $R$-bilinearity of the pairing? Since we have assumed that $\pair_V$ is symmetric we only need to specify bilinearity ``in the first slot.''
+
+\begin{exercise}
+Finish the construction\footnote{Hint: To avoid retreading old ground, note that an $R$-bilinear pairing can equivalently be viewed as a pairing that yields an $R$-module map when one of its arguments is fixed.} and show that the result of this process is equivalent to $\CAlg(\C)_{R/}$.
+\end{exercise}
+
+\begin{remark}
+Another way to go is to consider the composite construction $\CAlg(\Mod_R(\C))$. This corresponds to thinking about commutative $R$-algebras as $R$-modules with compatible commutative ring structure.
+\end{remark}
+
+\begin{exercise}
+Let $\A: \C^{\op}\to\CRing$ be the constant functor from earlier and suppose that it is represented by $\un{A}\in\CAlg(\C)$. Show that 
+$$\CAlg_{\un{A}}(\C)\simeq\Pre_{\rep}(\C,\CRing)_{\A/}\simeq\Pre_{\rep}(\C,\CAlg_A).$$
+Note that, just as before, we must define $\CAlg_A(\C):=\Pre_{\rep}(\C,\CAlg_A)$ because $\A$ may not be representable in general.
+\end{exercise}
+
+\begin{exercise}
+Make sense of the category $\Alg_R(\C)$ of \emph{$R$-algebra objects} in $\C$.
+\end{exercise}
+
+\begin{exercise}
+Make sense of the general categories $\CAlg(\C)$ and $\Alg(\C)$. If it bothers you that we basically already defined $\CAlg(\C)$ to be $\CRing(\C)$ then show that the two are equivalent!
+\end{exercise}
+
+\begin{exercise}
+For each of the following choices of category $\EE$, translate as many statements as you can about $\EE$ into statements about $\EE(\C)$.
+\begin{enum}{\arabic}
+\item $\Grp$.
+
+\item $\CRing$
+
+\item $\Mod_A$, with $A\in\CRing$.
+
+\item $\CAlg_A$.
+\end{enum}
+\end{exercise} 
+
+\section{Group Spaces and Group Schemes}
+Now for the example that everyone has been waiting for. Given $S\in\Space$, we refer to group objects in $\Space_S$ as \emph{group $S$-spaces} or \emph{$S$-group spaces}. Similarly, given $S\in\Sch$, we refer to group objects in $\Sch_S$ as \emph{group $S$-schemes} or \emph{$S$-group schemes}. Using our earlier notational conventions these categories can be referred to as $\Grp(\Space_S)=\Space_S^{\grp}$ and $\Grp(\Sch_S)=\Sch_S^{\grp}$. If $S=\Spec\Z$ then we omit it from all of the notation. Note that the inclusion $\Sch_S\inj\Space_S$ induces $\Grp(\Sch_S)\inj\Grp(\Space_S)$.
+
+\begin{exercise}
+Show that the properties of being an $S$-group space and $S$-group scheme are stable under base change.
+\end{exercise}
+
+All of this is well and good but you may object that this doesn't agree with the intuitive definition you have of a group space. Keeping things simple for now, let $X\in\Grp(\Space)$. Then, $X$ itself is a functor from $\CRing$ to $\Set$. Shouldn't it be the case that $X$ factors through $\Grp$? The answer is yes! 
+
+\begin{exercise}
+Show directly (i.e., without using Yoneda) that $\Grp(\Space)\simeq\Fun(\CRing,\Grp)$.
+\end{exercise}
+
+In fact, the same argument shows that $\EE(\Space)\simeq\Fun(\CRing,\EE)$ for \emph{any} concrete category $\EE$! While this is great, the situation is not so simple for $\EE(\Sch)$. Partly because of this, it is useful to directly construct an equivalence $\Pre_{\rep}(\Space,\EE)\simeq\Fun(\CRing,\EE)$. Moreover, there's no reason to restrict ourselves to just $\Space$ -- we can consider $\Fun(\C,\Set)$ for \emph{any} category $\C$. The claim then becomes that
+$$\Pre_{\rep}(\Fun(\C,\Set),\EE)\simeq\Fun(\C,\EE).$$
+Using Yoneda's Lemma, the RHS can be rewritten more suggestively as $\Fun(\Pre_{\rep}(\C),\EE)$, which embeds into $\Fun(\Pre(\C),\EE)$. At the same time, the LHS $\Pre_{\rep}(\Fun(\C,\Set),\EE)$ embeds into 
+\begin{align*}
+\Pre(\Fun(\C,\Set),\EE)
+\simeq\Fun(\Fun(\C,\Set)^{\op},\EE)
+\simeq\Fun(\Fun(\C^{\op},\Set),\EE)
+\simeq\Fun(\Pre(\C),\EE)
+\end{align*}
+The claim then becomes that both the LHS and the RHS have the same essential image in $\Fun(\Pre(\C),\EE)$.\footnote{This illustrates a powerful proof technique that my undergraduate advisor pounded into my head all of the time. Basically, the way to show that two things are equivalent is often to show that they are both equivalent to some third thing.}
+
+\begin{exercise}
+Finish the proof of the claim.
+\end{exercise}
+
+Note that if $\EE=\Set$ then the statement becomes $\Pre_{\rep}(\Fun(\C,\Set))\simeq\Fun(\C,\Set)$, which is precisely the statement of Yoneda's Lemma!
+
+\begin{exercise}
+Given \emph{any} categories $\C,\D,\EE$, is the category $\Fun(\Fun(\C,\D),\EE)$ obviously equivalent to some other category?
+\end{exercise}
+
+\begin{exercise}
+Show that $\EE(\Space_{\Spec A})\simeq\Fun(\CAlg_A,\EE)$. What can be said about $\EE(\Space_S)\simeq\Pre_{\rep}(\Space_S,\EE)$ for general $S\in\Space$?
+\end{exercise}
+
+Let's now adapt this to the setting of affine schemes. Given $S\in\Sch$, recall that $\Sch_S\simeq\Sch_{/S}$ but $\Aff\Sch_S$ and $\Aff\Sch_{/S}$ are generally only equivalent when $S$ is affine. When $S=\Spec\Z$ we unambiguously have $\Aff\Sch$ and this is often sufficient in practice since many group schemes are naturally defined over $\Spec\Z$. This suggests that the right category to ``groupify'' in practice is $\Aff\Sch_S$ and not $\Aff\Sch_{/S}$ since we want good behavior with respect to base change.
+
+\begin{exercise}
+Show that each of the following spaces is an (affine) group scheme, where $A\in\CRing$.
+\begin{enum}{\arabic}
+\item $\G_a(A):=(A,+)$, where $+$ denotes the addition on $A$.
+
+\item $\G_m(A):=(A,\cdot)$, where $\cdot$ denotes the multiplication on $A$.
+
+\item $\Mat_n(A):=\{n\times n\textrm{ matrices in }A\}$, with operation given by matrix addition.
+
+\item $\GL_n(A):=\{M\in\Mat_n(A) : \det A\neq0\}$, with operation given by matrix multiplication.
+
+\item $\SL_n(A):=\{M\in\Mat_n(A) : \det A=1\}$, with operation given by matrix multiplication.
+\end{enum}
+\end{exercise}
+
+\begin{exercise}
+Can you make sense of $\PGL_n$ as a group space? As a group scheme?
+\end{exercise}
+
+\begin{exercise}
+Let $G=\Spec R$ be an affine group scheme over $\Spec A$. Reversing the arrows in the diagrams that define $G$ as a group object gives necessary and sufficient conditions on the $A$-algebra $R$ to represent an affine group scheme over $\Spec A$. We call $R$ a \textbf{Hopf $A$-algebra}, obtaining a category $\Hopf(\Alg_A)$.\footnote{Note that this is a non-full subcategory of $\Alg_A$. Every Hopf $A$-algebra simultaneously carries $A$-algebra and \emph{$A$-coalgebra} structures which are compatible with each in some precise sense.} In each of the above examples of affine group schemes (where $A=\Z$), describe the corresponding Hopf algebra.
+\end{exercise}
+
+\begin{exercise}
+Make sense of the category $\Hopf(\Mod_A)$ of \emph{Hopf $A$-modules}.\footnote{Try following a procedure similar to the one we used to construct Hopf $A$-algebras. You should determine that a Hopf $A$-module carries compatible $A$-module and \emph{$A$-comodule} structures.}
+\end{exercise}
+
+Since the category $\Sch_S$ inherently encodes geometric information (e.g., the Zariski sheaf condition is baked into the definition), we shouldn't be able to cleanly understand $\Grp(\Sch_S)$ in a purely categorical way. 
+
+\begin{exercise}
+How do we produce an $S$-group scheme? It should be possible to do so given a suitable open covering by $S$-group schemes. Give a sufficient condition on such an open covering for this to work. Is there a necessary condition?
+\end{exercise}
+
+\begin{exercise}
+Adapt the results of the previous exercise to work for $\EE(\Sch_S)$ with $\EE$ any cocomplete concrete category.
+\end{exercise}
+
+\section{Monoidal and Symmetric Monoidal Categories}
+A different approach to algebra and commutative algebra objects comes from thinking about tensor products instead of bilinear maps (in the classical setting both approaches agree because of the universal property of the tensor product). This is how we get the notions of (strict/lax, symmetric) monoidal categories and functors. One advantage of this approach is that it allows us to uncouple constructions from an underlying base ring.
+
+\section{Monads, Comonads, and Adjunction}
+Let $\EEnd(\C)$ denote the category of endofunctors of $\C$ under composition of natural transformations. We define the category $\Monad(\C)$ of \textbf{monads} in $\C$ to be the category $\Mod(\EEnd(\C))$ of monoids in $\C$.
+\end{document}

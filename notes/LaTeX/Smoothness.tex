@@ -1,0 +1,170 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\J}{\mathcal{J}}
+\renewcommand{\phi}{\varphi}
+
+\begin{document}
+\section{Formal Properties}
+\begin{definition}
+A closed embedding $i: Z\inj X$ is a \textbf{nilpotent thickening} if its associated ideal sheaf $\I$ is nilpotent. In this case, we say that $i$ is an \textbf{$n$-order thickening} if $\I^{n+1}=0$. We will often refer to $1$-order thickenings as \textbf{first-order thickenings}.
+\end{definition}
+
+Fix a base $S\in\Space$. Our interest is in a general $S$-space $f: X\to S$. Given $i: T\inj T'$ an order-$n$ thickening, let $g: T\to X$ be a morphism fitting into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+T \arrow[r, "g"] \arrow[d, "i"'] & X \arrow[d, "f"] \\
+T' \arrow[r] & S
+\end{tikzcd}
+\end{center}
+Consider the set
+$$\Def(g;f,i):=\{\twid{g}\in\Hom_{\Space}(T',X) : g=\twid{g}\circ i\}$$
+of \textbf{deformations} of $g$ with respect to $f$ and $i$. Each such deformation $\twid{g}$ gives us a commutative diagram
+\begin{center}
+\begin{tikzcd}
+T \arrow[r, "g"] \arrow[d, "i"'] & X \arrow[d, "f"] \\
+T' \arrow[r] \arrow[ru, dotted, "\twid{g}"] & S
+\end{tikzcd}
+\end{center}
+We will be especially interested in the case that $i: T\inj T'$ is a first-order thickening of affine schemes. 
+
+\begin{definition}
+Let $f: X\to S$ be a map of spaces. We say that $f$ is \textbf{formally smooth} (resp., \textbf{formally unramified}, \textbf{formally \'{e}tale}) if, given any commutative diagram 
+\begin{center}
+\begin{tikzcd}
+T \arrow[r, "g"] \arrow[d, "i"'] & X \arrow[d, "f"] \\
+T' \arrow[r] & S
+\end{tikzcd}
+\end{center}
+with $i: T\inj T'$ a first-order thickening of affine schemes, the set $\Def(g;f,i)$ is nonempty (resp., at most a singleton, a singleton).
+\end{definition}
+
+\begin{remark}
+The condition that $T'$ be affine can be dropped when checking if $f$ is formally unramified or formally \'{e}tale. This is no longer the case when checking if $f$ is formally smooth.
+\end{remark}
+
+How do we obtain first-order thickenings of affine $S$-schemes? Suppose we have $T=\Spec C\in\Aff_{/S}$ and assume for simplicity that $S=\Spec A$. Then, $\Delta_{T/S}: T\to T\times_ST$ corresponds to the surjective multiplication map 
+$$C\tensor_AC\to C,\qquad c_1\tensor c_2\mapsto c_1c_2$$
+and so $\Delta_{T/S}$ is a closed embedding. Letting $I$ be the kernel of the multiplication map, we obtain a first-order thickening 
+$$\Spec C\xto{\sim}\Spec(C\tensor_AC)/I\inj\Spec(C\tensor_AC)/I^2.$$
+If we merely assume that $S$ is a scheme then we can factor $\Delta_{T/S}$ as 
+\begin{center}
+\begin{tikzcd}
+T \arrow[r, hookrightarrow, "\textrm{closed}"] & W \arrow[r, hookrightarrow, "\textrm{open}"] & T\times_ST
+\end{tikzcd}
+\end{center}
+The scheme $W$ need not be affine, though regardless the closed embedding $T\inj W$ corresponds to a quasicoherent ideal sheaf $\I$ on $W$ with $T\iso\Spec_W\O_W/\I$. There is then an epimorphism $\O_W/\I^2\surj\O_W/\I$ inducing a first-order thickening $T\inj T'$. 
+
+Let $f: X\to S$ be any map of schemes. As above, $\Delta_{X/S}: X\to X\times_SX$ is an immersion with factorization $X\inj W\inj X\times_SX$ and $X\iso\Spec_W\O_W/\I$ for $\I$ some quasicoherent ideal sheaf on $W$. We let $X\inj X^{(n)}$ denote the order-$n$ thickening given by $X\xto{\sim}\Spec_W\O_W/\I\inj\Spec_W\O_W/\I^n$. We can also think of $X^{(2)}$ as a \textbf{first-order infinitesimal neighborhood} of the diagonal and denote it by $\Delta^{(1)}$. Note that there is a short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \I/\I^2 \arrow[r] \O_W/\I^2 \arrow[r] & \O_W/\I \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Note also that the factorization of $\Delta_{X/S}$ as an immersion need not be unique.\footnote{The ambiguity in $W$ comes from choosing suitable affine open coverings of $X$ and $S$.} However, by the above we can canonically define $X^{(n)}$ when $\Delta_{X/S}$ is a closed embedding (i.e., $f$ is separated).
+
+Switching gears a bit, 
+
+
+
+Let $A\in\CRing$, $B\in\CAlg_A$, and $M\in\Mod_B$. Viewing both $B$ and $M$ as $A$-modules, we may define the set $\Der_A(B,M)$ of $A$-linear \textbf{derivations} from $B$ to $M$ to be the set of $\delta\in\Hom_{\Mod_A}(B,M)$ satisfying the \emph{Leibniz rule}:
+$$\delta(fg)=g\delta(f)+f\delta(g)\textrm{ for all }f,g\in B.$$
+
+\begin{exercise}
+Let $\phi: A\to B$ be the structure map and $\delta\in\Der_A(B,M)$. Show that $\delta$ kills $\phi(A)$ and that $\delta=0$ if $\phi$ is surjective or a localization map.
+\end{exercise}
+
+This determines a functor $\Der_A(\cdot,\cdot): \CAlg_A^{\op}\times\Mod_A\to\Set$ which in fact factors through $\Mod_A$ (i.e., we can add derivations and scale them by elements of $A$). This tells us what happens if we change the inputs $B$ and $M$, but what happens if we change $A$ itself? Let $A'\to A$ be a ring map. This equips both $B$ and $M$ with the structure of $A'$-modules. We obtain a map $\Der_A(B,M)\to\Der_{A'}(B,M)$ which is the identity on the level of sets. The latter set $\Der_{A'}(B,M)$ carries no natural $A$-module structure so there is clearly something more going on here.
+
+\begin{exercise}
+Let $A\to B\to C$ be a sequence of ring maps and $M\in\Mod_C$. Show that there is a natural exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Der_B(C,M) \arrow[r] & \Der_A(C,M) \arrow[r] & \Der_A(B,M)
+\end{tikzcd}
+\end{center}
+of $A$-modules that is functorial in $M$.
+\end{exercise}
+
+Define the \textbf{cotangent module} $\Omega_{B/A}^1\in\Mod_B$ via the universal property that $\Hom_{\Mod_B}(\Omega_{B/A}^1,\cdot)\iso\Der_A(B,\cdot)$.\footnote{This determines $\Omega_{B/A}^1$ up to unique isomorphism by an application of Yoneda's Lemma.} The data of $\Omega_{B/A}^1$ is entirely encoded by $\id\in\Hom_{\Mod_B}(\Omega_{B/A}^1,\Omega_{B/A}^1)$, which corresponds to a derivation $d=d_{B/A}\in\Der_A(B,\Omega_{B/A}^1)$. This derivation is \emph{universal} in the sense that, given any $M\in\Mod_B$ and $\delta\in\Der_A(B,M)$, there is a unique $B$-module map $\Omega_{A/B}^1\to M$ such that the diagram 
+\begin{center}
+\begin{tikzcd}
+B \arrow[r, "\delta"] \arrow[rd, "d"'] & M \\
+& \Omega_{B/A}^1 \arrow[u, dotted, "\exists!"]
+\end{tikzcd}
+\end{center}
+commutes. Setting aside the matter of existence for the moment, let's deduce some properties of cotangent modules.
+
+\begin{exercise}
+Fix a ring map $\phi: A\to B$. Make use of the universal property of localization for the following problems.
+\begin{enum}{\alph}
+\item Let $S\subset B$ be a multiplicative set. Show that there is a canonical isomorphism $\Omega_{S^{-1}B/A}^1\iso S^1\Omega_{B/A}^1$ of $S^{-1}B$-modules.
+
+\item Let $S\subset A$ be a multiplicative set such that $\phi(S)\subset B^{\times}$. Show that there is a canonical isomorphism $\Omega_{B/S^{-1}A}^1\iso\Omega_{B/A}^1$ of $B$-modules.
+\end{enum}
+\end{exercise}
+
+\begin{proposition}
+Let $A\to B\to C$ be a sequence of ring maps and $M\in\Mod_C$. Then, there is a canonical isomorphism 
+$$\Der_A(B,M)\iso\Hom_{\Mod_C}(C\tensor_B\Omega_{B/A}^1,M)$$
+of $A$-modules functorial in $M$.
+\end{proposition}
+
+\begin{proof}
+We have
+\begin{align*}
+\Hom_{\Mod_C}(C\tensor_B\Omega_{B/A}^1,M)
+&\iso\Hom_{\Mod_B}(C\tensor_B\Omega_{B/A}^1,M) \\
+&\iso\Hom_{\Mod_B}(\Omega_{B/A}^1,\Hom_{\Mod_B}(C,M)) \\
+&\iso\Der_A(B,\Hom_{\Mod_B}(C,M)).
+\end{align*}
+The latter module is a subset of $\Hom_{\Mod_A}(B,\Hom_{\Mod_B}(C,M))$, which by tensor-Hom adjunction is isomorphic to $\Hom_{\Mod_A}(C\tensor_BB,M)$. Further identifications give 
+$$\Hom_{\Mod_A}(C\tensor_BB,M)\iso\Hom_{\Mod_A}(C,M)\iso\Hom_{\Mod_A}(B,M).$$
+One can then show that the image of $\Der_A(B,\Hom_{\Mod_B}(C,M))$ in $\Hom_{\Mod_A}(B,M)$ is precisely $\Der_A(B,M)$. This construction is evidently functorial in $M$.
+\end{proof}
+
+\begin{corollary}
+Let $A\to B\to C$ be a sequence of ring maps and $M\in\Mod_C$. Then, there is a canonical exact sequence
+\begin{center}
+\begin{tikzcd}
+C\tensor_B\Omega_{B/A} \arrow[r] & \Omega_{C/A} \arrow[r] & \Omega_{C/B} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of $C$-modules.
+\end{corollary}
+
+\begin{exercise}
+Let $B_1,B_2\in\CAlg_A$ and $C:=B_1\tensor_AB_2$ (which we view as a commutative algebra over both $B_1$ and $B_2$ in the usual manner). Show that there is a canonical isomorphism 
+$$(C\tensor_{B_1}\Omega_{B_1/A}^1)\oplus(C\tensor_{B_2}\Omega_{B_2/A}^1)\iso\Omega_{C/A}^1$$
+of $C$-modules.
+\end{exercise}
+
+Let $A\in\CRing$ and $M\in\Mod_A$. We equip the abelian group $A\oplus M$ with a commutative $A$-algebra structure as follows. Define
+$$(a,m)\cdot(b,n):=(a+b,an+bm).$$
+We call the resulting algebra a \textbf{split square-zero extension}.\footnote{Half of the name comes from the fact that $A\oplus M$ is a split extension of $A$-modules.} We immediately see that the projection $\pr_1: A\oplus M\to A$ is a ring map equipping $A$ with an ($A\oplus M$)-module structure and allowing us to view $A\oplus M$ as an ($A\oplus M$)-module.\footnote{Note that the identity map on $A\oplus M$ need not equip $A\oplus M$ with the structure of a module over itself since coordinate-wise operations need not make $A\oplus M$ into a ring -- indeed, multiplication on $M$ need not even be defined!} If it floats your boat, $A\oplus M$ is naturally an object of $\CAlg_{A//A}$, the category of commutative rings equipped with a ring map both from and to $A$.
+
+\begin{exercise}
+Show that the projection $\pr_2: A\oplus M\to M$ is an $A$-linear derivation.
+\end{exercise}
+
+\begin{exercise}
+Identify $M$ with the subset $\{0\}\times M\subset A\oplus M$. Show that $M$ is an ideal of $A\oplus M$ with $M^2=0$. This explains half of the name.
+\end{exercise}
+
+Where does this sort of construction come from?
+
+\begin{example}
+Let $k$ be a field and consider the $k$-algebra $k[x]/(x^2)$ called the \textbf{dual numbers} over $k$. This may equivalently be viewed as the $k$-algebra $k[\eps]$ for $\eps$ a formal element such that $\eps^2=0$. As a $k$-vector space we have $k[\eps]\iso k\times k\eps$, with multiplication $(a+m\eps)(b+n\eps)=ab+(an+bm)\eps$. It follows that $k[\eps]\iso k\oplus k\eps$ as $k$-algebras.
+\end{example}
+
+We can repeat the above construction given any $B\in\CAlg_A$ to get $B\oplus M\in\CAlg_A$. 
+
+\begin{exercise}
+Show that elements of $\Der_A(B,M)$ correspond canonically to $A$-algebra sections of $\pr_1: B\oplus M\to B$ -- i.e., $A$-algebra maps $\sigma: B\to B\oplus M$ such that $\pr_1\circ\sigma=\id_B$. 
+\end{exercise}
+
+Just as before we may view $M$ as an ideal of $B\oplus M$ with $M^2=0$. 
+\end{document}
