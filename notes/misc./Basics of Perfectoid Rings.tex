@@ -1,0 +1,276 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\newcommand{\FPS}[1]{\llbracket{#1}\rrbracket}
+
+\DeclareMathOperator{\cycl}{cycl}
+
+\begin{document}
+\title{Basics of Perfectoid Rings}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+Our goal is to compare and contrast various algebro-geometric perspectives on perfectoid rings. Recall that we call a (commutative unital) ring $S$ perfectoid if 
+\begin{enum}{\arabic}
+\item there exists $\pi\in S$ such that $\pi^p\mid p$ and $S$ is $\pi$-adically complete;\footnote{Part of the reason we want $\pi^p\mid p$ is that then, given any $x,z\in S$, $(x+\pi z)^p-x^p\in\pi^p S$.}
+\item $S/p$ is semi-perfect -- i.e., the Frobenius map $\phi: S/p\to S/p$ is surjective; and 
+\item $\ker(\theta: \A_{\inf}(S)\to S)$ is principal.
+\end{enum}
+
+An element $\pi$ as above (which is typically not unique) is often called a \textbf{pseudo-uniformizer}.
+
+\begin{lemma}\label{p_power_equiv}
+Suppose $S$ satisfies condition \textup{(1)} above. TFAE:
+\begin{enum}{\roman}
+\item Every element of $S/\pi p$ is a $p$th power.
+\item Every element of $S/p$ is a $p$th power.
+\item Every element of $S/\pi^p$ is a $p$th power.
+\item $F: W_{r+1}(S)\to W_r(S)$ is surjective for every $r\geq1$.
+\item $\theta_r$ is surjective for every $r\geq1$.
+\end{enum}
+Moreover, if any of the above conditions hold then there exist $u,v\in S^{\times}$ such that $u\pi$ and $vp$ admit systems of $p$-power roots in $S$.
+\end{lemma}
+
+Another way of viewing the moreover condition above is that $\theta$ is surjective (by \textup{(v)}) and there exist $u,v\in S^{\times}$ and $\alpha,\beta\in S^{\tilt}$ such that $\theta([\alpha])=u\pi$ and $\theta([\beta])=vp$. For concreteness, recall that we have a factorization
+\begin{center}
+\begin{tikzcd}
+S^{\tilt} \arrow[r, "{[}\cdot{]}"] \arrow[rd, "(\cdot)^{\#}"'] & \A_{\inf}(S) \arrow[d, "\theta"] \\
+ & S
+\end{tikzcd}
+\end{center}
+where $(\cdot)^{\#}$ is the ``un-tilt'' or ``sharp map'' that takes in $(\ov{x}_0,\ov{x}_1,\ldots)\in S^{\tilt}\subset\prod_{n\geq0}S/p$ and outputs the limit of $x_n^{p^n}$ as $n\to\infty$ for any choice of lifts $x_n\in S$.
+
+Checking whether $\ker\theta$ is principal a priori seems somewhat difficult to do. Inspiration comes from the following observation.
+
+\begin{exercise}
+Let $A\in\CRing$ and $\xi=\xi_0+\xi_1t+\cdots\in A\FPS{t}$ a \textbf{distinguished} element -- i.e., $A$ is $\xi_0$-adically complete and $\xi_1\in A^{\times}$. Show that $A\FPS{t}/\xi\iso A$ canonically (we think of this as an evaluation procedure).
+\end{exercise}
+
+In the above, the map $A\FPS{t}/\xi\xto{\sim}A$ should be viewed as roughly analogous to $\A_{\inf}(S)/\ker\theta\xto{\sim}S$. Borrowing the above terminology, we call an element $\xi=(\xi_0,\xi_1,\ldots)\in\A_{\inf}(S)$ \textbf{distinguished} if $S^{\tilt}$ is $\xi_0$-adically complete and $\xi_1\in(S^{\tilt})^{\times}$. The following theorem demonstrates that under appropriate conditions distinguished elements correspond precisely to principal generators of $\ker\theta$.
+
+\begin{theorem}\label{check_principal}
+Suppose $S$ satisfies condition \textup{(1)} above and that $\phi: S/\pi\to S/\pi^p$ is surjective.
+\begin{enum}{\alph}
+\item Suppose $\ker\theta$ is principal. Then, $\phi$ is an isomorphism and any generator of $\ker\theta$ is an NZD.
+\item Conversely, suppose $\phi$ is an isomorphism and $\pi$ is an NZD. Then, $\ker\theta$ is principal (and so $S$ is perfectoid).
+\end{enum}
+\end{theorem}
+
+\begin{proof}
+By pre-multiplying $\pi$ be an element of $S^{\times}$ if necessary and using the last part of Lemma \ref{p_power_equiv}, we may assume without loss of generality that there exists $\pi^{\tilt}\in S^{\tilt}$ such that $\theta([\pi^{\tilt}])=\pi$. Assuming that $\ker\theta$ is principal, we would first like to understand what generators of $\ker\theta$ look like. To that end, choose $x\in\A_{\inf}(S)$ such that $\theta(-x)=p/\pi^p$ and consider $\xi:=p+[\pi^{\tilt}]^px\in\ker\theta$.\footnote{The symbol $p$ here refers to the $p$-adic expansion of the Witt vector $V(1)$, which satisfies $\theta(p)=p\in S$ since $\theta$ is a ring homomorphism. This notation emphasizes that $\xi$ is ``almost $p$'' in a sense that can be made precise.} If now $\xi'=(\xi'_0,\xi'_1,\ldots)\in\A_{\inf}(S)$ is a principal generator of $\ker\theta$ then $\xi=\xi'a$ for some $a\in\A_{\inf}(S)$. Comparing Witt vector expansions, we have 
+\begin{equation*}
+((\pi^{\tilt})^px_0,1+(\pi^{\tilt})^{p^2}x_1,\ldots)=(\xi'_0a_0,(\xi'_0)^pa_1+\xi'_1a_0^p,\ldots).
+\end{equation*}
+We wish to show that $a_0\in(S^{\tilt})^{\times}$ and hence that $a\in\A_{\inf}(S)^{\times}$.\footnote{Remember that $S^{\tilt}$ is perfect with characteristic $p$ and so this is easy to verify directly.} To do this, it suffices to show that the image of $a_0$ in $S/\pi$ under projection is a unit, remembering that $S^{\tilt}\iso\flim_{\phi}S/\pi$.\footnote{Let $A$ be a characteristic $p$ ring with Frobenius $\phi$ and $x=(x_0,x_1,\ldots)\in\flim_{\phi}A$ such that $x_0$ has inverse $y_0\in A$. It is then easily seen that $x$ is a unit in $\flim_{\phi}A$ with inverse $(y_0,x_1^{p-1}y_0,x_2^{p^2-1}y_0,\ldots)$.} From the above we get $\xi'_1a_0^p=1+(\pi^{\tilt})^{p^2}x_1-(\xi'_0)^pa_1\in S^{\tilt}$. Using the commutative diagram
+\begin{center}
+\begin{tikzcd}
+S^{\tilt} \arrow[r, "(\cdot)^{\#}"] \arrow[d, "\iso"'] & S \arrow[d] \\
+\flim_{\phi}S/\pi \arrow[r] & S/\pi
+\end{tikzcd}
+\end{center}
+we see that the image under projection of $\pi^{\tilt}$ is trivial. Meanwhile, the fact that $\xi'\in\ker\theta$ shows that the image under projection of $\xi'_0$ is also trivial. Hence, $\xi'_1a_0^p\equiv1\pmod{\pi S}$ and we conclude that $a\in\A_{\inf}(S)^{\times}$.
+\begin{enum}{\alph}
+\item Since $\ker\theta$ is principal, the above argument shows that $\xi$ as above generates $\ker\theta$. We thus obtain an isomorphism $\ov{\theta}: \A_{\inf}(S)/\xi\xto{\sim}S$ induced by $\theta$ fitting into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\A_{\inf}(S)/\xi \arrow[r, "\ov{\theta}"] \arrow[d] & S \arrow[d] \\
+\A_{\inf}(S)/(\xi,[\pi^{\tilt}]^p) \arrow[r] & S/\pi^p
+\end{tikzcd}
+\end{center}
+where the bottom horizontal arrow is the composition 
+$$\A_{\inf}(S)/(\xi,[\pi^{\tilt}]^p)=W(S^{\tilt})/(p,[\pi^{\tilt}]^p)\iso S^{\tilt}/(\pi^{\tilt})^p\surj S/\pi^p$$
+induced by the projection 
+$$S^{\tilt}\iso\flim_{\phi}S/\pi^p\surj S/\pi^p.$$
+It follows that the map $S^{\tilt}/(\pi^{\tilt})^p\to S/\pi^p$ is an isomorphism. The map $\phi: S/\pi\to S/\pi^p$ fits into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+S^{\tilt}/\pi^{\tilt} \arrow[r, "\sim"] \arrow[d] & S^{\tilt}/(\pi^{\tilt})^p \arrow[d, "\iso"] \\
+S/\pi \arrow[r, "\phi"'] & S/\pi^p
+\end{tikzcd}
+\end{center}
+and so is injective.\footnote{The upper horizontal arrow in this diagram is always an isomorphism since $S^{\tilt}$ is perfect.} We conclude that $\phi$ is an isomorphism since it is surjective by assumption. To see that $\xi$ (and hence any principal generator of $\ker\theta$) is an NZD, let $b\in\A_{\inf}(S)$ such that $\xi b=0$. Given $r\geq1$ odd, we know that $\xi=p+[\pi^{\tilt}]^px$ divides $p^r+[\pi^{\tilt}]^{pr}x^r$ and so $(p^r+[\pi^{\tilt}]^{pr}x^r)b=0$. Hence, $p^rb\in[\pi^{\tilt}]^{pr}\A_{\inf}(S)$ and so, writing $b=(b_0,b_1,\ldots)$, we conclude $b_i^{p^r}\in(\pi^{\tilt})^{rp^{r+i+1}}S^{\tilt}$ for every $i\geq0$.\footnote{Recall that, given $f\in S^{\tilt}$ and $z=(z_0,z_1,\ldots)\in\A_{\inf}(S)$, $[f]z=(fz_0,f^pz_1,f^{p^2}z_2,\ldots)$.} Since $S^{\tilt}$ is perfect we get $b_i\in(\pi^{\tilt})^{rp^{i+1}}S^{\tilt}$ and so, since we may take $r$ arbitrarily large and $S^{\tilt}$ is $\pi^{\tilt}$-adically complete and separated, $b_i=0$ for every $i\geq0$ hence $b=0$.
+
+\item By assumption we have $\phi: S/\pi\xto{\sim}S/\pi^p$, which induces isomorphisms $S/\pi^{1/p^n}\iso S/\pi^{1/p^{n-1}}$ for every $n\geq0$. We claim first that $\ker(S^{\tilt}\surj S/\pi)$ is generated by $\pi^{\tilt}$. To see this, let $y\in\ker(S^{\tilt}\surj S/\pi)$ and write $\pi^{\tilt}=(\pi,\pi^{1/p},\pi^{1/p^2},\ldots)\in\flim_{(\cdot)^p}S$. We may write 
+\begin{center}
+$y=(y^{(0)},y^{(1)},\ldots)\in\flim_{(\cdot)^p}S$ with $y^{(0)}\in\pi S$.
+\end{center} 
+The isomorphism $S/\pi\iso S/\pi^{1/p}$ forces $\pi^{1/p}\mid y^{(1)}$ and, inductively, 
+\begin{center}
+$S/\pi^{1/p^n}\iso S/\pi^{1/p^{n-1}}$ forces $\pi^{1/p^n}\mid y^{(n)}$ for every $n\geq0$.
+\end{center}
+Hence, $\pi^{\tilt}\mid y$ in $\flim_{(\cdot)^p}S$ and so $\pi^{\tilt}$ generates $\ker(S^{\tilt}\surj S/\pi)$. As above we thus have a commutative diagram
+\begin{center}
+\begin{tikzcd}
+S^{\tilt}/\pi^{\tilt} \arrow[r, "\sim"] \arrow[d, "\iso"'] & S^{\tilt}/(\pi^{\tilt})^p \arrow[d] \\
+S/\pi \arrow[r, "\sim", "\phi"'] & S/\pi^p
+\end{tikzcd}
+\end{center}
+which in turn forces $S^{\tilt}/(\pi^{\tilt})^p\xto{\sim}S/\pi^p$ and gives a commutative diagram\footnote{This observation tells us that the bottom horizontal arrow is an isomorphism.}
+\begin{center}
+\begin{tikzcd}
+\A_{\inf}(S) \arrow[r, "\theta"] \arrow[d] & S \arrow[d] \\
+\A_{\inf}(S)/(\xi,[\pi^{\tilt}]^p) \arrow[r, "\sim"] & S/\pi^p
+\end{tikzcd}
+\end{center}
+\end{enum}
+Given $z\in\ker\theta$, we therefore have $y_0,z'_0\in\A_{\inf}(S)$ such that $z=\xi y_0+[\pi^{\tilt}]^pz'_0$. Then,
+$$\pi^p\theta(z'_0)=\theta([\pi^{\tilt}]^pz'_0)=0\implies\theta(z'_0)=0$$
+since $\pi$ is an NZD and so we can apply the same procedure to $z'_0$. We may thus inductively write $z=\xi(y_0+[\pi^{\tilt}]^py_1+[\pi^{\tilt}]^{p^2}y_2+\cdots)$.
+\end{proof}
+
+\begin{remark}
+Here is another way to view the above proof. In particular, we get a more natural perspective on condition \textup{(3)} in the definition of perfectoid. ...
+\end{remark}
+
+Where is the geometry in all of this?
+
+\begin{definition}
+A \textbf{complete Tate ring} is a complete topological ring\footnote{By definition, a complete topological ring is a Hausdorff topological ring such that every Cauchy net converges.} $R$ for which there exists an open subring $R_0$ such that $R=R_0[1/\pi]$ and the topology on $R_0$ is $\pi$-adic for some $\pi\in R_0$.\footnote{This latter condition means that the $\pi$-adic topology on $R_0$ (which makes it into a complete Hausdorff space) is equivalent to the subspace topology inherited from $R$. Note that only sequences and not general nets should be needed to assess completeness since the $\pi$-adic topology is first-countable. This should translate over to the whole of $R$ since all we do is invert $p$.}
+\end{definition}
+
+The subring $R_0$ is not considered to be part of the data of $R$ and is not unique. In practice, complete Tate rings are often constructed by first defining $R_0$ and then inverting an appropriate element $\pi$. Before looking at some examples, let's introduce a bit more terminology that will help us describe such objects.
+
+\begin{definition}
+\hfill
+\begin{itemize}
+\item A subset $X\subset R$ is \textbf{bounded} if for every $n\geq1$ there exists $N\geq1$ such that $X\cdot\pi^NR_0\subset\pi^nR_0$. Equivalently, there exists $N\geq1$ such that $X\subset\pi^{-N}R_0$. For convenience, we call any choice of such $N$ a \textbf{bounding exponent}.
+
+\item Let $R^{\circ}$ denote the set of \textbf{power-bounded} elements $x\in R$ satisfying that $\{x^k : k\geq0\}\subset R$ is bounded. We say $R$ is \textbf{uniform} if $R^{\circ}$ is itself bounded -- i.e., there is a uniform bounding exponent for all elements of $R^{\circ}$.
+
+\item Let $R^{\circ\circ}\subset R^{\circ}$ denote the collection of \textbf{topologically nilpotent} elements $x\in R$ satisfying that $x^k\to0$.
+
+\item A \textbf{ring of integral elements} is an open integrally closed subring $R^+\subset R^{\circ}$.\footnote{Note that $R^{\circ}$ is integrally closed in $R$. It is not necessarily true, however, that $R^{\circ}$ is open in $R$. Hence, a ring of integral elements is not the same thing as an open integrally closed subring of $R$ that is contained in $R^{\circ}$.} From this perspective, $R^{\circ}$ is a maximal ring of integral elements.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+\hfill
+\begin{itemize}
+\item The set $R^{\circ}$ forms a subring of $R$ since if $x,y\in R^{\circ}$ with bounding exponents $M,N$ then any power of $xy$ or $x+y$ has bounding exponent $M+N$.
+
+\item If $x\in R$ with $x^k\in R^{\circ}$ then $x\in R^{\circ}$.\footnote{This is not the same as $R/R^{\circ}$ being reduced since $R^{\circ}$ may not be an ideal of $R$ and so the quotient may not even make sense.}
+
+\item The set $R^{\circ\circ}$ forms an ideal of $R^{\circ}$.
+
+\item $R^{\circ\circ}\subset R^+$ and, more generally, if $x\in R$ with $x^k\in R^+$ then $x\in R^+$.\footnote{This is a general fact about normal ring extensions $A\subset B$. Indeed, if $x\in B$ with $x^k\in A$ then $x$ is a root of $t^k-x^k\in A[t]$.}
+
+\item The above notions are closely related to those of Tate and affinoid $k$-algebras, defined over a nonarchimedean field $k$. In more detail, the data of an \textbf{affinoid $k$-algebra} is as follows. First we have $R$ a \textbf{Tate $k$-algebra} -- i.e., a topological $k$-algebra for which there exists a subring $R_0\subset R$ such that $\{aR_0 : a\in k^{\times}\}$ is a basis of open neighborhoods of $0$ in $R$.\footnote{As above, note that $R_0$ is not considered part of the data. The notion of boundedness is slightly different in this context: $X\subset R$ is bounded if $X\subset aR_0$ for some $a\in k^{\times}$.} Second we have $R^+\subset R^{\circ}$ an open integrally closed subring. Associated to this is the space
+\begin{align*}
+X=\Spa(R,R^+)
+:=\{\abs{\cdot}\textrm{a continuous valuation on R} : |f|\leq1\textrm{ for every }f\in R^+\}/\!\sim
+\end{align*}
+The role of $R^+$ is that it imposes necessary finiteness conditions on the ``points'' of $X$ while still allowing $X$ to have ``enough'' points. More precisely, if we assume $R$ is complete (which can be done without loss of generality and mirrors our situation of interest) then 
+\begin{enum}{\alph}
+\item $X=\emptyset\implies R=0$;
+\item if $f\in R$ such that $|f(x)|\neq0$ for every $x\in X$ then $f$ is invertible; and
+\item if $f\in R$ such that $|f(x)|\leq1$ for every $x\in X$ then $f\in R^+$.
+\end{enum}
+The finiteness conditions ensure that $X$ behaves like an affine scheme and has a structure sheaf which is, well, a sheaf.
+\end{itemize}
+\end{remark}
+
+\begin{example}
+\hfill
+\begin{enum}{\arabic}
+\item Take $(R,R_0,\pi)=(\Q_p,\Z_p,p)$. In this case, $R$ is uniform with $R^{\circ}=\Z_p$ and $R^{\circ\circ}=p\Z_p$. We see that $\Z_p$ is \textbf{the} ring of integral elements of $\Q_p$.
+
+\item Take $(R,R_0,\pi)=(\Z_p\FPS{t}[1/p],\Z_p\FPS{t},p)$. In this case, $R$ is uniform with $R^{\circ}=\Z_p\FPS{t}$ and $R^{\circ\circ}=p\Z_p\FPS{t}$. Note that $\Z_p\FPS{t}[1/p]\subset\Q_p\FPS{t}$ is a proper subring since $\Q_p\FPS{t}$ allows arbitrarily high powers of $p$ in the denominator.
+
+\item Given $A$ a ring with nonarchimedean valuation $\abs{\cdot}$, define $A\ip{t}:=\left\{\sum_{i\geq0}a_it^i\in A\FPS{t} : |a_i|\to0\right\}$, which is the ring of formal power series converging on the unit disc in $A$.\footnote{The valuation $\abs{\cdot}$ extends to $A\FPS{t}$ (hence any subring) by defining $|f-g|:=\sup_{i\geq0}\{|a_i-b_i|\}$ for $a_i,b_i$ the $i$th coefficient of $f,g$.} Then we may take $(R,R_0,\pi)=(\Q_p\ip{t},\Z_p\ip{t},p)$. This example is much like the previous two.
+
+\item For a non-uniform example, let $R_0:=\left\{\sum_{i\geq0}a_i\in\Z_p\FPS{t} : v_p(a_i)\geq\sqrt{i}\right\}$ and $R:=R_0[1/p]$ (which contains $\Q_p[t]$ as a subring). Then, $p\Z_p[t]\subset R^{\circ}$ but is unbounded since it contains the unbounded set $\{pt,pt^2,pt^3,\ldots\}$. % https://mathoverflow.net/questions/357572/reduced-complete-tate-ring-which-is-not-uniform
+\end{enum}
+\end{example}
+
+We are now in a position to provide a more geometric perspective on perfectoid rings.
+
+\begin{definition}
+A complete Tate ring $R$ is \textbf{Fontaine perfectoid} if 
+\begin{enum}{\arabic}
+\item there exists a topologically nilpotent unit $\pi\in R$ such that $\pi^p\mid p$ in $R^{\circ}$;
+\item the Frobenius map $\phi: R^{\circ}/\pi\to R^{\circ}/\pi^p$ is surjective; and 
+\item $R$ is uniform.
+\end{enum}
+\end{definition}
+
+The $\pi$ in the above definition may not be the same as the $\pi$ in the definition of a complete Tate ring, though they are often the same in practice. We will take them to be the same for part \textrm{(a)} of the below theorem.
+
+\begin{theorem}
+Let $R$ be a complete Tate ring with $R^+$ a ring of integral elements. 
+\begin{enum}{\alph}
+\item Suppose $R$ is Fontaine perfectoid. Then, $R^+$ is perfectoid.
+
+\item Suppose $R^+$ is perfectoid and bounded. Then, $R$ is Fontaine perfectoid.
+\end{enum}
+\end{theorem}
+
+\begin{proof}
+\hfill
+\begin{enum}{\alph}
+\item We first show that $R^{\circ}$ is perfectoid. The subring $R^{\circ}$ is bounded by assumption and thus $\pi$-adically complete.\footnote{Limits of $\pi$-adic Cauchy sequences exist in $R_0$ since $R_0$ is a $\pi$-adically topologized subspace of the complete space $R$. Any such limit then lies in $R^{\circ}$ by boundedness, with bounding exponent any uniform bounding exponent of $R^{\circ}$.} Since by assumption $\phi: R^{\circ}/\pi\to R^{\circ}/\pi^p$ is surjective and $\pi$ is a unit hence an NZD, it suffices by Theorem \ref{check_principal} to show that $\phi$ is injective. To that end, let $x\in R^{\circ}$ such that $x^p=\pi y^p$ for some $y\in R^{\circ}$ -- i.e., $x$ represents an element of $\ker\phi$. Since $\pi$ is a unit, we may consider $z:=x/\pi\in R$. Then,
+$$z^p=y\in R^{\circ}\implies z\in R^{\circ}\implies x=\pi z\in\pi R^{\circ}$$
+and so $\ker\phi$ is trivial. 
+
+Now we show that $R^+$ is perfectoid. By definition, $R^+$ is open in $R^{\circ}$ and thus is complete.\footnote{The main idea here is that open sets in a nonarchimedean setting are closed, as can be seen by working locally with balls.} As before it suffices to show that $\phi: R^+/\pi\to R^+/\pi^p$ is an isomorphism. To check injectivity, either argue as above or use the commutative diagram
+\begin{center}
+\begin{tikzcd}
+R^+/\pi \arrow[r, "\phi"] \arrow[d, hookrightarrow] & R^+/\pi^p \arrow[d, hookrightarrow] \\
+R^{\circ}/\pi \arrow[r, "\sim", "\phi"'] & R^{\circ}/\pi^p
+\end{tikzcd}
+\end{center}
+To check surjectivity, it suffices to show that $\phi: R^+/p\to R^+/p$ is surjective. To that end, let $x\in R^+$. Every element of $R^{\circ}/p\pi$ is a $p$th power and so we may write $x=y^p+p\pi z$ for some $y,z\in R^{\circ}$. Then,
+$$z':=\pi z\in R^{\circ\circ}\subset R^+\implies y^p=x-pz'\in R^+\implies y\in R^+$$
+and so $\phi$ sends $y$ mod $pR^+$ to $x$ mod $pR^+$.
+
+\item To begin, $R$ is uniform since $R^+$ is bounded and $\pi R^{\circ}\subset R^+$ (for $\pi$ as in the definition of complete Tate ring). We seek $\pi\in R$ such that 
+\begin{enum}{\arabic}
+\item $\pi$ is a topologically nilpotent unit satisfying $\pi^p\mid p$ and 
+\item $\phi: R^{\circ}/\pi\to R^{\circ}/\pi^p$ is surjective.
+\end{enum}
+Skipping a few details, here we go.
+\begin{enum}{\arabic}
+\item The tricky part is ensuring that $\pi$ is a unit in $R$. Start by picking $\pi_0\in R$ any topologically nilpotent unit, which is automatically an element of $R^+$. Choose a distinguished generator $\xi$ of $\ker(\theta: \A_{\inf}(R^+)\surj R^+)$. 
+
+\textbf{\un{Fact}:} We may use $\xi$ to construct $\pi^{\tilt}\in(R^+)^{\tilt}$ and $u\in(R^+)^{\times}$ such that $\theta([\pi^{\tilt}])=u\pi_0$.\footnote{Note how this differs from the moreover part of Lemma \ref{p_power_equiv}.} 
+
+Finally, taking $\pi:=\theta([(\pi^{\tilt})^{1/p^n}])$ for $n\gg1$ does the trick.
+
+\item We show $\phi: R^{\circ}/p\to R^{\circ}/p$ is surjective hence $\phi: R^{\circ}/\pi\to R^{\circ}/\pi^p$ is a fortiori surjective. Changing $\pi$ by a unit if necessary, we may assume without loss of generality that $\pi$ has a $p$th root $\pi^{1/p}\in R^+$. Given $x\in R^{\circ}$, we may write $\pi x\in R^+$ as $\pi x=y^p+p\pi z$ for some $y,z\in R^+$. Then, $y':=y/\pi^{1/p}\in R$ lies in $R^{\circ}$ since $(y')^p=x-pz\in R^{\circ}$. Hence, the equation $x=(y')^p+pz$ gives that $\phi$ sends $y'$ mod $pR^{\circ}$ to $x$ mod $pR^{\circ}$. \qedhere
+\end{enum}
+\end{enum}
+\end{proof}
+
+\begin{example}
+Recall the perfectoid ring $\Z_p^{\cycl}$ defined to be the $p$-adic completion of $\Z_p[\zeta_p^{1/p^{\infty}}]$. If we let $R:=\Q_p^{\cycl}=\Q_p(\zeta_p^{1/p^{\infty}})$ then $R^{\circ}=\Z_p^{\cycl}$ is bounded [Why?] and so $\Q_p^{\cycl}$ is Fontaine perfectoid by the above theorem. In the same vein, $\Q_p^{\cycl}\ip{t^{1/p^{\infty}}}$ is Fontaine perfectoid with bounded maximal ring of integral elements $\Z_p^{\cycl}\ip{t^{1/p^{\infty}}}$ that is perfectoid.\footnote{Given $A$ a ring with nonarchimedean valuation $\abs{\cdot}$, $A\ip{t^{1/p^{\infty}}}$ is defined to be the colimit of $A\ip{t}\subset A\ip{t^{1/p}}\subset A\ip{t^{1/p^2}}\subset\cdots$. Elements of this ring can in some sense be viewed as convergent sums $\sum_{j\in\N^{\N}}a_jt^{c_j}$ with $a_j\in A$ and $c_j\in\Q_p$.}
+\end{example}
+
+The following theorem makes even more clear the relationship between the notions of perfectoid and Fontaine perfectoid.
+
+\begin{theorem}
+Let $R_0$ be a perfectoid ring with $\pi\in R_0$ an NZD satisfying condition \textup{(1)} of the definition of perfectoid. Equip $R:=R_0[1/\pi]$ with the topology induced by the $\pi$-adic topology on $R_0$. Then, $R$ is a complete Tate ring which is Fontaine perfectoid and satisfies $\pi R^{\circ}\subset R_0$.
+\end{theorem}
+
+The proof uses almost mathematics and so requires some setup. We will return to this. For now, let us first define a notion which has surprisingly not yet come up.
+
+\begin{definition}
+\hfill
+\begin{itemize}
+\item A \textbf{(nonarchimedean) valuation} on a ring $A$ is a multiplicative map $\abs{\cdot}: A\to\Gamma\cup\{0\}$ with $\Gamma$ a multiplicative totally ordered abelian group such that $|a|=0\iff a=0$, $|1|=1$, and $|a+b|\leq\max\{|a|,|b|\}$ for all $a,b\in A$. The pair $(A,\abs{\cdot})$ is called a \textbf{valued ring}.
+
+\item If $A$ is a topological ring then $\abs{\cdot}$ is \textbf{continuous} if the ray $\{a\in A : |a|<\gamma\}$ is open for every $\gamma\in\Gamma$. If $A$ is just a ring then these rays induce a (minimal) topology on $A$ making $\abs{\cdot}$ continuous. If no topology is specified then $(A,\abs{\cdot})$ should be assumed to have this topology.
+
+\item A complete valued field $(K,\abs{\cdot})$ is \textbf{perfectoid} if 
+\begin{enum}{\arabic}
+\item the local valuation ring $\O=\O_{\abs{\cdot}}:=\{x\in K : |x|\leq1\}$ has residue characteristic $p>0$ -- i.e., $\O/\m$ is an $\F_p$-algebra for $\m\subset\O$ the unique maximal ideal;
+\item the Frobenius map $\phi: \O/p\to\O/p$ is surjective; and
+\item $\abs{\cdot}$ is non-discrete of rank $1$ -- equivalently, the image of $\abs{\cdot}$ may be viewed as a non-discrete subgroup of $(\R,+)$ or a non-cyclic subgroup of $\R^{>0}$.\footnote{Note that $(\R,+)$ and $\R^{>0}$ are isomorphic as totally ordered abelian groups via the exponential map. Subgroups of $(\R,+)$ are either discrete (hence cyclic) or dense.}
+\end{enum}
+\end{itemize}
+\end{definition}
+
+\begin{claim}
+Let $(K,\abs{\cdot})$ be a perfectoid field. Then, $K$ is Fontaine perfectoid with $K^{\circ}=\O$ and $K^{\circ\circ}=\m$. Moreover, $\m^2=\m$ and the image of $\abs{\cdot}$ is $p$-divisible.
+\end{claim}
+\end{document}

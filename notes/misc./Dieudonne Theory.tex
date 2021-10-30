@@ -1,0 +1,249 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\renewcommand{\A}{\mathcal{A}}
+\newcommand{\crys}{\textrm{crys}}
+\newcommand{\D}{\ms{D}}
+\newcommand{\func}{\rightsquigarrow}
+
+\begin{document}
+\title{Dieudonn\'{e} Theory}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+
+Let $k$ be a perfect field of characteristic $p$. Let $\phi$ denote the Frobenius on $k$ and $\sigma$ the Frobenius on $W(k)$.
+
+\begin{definition}
+The \textbf{Dieudonn\'{e} ring} of $k$ is the associative ring $\D_k:=W(k)[F,V]$ with relations
+\begin{itemize}
+\item $FV=p=VF$;
+\item $Fx=\sigma(x)F$ for every $x\in W(k)$; and
+\item $xV=V\sigma(x)$ for every $x\in W(k)$.
+\end{itemize}
+In analogy with Witt vector terminology we call $F$ \textbf{Frobenius} and $V$ \textbf{Verschiebung}.
+\end{definition}
+
+If $k=\F_p$ then $\D_k\iso\Z_p[x,y]/(xy-p)$. Otherwise, $\D_k$ is non-commutative since $\phi$ is not the identity on $k$.
+
+\begin{definition}
+A (left) \textbf{Dieudonn\'{e} module} is a left $\D_k$-module -- i.e., a left $W(k)$-module $D$ equipped with $\sigma$-semilinear $F: D\to D$ and $\sigma^{-1}$-semilinear $V: D\to D$ such that $FV=[p]_D=VF$.
+\end{definition}
+
+We see that $\D_k$ is naturally a Dieudonn\'{e} module over itself. 
+
+\begin{theorem}
+There exists an additive anti-equivalence of categories 
+\begin{center}
+$\{$finite flat commutative $k$-group schemes of $p$-power order$\}$ 
+$$\downarrow$$
+$\{$Dieudonn\'{e} modules $D$ of finite $W(k)$-length $\l_{W(k)}(D)\}$\footnote{This is the same as the full subcategory of finitely generated Dieudonn\'{e} modules. We simply include the length notion for ease of description.}
+\end{center}
+given by $D\func D(G)$ satisfying the following properties.
+\begin{enum}{\alph}
+\item The order of $G$ is $p^{\l_{W(k)}(D(G))}$.
+
+\item Let $k'/k$ be an extension of perfect fields. Then, there is a natural isomorphism 
+$$W(k')\tensor_{W(k)}D(G)\iso D(G_{k'})$$ 
+of (left) $\D_{k'}$-modules. In particular, there is a natural isomorphism $\sigma^*(D(G))\iso D(G^{(p)})$ of (left) $W(k)$-modules.
+
+\item Let $F_{G/k}: G\to G^{(p)}$ be the relative Frobenius. Then, the action of $F$ on $D(G)$ is given by the $\sigma$-semilinear map $D(G)\to D(G)$ corresponding to the $W(k)$-linear map 
+$$\sigma^*(D(G))\iso D(G^{(p)})\xto{D(F_{G/k})}D(G).$$
+Moreover, $G$ is connected if and only if $F$ is nilpotent on $D(G)$.
+
+\item The $k$-vector space $D(G)/FD(G)$ is canonically isomorphic to the $k$-linear dual $T_G^{\vee}:=\Hom_k(T_eG,k)$ of $T_eG:=\ker(G(k[\eps]/(\eps^2))\to G(k))$. In particular, $G$ is \'{e}tale if and only if $F$ is bijective on $D(G)$.\footnote{This last statement is not so surprising since, given a flat scheme $X$ over a perfect base $S$ of characteristic $p$, $X/S$ is \'{e}tale if and only if the associated relative Frobenius $F_{X/S}: X\to X^{(p)}$ is an isomorphism.}
+\end{enum}
+\end{theorem}
+
+By taking inverse limits the previous theorem gives us a classification result for $p$-divisible groups over $k$.
+
+\begin{corollary}
+There exists an anti-equivalence of categories 
+\begin{center}
+$\{p$-divisible groups over $k\}$
+$$\downarrow$$
+$\{$finite free $W(k)$-modules with $\sigma$-semilinear endomorphism $F$ such that $pD\subset F(D)\}$\footnote{The condition $pD\subset F(D)$ ensures that there is a well-defined natural analogue of $V$ on $D$. Intuitively, we obtain freeness from the fact that any torsion does not grow fast enough and so dies with the inverse limit.}
+\end{center}
+given by 
+$$G=\{G_n\}\func D(G):=\flim D(G_n)$$
+satisfying the following properties.
+\begin{enum}{\alph}
+\item The height of $G$ is the rank of $D(G)$ as a $W(k)$-module.
+
+\item The functor $D$ is compatible with extension of perfect fields analogous to the previous theorem.
+
+\item The torsion-levels $G_n$ of the $p$-divisible group $G$ satisfy $D(G_n)\iso D(G)/p^n$ compatible with change in $n$. In particular, $G$ is connected if and only if $F$ is topologically nilpotent on $D(G)$ equipped with the $p$-adic topology.
+\end{enum}
+\end{corollary}
+
+Recall that to an abelian scheme $\A/S$ and rational prime $\l$ we may associate the $\l$-divisible group $\A(\l)=\A[\l^{\infty}]:=\{\A[\l^n]\}$ and $\l$-adic Tate module $T_{\l}(\A):=\flim\A[\l^n]$. Assume that we have $A,B$ abelian varieties over $k$ and $\l\neq p$ a rational prime, dropping for now the assumption that $k$ is perfect.
+
+\begin{theorem}[Tate]
+The natural map 
+$$\Z_{\l}\tensor_{\Z}\Hom_k(A,B)\to\Hom_{\Z_{\l}[\Gal(k)]}(T_{\l}(A),T_{\l}(B))$$
+is injective. Moreover, it is an isomorphism when $k$ is finite.
+\end{theorem}
+
+The isomorphism result in the above is highly nontrivial (What's the sketch?). Injectivity is an easier result whose proof we sketch here. One passes to the category of abelian varieties over $k$ up to isogeny, which is nicely behaved and can be concretely realized as having objects abelian varieties over $k$ and morphisms elements of $\Hom_k^0(X,Y):=\Q\tensor_{\Z}\Hom_k(X,Y)$. 
+
+\begin{enum}{\arabic}
+\item Reduce to the case $A=B$ by considering $\End_k(A\times_kB)$.
+
+%\item Letting $V_{\l}(A):=T_{\l}(A)[1/\l]$ and noting that $\End_k(A)\inj\End_k^0(A)$, pass to the isogeny category and reduce to showing that $\Q_{\l}\tensor_{\Q}\End_k^0(A)\to\End_{\Q_{\l}[\Gal(k)]}(V_{\l}(A))$ is injective.
+
+\item Using the Poincar\'{e} Complete Reducibility Theorem, reduce to the case that $A$ is simple (i.e., has no nontrivial abelian subvarieties). 
+
+\item Show that the degree function $\deg: \End_k(A)\to\Z$ extends uniquely to a homogeneous polynomial function $\deg: \End^0(A)\to\Q$ of degree $2\dim A$ (polynomial in the sense of being polynomial in a basis when restricted to any finite dimensional subspace).
+
+\item Show that $\End_k(A)$ is a finitely generated abelian group.
+
+\item Explicitly show that $\Z_{\l}\tensor_{\Z}\Hom_k(A,B)\to\Hom_{\Z_{\l}[\Gal(k)]}(T_{\l}(A),T_{\l}(B))$ is injective. This is where the condition $\l\neq p$ enters the picture (though I'm not exactly sure of its role).
+\end{enum}
+
+As stated at the beginning, our goal is to get analogues of such statements when $\l=p$. The first order of business is to rewrite 
+$$\Hom_{\Z_{\l}[\Gal(k)]}(T_{\l}(A),T_{\l}(B))\iso\Hom_k(A(\l),B(\l)),$$
+with the RHS denoting morphisms of $\l$-divisible groups over $k$ (this rests crucially on the condition $\l\neq p$ since then $A(\l),B(\l)$ are \'{e}tale $\l$-divisible groups. In the case $\l=p$ we expect 
+$$\Z_p\tensor_{\Z}\Hom_k(A,B)\inj\Hom_k(A(p),B(p)).$$
+This can be checked over perfect extensions of $k$ and so we may assume without loss of generality that $k$ is perfect. The result then follows from the following consequence of Dieudonn\'{e} theory.
+
+\begin{theorem}
+Let $A,B$ be abelian varieties over a perfect field $k$ of characteristic $p$. Then, there is a natural injective homomorphism 
+$$\Z_p\tensor_{\Z}\Hom_k(A,B)\to\Hom_{\D_k}(D(B(p)),D(A(p)))$$
+that is an isomorphism if $k$ is finite.
+\end{theorem}
+
+The method of proof is similar to that for the previous theorem of Tate (How exactly?). However, there are some important differences to keep in mind for the two settings.
+\begin{itemize}
+\item We cannot ignore the $\D_k$-module structure in the case that $k$ is separably closed, in contrast with the $\Gal(k)$-action being trivial in this case.
+
+\item The RHS of the above does not have a natural $W(k)$-module structure when $k\neq\F_p$ since $W(k)$ is not central in $\D_k$ and so does not act through $\D_k$-linear endomorphisms on a general $\D_k$-module.
+\end{itemize}
+
+\begin{remark}
+There is a connection to crystalline cohomology. Let $K$ be a $p$-adic local field with residue field $k$ and $\A/\O_K$ an abelian scheme. Then, it is a theorem of Mazur-Messing-Oda (I think?) that $H_{\crys}^1(\A_k/W(k))\iso D(\A_k(p))$. There is more that can be said about this, e.g. by using isocrystals.
+\end{remark}
+
+Our goal now is to classify finite flat commutative $k$-group schemes of $p$-power order and $p$-divisible groups over $W(k)$ in terms of the Dieudonn\'{e} module $D(G_k)$ of the special fiber together with some ``lifting data.'' Our motivation comes from the following result.
+
+\begin{theorem}[Fontaine]
+\hfill
+\begin{enum}{\alph}
+\item Let $G_k$ be a $p$-divisible group over $k$ with $p>2$. Then, any lift $G$ of $G_k$ to $W(k)$ yields a $W(k)$-submodule $L\subset D(G_k)$ of ``logarithms'' such that $L/p\xto{\sim}D(G_k)/FD(G_k)$. The same result holds true if $p=2$ under the additional assumption that $G_k$ is connected.
+
+\item Let $G_k$ be a finite flat commutative $k$-group scheme of $p$-power order (assumed connected if $p=2$). Then, any lift $G$ of $G_k$ to $W(k)$ yields a $W(k)$-submodule $L\subset D(G_k)$ such that $L/p\xto{\sim}D(G_k)/FD(G_k)$ and $V|_L: L\inj D(G_k)$.\footnote{The latter condition is immediate for a finite free $W(k)$-module since $F\circ V=p$.}
+\end{enum}
+\end{theorem}
+
+\begin{remark}
+Why is this an appropriate use of the term logarithm?
+\end{remark}
+
+\begin{definition}
+A \textbf{Honda system} over $W(k)$ is a pair $(M,L)$ with $M$ a finite free $W(k)$-module and $L$ a $W(k)$-submodule equipped with a $\sigma$-semilinear endomorphism $F: M\to M$ such that 
+\begin{itemize}
+\item $pM\subset F(M)$ and
+\item $L/p\xto{\sim}M/F(M)$.
+\end{itemize}
+We say $(M,L)$ is \textbf{connected} if $F$ is topologically nilpotent. Analogously, a \textbf{finite Honda system} is a pair $(M,L)$ with $M$ a left $\D_k$-module of finite $W(k)$-length and $L$ a $W(k)$-submodule such that 
+\begin{itemize}
+\item $V|_L: L\inj M$ and
+\item $L/p\xto{\sim}M/F(M)$.
+\end{itemize}
+We say $(M,L)$ is \textbf{connected} if $F$ is nilpotent.
+\end{definition}
+
+It is a true but non-obvious fact that if $(M,L)$ is a finite Honda system over $W(k)$ then $(M/p^n,L/p^n)$ is a finite Honda system over $W(k)$ for every $n\geq1$. With this in mind, we have the following restatement and refinement of Fontaine's earlier theorem.
+
+\begin{theorem}[Fontaine]
+\hfill
+\begin{enum}{\alph}
+\item The assignment $G\func(D(G_k),L(G))$ defines an anti-equivalence from the category of $p$-divisible groups over $W(k)$ to the category of Honda systems over $W(k)$, where we must add the word ``connected'' to both sides if $p=2$.
+
+\item The assignment $G\func(D(G_k),L(G))$ defines an anti-equivalence from the category of finite flat commutative $W(k)$-group schemes of $p$-power order to the category of finite Honda systems over $W(k)$, where we must add the word ``connected'' to both sides if $p=2$.
+
+\item Both anti-equivalences are compatible with each other and with extension of perfect residue fields.
+\end{enum}
+\end{theorem}
+\end{document}
+
+Writing $G=\Spec A$ gives $G^{(p)}=\Spec A^{(p)}$ for $A^{(p)}:=A\tensor_{k,\phi}k$. $F$ induces a map on coordinate rings ... we have a factorization 
+\begin{center}
+\begin{tikzcd}
+G \arrow[r, "F"] \arrow[rr, bend right = 30, "{[}p{]}"'] & G^{(p)} \arrow[r, "V"] & G
+\end{tikzcd}
+\end{center}
+Key intermediate structures are $\Sym^pA$ and $(A^{\tensor p})^{S_p}$.
+
+Our goal is to study $p$-divisible groups in characteristic $p$. Since the Tate module is not a useful tool in this setting we will need a suitable replacement.\footnote{For just a small glimpse into how useful Tate modules can be, consider the N\'{e}ron-Ogg-Shafarevich criterion as well as Tate's isogeny theorem. The failure of the Tate module to be an effective tool in our context is related to ``non-\'{e}taleness.''} This is done via so-called \emph{Dieudon\'{e} theory}.
+
+\section{Motivation}
+We begin by discussing an important application of Dieudonn\'{e} theory, the (partial) classification of $p$-torsion for elliptic curves over $\ov{\F_p}$.
+
+\begin{theorem}
+Let $E/\ov{\F_p}$ be an elliptic curve. 
+\begin{enum}{\alph}
+\item Suppose that $E$ is ordinary. Then, $E[p^n]\iso\mu_{p^n}\times\un{\Z/p^n}$ for every $n\geq1$.
+
+\item Suppose that $E$ is supersingular. Then, $E[p]$ is isomorphic to a specific extension of $\alpha_p$ by itself.
+\end{enum}
+\end{theorem}
+
+\begin{proof}
+\hfill
+\begin{enum}{\alph}
+\item We begin with the case $n=1$. By assumption we have $E[p](\ov{\F_p})\neq\emptyset$. Using the short exact connected-\'{e}tale sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & E{[}p{]}^0 \arrow[r] & E{[}p{]} \arrow[r] & E{[}p{]}^{\et} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+we conclude that $E[p]^{\et}$ is nonzero since it must have an $\ov{\F_p}$-point. The field $\ov{\F_p}$ is perfect and so the above sequence splits canonically giving $E[p]\iso E[p]^0\times E[p]^{\et}$. The group scheme $E[p]^{\et}$ is \'{e}tale over an algebraically closed field hence constant of form $\un{A}$ for some finite abelian group $A$. The group scheme $E[p]$ itself is not \'{e}tale since multiplication by $p$ is not invertible over $\ov{\F_p}$ and so $E[p]^0\neq0$. Since $E[p]$ has order $p^2$ it follows that $E[p]^0,E[p]^{\et}$ each have order $p$ and so $A=\Z/p$. Since $E[p]$ is self-Cartier dual and $(\un{Z/p})^D\iso\mu_p$ we conclude $E[p]\iso\mu_p\times\un{\Z/p}$.
+
+For the inductive step, assume the result up to $n$ and consider $n+1$. As before we have an isomorphism $E[p^{n+1}]\iso(\un{A})^D\times\un{A}$ for $A$ some finite abelian group of $p$-power order. By the inductive hypothesis, for each $1\leq i\leq n$ we have 
+$$E[p^{n+1}]^{\et}[p^i]=E[p^i]^{\et}\iso\un{\Z/p^i}$$
+and so we conclude $A\iso\Z/p^{n+1}$ hence $E[p^{n+1}]\iso\mu_{p^{n+1}}\times\un{\Z/p^{n+1}}$.
+
+\item Let $F:=F_{E/\ov{\F_p}}: E\to E^{(p)}$ be the relative Frobenius. Then, $\ker F$ is an order $p$ subgroup of $E$ hence contained in $E[p]$ by Deligne's theorem. Dieudonn\'{e} theory tells us that (up to isomorphism) the only order $p$ group schemes over $\ov{\F_p}$ are $\un{\Z_p},\mu_p,\alpha_p$. Since $E[p](\ov{\F_p})=\emptyset$, we may use Cartier duality to conclude that $\ker F$ is neither $\un{\Z_p}$ nor $\mu_p$.\footnote{The case for $\un{\Z_p}$ is easily seen and the case for $\mu_p$ follows from Cartier duality.} Hence, $\ker F\iso\alpha_p$. The quotient $E[p]/\ker F$ also has order $p$ and so similar reasoning to above implies that $E[p]/\ker F\iso\alpha_p$ as well. Dieudonn\'{e} theory tells us that the only extensions of $\alpha_p$ by itself are $\alpha_p^2$, $\alpha_{p^2}$, and the so-called Witt scheme $W_2^2$. Self-duality allows us to rule out $\alpha_{p^2}$ while comparing dimensions of tangent spaces at the identity allows us to rule out $\alpha_p^2$.\footnote{The group scheme $\alpha_p^2$ has tangent space of dimension 2 at $e$ while $T_eE[p]$ is a subspace of the 1-dimensional space $T_eE$.} Thus, $E[p]\iso W_2^2$. \qedhere
+\end{enum}
+\end{proof}
+
+\section{Dieudonn\'{e} Theory}
+\begin{example}
+The above theorem tells us that finite flat commutative $p$-torsion\footnote{This is the same as having order $p$ by Deligne's theorem.} $k$-group schemes correspond precisely to 1-dimensional $k$-vector spaces with compatible $\D_k$-module structure.\footnote{The theorem tells us to look at $W(k)$-modules of length $1$ (i.e., cyclic $W(k)$-modules), but these correspond to certain $k$-vector spaces via a lifting procedure similar to that described subsequently.} Here are some concrete examples.
+\begin{enum}{\arabic}
+\item $D(\mu_p)=k$ with $F=0$ and $V=\sigma^{-1}$.
+\item $D(\un{\Z/p})=k$ with $F=\sigma$ and $V=0$.
+\item $D(\alpha_p)=k$ with $F=0=V$.
+\end{enum}
+These assignments are plausible since, e.g., $F_{\alpha_p/k}: \alpha_p\to\alpha_p^{(p)}$ is the zero map. What exactly does the above mean? Consider \textup{(1)}. We consider $k$ as a left $W(k)$-module via the projection $\gh_0: W(k)\surj k$ (which has kernel precisely $pW(k)$). We claim we can complete the diagram
+\begin{center}
+\begin{tikzcd}
+W(k) \arrow[r, "\sigma^{-1}"] \arrow[d, twoheadrightarrow] & W(k) \arrow[d, twoheadrightarrow] \\
+k \arrow[r, dotted, "\exists!\;V"'] & k
+\end{tikzcd}
+\end{center}
+That is, $V$ is defined by lifting, applying $\sigma^{-1}$, and then projecting down. To see that this is well-defined, let $x$ be a lift of $0\in k$ to $W(k)$ -- i.e., an element of $\ker\gh_0=pW(k)$. Then, $x=py$ for some $y\in W(k)$ and so 
+$$\sigma^{-1}(x)=\sigma^{-1}(py)=Vy\implies\gh_0(x)=\gh_0(Vy)=0$$
+since $\sigma V=[p]=V\sigma$ for $V$ the Witt vector Verschiebung. 
+
+If $k$ is algebraically closed then the above list is complete since $\mu_p,\un{\Z/p},\alpha_p$ are the simple finite flat commutative $k$-group schemes of $p$-power order (see [Stix, Thm 54]). This is predicated on [Stix, Prop 53] which states the following (and helps explain some aspects of the above theorem) for $G$ any finite flat commutative $k$-group scheme.
+\begin{itemize}
+\item $G$ is connected if and only if $F$ is nilpotent.
+\item $G$ is \'{e}tale if and only if $F$ is an isomorphism.\footnote{We saw a more general version of this statement in an earlier footnote.}
+\item $G$ is multiplicative (i.e., the Cartier dual of something \'{e}tale) if and only if $V$ is an isomorphism.
+\item $G$ is bi-infinitesimal (i.e., $G$ and $G^D$ are simultaneously connected) if and only if $F,V$ are both nilpotent.
+\end{itemize}
+Note that the morphism $V=V_{G/k}$ is dual to $F=F_{G/k}$ in the sense that it is obtained from $F_{G^D/k}^D$, the Cartier dual of the relative Frobenius of the Cartier dual of $G$. 
+
+[BC] also gives a 2-dimensional example I don't quite understand. Let $W_2^2$ be the left $W(k)$-module $k^2$ with endomorphisms $F=\sigma\circ M$ and $V=\sigma^{-1}\circ M$ for 
+\begin{equation*}
+M:=
+\begin{pmatrix}
+0 & 1 \\
+0 & 0
+\end{pmatrix}.
+\end{equation*}
+As a starting question, what multiplicative structure are we using for $k^2$?
+\end{example}

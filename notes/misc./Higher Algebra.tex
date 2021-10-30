@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\C}{\mathscr{C}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\L}{\mathbb{L}}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\S}{\mathcal{S}}
+
+\DeclareMathOperator{\cn}{cn} % connective
+\DeclareMathOperator{\gp}{gp} % group-like
+\DeclareMathOperator{\perf}{perf} % perfect
+\DeclareMathOperator{\proj}{proj} % projective
+\DeclareMathOperator{\Fin}{\mathsf{Fin}} % finite sets
+
+\begin{document}
+\title{Higher Algebra}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+With the basics of spectra out of the way we turn our focus to comparing and contrasting two useful and important approaches to higher algebra. This will come in handy for working with cyclotomic spectra (since we will understand much more of what we are doing involving $K$-theory and such). We will take the point of view that stable $\infty$-categories are exactly those $\infty$-categories which are enriched over the $\infty$-category $\Sp$ of spectra. We let $S$ denote the sphere spectrum and note that $\Sp$ has a smash product $\tensor=\tensor_S$ (sometimes denoted $\wedge$) with unit $S$ and which preserves colimits in each variable. This equips $\Sp$ with the structure of a symmetric monoidal $\infty$-category, the monoidal bit being fairly straightforward and the symmetric bit being highly nontrivial. The sphere spectrum $S=\Sigma^{\infty}S^0$ may be seen as the ``free spectrum on one generator,'' which highlights the common reality of homotopy theory that free objects are often quite complicated. We recall as well the following facts and notions.
+\begin{itemize}
+\item $\Sp$ has a full $\infty$-subcategory $\Sp^{\cn}$ of connective spectra. These are by definition $(-1)$-connective in the sense that $X\in\Sp^{\cn}$ satisfies $\pi_iX=0$ for $i\leq-1$.
+
+\item The heart $\Sp^{\heart}$, consisting of discrete spectra and obtained from the natural $t$-structure on $\Sp$, is naturally identified with (the nerve of) $\Ab$ upon passing to $\pi_0$.
+
+\item The equivalence $\pi_0: \Sp^{\heart}\xto{\sim}\Ab$ has inverse $\Ab\inj\S_*\xto{\Sigma^{\infty}}\Sp$ which sends $A\in\Ab$ to its Eilenberg-MacLane spectrum $HA\in\Sp$.
+
+\item Even though $\Ab$ carries a natural symmetric monoidal structure encoded by $\tensor_{\Z}$, this structure is not compatible with the symmetric monoidal structure on $\Sp$ encoded by the smash product $\tensor$. This is analogous to the discrepancy between $\tensor_{\Z}$ on $\Ab$ and the derived tensor product $\tensor_{\Z}^{\L}$ on (the derived $1$-category) $D(\Ab)$.
+\end{itemize}
+
+\section{$\A_{\infty}$ Ring Spectra}
+We will not give a precise definition of an $\A_{\infty}$ ring spectrum, remarking that it is not enough to simply consider monoid objects in $\Sp$ (instead, one needs to do something like consider an algebra over a so-called $\A_{\infty}$ operad). The reason for this has to do with the need to explicitly keep track of higher coherence data. Regardless of the construction, we take on faith that an $\A_{\infty}$ ring spectrum $A$ has an underlying spectrum whose homotopy groups $\{\pi_iA\}_{i\in\Z}$ are all abelian. It follows that $\bigoplus_{i\in\Z}\pi_iA$ is a graded (associative) ring in the ordinary sense. In particular, $\pi_0A$ is an ordinary associative ring and each $\pi_iA$ is an ordinary $\pi_0A$-bimodule. Many notions transfer from spectra to $\A_{\infty}$ ring spectra. For example, an $\A_{\infty}$ ring spectrum is \textbf{connective} if its underlying spectrum is connective -- i.e., $\pi_iA=0$ for $i<0$. For simplicity we will let $\Alg=\Alg_{\A_{\infty}}=\Alg_{\A_{\infty}}(\Sp)$ denote the $\infty$-category of $\A_{\infty}$ ring spectra, noting that this is not an $\infty$-subcategory of $\Sp$.
+
+As you would expect there is some subtlety involved in trying to transfer over our intuition about ordinary (associative) rings. There is a process for turning ordinary rings into $\A_{\infty}$ ring spectra, obtained by passing to Eilenberg-MacLane spectra. However, it is not the case that every $\A_{\infty}$ ring spectrum admits a map of $\A_{\infty}$ ring spectra from $\Z$ -- e.g., just look at $S$. Even having such a map $f: \Z\to A$ for $A\in\Alg_{\A_{\infty}}$ is not enough to determine a $\Z$-algebra structure on $A$ -- we need to impose some kind of centrality by bringing in extra data. Fortunately, a connective $\A_{\infty}$ ring spectrum is more or less the same thing as a simplicial ring since we can arrange that the various relevant algebraic conditions hold on the nose. 
+
+To $A\in\Alg_{\A_{\infty}}$ we may associate a presentable stable $\infty$-category $\Mod_A$ of left $A$-module spectra (often simply called left $A$-modules when there is little chance of confusion). In the case that $A$ is an ordinary ring we can obtain $\Mod_A$ by considering the appropriate Quillen model structure on the category of chain complexes of ordinary $A$-modules; alternatively we could consider simplicial $A$-modules, with both perspectives being linked by Dold-Kan at least under suitable boundedness conditions (so we really we should be looking at connective $A$-modules here). There are lots of finiteness conditions that we can impose on $A$-modules, all of which differ from each other in subtle ways, so let's consider just a few.
+\begin{itemize}
+\item Consider the stable $\infty$-subcategory of $\Mod_A$ generated by $A$ and its retracts. Explicitly, this involves looking at $A$-modules which are retracts of $\Sigma^{i_1}A\oplus\cdots\oplus\Sigma^{i_k}A$ for some $i_1,\ldots,i_k\in\Z$
+
+\item Consider the compact objects in $\Mod_A$, recalling that $M\in\Mod_A$ is compact if its Yoneda functor commutes with filtered colimits.\footnote{For a general $\infty$-category $\C$, there is a Yoneda functor $\C\inj\Fun(\C^{\op},\S)$ given by $X\mapsto\Hom_{\C}(\cdot,X)$.}
+
+\item Assuming $A$ is a discrete associative ring, we can insist that $M\in\Mod_A$ is represented by a complex of finitely generated projective $A$-modules.
+\end{itemize}
+These finiteness conditions turn out to be equivalent to each other (when they can be compared) and we obtain the notion of a perfect $A$-module. Fortunately, $\Mod_A$ has enough perfect objects which span a full stable $\infty$-subcategory $\Mod_A^{\perf}$ with $\Ind(\Mod_A^{\perf})\simeq\Mod_A$. On $\Mod_A$ there is an obvious $t$-structure whose heart consists of ordinary left modules over $\pi_0A$. Symbolically, $\Mod_A^{\heart}=\Mod_{\pi_0A}^{\heart}$.
+
+\section{Overview of Commutative Rings}
+In algebraic geometry we want a homotopy theoretic generalization of the notion of commutative ring. Fix an ordinary commutative ring $R$. Here are some approaches.
+\begin{enum}{\arabic}
+\item Let $\SCR_{R/}$ denote the $\infty$-category of simplicial commutative $R$-algebras, which is modeled on the functor $1$-category $\Fun(\Delta^{\op},\CAlg_{R/}^{\heart})$. We note that there is a Quillen model structure in which the weak equivalences and fibrations are those maps which are weak equivalences and fibrations on the underlying simplicial sets.\footnote{There is a general recipe to pass from nice (co-)fibrantly generated model categories to $\infty$-categories. I believe we just apply the homotopy coherent nerve functor, which is analogous to applying the differential graded nerve functor to a dg category.}
+
+\item Consider $\CAlg=\Alg_{\E_{\infty}}$ and take the slice category $\CAlg_{R/}$, noting that the Eilenberg-MacLane spectrum of $R$ is automatically an $\E_{\infty}$ ring spectrum.
+\end{enum}
+
+Connective objects of $\CAlg$ look like spaces equipped with addition and multiplication laws which are commutative, associative, and distributive up to coherent homotopy. Objects of $\SCR$, meanwhile, are automatically connective and satisfy these laws on the nose.
+
+\begin{remark}
+Here's one precise way of obtaining $\E_{\infty}$ ring spectra (often just called $\E_{\infty}$ algebras). Consider the ordinary $1$-category $\Fin$ whose objects are finite sets. Then, disjoint union $\coprod$ induces a symmetric monoidal structure on $\Fin$ with unit $\emptyset$. View $\Fin$ as a symmetric monoidal $\infty$-category simply by taking its nerve. Given any $\infty$-category $\C$, we may view $\CAlg(\C)$ simply as the $\infty$-category $\Fun^{\tensor}(\Fin,\C)$ of symmetric monoidal functors. Trying to view $\E_n$-algebras in the same way is a bit more subtle and requires looking at so called framed little $n$-discs. One then shows that $\Alg_{\E_{\infty}}$ is in some precise sense the ``union'' of $\Alg_{\E_n}$ for $n\geq1$.
+\end{remark}
+
+There is an obvious functor $\theta: \SCR\to\CAlg$ which cannot be an equivalence because
+\begin{itemize}
+\item $\Z$ is initial for $\SCR$ but not for $\CAlg$; and
+
+\item the essential image of $\theta$ consists only of connective objects (though not all of them!).
+\end{itemize}
+That is, we obtain a functor $\theta': \SCR\to\CAlg_{\Z/}^{\cn}$ which is not essentially surjective. Using $\theta'$ and a result called the Barr-Beck theorem we may view $\SCR$ as an $\infty$-category of coalgebras over $\CAlg_{\Z/}^{\cn}$. Another point of comparison comes from a sort of Tannakian philosophy. Specifying an $\A_{\infty}$ ring spectrum $R$ in turn specifies the $\infty$-category $\Mod_R$ with distinguished object $R$. We may then recover $R$ as the corepresentable fiber functor $\Hom_{\Mod_R}(R,\cdot)$, which boils down to looking at endomorphisms of the distinguished object. In this framework extra structure on $R$ should correspond to extra structure on $\Mod_R$.
+\begin{itemize}
+\item $R$ is $\E_2$ ring spectrum $\implies$ $\Mod_R$ has coherently associative tensor product operation.
+
+\item $R$ is $\E_{\infty}$ ring spectrum $\implies$ $\Mod_R$ has coherently associative and commutative tensor product operation. In this setting there is a well-defined action of the symmetric group $\Sigma_n$ on $M^{\tensor n}$ for $M\in\Mod_R$ and so we may make sense of the coinvariants $(M^{\tensor n})_{\Sigma_n}$ by taking an appropriate colimit.
+\end{itemize}
+
+\begin{remark}
+The notions of symmetric and exterior powers are a bit tricky to get right in this context. There are several reasons for this.
+\begin{itemize}
+\item $(M^{\tensor n})_{\Sigma_n}$ always makes sense for $M\in\Mod_R$ but a priori $\Sym_R^n(M)$ only makes sense assuming $M$ is connective.
+
+\item Even though $\Sym_R^n(M)$ can be defined for general $M$, it often has strangely behaved homotopy groups and often does not agree with the coinvariants $(M^{\tensor n})_{\Sigma_n}$. Very roughly, the group (co-)homology of $\Sigma_n$ makes various contributions behind the scenes.
+
+\item We can define $\Wedge_R^n(M):=\Sym_R^n(M[1])[-n]$. This has connections to nonabelian left derived functors, divided power algebras, and Koszul duality.
+\end{itemize}
+\end{remark}
+
+For the purposes of algebraic $K$-theory we definitely want to work with $\E_{\infty}$ ring spectra. These objects are definitely harder to work with than simplicial commutative rings, and in fact the latter work just fine for most algebro-geometric applications. We offer a few comments on why life is harder when working with $\E_{\infty}$ ring spectra.
+\begin{itemize}
+\item Simplicial commutative rings allow us to directly generalize the notion of affine scheme, while non-connective $\E_{\infty}$ ring spectra present a problem.
+
+\item Generalizations of many algebraic groups are difficult if not impossible to describe.
+
+\item There are two distinct candidates for the affine line $\A_S^1$, one which is flat and the other which is not. If one wants to proceed down this spectral route then both of these affine lines need to be placed on equal footing.
+\end{itemize}
+
+\section{Algebraic $K$-Theory}
+WTF does any of this have to do with algebraic $K$-theory? Looking at just the affine case is a bit misleading, but we do so for ease of explanation. Classical algebraic $K$-theory for an affine scheme $X=\Spec A$ is entirely captured by the $K$-group $K_0(X)=K_0(A)$. The goal of this construction is to understand short exact sequences of vector bundles over $X$ (or more generally of coherent sheaves over $X$). Because vector bundles over $X$ are precisely finitely generated projective $A$-modules, every short exact sequence of vector bundles over $X$ splits and we may obtain $K_0(A)$ as the group completion of the monoid $((\Mod_A^{\proj})^{\iso},\oplus)$. 
+
+The key to generalizing this to the $\infty$-categorical setting is to note that group completion is naturally left adjoint to $\Ab\inj\CMon^{\heart}$. We say that an $\E_{\infty}$-space $X\in\CAlg(\S)$ is \textbf{group-like} if the monoid $\pi_0X$ is a group. These span a full subcategory $\CAlg^{\gp}(\S)\subset\CAlg(\S)$ and we have the following key result.
+
+\begin{theorem}[Boardman-Voight; May]
+The underlying infinite loop space functor $\Omega^{\infty}: \Sp\to\S_*$ induces an equivalence $\Sp^{\cn}\simeq\Mon_{\E_{\infty}}^{\gp}=\CMon^{\gp}$.
+\end{theorem}
+
+With this in hand, we can throw out the non-equivalences in $\Mod_A^{\perf}$ to get a maximal $\infty$-groupoid $(\Mod_A^{\perf})^{\simeq}$. Regarding this as an $\E_{\infty}$-space we can take $\Omega^{\infty}K(A):=((\Mod_A^{\perf})^{\simeq})^{\gp}$. By the theorem this corresponds to $K(A)\in\Sp^{\cn}$ and we can take $K_i(A):=\pi_i(K(A))$.
+
+\section{Basics on Simplicial Commutative Rings}
+Let $\SCR^{\heart}$ denote the ordinary category of simplicial commutative rings -- I'm not claiming that this is the heart of a $t$-structure on $\SCR$; rather it's an obvious choice of notation in light of the context. We may obtain $\SCR$ from an appropriate Quillen model structure on $\SCR^{\heart}$, or equivalently an appropriate model structure on the category of compactly generated topological commutative rings. 
+\end{document}

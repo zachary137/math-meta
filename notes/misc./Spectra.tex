@@ -1,0 +1,140 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\A}{\mathcal{A}}
+\newcommand{\adj}{\vdash} % needs to be reflected!
+\renewcommand{\C}{\mathscr{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\L}{\mathbb{L}}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+
+\DeclareMathOperator{\cn}{cn} % connective
+\DeclareMathOperator{\dg}{dg} % differential graded
+\DeclareMathOperator{\grp}{grp} % grouplike
+\DeclareMathOperator{\hlim}{hlim} % homotopy limit
+\DeclareMathOperator{\hcolim}{hcolim} % homotopy colimit
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\proj}{proj} % projective
+\DeclareMathOperator{\Sing}{Sing} % singular
+
+\newcommand{\Cat}{\mathsf{Cat}} % \infty-category of categories (also used for \infty-categories)
+\newcommand{\CMon}{\mathsf{CMon}} % commutative monoids
+\newcommand{\Mon}{\mathsf{Mon}} % monoids
+\renewcommand{\Sp}{\mathsf{Sp}} % spectra (and stabilization)
+\newcommand{\DDelta}{\mathbf{\mathsf{\Delta}}} % simplex category
+
+\begin{document}
+\begin{comment}
+\section{Background}
+Let's start things off with some background info. Let $\DDelta$ denote the \textbf{simplex category} whose objects are sets $[n]:=\{0,1,\ldots,n\}$ for $n\in\Z^{\geq0}$ and morphisms are not-necessarily-strictly order-preserving maps.\footnote{Note that $\DDelta$ is the skeleton of the category of finite ordered sets with monotonic maps as morphisms.} Let $\Set_{\Delta}$ denote the category of \textbf{simplicial sets}, obtained as the presheaf category $\Fun(\DDelta^{\op},\Set)$. The representable objects in $\Set_{\DDelta}$ are called \textbf{standard simplices} and denoted by $\Delta^n:=\Hom_{\DDelta}(\cdot,[n])$. 
+
+For us, an $\infty$-category is defined to be an $(\infty,1)$-category or weak Kan complex satisfying the inner horn filling condition.
+
+Any $\infty$-category $\C$ has a homotopy category $h\C$ with $\Hom_{h\C}(X,Y)=\pi_0\Hom_{\C}(X,Y)$.
+\end{comment}
+
+One notion of much importance in modern math is that of an abelian category $\A$. Such categories provide a natural setting to do homological algebra by way of the derived category $D(\A)$. We would like a similarly well-behaved notion in the setting of $\infty$-categories. This is where the notion of a stable $\infty$-category enters the picture.
+
+\begin{definition}
+We say that an $\infty$-category $\C$ is \textbf{stable} if it possesses a zero object $0$, is complete and cocomplete, and a diagram
+\begin{center}
+\begin{tikzcd}
+X \arrow[r] \arrow[d] & Y \arrow[d] \\
+0 \arrow[r] & Z
+\end{tikzcd}
+\end{center}
+in $\C$ is a pushout square if and only if it is a pullback square. Equivalently, homotopy fiber and cofiber sequences coincide.
+\end{definition}
+
+Any stable $\infty$-category naturally has \textbf{suspension} and \textbf{looping} endofunctors $\Sigma,\Omega: \C\to\C$ given by $\Sigma X:=0\coprod_X0$ and $\Omega X:=0\times_X0$. The fact that homotopy fiber and cofiber sequences coincide implies that $\Sigma$ and $\Omega$ are both equivalences and, in fact, fit into an adjoint equivalence $\Omega\adj\Sigma$.\footnote{In fact, we could instead assume that one of $\Sigma$ or $\Omega$ is an equivalence in the above definition.} Just as for an abelian category, finite products and coproducts coincide for a stable $\infty$-category and so we have a biproduct $\oplus$.
+
+\begin{proposition}
+Let $\C$ be a stable $\infty$-category. Then, $h\C$ is naturally a triangulated category with shifts $[1]$ and $[-1]$ arising respectively from $\Sigma$ and $\Omega$ (using homological grading).
+\end{proposition}
+
+\begin{remark}
+It is not true that every triangulated category arises in this way (though many certainly do), so stable $\infty$-categories in some sense provide a less general extension of the notion of abelian category than triangulated categories. That said, stable $\infty$-categories have the advantage of a more natural definition (e.g., no octahedral axiom) and the existence of functorial kernels and cokernels.
+\end{remark}
+
+\begin{example}
+Let $\A$ be an abelian category with enough projective objects. Then, the (right bounded) derived category $D^-(\A)$ admits an $\infty$-categorical enhancement $\D^-(\A)$ that is naturally stable. Moreover, we have a canonical equivalence $h\D^-(\A)\simeq D^-(\A)$ and a natural $t$-structure on $\D^-(\A)$ whose heart $\D^-(\A)^{\heart}$ is canonically equivalent to (the nerve of) $\A$. Explicitly, $\D^-(\A)$ is given by $N_{\dg}(\Ch^-(\A_{\proj}))$, where $N_{\dg}$ is given by the differential graded nerve construction, $A_{\proj}\subset\A$ is the full subcategory spanned by projective objects, and $\Ch^-(\A_{\proj})$ is the category of (homologically) right bounded chain complexes over $\A_{\proj}$.\footnote{The right boundedness condition here means that homology vanishes in sufficiently negative degrees.}
+\end{example}
+
+In order to understand where much of the above terminology comes from as well as produce more examples of stable $\infty$-categories, we turn our attention to spaces. Let $\T$ be a convenient category of topological spaces, which carries the so-called Quillen-Serre model structure and provides evidence that $\T$ (or rather its (classical) homotopy category) is the homotopy category of an $\infty$-category which we will temporarily denote $\T_{\infty}$.\footnote{In more detail, we take $\T$ to be the full subcategory of the classical $1$-category $\Top$ of topological spaces spanned by the compactly generated weakly Hausdorff spaces, which is Cartesian closed in addition to having other nice properties. This contains all CW complexes, which allows us to obtain all of $\Top$ from $\T$ up to weak homotopy equivalence using CW approximation. Moreover, this process of CW approximation may be viewed as cofibrant replacement in the Quillen-Serre model structure.} A classical result says that the total singular complex functor $\Sing: \Top\to\Set_{\DDelta}$ induces a Quillen equivalence between $\T$ and $\Set_{\DDelta}$, the latter carrying the Kan model structure in which the fibrant objects are the Kan complexes.\footnote{Note that every Kan complex is a fortiori an $\infty$-category and that $\Sing(X)$ is a Kan complex for every topological space $X\in\Top$. Quillen equivalence is the natural notion of isomorphism in the ($2$-)category of all model categories.} The latter are naturally $\infty$-groupoids (AKA $(\infty,0)$-categories), which the Homotopy Hypothesis says are precisely the $\infty$-categorical analogue of spaces. With this in mind, we let $\S$ denote the $\infty$-category of spaces obtained from Kan complexes and note that $\T_{\infty}$ may be identified with $\S$.
+
+Let's now get under the hood of $\S$. The category $\T_*$ (the ``pointification'' of $\T$) inherits Cartesian closure from $\T$, so $\Hom_{\T_*}(X,Y)$ is naturally an object of $\T_*$ for every pair $X,Y\in\T_*$. There is a \textbf{smash product} 
+$$\wedge: \T_*\times\T_*\to\T_*,\qquad (X,Y)\mapsto(X\times Y)/(X\vee Y)$$
+which is not a categorical product but satisfies a strong adjunction property in that there is a natural homemorphism
+$$\Hom_{\T_*}(X\wedge Y,Z)\iso\Hom_{\T_*}(X,\Hom_{\T_*}(Y,Z)$$
+for every triple $X,Y,Z\in\T_*$. Thinking of $S^1$ as an object of $\T_*$ by choosing $1$ as basepoint, we obtain suspension and looping endofunctors $\Sigma,\Omega: \T_*\to\T_*$ via $\Sigma X:=S^1\wedge X$ and $\Omega X:=\Hom_{\T_*}(S^1,X)$. The strong adjunction for the smash product yields a strong adjunction $\Omega\adj\Sigma$ and this descends to the (classical) homotopy category by taking $\pi_0$ (in the classical sense of passing to connected components). 
+
+Passing now to $\S_*$, we have endofunctors $\Sigma$ and $\Omega$ induced by the above constructions. The category $\S_*$ has finite limits and a zero object $*$. However, $\Sigma$ (and thus $\Omega$) is not invertible since $[S^1,S^0]$ is trivial while $[S^3,S^2]$ is nontrivial (with a representative of a nontrivial class given explicitly by the Hopf fibration). It is natural to ask how far $\S_*$ is from being stable. The obvious thing to do is invert $\Omega$: 
+$$\Sp:=\hlim(\cdots\xto{\Omega}\S_*\xto{\Omega}\S_*\xto{\Omega}\cdots).$$
+This gives us the stable $\infty$-category $\Sp$ of \textbf{spectra}. By definition, a spectrum $X$ is represented (up to an appropriate notion of homotopy equivalence) by the data of an \textbf{$\Omega$-spectrum}, a sequence $\{X_i\}$ in $\T_*$ together with homotopy equivalences $X_i\simeq\Omega X_{i+1}$.\footnote{Throughout this discussion it is harmless to replace $\T_*$ by $\S_*$. We have chosen a particular model but any other equivalent model should work just as well with the appropriate modifications.} Via adjunction we may equivalently view this as a \textbf{sequential spectrum}, the data of a sequence $\{X_i\}$ in $\T_*$ with maps $\Sigma X_i\simeq X_{i+1}$. The difficulty with this suspension approach comes in pinning down the right notion of homotopy equivalence for sequential spectra. Regardless, this approach is still useful (as we will see in a minute) and we can can pass from a sequential spectrum $\{X_i\}$ to an $\Omega$-spectrum $\{X'_i\}$ by taking
+$$X'_i:=\fcolim_{k\geq0}\Omega^kX_{i+k},$$
+with transition maps obtained using the adjunction $\Omega\adj\Sigma$. The category $\Sp$ comes equipped with a functor $\Omega^{\infty}: \Sp\to\S_*$ called the \textbf{underlying infinite loop space functor} and given in terms of $\Omega$-spectra by $\{X_i\}\mapsto X_0$. The name comes from the fact that $X_0$ is an infinite loop space in the sense that there exist $X_i$ for $i\geq1$ such that $X_i\simeq\Omega X_{i+1}$ (notice that a choice is not specified). The functor $\Omega^{\infty}$ admits a left adjoint $\Sigma^{\infty}: \S_*\to\Sp$ given by sending $X$ to $\{\Sigma^iX\}$ (viewed as a sequential spectrum) with obvious structure maps. We call $\Sigma^{\infty}X$ the \textbf{suspension spectrum} of $X$, and $S:=\Sigma^{\infty}S^0$ the \textbf{sphere spectrum}. In homotopy theory (as we shall see a little bit), $S$ plays an analogous foundational role to $\Z$. One illustration of this is that $\Sp$ is the free stable $\infty$-category generated by colimits on a single object (namely $S$).
+
+\begin{remark}
+Though we didn't explicitly say this earlier, the $\infty$-category $\S_*$ is both complete and cocomplete. Inverting $\Omega$ preserves these nice properties and so we obtain the stable $\infty$-category $\Sp$. Though invertibility of $\Omega$ on $\Sp$ is equivalent to invertibility of $\Sigma$ on $\Sp$, we cannot simply obtain $\Sp$ by inverting $\Sigma$ on $\S_*$ as we did $\Omega$. This is because doing so leads to us missing some finite limits. This can be remedied with a more elaborate construction, namely taking the $\Ind$-category of the so-called \emph{Spanier-Whitehead $\infty$-category of finite spectra}.
+\end{remark}
+
+As should be clear from the above remark, it is preferable to understand $\Sp$ in terms of a universal property instead of just a specific construction. While we're at it, we might as well understand how we associate a stable $\infty$-category to any (complete) category.
+
+\begin{definition}
+Let $\C$ be a complete $\infty$-category. The \textbf{stabilization} of $\C$ is the data of a stable $\infty$-category $\Sp(\C)$ together with a right adjoint functor $\Omega^{\infty}: \Sp(\C)\to\C$ inducing an equivalence 
+$$\Fun^R(\D,\Sp(\C))\simeq\Fun^R(\D,\C)$$
+of spaces of right adjoint functors for $\D$ any stable $\infty$-category. More precisely, for every right adjoint functor $F: \D\to\C$ there exists an essentially unique exact functor $\w{F}: \D\to\Sp(\C)$ and a coherent homotopy $F\simeq\Omega^{\infty}\circ\w{F}$.
+\end{definition}
+
+Since $\C$ has all finite limits it has a terminal object $*$. By RAPL, $\C$ and $\C_*:=\C_{*/}$ have equivalent stabilizations and we may construct $\Sp(\C)$ by taking 
+$$\Sp(\C):=\hlim(\cdots\xto{\Omega}\C_*\xto{\Omega}\C_*\xto{\Omega}\cdots),$$
+where $\Omega X:=*\times_X*$. Part of the reason for considering right adjoints is that we want our functors to be limit preserving. We also want $\Omega^{\infty}$ to admit a left adjoint, called $\Sigma^{\infty}$ in the pointed case and $\Sigma_+^{\infty}$ in the unpointed case. 
+
+\begin{remark}
+Note that, in general, the stabilization process is not functorial, though a partial remedy to this comes in investigating the role of spectra in classifying excisive (co-)homology theories. We can dually construct $\Sp(\C)$ in terms of inverting $\Sigma$ if we add the condition that $\C$ is presentable and make use of the Adjoint Functor Theorem.
+\end{remark}
+
+It's now time to get a bit more algebraic. Remember the smash product $\wedge$ on $\T_*$ (hence on $\S_*$) from earlier? Well, we can essentially upgrade this to a smash product $\tensor$ on $\Sp$ inducing an $\infty$-categorical symmetric monoidal structure on $\Sp$ so that $\Sigma^{\infty}: \S_*\to\Sp$ is a symmetric monoidal functor. In particular, $S$ is the unit for $\tensor$ and we have suitably functorial equivalences $\Sigma^{\infty}(X\wedge Y)\simeq\Sigma^{\infty}X\wedge\Sigma^{\infty}Y$. The smash product also has the important property that it preserves colimits in each argument. In this way, $\Sp$ can be thought of equivalently as the derived (DG)-category of $S$-modules with $\tensor$ functioning as a derived tensor product (over $S$). One of the nice things about our setting is that $\tensor$ comes essentially for free by looking at the extremely natural construction of the so-called \emph{Lurie tensor product}.
+
+In order to uncover more of the structure of $\Sp$, we look now at a result of historical importance to this story and also the starting point of stable homotopy theory.
+
+\begin{theorem}[Freudenthal]
+Let $X\in\T_*$. Then, the stable homotopy group $\pi_n^s(X):=\fcolim_{i\geq0}\pi_{n+i}(\Sigma^iX)$ is given by $\pi_{n+j}(\Sigma^jX)$ for some $j\gg0$ -- i.e., the sequence $\{\pi_{n+i}(\Sigma^iX)\}_{i\geq0}$ stabilizes.
+\end{theorem}
+
+Where the transition maps in the above come from is that, given $X\in\T_*$, the counit of the adjunction $\Omega^i\adj\Sigma^i$ yields a canonical map $X\to\Omega^i\Sigma^iX$ and hence a compatible tower 
+$$X\to\Omega\Sigma X\to\Omega^2\Sigma^2X\to\cdots$$
+One then uses the canonical isomorphism $\pi_n(\Omega^iY)\iso\pi_{n+i}(Y)$. One advantage of the Freudenthal suspension theorem is that stable homotopy groups correspond naturally to homotopy groups of spectra. Given $X\in\Sp$ and $n\in\Z$,
+$$\pi_n(X):=\pi_0(\Omega^{\infty}\Sigma^nX)\simeq\pi_0(\Hom_{\Sp}(\Sigma^nS,X)).$$
+Spectra $X\in\Sp$ with $\pi_k(X)\simeq0$ for $k<n$ are called \textbf{$n$-connective}, with $0$-connective spectra often simply called \textbf{connective} spectra and spanning a full subcategory $\Sp^{\cn}\subset\Sp$. This in turn gives a natural $t$-structure on $\Sp$ whose heart $\Sp^{\heart}$ (consisting of \emph{discrete} spectra) is naturally identified with (the nerve of) $\Ab$ upon passing to $\pi_0$. The inverse of this equivalence is the composition $\Ab\inj\S_*\xto{\Sigma^{\infty}}\Sp$ sending $A\in\Ab$ to its \textbf{Eilenberg-MacLane spectrum} $HA\in\Sp$.
+
+\begin{remark}
+Even though $\Ab$ carries a natural symmetric monoidal structure encoded by $\tensor_{\Z}$, this structure is not compatible with the symmetric monoidal structure on $\Sp$ encoded by the smash product $\tensor$. This is analogous to the discrepancy between $\tensor_{\Z}$ on $\Ab$ and the derived tensor product $\tensor_{\Z}^{\L}$ on $D(\Ab)$.
+\end{remark}
+
+A result that will be of use to us in algebraic $K$-theory is the following.
+
+\begin{theorem}[May]
+The underlying infinite loop space functor $\Omega^{\infty}: \Sp\to\S_*$ induces an equivalence $\Sp^{\cn}\simeq\Mon_{\E_{\infty}}^{\gp}=\CMon^{\gp}$.
+\end{theorem}
+
+Let's explain the terminology. $\Mon$ is the $\infty$-category of monoids, while $\CMon=\Mon_{\E_{\infty}}$ is the $\infty$-category of commutative monoids obtained by enforcing commutativity at the highest level of homotopical coherence (this is captured by the $\E_{\infty}$).\footnote{To say a bit more, we may identify commutative monoids with $\E_{\infty}$-spaces and monoids with $\E_1$-spaces.} The superscript $\gp$ indicates looking at ``grouplike'' objects. Intuitively, May's theorem says that connective spectra look like grouplike $\E_{\infty}$-spaces by way of infinite loop spaces. 
+
+\begin{definition}
+The $\infty$-category $\CAlg:=\CAlg(\Sp)$ of $\E_{\infty}$-rings is the $\infty$-category of commutative algebra objects in $\Sp$ with respect to $\tensor$.
+\end{definition}
+
+For every $\E_{\infty}$-ring $R$ the set $\pi_0R$ is naturally a (classical) commutative ring. It follows that we may identify $\CAlg^{\heart}$ with the (nerve of the) classical $1$-category of commutative rings. The notion of an $\E_{\infty}$-ring is an $\infty$-categorical enhancement of the notion of an $\E_{\infty}$-ring spectrum, and is stronger than the notion of a homotopy commutative ring spectrum.
+
+\begin{remark}
+We start to get into SAG land by thinking about $\Mod_R:=\Mod_R(\Sp)$, where $R\in\CAlg^{\heart}$. We then have an identification between $\Mod_R^{\heart}$ and the classical $1$-category of (left) $R$-modules.\footnote{I'm not sure if taking general $R\in\CAlg$ yields an identification between $\Mod_R^{\heart}$ and the category of $\pi_0(R)$-modules.} Note that there are equivalences 
+$$\CAlg(\Mod_R)\simeq\CAlg_{R/}\qquad \Sp(\CAlg_R)\simeq\Mod_R.$$
+\end{remark}
+
+Let's now turn our attention to algebraic $K$-theory. Looking at just the affine case is a bit misleading, but we do so for ease of explanation. Classical algebraic $K$-theory for an affine scheme $X=\Spec A$ is entirely captured by the $K$-group $K_0(X)=K_0(A)$. The goal of this construction is to understand short exact sequences of vector bundles over $X$ (or more generally of coherent sheaves over $X$). Because vector bundles over $X$ are precisely finitely generated projective $A$-modules, every short exact sequence of vector bundles over $X$ splits and we may obtain $K_0(A)$ as the group completion of the monoid $((\Mod_A^{\proj})^{\iso},\oplus)$. The key to generalizing this to the $\infty$-categorical setting is to note that group completion is naturally left adjoint to $\Ab\inj\CMon^{\heart}$. Based on our earlier dictionary, we should therefore define ($\infty$-categorical) group completion to be the left adjoint of $\CMon^{\gp}\inj\CMon$. 
+\end{document}

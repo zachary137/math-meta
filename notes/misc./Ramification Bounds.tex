@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\newcommand{\D}{\mathcal{D}}
+
+\begin{document}
+Recall that our goal is to prove the following result.
+
+\begin{theorem}\label{split}
+Let $(E,p)$ be a pair as in the following table.\footnote{Note that $E/\Q$ is unramified at $p$ for every such pair since the relevant absolute discriminants are $d_{\Q(\sqrt{-1})}=-4$ and $d_{\Q(\sqrt{-3})}=-3$.}
+\begin{center}
+\begin{tabular}{c|c}
+$E$ & $p$ \\
+\hline
+$\Q$ & $3,5,7,11,13,17$ \\
+$\Q(\sqrt{-1})$ & $3,5,7$ \\
+$\Q(\sqrt{-3})$ & $5,7$
+\end{tabular}
+\end{center} 
+Let $\Gamma$ be a finite flat commutative group scheme over $\O_E$ of $p$-power order. Then, one of the following possibilities holds. 
+\begin{enum}{\arabic}
+\item $\Gamma$ is a constant group scheme.
+
+\item $\Gamma$ is a diagonalizable group scheme.
+
+\item $\Gamma$ splits as a direct product of a nontrivial constant group scheme and a nontrivial diagonalizable group scheme.
+\end{enum}
+\end{theorem}
+
+Our aim is essentially to prove a structure theorem for finite flat commutative group schemes ``with everywhere good reduction'' in the sense that they extend from the generic fiber to the ring of integers. Such objects will turn out to be ``low degree'' in a certain precise sense.\footnote{Generally speaking, ``low degree'' objects in an appropriate category with kernels and cokernels can be classified assuming we can identify all of the simple objects as well as all extensions of simple objects by simple objects.} 
+
+Before we get into the proof, we will for the sake of convenience introduce some notation and recall a few key facts. Given $A\in\CRing$ and $p$ prime, let $\mc{C}(A)$ denote the category of finite flat commutative group schemes over $A$, $\mc{C}_p(A)\subset\mc{C}(A)$ the full subcategory of objects with $p$-power order, and $\mc{C}[p^{\infty}](A)\subset\mc{C}(A)$ the full subcategory of objects killed by a $p$-power.\footnote{The notation for the last category is meant to evoke torsion.} Given $n\geq1$, we have $\mc{C}(p^n,A)\subset\mc{C}_p(A)$ and $\mc{C}[p^n](A)\subset\mc{C}[p^{\infty}](A)$ the ``$p^n$ parts'' defined as expected. What do we know about these categories?
+\begin{itemize}
+\item $\mc{C}(A)$ embeds fully faithfully into the abelian category of fppf sheaves over $\Spec A$, with objects in the former category realized as certain representable objects in the latter category.
+
+\item $\mc{C}(k)$ is an abelian category for $k$ a field and $\mc{C}_p(k),\mc{C}[p^{\infty}](k)$ are full abelian subcategories with abelian structure compatible with the abelian fppf sheaf structure. Moreover, if $k$ is algebraically closed of characteristic $p>0$, then the only simple objects in $\mc{C}(k)$ are $\mu_p$, $\un{\Z/p}$, $\alpha_p$, and $\un{\Z/\l}$ for $\l\neq p$ prime.
+
+\item $\mc{C}_p(A)\subset\mc{C}[p^{\infty}](A)$ since every object in $\mc{C}(A)$ is killed by its order. Similarly, $\mc{C}(p^n,A)\subset\mc{C}[p^n](A)$ for every $n\geq1$.
+
+\item Let $R$ be a mixed characteristic $(0,p)$ DVR with fraction field $K$ and (absolute) ramification index $v_K(p)<p-1$. Then, the generic fiber functors
+$$\bullet_K: \mc{C}_p(R)\to\mc{C}_p(K)$$
+and
+$$\bullet_K: \mc{C}[p^{\infty}](R)\to\mc{C}[p^{\infty}](K)$$
+are fully faithful with images stable under taking sub-objects and quotients.\footnote{This result of Raynaud is one key way in which ramification enters the picture for us.} The full faithfulness holds as well for the ``$p^n$ parts.''
+
+\item Let $R$ be a Henselian local ring. Then, certain nice extensions live in $\mc{C}(R)$ and have nice properties. In more detail,
+\begin{itemize}
+\item an extension of a connected object by a connected object is connected;
+
+\item an extension of an \'{e}tale object by an \'{e}tale object is \'{e}tale;
+
+\item an extension of a connected object by an \'{e}tale object is trivial (i.e., given by a direct product).
+\end{itemize}
+
+\item Let $R$ be a Noetherian domain with $p\in R$ and $p$-adic completion $\w{R}$. Associated to $G\in\mc{C}(R)$ are the group schemes $G_{\w{R}}\in\mc{C}(\w{R})$ and $G_{R[1/p]}\in\mc{C}(R[1/p])$ that ``see'' all of $G$ in a precise way.\footnote{Intuition for this comes from the fact that $R[1/p]$ ``knows about'' $R$ away from $p$ while $\w{R}$ ``knows about'' $R$ on an infinitesimal neighborhood of $p$, hence the two together should give a global picture.} More specifically, consider the category of triples $(G_1,G_2,\psi)$ with $G_1\in\mc{C}(\w{R})$, $G_2\in\mc{C}(R[1/p])$, and $\psi: (G_1)_{\w{R}[1/p]}\xto{\sim}(G_2)_{\w{R}[1/p]}$ using the identification $(\w{R})[1/p]\iso(R[1/p])_p^{\wedge}$.\footnote{Note the implicit identification between ``algebraic'' and ``topological'' $p$-adic completion when both make sense.} Then, the functor $G\mapsto(G_{\w{R}},G_{R[1/p]},\id)$ is an equivalence of categories from $\mc{C}(R)$ to this category of triples.
+\end{itemize}
+
+\begin{proof}[Proof of Theorem \ref{split}]
+To begin, the category $\mc{C}_p(\O_E)$ seems at first to be not so workable. The remedy for this is provided by the following result.
+
+\begin{proposition}\label{geometric_points}
+Let $F:=E(\Gamma(\ov{E}))$. 
+\begin{enum}{\alph}
+\item The extension $F/E$ is unramified.
+
+\item Given $\mf{p}$ a prime of $F$ lying above $p$, $\mc{C}_p(\O_E)$ embeds fully faithfully into $\mc{C}_p(\O_{E_{\mf{p}}})$.
+\end{enum}
+\end{proposition}
+
+The advantage of this result is twofold. First, since $F/E$ is unramified, $\mc{C}_p(\O_{E_{\mf{p}}})$ embeds fully faithfully via the generic fiber functor into the abelian category $\mc{C}_p(E_{\mf{p}})$ and so we may identify $\mc{C}_p(\O_{E_{\mf{p}}})$ as a full abelian subcategory. Second, since $\mc{C}_p(\O_E)$ embeds fully faithfully into $\mc{C}_p(\O_{E_{\mf{p}}})$, we may consider composition series for objects in $\mc{C}_p(\O_E)$ in a very hands-on way. To that end, let
+$$0=\Gamma_0\subset\Gamma_1\subset\cdots\subset\Gamma_{m-1}\subset\Gamma_m=\Gamma$$
+be a composition series for $\Gamma$. The idea is build $\Gamma$ up from successive quotients associated to this series, which we can explicitly describe by the following proposition.
+
+\begin{proposition}\label{building_blocks}
+\hfill
+\begin{enum}{\alph}
+\item The only simple objects in $\mc{C}_p(\O_E)$ are $\mu_p$ and $\un{\Z/p}$.
+
+\item $\Ext_{\O_E}^1(\un{\Z/p},\mu_p)=0$.
+
+\item More generally, $\Ext_{\O_E}^1(G_e,G_c)=0$ for $G_c,G_e\in\mc{C}_p(\O_E)$ with $G_e$ \'{e}tale and $G_c$ connected.
+\end{enum}
+\end{proposition}
+
+The complement to this is something we noted previously, namely that $\Ext_{\O_E}^1(\mu_p,\un{Z/p})=0$. This holds because... 
+
+Suppose there exists $0<i<m$ such that $\Gamma_i/\Gamma_{i-1}\iso\mu_p$ and $\Gamma_{i+1}/\Gamma_i\iso\un{\Z/p}$. The extension
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mu_p \arrow[r] & \Gamma_{i+1}/\Gamma_{i-1} \arrow[r] & \un{\Z/p} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is trivial and so we can find $\Gamma_i'\leq\Gamma_{i+1}$ such that $\Gamma_i'/\Gamma_{i-1}\iso\mu_p$ and $\Gamma_{i+1}/\Gamma_i'\iso\un{\Z/p}$. Replace $\Gamma_i$ in the composition series by $\Gamma_i'$. Repeating this process sufficiently many times, we may assume there exists $0<j<m$ such that 
+\begin{equation*}
+\Gamma_i/\Gamma_{i-1}\iso
+\begin{cases}
+\mu_p, & 0<i\leq j, \\
+\un{\Z/p}, & j<i\leq m.
+\end{cases}
+\end{equation*}
+It follows that $\Gamma/\Gamma_j$ is constant and $\Gamma_j$ is diagonalizable, and hence that there is a splitting $\Gamma\iso\Gamma_j\times\Gamma/\Gamma_j$ since $\Ext_{\O_E}^1(\Gamma/\Gamma_j,\Gamma_j)=0$.
+\end{proof}
+
+The key, then, is really Proposition \ref{building_blocks}. 
+
+\begin{proof}[Proof of Proposition \ref{building_blocks}]
+The idea is to induct on $|G_e||G_c|$, which must be a power of $p$. The base case is $|G_e|=p=|G_c|$, in which case we necessarily have $G_e,G_c$ simple and so $G_e\iso\un{\Z/p}$ and $G_c\iso\mu_p$ from which we get the desired result. Now consider the case $|G_e|>p$. Then, we can find $G_e'\leq G_e$ such that $G_e'\iso\un{\Z/p}$ and $G_e/G_e'$ is nontrivial. We have an exact sequence
+\begin{center}
+\begin{tikzcd}
+\Hom_{\O_E}(\Z/p,G_c) \arrow[r] & \Ext_{\O_E}^1(G_e/G_e',G_c) \arrow[r] & \Ext_{\O_E}^1(G_e,G_c) \arrow[r] & \Ext_{\O_E}^1(\un{\Z/p},G_c)
+\end{tikzcd}
+\end{center}
+The second and fourth terms both vanish by the inductive hypothesis. The first term vanishes since any homomorphism from an \'{e}tale group scheme to a connected group scheme factors through the reduction of the connected group scheme and so is trivial. It follows that $\Ext_{\O_E}^1(G_e,G_c)=0$ as desired. Similar reasoning applies to the case $|G_c|>p$.
+\begin{enum}{\alph}
+\item 
+
+\item 
+
+\item 
+\end{enum}
+\end{proof}
+
+\begin{proposition}
+Let $(E,p)$ be as in the table, $\Gamma\in\mc{C}[p]$, and $F:=E(\Gamma(\ov{E}))$. Then, ...
+\end{proposition}
+
+\begin{proof}
+By replacing $\Gamma$ by $\Gamma\times\mu_p$ if necessary, we may arrange that $\Gamma$ contains a closed subgroup isomorphic to $\mu_p$ and hence $E(\zeta_p)\subset F$. Furthermore, we may assume without loss of generality that $F/\Q$ is Galois.\footnote{If $E\neq\Q$ then $E/\Q$ is quadratic and so $\Gal(E/\Q)$ has generator $\sigma$ of order $2$. Replace $\Gamma$ by $\Gamma\times\sigma(\Gamma)$ if necessary.} Borrowing Oh's notation, let 
+\begin{align*}
+n&:=[F:\Q] \\
+n_0&:=[F:E] \\
+n_0'&:=[F:E(\zeta_p)] \\
+a&:=[E:\Q]\in\{1,2\},
+\end{align*}
+so that $n=an_0$ and $n_0=(p-1)n_0'$. We have the following.
+\begin{itemize}
+\item $F/E(\zeta_p)$ is unramified away from $p$.
+
+\item $E(\zeta_p)$ has class number $1$ and so is its own Hilbert class field -- i.e., the maximal unramified abelian extension of $E(\zeta_p)$ is trivial.
+
+\item $E/\Q$ is unramified at $p$. This is simply because
+\begin{equation*}
+\Delta_{E/\Q}=
+\begin{cases}
+1, & E=\Q, \\
+-4, & E=\Q(\sqrt{-1}), \\
+-3, & E=\Q(\sqrt{-3}).
+\end{cases}
+\end{equation*}
+\end{itemize}
+\end{proof}
+
+\begin{proposition}
+Let $k$ be an algebraically closed field of odd prime characteristic $p$, $K:=\Frac(W(k))$, and $\Gamma\in\mc{C}[p](W(k))$ containing a subgroup isomorphic to $\mu_p$. Fix an algebraic closure $\ov{K}$ and let $L:=K(\Gamma(\ov{K}))$. Then, one of the following holds.
+\begin{enum}{\arabic}
+\item $L/K$ is cyclic of degree $p-1$ and there exist $r,s\in\Z$ such that $\Gamma\iso\mu_p^s\times(\un{\Z/p})^r$
+
+\item $L/K$ has degree $p(p-1)$ and there exist $r,s\in\Z$ and a non-split short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mu_p^s \arrow[r] & \Gamma \arrow[r] & (\un{\Z/p})^r \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+
+\item $L/K$ is cyclic of degree $p^2-1$.
+
+\item $L/K$ has degree $\geq p^2(p-1)$.
+\end{enum}
+\end{proposition}
+
+What's the idea of the proof? Since $p$ is unramified in $W(k)$, the generic fiber functor $\mc{C}[p](W(k))\to\mc{C}[p](K)$ is fully faithful. At the same time, $G\mapsto G(\ov{K})$ is an equivalence of categories from $\mc{C}[p](K)$ to the category of finitely generated $\F_p[G_K]$-modules, for $G_K$ the absolute Galois group of $K$. Thus, we may think of $\Gamma$ as an object of the latter category and explicitly use the nice structure of this category to analyze Jordan-H\"{o}lder decompositions of $\Gamma$.
+\end{document}
+
+\section{Overview}
+Recall that we are interested in proving the following theorem.
+
+\begin{theorem}\label{no_ab_scheme}
+There does not exist an abelian scheme $\mc{A}$ over $\Z$.
+\end{theorem}
+
+Related to this is a result of a similar flavor.
+
+\begin{theorem}[Fontaine, 1981]\label{no_ab_var}
+There does not exist an abelian variety $A$ over $\Q$ with everywhere good reduction.\footnote{Recall that an abelian variety $A/\Q$ has good reduction at a prime $p$ if there exists an abelian scheme $\mc{A}/\Z_{(p)}$ such that $\mc{A}_{\Q}=A$ or, equivalently, an abelian scheme $\mc{A}/\Z_p$ such that $\mc{A}_{\Q_p}=A_{\Q_p}$.}
+\end{theorem}
+
+Are these two results equivalent? The answer, it turns out, is yes! Certainly Theorem \ref{no_ab_scheme} implies Theorem \ref{no_ab_var}, so we need to tackle the converse. So, suppose $A/\Q$ is an abelian variety with everywhere good reduction and hence admits a collection of models $\mc{A}_p/\Z_{(p)}$. One could try to glue together these models to get an abelian scheme over $\Z$, but it turns out that N\'{e}ron models allow us to avoid most such difficulties.
+
+\begin{definition}
+Let $R$ be a Dedekind domain with fraction field $K$ and $Y_K$ a smooth separated scheme over $K$. A \textbf{N\'{e}ron model} of $Y_K$ (over $R$) is a smooth separated scheme $Y_R$ over $R$ with generic fiber $Y_K$ universal in the sense that, given $X$ a smooth separated scheme over $R$, any $K$-morphism $X_K\to Y_K$ extends uniquely to an $R$-morphism $X\to Y_R$.
+\end{definition}
+
+\textbf{Facts}: 
+\begin{enum}{\arabic}
+\item If a N\'{e}ron model exists then it is unique up to unique isomorphism.
+
+\item If $Y_K$ is an abelian variety then \emph{the} N\'{e}ron model exists and is a commutative quasi-projective group scheme over $R$.
+\end{enum}
+
+Returning to our above setup, let $\mc{B}$ be the N\'{e}ron model of $A$ over $\Z$. To show $\mc{B}$ is an abelian scheme, we need only show it is proper since geometric connectivity of the fibers follows from the theory of formal functions. We do this by working locally. Each model $\mc{A}_p/\Z_{(p)}$ spreads out to an abelian scheme $\mc{A}_{U_p}$ on an open neighborhood $U_p$ of $(p)\in\Spec\Z$. It follows that $\mc{A}_{U_p}$ is a N\'{e}ron model of $A$ over $U_p$. At the same time, $\mc{B}_{U_p}$ is a N\'{e}ron model of $A$ over $U_p$ and so $\mc{B}_{U_p}$ is equal to $\mc{A}_{U_p}$ hence is proper.
+
+So, we are reduced to proving Theorem \ref{no_ab_var}. How will we do this? By paying really, really close attention to ramification. The fruit of our effort will be not just the desired result over $\Q$ but also over $\Q(\sqrt{d})$ for $d\in\{-1,-3,5\}$.\footnote{The case for $\Q(\sqrt{5})$ is more complicated than the rest and so we won't make mention of it here.} Keep in mind the following table.
+
+\begin{center}
+\begin{tabular}{c|c}
+$E$ & $p$ \\
+\hline
+$\Q$ & 3,5,7,11,13,17 \\
+$\Q(\sqrt{-1})$ & 3,5,7 \\
+$\Q(\sqrt{-3})$ & 5,7
+\end{tabular}
+\end{center} 
+
+The key to proving Theorem \ref{no_ab_var} is the following result.
+
+\begin{proof}[Proof of Theorem \ref{no_ab_var}]
+Let $(E,p)$ be a candidate pair as in the table. Assume for the sake of contradiction that there exists an abelian variety $A$ over $E$ with everywhere good reduction. By Theorem \ref{split}, each $A[p^n]$ splits as a direct product of constant and diagonalizable pieces. These splittings are compatible with one another, which implies that the $p$-divisible group $A(p)$ splits as a direct product of constant and diagonalizable pieces. We have $A(p)^{\et}\iso(\Q_p/\Z_p)^r$ and $A(p)^0\iso(\mu_{p^{\infty}})^s$. Dimensional considerations and good reduction at $p$ give that $r,s$ are both equal to the dimension $g\geq1$ of $A$. Hence,
+$$A[p^n]\iso(\mu_{p^n})^g\times(\un{\Z/p^n})^g$$
+and so 
+\begin{align*}
+|A(E)[p^n]|
+=|A[p^n](E)|
+=g(|\mu_{p^n}(E)|+|\un{\Z/p^n}(E)|)
+=g(|\mu_{p^n}(E)|+p^n).
+\end{align*}
+It follows that $A(E)$ has a primitive $p^n$-torsion point $x_n$ for every $n\geq1$.\footnote{The point $x_n$ is primitive in that it is not $p^{n-1}$-torsion.} Let $\mc{A}$ be the N\'{e}ron model of $A$ over $\O_E$ and $\mf{p}$ a prime of $E$ lying above $p$ with residue field $k$. The universal property of $\mc{A}$ yields a primitive $p^n$-torsion point $y_n\in\mc{A}(\O_E)$ which gives rise to a primitive $p^n$-torsion point $\ov{y}_n\in A_k(k)$. It follows that $A_k(k)$ has points of arbitrarily high primitive $p$-power torsion, which is impossible since $A_k(k)$ is finite.
+\end{proof}
+
+\section{The Local Picture}
+We now set about proving Theorem \ref{split}, starting with the local picture. Fix $K/\Q_p$ a finite extension, $\ov{K}$ a choice of algebraic closure, and $\Gamma$ a finite flat commutative group scheme over $\O_K$ killed by $p^n$ for some $n\geq1$ (note that $\Gamma$ is automatically affine). To $K$ we may associate a nonarchimedean valuation $v_K$ and a uniformizer $\pi_K$ as well as the absolute ramification index $e:=v_K(p)$. To $\Gamma$ we may associate the Galois field extension $L:=K(\Gamma(\ov{K}))$ of $K$ generated by the $\ov{K}$-points of $\Gamma$.\footnote{How is this extension defined? Suppose we have $X=\Spec B$ an affine finite flat $\O_K$-scheme. Then, $B_K$ is a finite \'{e}tale $K$-algebra hence looks like a finite product $E_1\times\cdots\times E_r$ of finite separable extensions of $K$ contained in $\ov{K}$. Define $K(X(\ov{K}))$ to be the compositum of $E_1,\ldots,E_r$.} This in turn has nonarchimedean valuation $v_L$ extending $v_K$ and (a choice of) uniformizer $\pi_L$ satisfying $\O_L=\O_K[\pi_L]$ and $v_L(\pi_L)=1/e_{L/K}$. 
+
+Since we will be working with ramification, we need to write down the appropriate ramification series. Let $G:=\Gal(L/K)$ for convenience. Define
+$$i_{L/K}: G\to\Z^{\geq0},\qquad \sigma\mapsto v_L(\sigma\pi_L-\pi_L).$$
+From this we can build a continuous piecewise linear function $\phi_{L/K}: \R^{\geq0}\to\R^{\geq0}$ via
+$$i\mapsto\sum_{\sigma\in G}\min\{i,i_{L/K}(\sigma)\},$$
+which in turn gives $u_{L/K}:=\phi_{L/K}\circ i_{L/K}: G\to\R^{\geq0}$. We then define 
+\begin{align*}
+i_{L/K}:=\max_{\sigma\neq\id}i_{L/K}(\sigma),\qquad
+u_{L/K}:=\max_{\sigma\neq\id}u_{L/K}(\sigma),
+\end{align*}
+giving ramification groups
+\begin{align*}
+G_{(i)}:=\{\sigma\in G : i_{L/K}(\sigma)\geq i\},\qquad
+G^{(u)}:=\{\sigma\in G : u_{L/K}(\sigma)\geq u\}.
+\end{align*}
+Here is our main result.
+
+\begin{theorem}
+Let $\D_{L/K}=\prod_{\sigma\neq\id}(\sigma\pi_L-\pi_L)$ be the (relative) different of $L/K$.
+\begin{enum}{\alph}
+\item $G^{(u)}=1$ for $u>e(n+1/(p-1))$.
+
+\item $v_L(\D_{L/K})<e(n+1/(p-1))$.
+\end{enum}
+\end{theorem}
+
+Expanding the definitions gives the following facts.
+\begin{itemize}
+\item $u_{L/K}=\phi_{L/K}(i_{L/K})$.
+
+\item $v_L(\D_{L/K})=u_{L/K}-i_{L/K}$.\footnote{This fact is not so surprising since $\D_{L/K}$ is supposed to capture all of the ramification of the extension $L/K$.}
+\end{itemize}
+
+Thus, to show (b) it suffices to show that $u_{L/K}\leq e(n+1/(p-1))$. Write $\Gamma=\Spec A$. The goal is to leverage the explicit classification of connected finite flat commutative group schemes over perfect fields. Suppose first that $\Omega_{A/\O_K}^1$ is a free $A/p^n$-module. Since the residue field $k$ of $K$ is perfect, $\Gamma_k=\Spec(A\tensor_{\O_K}k)$ splits as a direct product $\Gamma_k^{\et}\times\Gamma_k^0$. We know from previous work that 
+$$\Gamma_k^0\iso\Spec k[x_1,\ldots,x_r]/(x_1^{p^{e_1}},\ldots,x_r^{p^{e_r}}).$$
+We also have $\Gamma_k^{\et}\iso\Spec(k_1\times\cdots\times k_m)$ for $k_1,\ldots,k_m$ finite extensions of $k$. Each extension $k_i/k$ corresponds uniquely to an unramified extension $K_i/K$. We may in turn choose suitable lifts $f_1^{(i)},\ldots,f_r^{(i)}$ of $x_1^{p^{e_1}},\ldots,x_r^{p^{e_r}}$ for each $1\leq i\leq m$ such that $A\iso A_1\times\cdots\times A_m$ for 
+$$A_i:=\O_{K_i}\FPS{x_1^{(i)},\ldots,x_r^{(i)}}/(f_1^{(i)},\ldots,f_r^{(i)}).$$
+The key is then the following result.
+
+\begin{proposition}
+Let $A:=\O_K\FPS{f_1,\ldots,f_r}$ a finite flat $\O_K$-algebra. Suppose there exists nonzero $a\in\O_K$ annihilating $\Omega_{A/\O_K}^1$, so that $\Omega_{A/\O_K}^1$ is a flat $A/a$-module (hence free since $A$ is local). Letting $Y:=\Spec A$ and $K:=K(Y(\ov{K})))$, we have 
+$$u_{L/K}\leq v_K(a)+\df{v_K(p)}{p-1}.$$
+\end{proposition}
+
+Let $Y_i:=\Spec A_i$ and $L_i:=K_i(Y_i(\ov{K_i}))$ for $1\leq i\leq m$. Similarly, let $Y:=\Spec A$ and $L:=K(Y(\ov{K}))$. By assumption, $\Omega_{A/\O_K}^1$ is a free $A/p^n$-module. It follows that each $\Omega_{A_i/\O_{K_i}}^1$ is a free $A_i/p^n$-module and so the proposition gives 
+\begin{align*}
+u_{L_i/K_i}
+&\leq v_{K_i}(p^n)+\df{v_{K_i}(p)}{p-1} \\
+&=v_{K_i}(p)\paren{n+\df{1}{p-1}} \\
+&=e\paren{n+\df{1}{p-1}}
+\end{align*}
+where the last equality holds since $K_i/K$ is unramified. All that remains is to relate $u_{L/K}$ with all of the $u_{L_i/K_i}$. Presumably, we have 
+$$u_{L/K}\leq\max_{1\leq i\leq m}u_{L_i/K_i}.$$
+
+Now for the more general case. By a result of Raynaud we may embed $\Gamma$ into an abelian scheme $X$ over $\O_K$. Then, $X[p^n](\ov{K})$ contains $\Gamma(\ov{K})$ and so it suffices to work with $X[p^n]$. The short exact sequence 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & X{[}p^n{]} \arrow[r] & X \arrow[r, "{[}p^n{]}"] & X \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of \'{e}tale group schemes over $\O_K$ induces a short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Omega_{X/\O_K}^1 \arrow[r] & \Omega_{X/\O_K}^1 \arrow[r] & \Omega_{X{[}p^n{]}/\O_K}^1 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of $\O_K$-modules. Since $\Omega_{X/\O_K}^1$ is a free $\O_K$-module (as cotangent sheaves of group schemes are parallelizable), we conclude that $\Omega_{X[p^n]/\O_K}^1$ is a free $\O_K/p^n$-module and we may argue as in the previous case to get the desired result.
+
+\section{The Global Picture}
+Assuming the local result, how do we pass to the global setting? We must of course account for what happens at different primes. 
+
+\begin{theorem}
+Let $\l\in\{2,3,5,7,13\}$. Then, there does not exist a nontrivial abelian variety over $\Q$ with good reduction outside $\l$ and semi-stable reduction at $\l$.
+\end{theorem}

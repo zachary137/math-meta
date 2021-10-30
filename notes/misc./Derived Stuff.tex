@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\renewcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\I}{\mathcal{I}}
+\renewcommand{\P}{\mathcal{P}}
+
+\begin{document}
+\title{Derived Stuff}
+\author{Zachary Gardner}
+\date{}
+\maketitle
+
+When discussing (co-)chain complexes, the symbol $+$ indicates bounded below, the symbol $-$ indicates bounded above, and the symbol $b$ indicates bounded. The symbol $>0$ indicates a complex whose entries vanish for indices $\leq0$, with a similar convention for related symbols. Fix an abelian category $\A$. $\Ch(\A)$ denotes the category of (co)chain complexes on $\A$. $\C$ denotes an arbitrary category with the minimal amount of structure needed to make sense in context. Let $\I$ (resp., $\P$) denote the full subcategory of $\A$ consisting of injective (resp., projective) objects. We use $\sim$ for homotopy equivalence, $\iso$ for (especially canonical/natural) isomorphism, and $\simeq$ for other notions of (weak) equivalence.\footnote{Some care should be taken when comparing categories. There is a precise notion of isomorphism of categories, but what we really want in the practice is the notion of equivalence of categories.} Given $f: X\to Y$ a morphism in $\Ch(\A)$, we let $H(f)$ denote the induced morphism on cohomology. Let $\iota: \A\inj\Ch(\A)$ denote the fully faithful embedding that sends $A\in\A$ to the complex concentrated in degree $0$.
+
+[A] = Aluffi; [W] = Weibel
+
+Recall that a category $\A$ is abelian if
+\begin{itemize}
+\item $\A$ is preadditive -- i.e., enriched over $\Ab$;
+\item $\A$ has a zero object;
+\item $\A$ has binary (and thus finite) biproducts;
+\item $\A$ has all kernels and cokernels;
+\item all monomorphisms are normal -- i.e., obtained as the kernel of something; and
+\item all epimorphisms are conormal -- i.e., obtained as the cokernel of something.
+\end{itemize}
+
+The aim of these notes is to give an overview of derived categories. Our focus will be on constructing and describing the derived category $D(\A)$. The motivation behind derived categories comes from wanting to invert qis's and thereby obtain a more refined theory than that of the homotopy category $K(\A)$. Assuming $\A$ has enough injectives and letting $F: \A\to\B$ be a left exact functor between abelian categories, we have (right) derived functors $R^iF: \A\to\B$ obtained by injectively resolving objects in $\A$, applying $F$ to the resulting complex, and then taking cohomology. Assuming $\A$ has enough injectives, we will be able to adapt this procedure to construct $D(\A)$ in terms of (co-)chain complexes. $D(\A)$ will come with a fully faithful embedding $\A\inj D(\A)$ and $F$ as above will induce a functor $RF: D(\A)\to D(\B)$ such that $H^i(RF(A))=R^iF(A)$ for every $A\in\A$.
+
+Assume $\A$ has enough injectives. Given $A\in\A$ and an injective resolution $A\to I^{\bullet}$, $A$ and $I^{\bullet}$ are the same object in $D(\A)$ and so we should have $RF(A)=F(I^{\bullet})$. 
+
+\begin{lemma}[A, Lemma 5.1]
+Let $F: \Ch(\A)\to\C$ be an additive functor sending qis's to isomorphisms. Then, homotopic morphisms in $\Ch(\A)$ induce the same morphism in $\C$ under $F$. Stated another way, there is a unique factorization
+\begin{center}
+\begin{tikzcd}
+\Ch(\A) \arrow[r, "F"] \arrow[d] & \C \\
+K(\A) \arrow[ru, dotted, "\exists\;!"']
+\end{tikzcd}
+\end{center}
+\end{lemma}
+
+The same result applies with any desired boundedness assumptions.
+
+\begin{lemma}[A, Lemma 5.3]
+$K(\A)$ is an additive category.
+\end{lemma}
+
+Moreover, $K(\A)$ is a triangulated category but is not abelian.
+
+\begin{theorem}[A, Cor 5.10]
+Homotopy classes of qis's induce isomorphisms in $K^-(\P)$ and $K^+(\I)$.
+\end{theorem}
+
+Since homotopic morphisms in $\Ch(\A)$ induce the same morphism on cohomology, the notion of qis extends from $\Ch(\A)$ to $K(\A)$ and so the previous theorem says that qis's in $K^-(\P)$ and $K^+(\I)$ are ``already inverted.'' The following results help us prove the previous theorem and are useful to know in their own right.
+
+\begin{definition}
+$X\in\Ch(\A)$ is \textbf{split-exact} if $\id_X\sim0$.
+\end{definition}
+
+\begin{lemma}[A, Lemma 5.11]
+\hfill
+\begin{enum}{\alph}
+\item Let $P\in\Ch^{\leq0}(\P)$, $L\in\Ch(\A)$ such that $H^i(L)=0$ for $i>0$, and $f: P\to L$ such that $H(f)=0$. Then, $f\sim0$.
+
+\item Let $I\in\Ch^{\geq0}(\I)$, $L\in\Ch(\A)$ such that $H^i(L)=0$ for $i<0$, and $f: L\to I$ such that $H(f)=0$. Then, $f\sim0$.
+\end{enum}
+\end{lemma}
+
+\begin{lemma}[A, Cor 5.12]
+\hfill
+\begin{enum}{\alph}
+\item Let $P\in\Ch^-(\P)$ and $L\in\Ch(\A)$ exact. Then, $\Hom_{K(\A)}(P,L)=0$.
+
+\item Let $I\in\Ch^+(\I)$ and $L\in\Ch(\A)$ exact. Then, $\Hom_{K(\A)}(L,I)=0$.
+\end{enum}
+\end{lemma}
+
+[Compare and contrast this with Sam's notions of projectivity and injectivity for complexes.]
+
+\begin{lemma}[A, Cor 5.13]
+Let $P\in\Ch^-(\P)$ and $I\in\Ch^+(\I)$ exact. Then, $P\sim0$ and $I\sim0$.
+\end{lemma}
+
+The following result says that, under the appropriate assumptions, qis's are ``NZDs up homotopy.''
+
+\begin{lemma}[A, Lemma 5.14]
+Let $\rho: L\to M$ be a qis in $\Ch(\A)$.
+\begin{enum}{\alph}
+\item Let $P\in\Ch^-(\P)$ and $f: P\to L$ such that $\rho\circ f\sim0$. Then, $f\sim0$.
+
+\item Let $I\in\Ch^+(\I)$ and $g: M\to I$ such that $g\circ\rho\sim0$. Then, $g\sim0$.
+\end{enum}
+\end{lemma}
+
+\begin{proposition}[A, Prop 5.15]
+\hfill
+\begin{enum}{\alph}
+\item A qis to an element of $\Ch^-(\P)$ has a right homotopy inverse.
+\item A qis from an element of $\Ch^+(\I)$ has a left homotopy inverse.
+\end{enum}
+\end{proposition}
+
+\begin{lemma}[A, Lemma 6.3]
+Let $A\in\A$ and $M\in\Ch(\A)$ a resolution of $A$.
+\begin{enum}{\alph}
+\item Let $P\in\Ch^{\leq0}(\P)$ and $\phi: H^0(P)\to H^0(M)\iso A$. Then, there exists $f: P\to M$ unique up to homotopy equivalence such that $H^0(f)=\phi$.
+
+\item Let $I\in\Ch^{\geq0}(\I)$ and $\psi: A\iso H^0(M)\to H^0(I)$. Then, there exists $g: M\to I$ unique up to homotopy equivalence such that $H^0(g)=\psi$.
+\end{enum}
+\end{lemma}
+
+It follows that projective (resp., injective) resolutions of $A\in\A$ are initial (resp., final) in the category of homotopy classes of qis's with fixed target (resp., source) $\iota(A)$.
+
+\begin{corollary}
+Any two projective (resp., injective) resolutions of $A\in\A$ are homotopy equivalent.
+\end{corollary}
+
+\begin{lemma}[A, Prop 6.5]
+Let $A_0,A_1\in\A$ and $\phi\in\Hom_{\A}(A_0,A_1)$.
+\begin{enum}{\alph}
+\item Let $P_0\to A_0$ and $P_1\to A_1$ be projective resolutions. Then, $\phi$ is induced by some $f: P_0\to P_1$ unique up to homotopy equivalence.
+
+\item Let $A_0\to I_0$ and $A_1\to I_1$ be injective resolutions. Then, $\phi$ is induced by some $g: I_0\to I_1$ unique up to homotopy equivalence.
+\end{enum}
+\end{lemma}
+
+\begin{corollary}
+\hfill
+\begin{enum}{\alph}
+\item Suppose $\A$ has enough projectives. Then, projective resolution identifies $\A$ as a full subcategory of $K^-(\P)$.
+
+\item Suppose $\A$ has enough injectives. Then, injective resolution identifies $\A$ as a full subcategory of $K^+(\I)$.
+\end{enum}
+\end{corollary}
+
+\begin{theorem}[A, Thm 6.6]
+Suppose $\A$ has enough projectives and let $L\in\Ch^-(\A)$. 
+\begin{enum}{\alph}
+\item There exists $P\in\Ch^-(\P)$ unique up to homotopy equivalence such that $P$ is qis to $L$.
+
+\item Every morphism in $\Ch^-(\A)$ lifts uniquely to a corresponding morphism of projective resolutions in $K^-(\P)$.
+\end{enum}
+\end{theorem}
+
+We somewhat abusively refer to $P$ as a \textbf{projective resolution} of $L$, the abuse coming from the fact that we do not keep track of the qis $P\to L$. The previous lemma allows us to construct a projective resolution functor $\ms{P}: \Ch^-(\A)\to K^-(\P)$. Such a functor is not unique, but it is almost unique in a way that the following result makes precise.
+
+\begin{theorem}[A, Remark 6.8]
+Let $\ms{P},\ms{P}': \Ch^-(\A)\to K^-(\P)$ be projective resolution functors. Then, there exists a unique natural isomorphism $\ms{P}\Rightarrow\ms{P}'$.
+\end{theorem}
+
+The following says that $K^-(\P)$ solves the universal problem for the (bounded above) derived category $D^-(\A)$. 
+
+\begin{theorem}[A, Thm 6.9]
+Let $\ms{P}: \Ch^-(\A)\to K^-(\P)$ be a projective resolution functor. Then, $\ms{P}$ sends qis's to isomorphisms and, moreover, given any additive functor $F: \Ch^-(\A)\to\C$ sending qis's to isomorphisms, there exists a functor $\tilde{F}: K^-(\P)\to\C$ unique up to natural isomorphism such that the diagram
+\begin{center}
+\begin{tikzcd}
+\Ch^-(\A) \arrow[r, "F"] \arrow[d, "\ms{P}"] & \C \\
+K^-(\P) \arrow[ru, dotted, "\exists!\;\tilde{F}"']
+\end{tikzcd}
+\end{center}
+commutes up to natural isomorphism.
+\end{theorem}
+
+Dualizing the last few results allows us to construct an injective resolution functor $\ms{I}: \Ch^+(\A)\to K^+(\I)$ (under the assumption that $\A$ has enough injectives) and show that $K^+(\I)$ solves the universal problem for the (bounded below) derived category $D^+(\A)$. One would of course like to construct a more general derived category $D(\A)$ and relate $K^-(\P)$ and $K^+(\I)$ when $\A$ has both enough projectives and enough injectives.
+\end{document}
+
+Note that, for any diagram category $\mc{J}$, we have adjunctions $\colim_{\mc{J}}\dashv\Delta_{\mc{J}}\dashv\lim_{\mc{J}}$.
+
+Note: Categories of sheaves often have enough injectives but not enough projectives [example!]
+
+\begin{enum}{\alph}
+\item 
+
+\item 
+\end{enum}

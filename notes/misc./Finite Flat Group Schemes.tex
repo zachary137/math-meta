@@ -1,0 +1,374 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\newcommand{\ind}{\mathbbm{1}}
+
+\DeclareMathOperator{\fppf}{fppf}
+
+\begin{document}
+\title{Finite Flat Group Schemes}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner\@ bc.edu}}
+\maketitle
+
+References:
+\begin{itemize}
+\item ``There is no abelian scheme over $\Z$'' by Gyujin Oh = [Oh]
+\item ``A course on finite flat group schemes and $p$-divisible groups'' by Jakob Stix = [Stix]
+\item Hard Arithmetic blog post ``$p$-divisible groups, formal groups, and the Serre-Tate theorem'' by Alex Youcis = [Youcis]
+\end{itemize}
+
+\section{Introduction}
+Let $S$ be a scheme. An \textbf{$S$-group scheme} is a group object in $\Sch_S$ -- i.e., an $S$-scheme $G$ together with morphisms $m: G\times_SG\to G$, $i: G\to G$, and $e: S\to G$ such that the following diagrams commute:
+\begin{enum}{\roman}
+\item[] (Associativity)
+
+\begin{center}
+\begin{tikzcd}
+(G\times_SG)\times_SG \arrow[rr, "\iso"] \arrow[rd, "m\times\id_G"'] & & G\times_S(G\times_SG) \arrow[ld, "\id_G\times m"] \\
+& G\times_SG \arrow[d, "m"] & \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Identity)
+
+\begin{center}
+\begin{tikzcd}
+G\times_SS \arrow[r, "\id_G\times e"] \arrow[rd, "\pr_1"'] & G\times_SG \arrow[d, "m"] & S\times_SG \arrow[l, "e\times\id_G"'] \arrow[ld, "\pr_2"] \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Inverses)
+
+\begin{center}
+\begin{tikzcd}
+G \arrow[d] \arrow[r, "\Delta"] & G\times_SG \arrow[dd, bend left, "i\times\id_G"] \arrow[dd, bend right, "\id_G\times i"'] \\
+S \arrow[d, "e"'] & \\
+G & G\times_SG \arrow[l, "m"]
+\end{tikzcd}
+\end{center}
+\end{enum}
+In the above, $\Delta: G\to G\times_SG$ denotes the (canonical) diagonal morphism and $\pr_i$ denotes a (canonical) projection morphism. By Yoneda's Lemma, this is the same data as a group structure on the functor-of-points $h^G:=\Hom_{\Sch_S}(\cdot,G)$ of $G$ -- i.e., for every $S$-scheme $T$ a group structure on $G(T)$ that is functorial in $T$ (note that this is entirely determined by affine $T$). Equivalently, there is a factorization
+\begin{center}
+\begin{tikzcd}
+\Sch_S^{\op} \arrow[rr, "h^G"] \arrow[rd, dashed] & & \Set \\
+& \Grp \arrow[ru] &
+\end{tikzcd}
+\end{center}
+where the solid unmarked arrow is forgetful. We say that $G$ is \textbf{commutative} if there is a factorization
+\begin{center}
+\begin{tikzcd}
+\Sch_S^{\op} \arrow[rr, "h^G"] \arrow[rd, dashed] & & \Set \\
+& \Ab \arrow[ru] &
+\end{tikzcd}
+\end{center}
+which is equivalent to requiring that $G$ is pointwise invariant under the action of conjugation. In the case that $S=\Spec R$ and $G=\Spec A$, $A$ naturally has the structure of a \textbf{Hopf algebra} over $R$ -- i.e., $A$ is an $R$-algebra with compatible $R$-coalgebra structure arising from the group scheme structure of $G$. Hopf algebras arise often in representation theory and algebraic topology, and will play an important structural role in the sequel. The multiplication on $A$ is usually denoted by $\mu: A\tensor_RA\to A$ and the unit by $\eta: R\to A$. The comultiplication on $A$ is usually denoted by $\Delta: A\to A\tensor_RA$, the counit by $\eps: A\to R$, and the antipode by $S: A\to A$. Exhibiting all of this information is clearly equivalent to exhibiting an affine group scheme over $R$.
+
+\begin{remark}
+Much of the structure of $A$ is encoded by its \textbf{augmentation ideal} $I:=\ker(\eps: A\to R)$. Indeed, the short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & I \arrow[r] & A \arrow[r] & R \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of $R$-modules is canonically split by $\eta: R\to A$ and so $A\iso I\oplus R$. It follows that $\Omega_{A/R}^1\iso I/I^2\tensor_RA$ with universal $R$-derivation $(\pi\circ\id_A)\circ\Delta: A\to I/I^2\tensor_RA$ for $\pi$ the composite $A\to I\surj I/I^2$.
+\end{remark}
+
+\begin{example}
+The following are important examples of $S$-group schemes. We assume for simplicity that $S=\Spec R$ is affine.\footnote{Most of the constructions here can be generalized to work for any $S$ using the relative spectrum $\un{\Spec}_S=\un{\Spec}$.}
+\begin{enum}{\arabic}
+\item The \textbf{additive group scheme} $\G_{a,S}=\G_{a,R}=\G_a$ has functor-of-points 
+$$\G_a(T):=\O_T(T)=\Gamma(T,\O_T)$$ 
+and is represented by $\Spec R[t]$. The underlying Hopf algebra structure is given by 
+\begin{align*}
+\Delta: R[t]\to R[t]\tensor_RR[t], \qquad &t\mapsto t\tensor1+1\tensor t \\
+\eps: R[t]\to R, \qquad &t\mapsto0 \\
+S: R[t]\to R[t], \qquad &t\mapsto-t
+\end{align*}
+
+\item The \textbf{multiplicative group scheme} $\G_{m,S}=\G_{m,R}=\G_m$ has functor-of-points 
+$$\G_m(T):=\O_T(T)^{\times}=\Gamma(T,\O_T^{\times})$$ 
+and is represented by $\Spec R[t^{\pm1}]$. The underlying Hopf algebra structure is given by 
+\begin{align*}
+\Delta: R[t^{\pm1}]\to R[t^{\pm1}]\tensor_RR[t^{\pm1}], \qquad &t\mapsto t\tensor t \\
+\eps: R[t^{\pm1}]\to R, \qquad &t\mapsto1 \\
+S: R[t^{\pm1}]\to R[t^{\pm1}], \qquad &t\mapsto t^{-1}
+\end{align*}
+
+\item The \textbf{group scheme of $n$th roots of unity} $\mu_{n,S}=\mu_n$ has functor-of-points 
+$$\mu_n(T):=\{f\in\G_m(T) : f^n=1\}$$ 
+and is represented by $\Spec R[t]/(t^n-1)$. Its behavior depends heavily on the characteristic of $R$, as well as whether $R$ contains the $n$th roots of unity. The underlying Hopf algebra structure is induced by that on $\G_m$.
+
+\item Let $\Gamma\in\Ab$. The \textbf{diagonalizable group scheme} $D(\Gamma)$ associated to $\Gamma$ has functor-of-points
+$$D(\Gamma)(T):=\Hom_{\Ab}(\Gamma,\Gamma(T,\O_T^{\times}))$$
+and is represented by $\Spec R[\Gamma]$ for $R[\Gamma]$ the group algebra of $\Gamma$ over $R$. Note that $D(\Z)\iso\G_m$ and $D(\Z/n)\iso\mu_n$. The underlying Hopf algebra structure is given by 
+\begin{align*}
+\Delta: R[\Gamma]\to R[\Gamma]\tensor_RR[\Gamma], \qquad &g\mapsto g\tensor1+1\tensor g \\
+\eps: R[\Gamma]\to R, \qquad &g\mapsto0 \\
+S: R[\Gamma]\to R[\Gamma], \qquad &g\mapsto-g
+\end{align*}
+This Hopf algebra is always commutative and cocommutative, with commutativity equivalent to $\Gamma$ being abelian.
+
+\item Let $\Gamma$ be a finite group. The \textbf{constant group scheme} associated to $\Gamma$ is $\un{\Gamma}=\Gamma_R:=\Spec R^{\Gamma}$, where $R^{\Gamma}$ is the product of $|\Gamma|$ copies of $R$ whose algebra structure comes from pointwise operations, characterized by the fact that 
+$$\Hom_{\Alg_R}(R^{\Gamma},T)\iso\Gamma$$
+for $T\in\Alg_R$ connected (i.e., $0,1$ are the only idempotents). More succinctly, for general $T\in\Alg_R$, $\un{\Gamma}(T)$ records the decompositions of $1_T$ into mutually orthogonal idempotents (with group operation given by convolution). The underlying Hopf algebra structure is given by 
+\begin{align*}
+\Delta: R^{\Gamma}\to R^{\Gamma}\tensor_RR^{\Gamma}, \qquad &f\mapsto((x,y)\mapsto f(xy)) \\
+\eps: R^{\Gamma}\to R, \qquad &f\mapsto f(1_{\Gamma}) \\
+S: R^{\Gamma}\to R^{\Gamma}, \qquad &f\mapsto(x\mapsto f(x^{-1}))
+\end{align*}
+where he have identified $R^{\Gamma}$ as a set with $\Maps(\Gamma,R)$.\footnote{We may then naturally identify $R^{\Gamma}\tensor_RR^{\Gamma}$ and $\Maps(\Gamma\times\Gamma,R)$ as sets.} Note that the indicator functions $\ind_g$ for $g\in\Gamma$ form an $R$-module basis for $R^{\Gamma}$ under this identification. This Hopf algebra is always commutative and is cocommutative if and only if $\Gamma$ is abelian.
+\end{enum}
+\end{example}
+
+A \textbf{morphism of $S$-group schemes}\footnote{Common alternative names include $S$-group homomorphism or simply $S$-homomorphism.} is an $S$-morphism $\phi: G\to H$ such that the diagram
+\begin{center}
+\begin{tikzcd}
+G\times_SG \arrow[r, "\phi\times\phi"] \arrow[d, "m_G"] & H\times_SH \arrow[d, "m_H"] \\
+G \arrow[r, "\phi"] & H
+\end{tikzcd}
+\end{center}
+commutes. In this way, $S$-group schemes form their own (non-full) subcategory of $\Sch_S$. As with usual group homomorphisms, we deduce that $\phi\circ e_G=e_H$ and $\phi\circ i_G=i_H\circ\phi$. Similarly, $G$ is commutative if and only if inversion $i: G\to G$ is a morphism of $S$-group schemes. Given $\phi: G\to H$ a morphism of $S$-group schemes, $\ker\phi$ is described as a space via
+$$(\ker\phi)(T)=\ker(\phi(T): G(T)\to H(T)),$$
+where $T\in\Sch_S$. This space is represented by the $S$-scheme fiber product of 
+\begin{center}
+\begin{tikzcd}
+& S \arrow[d, "e_H"] \\
+G \arrow[r, "\phi"] & H
+\end{tikzcd}
+\end{center}
+which is a locally closed subscheme of $G$. It follows that $\ker\phi$ is a well-defined $S$-group scheme. 
+
+\begin{example}
+Let $R\in\CRing$ have characteristic $p>0$ and let $\phi: \G_{a,R}\to\G_{a,R}$ be induced by $(\cdot)^p$ on $R[t]$. Then, $\alpha_{p,R}=\alpha_p:=\ker\phi$ is given by $\Spec R[t]/(t^p)$. The underlying Hopf algebra structure is induced by that on $\G_{a,R}$.
+\end{example}
+
+The situation for cokernels is much more delicate since the na\"{i}ve approach does not in general yield something representable. The classic example is $(\cdot)^n: \G_m\to\G_m$. Concretely, consider $(\cdot)^2: \G_{m,\Q}\to\G_{m,\Q}$ and let $C$ be its na\"{i}ve cokernel. If $C$ were representable then the map $\Q\inj\Q(\sqrt{3})$ should induce $C(\Q)\inj C(\Q(\sqrt{3}))$. This is not the case, however, since $3$ represents a nontrivial class in $\Q^{\times}/(\Q^{\times})^2$ but not in $\Q(\sqrt{3})^{\times}/(\Q(\sqrt{3})^{\times})^2$. This difficulty can be remedied somewhat by looking at finite flat group schemes.
+
+\section{Finite Flat Group Schemes}
+Given a locally Noetherian scheme $S$, $f: G\to S$ is finite flat if and only if $f_*\O_G$ is a finite locally free $O_S$-module.\footnote{The locally Noetherian condition ensures that the structure morphism for $G$ is automatically locally of finite presentation. Note that many sources require finite flat group schemes to have constant rank.} It follows that $G$ has a locally constant rank function that is constant under suitable circumstances -- e.g., if $S$ is connected.\footnote{If $S=\Spec k$ for $k$ a field then the rank is $\dim_kH^0(G,\O_G)$.} If $G$ is in addition a commutative group scheme then its \textbf{Cartier dual} is described as a space via
+$$G^D(T):=\Hom_{\Sch_T}(G_T,\G_{m,T})$$
+for $T\in\Sch_S$. Under the assumption that $S=\Spec R$ and $G=\Spec A$, we claim that $G^D$ is represented by $\Spec A^{\vee}$ for $A^{\vee}:=\Hom_R(A,R)$ the $R$-linear dual of $A$. Under the identifications $R^{\vee}\iso R$ and $A^{\vee}\tensor_RA^{\vee}\iso(A\tensor_RA)^{\vee}$, $A^{\vee}$ has a Hopf algebra structure with $(\mu_{A^{\vee}},\eta_{A^{\vee}},\Delta_{A^{\vee}},\eps_{A^{\vee}},S_{A^{\vee}})$ dual to $(\Delta_A,\eps_A,\mu_A,\eta_A,S_A)$. This algebra is a finite flat Hopf $R$-algebra just like $A$, which is always cocommutative and is commutative precisely when $A$ is cocommutative or, equivalently, $G$ is commutative. It is clear that $A$ is canonically isomorphic to its double dual and thus, assuming representability, that taking the Cartier dual yields a contravariant involutary autoequivalence on the category of commutative finite flat affine group schemes over $R$.\footnote{This may involve flatness in an essential way, to ensure that we do not ``lose'' any information in the process of dualizing.}
+
+Let's return to the representability claim, which amounts to the existence of a natural isomorphism 
+$$\Hom_{\Alg_R}(A^{\vee},T)\iso\Hom_{\Alg_T}(T[t^{\pm1}],A\tensor_RT)$$ 
+functorial in $T\in\Alg_R$. We could construct this isomorphism explicitly by hand but a slicker approach is to consider the $R$-algebra morphism $R[t^{\pm1}]\to A^{\vee}\tensor_RA$ given by $t\mapsto\id_A$ under the identification $\End_R(A)\iso A^{\vee}\tensor_RA$, which yields a ``perfect'' pairing $G\times\Spec A^{\vee}\to\G_m$.\footnote{The isomorphism $\End_R(A)\iso A^{\vee}\tensor_RA$ can be checked locally, which is good since $A$ is locally free.}
+
+\begin{example}
+\hfill
+\begin{enum}{\arabic}
+\item Let $\Gamma\in\Ab$ be finite. Then, $D(\Gamma)$ and $\un{\Gamma}$ are Cartier dual. As an exercise, try working out the pairing $D(\Gamma)\times\un{\Gamma}\to\G_m$.
+
+\item Let $R\in\CRing$ with characteristic $p>0$. Then, $\alpha_p$ is its own Cartier dual. In this case, the Cartier duality pairing $\alpha_p\times\alpha_p\to\G_m$ is induced by the truncated exponential
+$$R[t^{\pm1}]\to R[x]/(x^p)\tensor_RR[y]/(y^p),\qquad t\mapsto\exp(\ov{x}\tensor\ov{y}):=\sum_{k=0}^{p-1}\df{1}{k!}(\ov{x}^k\tensor\ov{y}^k).$$
+Be warned that the related schemes $\alpha_{p^n}$ for $n\geq2$ are not Cartier self-dual!
+\end{enum}
+\end{example}
+
+The following is a useful structural result for commutative finite flat group schemes. Note that this result must be somewhat deep since it is not known to hold in general in the non-commutative case.
+
+\begin{theorem}[Deligne]
+Let $G$ be a commutative finite flat group scheme of constant rank $n$ over a Noetherian ring $R$. Then, the ``order kills the group'' in the sense that there is a factorization
+\begin{center}
+\begin{tikzcd}
+G \arrow[r, "{[}n{]}"] \arrow[d, dotted, "\exists!"'] & G \\
+\Spec R \arrow[ru, "e"']
+\end{tikzcd}
+\end{center}
+\end{theorem}
+
+Of course, this theorem readily generalizes to commutative finite flat group schemes defined over any locally Noetherian base.
+
+\begin{proof}
+See [Oh, Theorem 1.2.1] for a local proof using Cartier duality and [Stix, Theorem 3.3.6] for a global proof using norms and traces.
+\begin{comment}
+Using the flatness of $A$ over $R$, we may assume without loss of generality that $R$ is local and so $A\iso R^n$ as $R$-algebras.\footnote{We could also use the formalism of norms and traces to handle the global case.} Using compatibility under base change, it suffices to show that $\lambda^n=1$ given $\lambda\in G(R)$. Such $\lambda$ may be described as the units of $A^{\vee}$ such that $\Delta_{A^{\vee}}(\lambda)=\lambda\tensor\lambda$ or, equivalently, as the $R$-linear maps $A\to R$ that are invertible and multiplicative. It follows that right multiplication by $\lambda$ induces an $R$-module automorphism of $A^{\vee}$. Since $A$ is free of finite rank, we may identify $A^{\vee}$ with $A$ and obtain an $R$-module automorphism $\tau_{\lambda}$ of $A$. This in turn induces an $R$-module automorphism $\tau:=\id_{A^{\vee}}\tensor\tau_{\lambda}$ of $A^{\vee}\tensor_RA$ which is also an $A$-module automorphism for the natural (free of rank $2$) $A$-module structure. We thus obtain a map 
+$$\det_A: \End_A(\End_R(A))\iso\End_A(A^{\vee}\tensor_RA)\to A.$$ 
+Since $\tau_{\lambda}\in\Aut_R(A)$, we have $1=\det_A(\id_A)=\det_A(\tau(\id_A))$. Thinking of $\det_A(\tau(\id_A))$ as an element of $A^{\vee}$ using the above identification, we have $\det_A(\tau(\id_A))=\lambda^n$ and so $\lambda^n=1$.
+\end{comment}
+\end{proof}
+
+\begin{corollary}
+Let $G$ be a commutative finite flat group scheme of constant rank $n$ over a locally Noetherian base $S$. Suppose that $n$ is invertible in $S$ -- i.e., $n\in\Gamma(S,\O_S^{\times})$. Then, $G/S$ is \'{e}tale. In particular, if $S=\Spec k$ for $k$ a field of characteristic $0$ then $G/k$ is \'{e}tale (this is Cartier's theorem).
+\end{corollary}
+
+\begin{proof}
+Since $G/S$ is flat, we need only check $\Omega_{G/S}^1=0$.\footnote{This uses the fact that the structure morphism for $G/S$ is automatically locally of finite presentation. A reference for this is [Stacks, Tag 02GU].} By the above theorem, we may factor $[n]: G\to G$ as a composition $G\to S\xto{e}G$. Thus, the induced map $[n]^*: \Omega_{G/S}^1\to\Omega_{G/S}^1$ factors through $\Omega_{S/S}^1=0$ hence vanishes. At the same time, $[n]^*$ is multiplication by $n$ on the level of stalks and so is an isomorphism.
+\end{proof}
+
+An alternative proof of this fact comes from [Stix, Proposition 8.2.41], which asserts that, for $G=\Spec A$ a commutative finite flat group scheme over a field $k$, there is a $k$-vector space isomorphism $T_eG\iso\Hom(G^D,\G_a)$ for $\Hom(G^D,\G_a)$ equipped with the $k$-vector space structure induced by the identification $k\iso\un{\End}(\G_a)(k)$. By passing to geometric fibers, we may assume that $G$ as in the theorem is defined over an algebraically closed field $k$ with $n\in k^{\times}$. Any $\phi\in\Hom(G^D,\G_a)$ has image torsion of rank dividing $n$. At the same time, the endomorphism ring $k$ of $\G_a$ has no nontrivial $n$-torsion by assumption.\footnote{What precisely Stix means by endomorphism ring here is not entirely clear to me.} Thus, $\phi=0$ and it follows that $T_eG=0$ hence $\Omega_{G/k}^1=0$.
+
+We will see that most of the structure of finite flat group schemes comes from understanding those that are connected and those that are \'{e}tale. Over a field $k$ connectedness should be viewed as a local condition. Indeed, if we write $G=\Spec A$ then $A$ is a finite $k$-module hence Artinian and so decomposes as a product of local Artinian $k$-algebras. It follows that $G$ is the disjoint union of the spectra of these algebras. 
+
+If $k$ is in addition perfect then we see that \'{e}tale and reduced are the same (we must replace reduced by geometrically reduced for general $k$). Indeed, since $k$ is perfect we have that $G$ is reduced if and only if $G_{\ov{k}}$ is reduced. If $G_{\ov{k}}$ is reduced then we have some regular nonempty open $U\subset G_{\ov{k}}$ and we may use the group structure to move this open around and conclude that $G_{\ov{k}}$ is regular at all closed points hence regular. By flatness $G$ is then smooth and thus \'{e}tale since $G\to\Spec k$ is finite of relative dimension $0$. 
+
+\begin{comment}
+\begin{theorem}[Cartier]
+Let $G=\Spec A$ be a finite (flat) $k$-group scheme for $k$ a field of characteristic $0$.\footnote{Flatness appears in parentheses here since every scheme over a field is flat.} Then, $G$ is \'{e}tale.\footnote{A similar theorem of Cartier-Oort says that an affine finite type $k$-group scheme for $k$ a field of characteristic $0$ is automatically reduced hence smooth by generic smoothness and homogeneity.}
+\end{theorem}
+
+\begin{proof}
+The key is to show that $\Omega_{A/k}^1=0$. Let $I:=\ker(\eps_A: A\to k)$ be the augmentation ideal, which induces a splitting $A=k\oplus I$ and thus an identification $\Omega_{A/k}^1\iso A\tensor_kI/I^2$. Let $J:=\bigcap_{n\geq0}I^n$, which is nilpotent since $A$ is finite over the Artinian $k$. In his notes, Gyujin Oh argues that $A/J$ appears as a direct factor of $A$ and, in turn, $\Omega_{(A/J)/k}^1$ appears as a direct factor of $\Omega_{A/k}^1$. Let $x_1,\ldots,x_n$ be a $k$-basis for $I/I^2$. Then, $\Omega_{A/k}^1\iso Ax_1\oplus\cdots\oplus Ax_n$ and, in turn, $\Omega_{(A/J)/k}^1\iso(A/J)x_1\oplus\cdots\oplus(A/J)x_n$. At the same time, $A/J$ is some quotient of a polynomial ring over $k$ in $n$ generators and so $\Omega_{(A/J)/k}^1$ is a quotient of $(A/J)x_1\oplus\cdots\oplus(A/J)x_n$ by relations corresponding to the differentials of some polynomials. These differentials must then vanish, forcing the polynomials themselves to vanish (since $k$ has characteristic $0$) and giving that $A/J$ is a free polynomial algebra over $k$ in $n$ generators. Since $A/J$ is finite over $k$, this forces $n=0$ and so $I/I^2=0$. Hence, $\Omega_{A/k}^1=0$.
+\end{proof}
+\end{comment}
+
+\section{Quotients, Cokernels, and Exact Sequences}
+One setting in which finite flat group schemes are very nicely behaved is the \'{e}tale case. For example, if $R\in\CRing$ is connected Noetherian then the category of finite commutative \'{e}tale $R$-group schemes is equivalent to the category of finite abelian groups with continuous $\pi_1^{\et}(\Spec R,\ov{s})$-action (for $\ov{s}$ some geometric point of $\Spec R$), hence is abelian. 
+
+In the case that $(R,\m,k)$ is Henselian local we can be a bit more explicit. To $G$ an \'{e}tale $R$-group scheme we may associate the $G_k$-module $G(R^{\unr})$ for $R^{\unr}$ defined to be the integral closure of $R$ in $K^{\unr}$ for $K:=\Frac(R)$ (note that $R^{\unr}$ carries a natural action by $G_k$). We thus see, for example, that the category of finite \'{e}tale $\Z_p$-group schemes is equivalent to the category of finite continuous $\w{\Z}$-modules. The underlying isomorpism $\pi_1^{\et}(\Spec R)\iso G_k$ arises from the equivalence of categories $\FEt_R\to\FEt_k$ given by the special fiber functor, whose quasi-inverse we may construct explicitly using Witt vectors. This is a generalization of the familiar statement that unramified extensions of $\Q_p$ correspond to extensions of $\F_p$.
+
+\begin{remark}
+That Henselian local rings appear here should not be surprising. Indeed, the fact that we have an equivalence of categories $\FEt_R\to{\sim}\FEt_k$ may be viewed as a geometric characterization of what it means for $(R,\m,k)$ local to be Henselian.
+\end{remark}
+
+In more general settings it is natural to ask when quotients and cokernels exist. This merits a definition.
+
+\begin{definition}
+Let $S\in\Sch$ and $G,X\in\Sch_S$ with $G$ a group scheme. A \textbf{right group action} of $G$ on $X$ is an $S$-scheme morphism $\phi: X\times_SG\to X$ inducing right group actions on $T$-points for every $T\in\Sch_S$. The action $\phi$ is \textbf{strictly free} if $(\id_X,\phi): X\times_SG\to X\times_SX$ is a closed immersion.
+
+Given a right group action $\phi$ of $G$ on $X$, a morphism $f: X\to Y$ is \textbf{constant on orbits} if $f\circ\phi=f\circ\pr_1$ -- i.e., $f(xg)=f(x)$ for every $T\in\Sch_S$, $x\in X(T)$, and $g\in G(T)$. Such morphisms are important since they allow us to categorically describe the quotient $X/G$. Namely, the quotient $q: X\to X/G$ (if it exists) is the initial (hence unique up to unique isomorphism) object in the category of $S$-morphisms $X\to Z$ constant on orbits.
+\end{definition}
+
+\begin{theorem}[Grothendieck]
+Let $S\in\Sch$ be locally Noetherian, $X\in\Sch_S$ finite type, and $G\in\Sch_S$ a finite flat group scheme of constant rank with a strictly free action on $X$ such that every $G$-orbit of a closed point is contained in an affine open set.\footnote{This occurs, for example, when $G=\Spec k$ for $k$ an infinite field and $X$ is a quasiprojective variety.} Then, $q: X\to X/G$ exists and satisfies the following properties.
+\begin{enum}{\alph}
+\item $q$ is finite flat with $\deg q=\rank G$.
+\item Given $T\in\Sch_S$, there is a natural injection $X(T)/G(T)\inj(X/G)(T)$.
+\item Suppose $S=\Spec R,G=\Spec A,X=\Spec B$. Then, $X/G=\Spec B_0$ for $B_0$ the equalizer of the induced maps $\widetilde{\pr}_1,\widetilde{\phi}: B\to B\tensor_RA$.
+\end{enum}
+\end{theorem}
+
+The quotient $q: X\to X/G$ is built via a faithfully flat descent procedure, using the (scheme theoretic) equivalence relation $\mc{R}\subset X\times_SX$ induced by the group action.
+
+\begin{remark}
+All of this is reminiscent of when a Lie group $G$ acts on a smooth manifold $X$. To recall, let $\phi$ be a right group action of $G$ on $X$ that is smooth, free (i.e., the stabilizer of every point is trivial), and proper (i.e., the obvious map $X\times G\to X\times X$ is topologically proper). Then, $X/G$ admits a unique smooth structure such that the canonical map $X\to X/G$ is a smooth submersion. Note, moreover, that the map $X\to X/G$ is a covering space projection if and only if $\phi$ is properly discontinuous (i.e., every point of $X$ has an open neighborhood disjoint from its conjugate under any non-identity element of $G$).
+\end{remark}
+
+\begin{corollary}
+Let $R$ be a Noetherian ring, $G=\Spec A$ an affine $R$-group scheme, and $H\normal G$ a finite flat closed normal $R$-subgroup scheme. Then, $G\to G/H$ exists and is finite faithfully flat, $G/H$ is affine, and $G/H$ is finite (resp., finite flat) if $G$ is finite (resp., finite flat).
+\end{corollary}
+
+In this case, $H=\Spec A/I$ acts on $\Spec A$ via right multiplication and $\widetilde{\phi}$ is given explicitly by the composition $(\id_A\tensor\pi)\circ\Delta_A$ for $\pi: A\surj A/I$. The map $\widetilde{\pr}_1: A\to A\tensor_RA/I$ is given explicitly by $x\mapsto x\tensor(1\bmod{I})$, hence $B_0$ as above is given by $\{x\in A : (\id_A\tensor\pi)(\Delta_A(x))=x\tensor(1\bmod{I})\}$.
+
+\begin{corollary}
+Given a field $k$, the category of commutative finite flat $k$-group schemes is abelian.
+\end{corollary}
+
+\begin{proof}
+Let $\mc{A}$ denote the category in the claim and consider $\phi\in\Hom_{\mc{A}}(G,H)$. Then, $\ker\phi$ as defined in the category of all $k$-group schemes fits into a Cartesian square
+\begin{center}
+\begin{tikzcd}
+\ker\phi \arrow[r] \arrow[d] & \Spec k \arrow[d, "e_H"] \\
+G \arrow[r, "\phi"'] & H
+\end{tikzcd}
+\end{center}
+and so, by stability of finiteness and flatness under base change, $\ker\phi$ is finite flat since $\phi$ itself is finite flat. Alternatively, we could use the fact that $\ker\phi$ is locally closed in $G$. Either way, we then have $\ker\phi\in\mc{A}$ since commutativity is clear and so we may consider $\coker(\phi):=G/\ker\phi\in\mc{A}$ as defined above. This satisfies the universal property that a cokernel in $\mc{A}$ should have and hence we obtain a natural morphism $\coim(\phi)\to\im(\phi)$. One first checks that this morphism is bijective and then uses Cartier duality to show that bijective homomorphisms of commutative finite flat $k$-group schemes are isomorphisms.
+\end{proof}
+
+\section{Classification of Finite Flat Group Schemes}
+Given a group scheme $G$ over a field $k$, there is a well-defined $k$-subgroup scheme $G^0$ of $G$ whose underlying topological space is the connected component of the identity $e: \Spec k\to G$. This construction generalizes to work over any base, but it may not be so well-behaved. Over $k$, the scheme $G^0$ is normal in $G$, geometrically irreducible, and quasicompact with $G^0\inj G$ a flat closed immersion. Letting $G$ be commutative finite flat and $G^{\et}:=G/G^0$, we obtain the \textbf{connected-\'{e}tale sequence}
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & G^0 \arrow[r] & G \arrow[r] & G^{\et} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which is exact. Intuitively, $G^{\et}$ is $\pi_0(G)$ and there is some mileage to be gained from this perspective. In addition, if $k$ is perfect then the connected-\'{e}tale sequence splits canonically. How this works is as follows. Letting $G=\Spec A$, $A$ has a maximal \'{e}tale subalgebra $A^{\et}$ (which exists since composita are well-behaved) and $G^{\et}=\Spec A/\Spec A^{\et}$ is the quotient in the category of commutative finite flat group schemes over $k$. In the case that $k$ is perfect, the reduced locus $G_{\red}$ is $\Spec A_{\red}$ for $A_{\red}$ the maximal reduced quotient of $A$ and $G_{\red}\inj G$ provides a section of $G\to G^{\et}$ since the composition $G_{\red}\inj G\to G^{\et}$ is an isomorphism. 
+
+\begin{example}
+The following provide examples of the connected-\'{e}tale sequence in action.
+\begin{enum}{\arabic}
+\item Let $E/\ov{\F_p}$ be an (ordinary) elliptic curve. Then, $E[p^n]\iso\un{\Z/p^n}\times\mu_{p^n}$.
+\item Let $E/\ov{\F_p}$ be a supersingular elliptic curve. Then, $E[p]$  is an extension of $\alpha_p$ by itself.
+\end{enum}
+\end{example}
+
+Aside from the splitting, all of this works just as well over a Henselian local base.\footnote{Recall that strictly Henselian local rings are precisely the local rings of geometric points in the \'{e}tale topology. Henselian local rings correspond to something slightly more general, namely the Nisnevich topology.}
+
+\begin{theorem}
+Let $(R,\m,k)$ be a Henselian local ring and $G$ a commutative finite flat $R$-group scheme.
+\begin{enum}{\alph}
+\item If $G=\Spec A$ is affine then $G^0$ is the spectrum of a Henselian local ring with residue field $k$.
+
+\item $G^0\normal G$ is flat and closed.
+
+\item The quotient $G^{\et}:=G/G^0$ exists and is finite \'{e}tale over $R$.
+
+\item Let $H$ be a finite \'{e}tale $R$-group scheme. Then, there is a factorization
+\begin{center}
+\begin{tikzcd}
+G \arrow[d] \arrow[rd, "\phi"] & \\
+G^{\et} \arrow[r, dotted, "\exists!"'] & H
+\end{tikzcd}
+\end{center}
+given any $\phi\in\Hom(G,H)$.
+
+\item $G\mapsto G^0$ and $G\mapsto G^{\et}$ define exact endofunctors on the category of commutative finite flat $R$-group schemes.
+\end{enum}
+\end{theorem}
+
+The takeaway is that finite flat group schemes over an appropriate base are ``built up'' from connected and \'{e}tale parts.
+
+\begin{corollary}
+Let $(R,\m,k)$ be a Henselian local ring. 
+\begin{enum}{\alph}
+\item An extension of a connected commutative finite flat $R$-group scheme by a connected commutative finite flat $R$-group scheme is connected.
+\item An extension of an \'{e}tale commutative finite flat $R$-group scheme by an \'{e}tale commutative finite flat $R$-group scheme is \'{e}tale.
+\item An extension of a connected commutative finite flat $R$-group scheme by an \'{e}tale commutative finite flat $R$-group scheme is trivial -- i.e., given by a product.
+\end{enum}
+\end{corollary}
+
+\begin{theorem}
+Let $k$ be a perfect field with characteristic $p>0$ and $G=\Spec A$ a connected commutative finite flat $k$-group scheme. Then,
+$$A\iso k[x_1,\ldots,x_r]/(x_1^{p^{e_1}},\ldots,x_r^{p^{e_r}})$$
+for $r\in\N$ unique and $(e_1,\ldots,e_r)\in\N^r$ unique up to reordering. Moreover, $A$ has $p$-power rank.
+\end{theorem}
+
+It follows from the above and faithfully flat descent that any connected commutative finite flat group scheme over a field of characteristic $p>0$ has $p$-power rank. The above result also gives rise to a local version (via Nakayama's lemma).
+
+\begin{corollary}
+Let $(R,\m,k)$ be a complete DVR with $k$ perfect of characteristic $p>0$ and $G=\Spec A$ a connected commutative finite flat $R$-group scheme. Then, 
+$$A\iso R\llbracket x_1,\ldots,x_r\rrbracket/(f_1,\ldots,f_r),$$
+where there exist $e_1,\ldots,e_r\in\N$ such that each $f_i-x_i^{p^{e_i}}\in\m R[x_1,\ldots,x_r]$ is a polynomial in $x_i$ of degree $< p^{e_i}$.
+\end{corollary}
+
+Over a Dedekind domain $R$ with $K:=\Frac(R)$, the generic fiber carries a lot of information in the sense that, given a fixed finite flat $R$-group scheme $G$, the generic fiber functor is an equivalence of categories from the category of closed flat $R$-subgroup schemes of $G$ to the category of closed flat $K$-subgroup schemes of $G_K$. Thinking more locally, how much information about a finite flat group scheme over a DVR can we recover from its generic fiber? Surprisingly a lot under certain ramification conditions.
+
+\begin{theorem}[Raynaud]
+Let $R$ be a DVR with mixed characteristic $(0,p)$ and $K:=\Frac(R)$. Choose a uniformizer $\pi$ with associated normalized valuation $v$ (i.e., $v(\pi)=1$) and ramification index $e:=v(p)$. Suppose that $e<p-1$.
+\begin{enum}{\alph}
+\item Let $G_0$ be a finite (flat) commutative $K$-group scheme killed by some power of $p$. Then, $G_0$ admits at most one \emph{prolongation} over $R$ -- i.e., at most one finite flat commutative $R$-group scheme $G$ such that $G_K\iso G_0$. In particular, any finite flat commutative $R$-group scheme is the unique prolongation of its generic fiber.
+
+\item The generic fiber functor from the category of finite flat commutative $R$-group schemes to the category of finite flat commutative $K$-group schemes is fully faithful with (essential) image stable under taking sub-objects and quotients.
+\end{enum}
+\end{theorem}
+
+We say $G_0$ in the above theorem has \textbf{unique prolongation} (or \textbf{UP} for short).
+
+\begin{remark}
+The condition $e<p-1$ is necessary as can be seen by considering a suitable finite extension $K/\Q_p$ containing the $p$th roots of unity and comparing $\mu_p$ and $\un{\Z/p}$ over $K$ and $\O_K$.
+\end{remark}
+
+The proof of this result rests on the structure theory of so-called \emph{Raynaud $F$-module schemes}. The major steps in the proof are roughly as follows.
+\begin{enum}{\arabic}
+\item If $G_0$ is an extension whose sub and quotient have UP then $G_0$ has UP, hence we need only consider simple groups.
+\item Classify the simple groups and their prolongations.
+\item Check by hand that UP holds when $e<p-1$.
+\end{enum}
+\end{document}
+
+\begin{theorem}
+Let $R$ be a Noetherian domain and $p\in R$. Let $\w{R}$ denote the $p$-adic completion of $R$. Then, the functor defined on objects by $G\mapsto(G_{\w{R}},G_{R[1/p]},\id_{})$ yields an equivalence of categories between the category of finite flat $R$-group schemes and the category of triples $(G_1,G_2,\phi)$ with $G_1,G_2$ finite flat group schemes over $\w{R},R[1/p]$ respectively and $\phi: (G_1)\w{R}[1/p]\xto{\sim}(G_2)_{\w{R}[1/p]}$.
+\end{theorem}
+
+\begin{theorem}[Mayer-Vietoris]
+Let $G,H$ be $p$-power order finite flat group schemes over a Noetherian ring $R$. 
+\begin{center}
+\begin{tikzcd}
+A \arrow[r] & B \arrow[ld, out=-30, in=150] \\
+C \arrow[r] & D
+\end{tikzcd}
+\end{center}
+\end{theorem}

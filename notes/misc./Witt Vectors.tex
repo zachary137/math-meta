@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\newcommand{\F}{\mathbb{F}}
+
+\DeclareMathOperator{\gh}{gh}
+
+\begin{document}
+\title{Witt Vectors}
+\author{Zachary Gardner}
+\date{}
+\maketitle
+
+Unless otherwise stated, $A$ denotes a commutative ring, $I\subset A$ denotes an ideal, and $p$ is a fixed rational prime. We say $A$ has characteristic $p$ if $p=0$ in $A$. Given such a ring, there is a Frobenius map $x\mapsto x^p$ usually denoted $\phi: A\to A$. Given $x,y\in A$, the notation $x=y\in A/I$ means that $x\equiv y\bmod{I}$. The acronym NZD is shorthand for ``non-zero-divisor.'' Given $A$, its $p$-adic completion is $\w{A}=\w{A}_p:=\flim A/p^n$. We say $A$ is $p$-adically complete if the canonical ring map $A\to\w{A}$ is an isomorphism.
+
+Much of the motivation behind the construction of Witt vectors comes from the desire to do arithmetic with $p$-adic integers viewed as power series expansions in $p$. We will see later that $W(\F_p)=\Z_p$. We start with a simple technical result.
+
+\begin{lemma}
+Let $x,y\in A$ such that $x=y\in A/p^n$. Then, $x^p=y^p\in A/p^{n+1}$ and so $x^{p^n}=y^{p^n}\in A/p^{n+1}$.
+\end{lemma}
+
+This result in turn tells us something about polynomial arithmetic.
+
+\begin{corollary}
+Let $f\in\Z[t_1,\ldots,t_r]$. Then, 
+$$f(t_1^p,\ldots,t_r^p)^{p^n}=f(t_1,\ldots,t_r)^{p^{n+1}}\in\Z/p^{n+1}[t_1,\ldots,t_r].$$
+\end{corollary}
+
+Given $x\in A/p$ and $\tilde{x}\in A/p^{n+1}$ a lift of $x$, $\tilde{x}^{p^n}$ is independent of the choice of lift by the above lemma and so we obtain a map $\tau_n: A/p\to A/p^{n+1}$ uniquely fitting into the commutative diagram 
+\begin{center}
+\begin{tikzcd}
+A/p^{n+1} \arrow[d, twoheadrightarrow] \arrow[rd, "(\cdot)^{p^n}"] & \\
+A/p \arrow[r, dotted, "\exists!\;\tau_n"'] & A/p^{n+1}
+\end{tikzcd}
+\end{center}
+Note that $\tau_n$ is multiplicative but not additive.
+
+Our goal now is to construct a coherent framework for doing arithmetic with things of the form $\tau_n(x_0)+p\tau_{n-1}(x_1)+\cdots+p^n\tau_0(x_n)$ for $x_0,\ldots,x_n\in A/p$, where we are using the multiplication maps $p^{i-j}: A/p^j\to A/p^i$ associated to $i\geq j$. Our first order of business is showing that such elements form a subring of $A/p^{n+1}$.
+
+\begin{lemma}
+There exist unique polynomials $s_i(x,y)\in\Z[x,y]$ for $i\geq0$ such that, for every $n\geq0$,
+$$x^{p^n}+y^{p^n}=s_0(x,y)^{p^n}+ps_1(x,y)^{p^{n-1}}+\cdots+p^ns_n(x,y)\in\Z[x,y].$$
+\end{lemma}
+
+These polynomials are given inductively by $s_0(x,y)=x+y$ and 
+$$s_{n+1}(x,y)=\df{1}{p^{n+1}}\paren{x^{p^{n+1}}+y^{p^{n+1}}-\sum_{i=0}^np^is_i(x,y)^{p^{n+1-i}}}.$$
+
+\begin{corollary}
+Let $x,y\in A/p$. Then, 
+$$\tau_n(x)+\tau_n(y)=\tau_n(s_0(x,y))+p\tau_{n-1}(s_1(x,y))+\cdots+p^n\tau_0(s_n(x,y)).$$
+Hence, the set of elements of $A/p^{n+1}$ of the desired form is closed under addition and so forms a subring.
+\end{corollary}
+
+Consider the Witt functor $W: \CRing\to\Set$ defined on objects by $W(A):=\prod_{i\geq0}A$. The Witt vectors $W(A)$ come equipped with a Teichm\"{u}ller map $[\cdot]: A\to W(A)$ given by $x\mapsto(x,0,0,\ldots)$ and a \emph{verschiebung} or shift operator $V: W(A)\to W(A)$ given by $(x_0,x_1,\ldots)\mapsto(0,x_0,x_1,\ldots,)$.\footnote{Elements in the image of $[\cdot]$ are often called \textbf{Teichm\"{u}ller lifts. It should be noted that this terminology has been waning in popularity since Teichm\"{u}ller was a notorious Nazi.}} Every element of $W(A)$ can be written uniquely as $\sum_{i\geq0}V^i[x_i]$ for $x_i\in A$.\footnote{This is a purely symbolic equivalent to the expression $(x_0,x_1,\ldots)$ as $W(A)$ has no arithmetic structure at the moment. Later we will place a ring structure on $W(A)$ with a somewhat nontrivial additive structure.} Using these expansions, we may define the \textbf{ghost maps}\footnote{The underlying polynomials of the ghost maps are sometimes called \textbf{Witt polynomials}.} $\gh_n: W(A)\to A$ for $n\geq0$ via 
+$$\sum_{i\geq0}V^i[x_i]\mapsto\sum_{i=0}^np^ix_i^{p^{n-i}}.$$
+As an important special case, note that 
+\begin{equation*}
+\gh_n(V^i[x])=
+\begin{cases}
+p^ix^{p^{n-i}}, & i\leq n, \\
+0, & \textrm{otherwise}
+\end{cases}
+\end{equation*}
+given $n,i\geq0$ and $x\in A$. In particular, $\gh_n\circ[\cdot]=(\cdot)^{p^n}$.
+
+\begin{theorem}
+There exists a unique lift $W: \CRing\to\CRing$ of the functor $W: \CRing\to\Set$ such that, for every $A\in\CRing$, addition and multiplication on $W(A)$ are continuous for the product topology and $\gh_n$ is a ring homomorphism for every $n\geq0$.\footnote{Stated another way, the first part of this result says that $W$ factors uniquely through $\CRing$.}
+\end{theorem}
+
+\begin{proof}
+We provide a sketch. The major steps are as follows.
+\begin{enum}{\arabic}
+\item $\gh_n(W(A))\subset A$ is closed under addition.
+\item $\gh_n(W(A))\subset A$ is a subring.
+\item Assume $A$ has no $p$-torsion. Then, $(\gh_0,\gh_1,\ldots): W(A)\to\prod_{i\geq0}A$ is injective and so there is a unique ring structure on $W(A)$ with the desired properties.
+\item Assume $A$ has no $p$-torsion and let $I\subset A$ be an ideal. Then, $W(I):=\left\{\sum_{i\geq0}V^i[x_i] : x_i\in I\right\}$ is an ideal of $W(A)$.
+\item Dropping the assumption on $p$-torsion, choose $p$-torsion-free $B\in\CRing$ with $\pi: B\surj A$. Then, $W(A)$ inherits a ring structure after identifying it with the ring $W(B)/W(\ker\pi)$.
+\end{enum}
+\end{proof}
+
+\begin{claim}
+The shift operator $V: W(A)\to W(A)$ is additive.
+\end{claim}
+
+\begin{claim}
+The Teichm\"{u}ller map $[\cdot]: A\to W(A)$ is multiplicative.
+\end{claim}
+
+\begin{lemma}
+Given $x\in A$, we have $V([x^p])=p[x]$, with the right-hand side using Witt vector addition.
+\end{lemma}
+
+Simply apply ghost maps to both sides of the equation and use injectivity. One consequence of this result is as follows. Suppose that $k$ is a characteristic $p$ perfect ring and let $(\cdot)^{1/p^i}:=\phi^{-i}$. Then, a generic element of $W(k)$ can be written as 
+$$\sum_{i\geq0}V^i[x_i]=\sum_{i\geq0}p^i[x_i^{1/p^i}]\in W(k),$$
+the latter sum using Witt vector addition.
+
+\begin{corollary}
+Suppose $A$ is reduced. Then, $p$ is an NZD in $W(A)$.
+\end{corollary}
+
+Properties of the maps $\tau_n$ guarantee that there is a unique factorization
+\begin{center}
+\begin{tikzcd}
+W(A) \arrow[r, "\gh_n"] \arrow[d, twoheadrightarrow] & A \arrow[d, twoheadrightarrow] \\
+W(A/p) \arrow[r, dotted, "\exists!\;\tilde{\theta}_n"'] & A/p^{n+1}
+\end{tikzcd}
+\end{center}
+Indeed, letting $x\in A$ with $\ov{x}\in A/p$ its image, we have 
+$$\tilde{\theta}_n(V^i[\ov{x}])=\gh_n(V^i[x])\bmod{p^{n+1}}=p^ix^{p^{n-i}}\bmod{p^{n+1}}=p^i\tau_{n-i}(\ov{x})$$
+and so $\tilde{\theta}_n$ is given by $\sum_{i\geq0}V^i[y_i]\mapsto\sum_{i=0}^np^i\tau_{n-i}(y_i)$.
+
+\begin{theorem}
+Let $k$ be a characteristic $p$ perfect ring (equivalently, a perfect commutative $\F_p$-algebra). Then, the following hold.
+\begin{enum}{\arabic}
+\item $W(k)$ is $p$-adically complete.
+\item $p$ is an NZD in $W(k)$ and, hence, $W(k)$ is a flat $\Z_p$-module.
+\item $pW(k)=VW(k)=\ker\gh_0$.
+\end{enum}
+\end{theorem}
+
+\begin{corollary}
+Let $k$ be a characteristic $p$ perfect field. Then, $W(k)$ is a characteristic $0$ DVR with maximal ideal $pW(k)$.
+\end{corollary}
+
+\begin{example}
+$W(\F_p)\iso\Z_p$. This can be shown abstractly by showing that $\Z_p$ satisfies the universal property of $W(\F_p)$ described below. More concretely, there is an explicit isomorphism given by 
+$$\sum_{i\geq0}V^i[x_i]\mapsto(x_0,x_0+px_1,x_0+px_1+p^2x_2,\ldots).$$
+\end{example}
+
+Let $k$ be a perfect ring and $f: k\to A/p$ a ring map. Then, for each $n\geq1$ there is a commutative diagram
+\begin{center}
+\begin{tikzcd}
+W(k) \arrow[r, dotted, "\exists!\;f_n"] \arrow[d, twoheadrightarrow, "\gh_0"'] & A/p^{n+1} \arrow[d, twoheadrightarrow] \\
+k \arrow[r, "f"'] & A/p
+\end{tikzcd}
+\end{center}
+The map $f_n$ is characterized by the fact that 
+$$f_n([x])=f_n([x^{1/p^n}])^{p^n}=\tau_n(f(x^{1/p^n}))$$
+and so we have the factorization
+\begin{center}
+\begin{tikzcd}
+W(k) \arrow[r, "W(\phi^{-n})"] & W(k) \arrow[r, "W(f)"] & W(A/p) \arrow[r, "\tilde{\theta}_n"] & A/p^{n+1}
+\end{tikzcd}
+\end{center}
+
+\begin{corollary}
+Let $A$ be $p$-adically complete with ring map $f: k\to A/p$. Then, there exists a unique lift $\tilde{f}: W(k)\to A$ of $f$ in the sense that the diagram
+\begin{center}
+\begin{tikzcd}
+W(k) \arrow[r, dotted, "\exists!\tilde{f}"] \arrow[d, twoheadrightarrow, "\gh_0"'] & A \arrow[d, twoheadrightarrow] \\
+k \arrow[r, "f"'] & A/p
+\end{tikzcd}
+\end{center}
+commutes. Moreover, $\tilde{f}$ is continuous with respect to the $p$-adic topologies on $W(k)$ and $A$.
+\end{corollary}
+Note that, in the case that $A$ is not $p$-adically complete, we still get a lift $W(k)\to\w{A}$ and $\w{A}/p\iso A/p$ canonically.
+
+TO DO: truncated Witt vectors, F map, proofs
+\end{document}
+
+$W_1(A)=A\times A$ with the operations 
+$$(x_0,x_1)+(y_0,y_1):=(s_0(x_0,y_0),s_1(x_0,y_0)+s_0(x_1,y_1))$$
+$$(x_0,x_1)\cdot(y_0,y_1):=(x_0y_0,x_0^py_1+x_1y_0^p+px_1y_1)$$
+where 
+$$s_1(x,y)=\df{x^p+y^p-(x+y)^p}{p}$$
+
+In $W_r(A)$, $[x]+[y]=(s_0(x,y),\ldots,s_r(x,y))$. We have $x+y=z$ with
+\begin{equation*}
+z_n=
+\begin{cases}
+x_0+y_0, & n=0, \\
+\df{1}{p^n}[\gh_n(x)+\gh_n(y)-(z_0^{p^n}+pz_1^{p^{n-1}}+\cdots+p^{n-1}z_{n-1}^p)], & n>0.
+\end{cases}
+\end{equation*}
+
+$$[f]W_r(S)=\{(fx_0,f^px_1,\ldots,f^{p^r}x_r) : x=(x_0,x_1,\ldots,x_r)\in W_r(S)\}$$
