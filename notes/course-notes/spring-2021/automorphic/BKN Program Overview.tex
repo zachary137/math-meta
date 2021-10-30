@@ -1,0 +1,191 @@
+\documentclass[aspectratio=1610]{beamer}
+\usetheme{Boadilla}
+
+\usepackage{kernel_of_truth}
+
+\renewcommand{\L}{\mathbb{L}}
+\renewcommand{\S}{\mathscr{S}}
+
+\newcommand{\std}{\textup{std}}
+
+\newtheorem{conjecture}{Conjecture}
+
+\title{An Overview of the Braverman-Kazhdan-Ng\^{o} Program}
+\author{Zachary Gardner}
+\date{May 5, 2021}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{The Local Picture}
+Fix the following.
+\begin{itemize}
+\pause\item $F$ a nonarchimedean local field (with residue field of size $q$)
+\pause\item $G$ a reductive algebraic group over $F$
+\pause\item $\pi$ an irreducible admissible representation of $G(F)$
+\pause\item $\psi: F\to\C^{\times}$ a nontrivial additive character
+\pause\item $\rho: \Lang{G}\to\GL(V_{\rho})$ a finite dimensional $L$-homomorphism trivial on $\Gamma_F$, which is equivalent to a finite dimensional \emph{algebraic} representation of $G^{\vee}(\C)$
+\pause\item $\sigma: G\to\G_m$ a nontrivial $F$-rational character (playing the role of $\det$)
+\end{itemize}
+\pause To make Godement-Jacquet theory work in this setting, we need:
+\begin{itemize}
+\pause\item some kind of ($\rho$-)Schwartz space $C_c^{\infty}(G(F))\subset\S^{\rho}(G(F))\subset C^{\infty}(G(F))$;
+\pause\item some kind of ($\rho$-)Fourier transform $\F_{\psi}^{\rho}$ acting on $\S^{\rho}(G(F))$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Local Picture}
+\pause To this we may associate a \textbf{(local) zeta integral}
+$$Z(s,f,\phi)=\int_{G(F)}f(g)\phi(g)\abs{\sigma(g)}_F^{s+\l_{\rho}/2}\,dg,$$
+where
+\begin{itemize}
+\pause\item $s\in\C$;
+\pause\item $f\in\S^{\rho}(G(F))$;
+\pause\item $\phi\in\mc{C}(\pi)$ is a matrix coefficient;
+\pause\item $dg$ is a Haar measure on $G(F)$;
+\pause\item $\l_{\rho}\in\C$ is a parameter with value $n-1$ if $(G,\rho)=(\GL_n,\std)$.
+\end{itemize}
+\pause In more detail, let $B\leq G$ be a Borel subgroup and $2\eta_B$ the sum of the associated positive roots. Define $\l_{\rho}:=\ip{2\eta_B,\lambda_{\rho}}$, for $\lambda_{\rho}$ the highest weight of $\rho$. \pause This construction lends the local zeta integral a nice geometric interpretation. \pause If $(G,\rho)=(\GL_n,\std)$ and $B$ is the standard Borel then $\l_{\rho}=n-1$ as desired (we refer to this as the \emph{standard setup}).
+\end{frame}
+
+% I'm not exactly sure what [Luo] means by a special subgroup in this context. I do however know about hyperspecial subgroups, which exist precisely when $G$ is unramified.
+
+\begin{frame}{The Local Picture}
+\pause 
+\begin{conjecture}
+There exists a $\rho$-Schwartz space $\S(G(F))$ with the following properties.
+
+\begin{itemize}
+\pause\item $Z(s,f,\phi)$ converges absolutely for $\Re(s)\gg0$.
+
+\pause\item $Z(s,f,\phi)$ has a meromorphic continuation to all of $\C$ and defines a rational function in $q^{-s}$.
+
+\pause\item The $\C[q^{\pm s}]$-module $I(s,\pi,\rho)$ spanned by $\{Z(s,f,\phi) : f\in\S(G(F)),\phi\in\mc{C}(\pi)\}$ is a principal fractional ideal of $\C[q^{\pm s}]$ with generator $L(s,\pi,\rho)$.
+
+\pause\item Suppose $\pi$ is unramified, with zonal spherical function $\Gamma_{\pi}$. Then, there is a distinguished \textbf{basic function} $\L^{\rho}\in\S(G(F))$ such that $Z(s,\L^{\rho},\Gamma_{\pi})=L(s,\pi,\rho)$.
+\end{itemize}
+\end{conjecture}
+
+\pause The basic function $\L^{\rho}$ is uniquely determined up to a choice of maximal compact special $K\leq G(F)$ by the additional requirement that $\L^{\rho}$ is bi-$K$-invariant. 
+\end{frame}
+
+\begin{frame}{Functional Equation}
+\pause What about the functional equation? We expect that there is a (local) $\gamma$-factor $\gamma(s,\pi,\rho,\psi)$ which is a rational function in $q^{-s}$ such that 
+$$Z(1-s,\F_{\psi}^{\rho}(f),\phi^{\vee})=\gamma(s,\pi,\rho,\psi)Z(s,f,\phi)$$
+for every $s\in\C$, $f\in\S^{\rho}(G(F))$, and $\phi\in\mc{C}(\pi)$. \pause We also expect $\F_{\psi}^{\rho}(\L^{\rho})=\L^{\rho}$. \pause How do we go about this? \pause In the standard setup, we have
+$$\S^{\std}(\GL_n(F))=C_c^{\infty}(M_n(F)),\qquad \F_{\psi}^{\std}=\F_{\psi},\qquad \L^{\std}=\ind_{M_n(\O_F)},$$
+with 
+$$\F_{\psi}(f)(g)=\int_{M_n(F)}\psi(\tr(gh))f(h)\,d^+h.$$ 
+\pause Letting $\Phi_{\psi}^{\std}:=\psi(\tr)\abs{\det}_F^n$ and taking $f\in C_c^{\infty}(\GL_n(F))$ with $f^{\vee}(g):=f(g^{-1})$, we can rewrite this as 
+$$\F_{\psi}^{\std}(f)=\abs{\det}_F^{-n}(\Phi_{\psi}^{\std}*f^{\vee})=\abs{\det}_F^{-\l_{\std}-1}(\Phi_{\psi}^{\std}*f^{\vee}).$$
+\end{frame}
+
+\begin{frame}{Functional Equation}
+\pause The kernel $\Phi_{\psi}^{\std}$ defines a $\GL_n(F)$-conjugation-invariant distribution on $\GL_n(F)$ that is well-behaved. \pause We similarly expect that there is a kernel $\Phi_{\psi}^{\rho}$ which is a $G(F)$-conjugation-invariant distribution on $G(F)$ and well-behaved such that 
+$$\F_{\psi}^{\rho}(f)=\abs{\sigma}_F^{-\l_{\rho}-1}(\Phi_{\psi}^{\rho}*f^{\vee})$$
+for every $f\in C_c^{\infty}(G(F))\subset\S^{\rho}(G(F))$. \pause We also expect as in the standard case that $\F_{\psi}^{\rho}$ extends to $L^2(G(F),\abs{\sigma}_F^{\l_{\rho}+1}dg)$, a useful analytic result in the local setting.
+\end{frame}
+
+\begin{frame}{Functional Equation}
+\pause What do we mean by ``well-behaved?'' \pause The precise term to use here is \emph{$\sigma$-compact}. \pause To give a definition, we first need to understand the Bernstein center $\mf{Z}(G(F))$. Here are some equivalent yet different perspectives on $\mf{Z}(G(F))$.
+\begin{itemize}
+\pause\item The endomorphism ring of the identity functor of the category of smooth representations of $G(F)$.
+
+\pause\item The space of $G(F)$-conjugation-invariant essentially compactly supported distributions on $\Phi$ -- i.e., those $\Phi$ such that $\Phi*C_c^{\infty}(G(F))=C_c^{\infty}(G(F))$.
+
+\pause\item The set of regular functions on the Bernstein variety $\Omega(G(F))$, which roughly parameterizes (up to conjugation) pairs $(M(F),\sigma)$ with $M(F)\leq G(F)$ Levi and $\sigma$ a supercuspidal representation of $M(F)$. \pause If $\Phi$ is as above then we let $f^{\Phi}$ be the associated regular function on $\Omega(G(F))$.
+\end{itemize}
+
+\pause Given $\Phi$ a distribution on $G(F)$ and $n\in\Z$, define 
+$$G(F)_n:=\{g\in G(F) : \abs{\sigma(g)}=q^{-n}\}$$
+and $\Phi_n:=\Phi\cdot\ind_{G(F)_n}$. 
+\end{frame}
+
+\begin{frame}{Functional Equation}
+\pause
+\begin{definition}
+$\Phi$ is \textbf{$\sigma$-compact} if
+\begin{itemize}
+\pause\item for every $n\in\Z$, $\Phi_n\in\mf{Z}(G(F))$ and so has associated regular function $f^{\Phi_n}$ on $\Omega(G(F))$;
+
+\pause\item for every irreducible admissible representation $\pi$ of $G(F)$ with twist $\pi_s:=\pi\abs{\sigma}_F^s$, the Laurent series 
+$$f^{\Phi}(\pi_s):=\sum_{n\in\Z}f^{\Phi_n}(\pi_s)$$
+converges absolutely for $\Re(s)\gg0$ and defines a rational function in $q^{-s}$.
+\end{itemize}
+\end{definition}
+
+\pause Such distributions are hand-crafted to give functional equations, as [Luo, Lemma 5.2.4] shows. \pause While this analytic picture is nice, it is not so well suited to passing to the global setting. So, we seek a more geometric perspective.
+\end{frame}
+
+\begin{frame}{Reductive Monoids}
+\pause Our first order of business is to find something that plays the same role as $M_n$ does for $\GL_n$. What properties do we want? \pause In the standard setup, the open embedding $\GL_n\inj M_n$ has dense image that is invariant under the appropriate action of $\GL_n\times\GL_n$. \pause Moreover, $M_n$ is a monoid with $\GL_n$ as unit group. \pause With this in mind, for a pair $(G,\rho)$ we seek a reductive monoid $M^{\rho}$ with open embedding $G\inj M^{\rho}$ realizing $G$ as the unit group whose image is dense and invariant under an appropriate action of $G\times G$. \pause The following definition makes this more precise.
+
+\begin{definition}
+A \textbf{reductive monoid} over a field $k$ is a normal affine irreducible algebraic variety equipped with the structure of a monoid such that the unit group (i.e., the open subset of invertible elements) is a reductive algebraic group over $k$.
+\end{definition}
+
+\pause It turns out that, under some mild conditions on $\rho$, there is a more or less unique way to associate an $M^{\rho}$ as desired to $(G,\rho)$. \pause Before we get into the details, though, we first mention what we can do with this.
+\end{frame}
+
+\begin{frame}{Schwartz Space}
+\pause To begin, let's start with an example. \pause Let $G=\GSp_4$ so that 
+$$G(F)=\{g\in\GL_4(F) : \trans{g}J_4g=\lambda J_4\textup{ for some }\lambda\in F^{\times}\}$$
+with $J_4:=\begin{pmatrix} & -I_2\\ I_2 & \end{pmatrix}$. \pause It turns out that $G^{\vee}(\C)\iso\GSp_4(\C)$, to which we associate the standard representation $\rho: \GSp_4(\C)\to\GL_4(\C)$. \pause Here are some facts.
+\begin{itemize}
+\pause\item The reductive monoid associated to $(\GSp_4,\rho)$ is $\MSp_4$, defined by
+$$\MSp_4(F)=\{g\in M_4(F) : \trans{g}J_4g=\lambda J_4=gJ_4\trans{g}\textup{ for some }\lambda\in F^{\times}\}.$$
+
+\pause\item $\MSp_4$ is singular.
+
+\pause\item Let $\pi$ be an unramified representation of $\GSp_4(F)$ with zonal spherical function $\Gamma_{\pi}$. \pause Then, $Z(s,\ind_{\MSp_4(\O_F)},\Gamma_{\pi})=P_{\pi}(q^{-s})L(s,\pi,\rho)$ for some nontrivial $P_{\pi}(X)\in\C[X]$.
+\end{itemize}
+\pause One thing this example shows us is that the ``obvious'' choice for $\Gamma^{\rho}$ may be too na\"{i}ve. \pause This deficiency can be accounted for by examining the singular locus of $\MSp_4(F)$, where $\Gamma^{\rho}$ should not be constant but instead satisfy some kind of moderate growth condition.
+\end{frame}
+
+\begin{frame}{Schwartz Space}
+\pause In general, we can't just take $\S^{\rho}(G(F))$ to be $C_c^{\infty}(M^{\rho}(F))$. \pause We do, however, expect that $\S^{\rho}(G(F))$ should be determined by local conditions on $M^{\rho}(F)$ with respect to its totally disconnected topology. \pause More explicitly:
+
+\begin{conjecture}
+There exists a sheaf $\widetilde{\S}^{\rho}$ on $M^{\rho}$ such that $\S^{\rho}(G(F))=\Gamma_c(M^{\rho}(F),\widetilde{\S}^{\rho})$.
+\end{conjecture}
+
+\pause This yields a space of test functions satisfying $C_c^{\infty}(G(F))\subset\S^{\rho}(G(F))\subset C^{\infty}(G(F))$, with the discrepancy between $\S^{\rho}(G(F))$ and $C^{\infty}(G(F))$ accounted for by asymptotic conditions measured by the stalks of $\widetilde{\S}^{\rho}$. \pause For now, this result is only known for the standard setup and certain classes of toric varieties (more on this in a minute).
+\end{frame}
+
+\begin{frame}{Reductive Monoids}
+Returning to our discussion of reductive monoids, the first item indicating we are on the right track is the following result.
+
+\begin{theorem}[Rittatore]
+\pause Let $G$ be a reductive algebraic group over a field $k$. Then, the category of reductive monoids with unit group $G$ is equivalent to the category of $G\times G$-affine spherical embeddings of $G$ -- i.e., those embeddings for which there is an open dense orbit of some Borel subgroup of $G\times G$.
+\end{theorem}
+
+\pause There are, however, some limitations.
+\begin{itemize}
+\pause\item Let $G$ be as above. Then, there is a nontrivial reductive monoid with unit group $G$ if and only the $F$-rational character group of $G$ is nontrivial. This is part of the reason why we assumed the existence of a $\sigma$ in the beginning.
+
+\pause\item Let $M$ be a smooth reductive monoid with one-dimensional center. Then, $M\iso M_n$ for some $n$. Hence, our desired $M^{\rho}$ will in general be singular and so perverse sheaves enter the fray (with basic functions arising as traces of suitable intersection complexes).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Redutive Monoids}
+Let $G_k$ be a reductive algebraic group over a field $k$ and $G:=G_{\ov{k}}$. \pause Two approaches to constructing reductive monoids with unit group $G_k$ come from Vinberg and Renner. \pause Vinberg's approach, which works assuming $k=\ov{k}$, has the advantage that it explicitly involves a GIT quotient associated to the derived subgroup $G_0$ of $G$. Moreover, all reductive monoids we want to consider arise as pullbacks of a certain universal reductive monoid. \pause Renner's approach, which works for any $k$, aims to use the combinatorial characterization of toric varieties.
+\end{frame}
+
+\begin{frame}{The Global Picture}
+\begin{conjecture}
+Fix the following.
+\begin{itemize}
+\pause\item $F$ a global field
+\pause\item $G$ a reductive algebraic group over $F$ 
+\pause\item $\rho: \Lang{G}\to\GL(V_{\rho})$ a finite dimensional $L$-homomorphism trivial on $\Gamma_F$
+\end{itemize}
+\pause Then, the local Schwartz spaces $\S^{\rho}(G(F_v))$ associated to places $v$ of $F$ assemble to give a global Schwartz space 
+$$\S^{\rho}(\A_F):=\fcolim\Tensor_{v\in S}\S^{\rho}(G(F_v))$$
+equipped with a Fourier transform (built from the local Fourier transforms) satisfying a Poisson summation formula. \pause Here, the direct limit is taken over $S$ a finite set of places of $F$ containing the archimedean places and the transition maps are given on pure tensors by
+$$\tensor_{v\in S}f_v\mapsto\tensor_{v\in S'-S}\L_v^{\rho}\tensor\tensor_{v\in S}f_v$$
+with $S\subset S'$ and $f_v\in\S^{\rho}(G(F_v))$.
+\end{conjecture}
+\end{frame}
+\end{document}
