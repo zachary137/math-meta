@@ -1,0 +1,24 @@
+I will be teaching a class out of Gerard Laumon's book, 'Cohomology of Drinfeld Modular varieties I'. 
+
+Here's why: 
+Number theory is primarily interested in understanding the behavior of prime numbers, and of late, in a certain Langlandsy corner, 
+this has meant studying the interplay between representation theory and the symmetries of the zeros of rational polynomials (i.e. Galois theory).
+
+This turns out to be very hard. 
+Fortunately, many of the questions posed about the integers can also be transposed to the world of polynomials over finite fields 
+(they're both PIDs, for example), where we can bring to bear the full power of algebro-geometric and topological methods. 
+This still doesn't make things very easy, but, on the other hand, 
+it gives us tools to construct the geometric objects that reify the Langlandsy interplay I mentioned above.
+
+Drinfeld modular varieties are an example of such objects: 
+they allow us to relate representations of the general linear group over the ring of rational functions over finite fields 
+(a 'fake number theory' replacement fo the group of invertible matrices over Q) with the theory of finite covers of the projective line (over finite fields). 
+This kind of geometric object simply doesn't exist (yet) in the world of 'real' number theory*
+
+Our goal for this course is to understand what Drinfeld modular varieties are, following largely the exposition of Laumon, 
+with details and background filled in as necessary. 
+
+While it will be useful to have encountered some algebraic geometry/algebraic topology, 
+the class should be accessible to anyone who's taken the first year graduate algebra sequence (or equivalent). 
+
+There will be biweekly homework exercises, and the class will follow a hybrid model with live streaming over Zoom.
