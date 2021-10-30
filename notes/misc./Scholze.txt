@@ -125,3 +125,9 @@ Dreams:
 	Arithmetic Chow groups with coefficients
 	Analytic perspective at finite places
 	Derived perspective at the infinite place
+	
+Computations of THH
+	Bokstedt: THH(F_p) = F_p[x]
+	Hesselholt: THH(\O_{C_p}) = A_{inf}
+	Inspiration for Scholze
+	Guiding question: How much of K-theory is etale-local?
