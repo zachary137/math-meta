@@ -1,0 +1,18 @@
+Averaging process = generalized analogue of induction of representations (Eisenstein series)
+Discrete vs. continuous spectrum
+How am I supposed to think about the zoo of automorphic objects?
+
+What is the relationship between the notions of cuspidal and supercuspidal?
+	Cuspidal imposes growth conditions that may be met without being supercuspidal
+	Relationship between Jacquet functor/module and extraction/inversion of Fourier coefficients
+	Connection to theory of modularity
+
+What does push-pull and algebraic geometry stuff have to do with the more analytical aspects of number theory?
+	Middle ground is (sometimes) physics!
+
+What are the representations of GL_1, possibly with conditions attached?
+	Smooth
+	Admissible
+	Irreducible
+	Supercuspidal (+Irreducible)
+How about GL_2?

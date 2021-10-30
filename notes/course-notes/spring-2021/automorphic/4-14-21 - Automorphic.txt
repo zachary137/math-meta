@@ -1,0 +1,72 @@
+Context:
+	First half was my lecture wrapping up nonarchimedean local Godement-Jacquet theory
+	Second half was Elad going through his slides motivating the local Langlands correspondence
+
+First half
+---
+What information do the matrix coefficients of a representation see? What do they not see?
+	This is partly answered by the Peter-Weyl Thm and Complete Reducibility Thm
+	Helpful to know since this informs the limits of what we can expect from the simple local zeta integrals we have defined
+
+Vocabulary:
+	Series types
+		Continuous
+		Discrete
+		Complementary
+	New form (in context of theory of modular forms)
+	Kirillov model
+	Whittaker model
+	Mirabolic subgroup (Elad mentioned the utility of this...)
+
+Do the above give more "natural/general/insightful" ways of constructing zeta integrals (or similar objects)?
+
+Here's a nice source that works things out concretely and explicitly
+	Goldfeld-Hundley - Automorphic Representations and L-Functions for the General Linear Group
+
+Here's a helpful source of videos for learning about Godement-Jacquet theory and the BKN program
+	https://www.youtube.com/channel/UCKTentL-zncr4uAaFyex0Aw/search?query=lei+zhang
+
+---
+
+Second half
+---
+Slides from Elad's talk will be added to the Canvas webpage
+	These are super well-written -- I'm definitely stealing them for the future (with proper accreditation, of course)
+
+Harish-Chandra's philosophy
+	This applies must to cusp forms (What are these again) but can be adapted to work for other kinds of objects
+	1. Construct all supercuspidal representations
+	2. Construct all other representations from the supercuspidals
+
+Here are the settings that are often of interest (What does our base field look like):
+	Finite
+	Local, nonarchimedean
+	Local, archimedean
+	Global, number field
+	Global, (global) function field
+Global function fields are nice because everything is locally nonarchimedean and tools from algebraic geometry can be most directly brought to bear
+Number fields and archimedean local fields are nice because they are amenable to powerful tools from analysis
+Finite fields are nice because there are no issues of convergence
+
+As a prelude to the local or global setting, it is sometimes insightful to first work with so-called finite groups of Lie type
+	https://en.wikipedia.org/wiki/Group_of_Lie_type
+That being said, there are many results which have been proven in the local/global (especially local) setting that have finite analogues which are mostly unexplored
+	Common for advisors to give these finite analogues to starting students as toy problems
+
+One big challenge when working over number fields is that there are analytical arguments that we don't know how to handle using purely geometric methods
+When things are geometric we can fruitfully put geometric tools to use
+	This might sound tautological and to a certain extent it is
+	However, there is great potential for utility if we can characterize geometric properties in terms of other "non-geometric" data
+	I'm not sure how directly related this is but Daniel Litt has some results on arithmetic monodromy that focus a lot on representations that "arise from geometry" in a certain precise sense
+
+Irreducible cuspidal representations arise from cohomology of so-called Deligne-Lusztig varieties
+	This supposedly has the advantage of being very hands-on, at least in simple cases
+	http://www.math.tifr.res.in/~dprasad/dl-notes.pdf
+	https://arxiv.org/pdf/1705.05083.pdf
+
+Big (and maybe small) results worth knowing more about:
+	Arthur's work on trace formulae and endoscopic lifts
+	Converse Thm of Piatetski-Shapiro
+	Work of Jacquet-Liu tackling Jacquet's conjecture (I didn't catch what this is about...)
+	https://arxiv.org/abs/1601.03656
+---

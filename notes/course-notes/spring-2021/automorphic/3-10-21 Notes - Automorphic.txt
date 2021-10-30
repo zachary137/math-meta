@@ -1,0 +1,5 @@
+For the BKN program, finding the right space of Schwartz-Bruhat functions S and notion of Fourier transform (that must preserve S) is a subtle and nontrivial matter
+	Not like the simplicity of the 1-dimensional adelic case
+Fourier inversion works well in the abelian case (remember the formalism of LCA groups)
+	In the general non-abelian case we have to work a bit harder
+	For more general Fourier inversion we might only expect to recover a function up to a.e. equivalence

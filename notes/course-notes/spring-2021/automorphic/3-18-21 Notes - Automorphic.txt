@@ -1,0 +1,17 @@
+Tamagawa measures exist for a large class of algebraic groups
+	For which ones does it fail to exist?
+	The naive guess may not always work since it may not converge (when we combine all local factors)
+	Often want to normalize so that a desired object has measure 1
+Look at meromorphic extension of global zeta function
+	Only poles at exponent 0,1 for unitary connected component of Riemann surface of characters
+Moving between K and K^{\times} is a simple matter since we just add and subtract a single term as appropriate
+	This should be thought of as adding boundary when we move from K^{\times} to K
+	Dealing with added boundary is more subtle in Godement-Jacquet theory
+	One general sentiment behind BKN program is that we need to handle added boundary carefully
+
+Geometry of numbers tells us that vol(\A_1^{\times}/K^{\times}) has an explicit form involving interesting invariants (c.f. [Lang, pg. 294])
+Let C be a nice algebraic curve over a global function field F_q(t)
+	Residue of Z_C(t) (curve zeta function) at t=1 is #Jac(C)/(q-1)
+
+Matter of combining global adelic theory and local theory is a bit subtle
+	Global picture knows about all Schwartz-Bruhat theory and so is "too general" to capture all relevant number theoretic information found in the local case

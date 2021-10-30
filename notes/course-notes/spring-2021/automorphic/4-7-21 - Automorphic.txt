@@ -1,0 +1,21 @@
+For more on the intertwining approach and the fact that our desired Hom space is 1-dim, see Kudla's writeup on Tate's thesis
+
+Here are three approaches to tackling local Godement-Jacquet theory in the nonarchimedean case:
+1. Reduce to the supercuspidal case using parabolic induction and then filter the Schwartz space for M_n(F) in a nice way to work with all test functions [Luo]
+2. Reduce to the supercuspidal case using parabolic induction and then work with a nice class of test functions that is large enough to deduce the functional equation [Wang and Godement-Jacquet]
+3. Make use of the explicit classification of irreducible admissible representations for GL_n(F)
+	https://youtu.be/pWTOKi9_CsE?t=1156
+
+Finding good test functions is an important yet somewhat subtle business:
+	Raphaël Beuzart-Plessis - results on relaxing conditions on test functions
+		Peter Sarnak also has some results in this vein
+	Peter Humphries -- finding nice test functors for Godement-Jacquet
+		https://arxiv.org/abs/1903.02031
+
+Multiplicativity of local \gamma-factors is an important phenomenon that helps us pass from the local to the global setting
+	Sahidi has an interesting paper on this
+
+In the coming weeks, Mishty will be speaking on this paper: https://arxiv.org/abs/1707.06091
+	Goal is to get nice version of the Poisson Summation Formula for the BKN program
+	https://arxiv.org/pdf/1711.08087.pdf
+	

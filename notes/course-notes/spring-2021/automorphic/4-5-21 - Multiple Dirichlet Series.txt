@@ -1,0 +1,52 @@
+Multiple Dirichlet Series
+
+Dirichlet series associated to "nice" classes of sequences "mimic" the Riemann zeta function in one of two ways
+1. A sum over n\geq1 is a product over primes p with the factors in the product looking like 1/P(p^{-s}) for P(x)\in C[x]
+	Coefficients of P depend on the prime but the degree of P is invariant
+2. MC + FE between s and k-s for some k
+
+In broad strokes, these things arise from the theory of automorphic forms
+
+New idea: Twist the Dirichlet series by multiplying by a residue symbol
+	Obtain a series now of two complex variables
+	The trivial representation does have a part to play here (when we interchange the order of summation) but its role is rather subtle
+
+For quadratic twists (using Kronecker symbols) we get a finite (generally non-abelian) group of functional equations
+	No natural cohomological interpretation of these symmetries is known
+
+Here are some other cases:
+	Kac-Moody algebras appear and we have infinite FE groups
+	For higher degree residue symbols, we involve nth order Gauss sums
+		Obtains FE groups such as S_n
+		Connections to quantum groups, crystal graphs, so-called integrable systems
+
+Continue the classical Dirichlet series L(s,\chi_N) to make sense of the value at 1/2 and try to understand what it is
+Lindelof hypothesis in twisted aspect: L(1/2,\chi_N)=O(N^{\epsilon})
+We can associate various multiple Dirichlet series to this
+	Continuation has been proved up to k=3
+	Continuation is conjectured to be obstructed by a single essential singularity for k\geq4 (for s=1/2)
+	In general, in terms of two complex variables, we get a plane of obstructions
+
+The value 1/2 appears since it is the fixed point of s \mapsto 1-s (this is the sense in which it is "central")
+	https://arxiv.org/abs/1308.2253
+A common technique is to look at 1/2+it for t a real parameter (basically, move on the critical line in the middle of the critical strip)
+	I'm not sure if this is related but for things related to the Riemann hypothesis (and GRH) you usually only need to be able to move in by \epsilon on the edges of the critical strip
+
+Linked things (maybe?)
+	Hamburger's Thm (Is that how you spell it...?)
+	Converse-type theorems
+
+The a(n)'s come from Hecke newforms for GL_2
+For GL_n we use Satake
+
+The two variables s,w interact in a somewhat complicated way (things are not necessarily "separable")
+
+Double Dirichlet series over function fields, Compositio Mathematica 140 (2004), 613--630
+	Gives the beginning of the story that potentially connects to geometric aspects
+Proc. Symp. Pure Math. 75 (2006), 91--114
+Annals of Mathematics 173 (2011), 1081-1120
+
+There are some Eisenstein series lurking in the background, at least by analogy
+	Can't bring to bear the full structural power of Eisenstein series, unfortunately
+	Eisenstein series related to Whittaker coefficients (IDK what these are...)
+Kazhdan characterizes Eisenstein series by pushforwards and pullbacks

@@ -1,0 +1,35 @@
+S(\GL_n(F)) := locally constant compactly supported functions on M_n(F) restricted to \GL_n(F)
+	Not the same as Schwartz functions on \GL_n(F) since restriction does not necessarily respect compactness (open immersions are not proper in general)
+	Think about \O_F vs. \O_F^{\times}
+	Worth looking into as a point of contrast between [Luo] and [Wang]
+Cochar. \lambda of alg. grp. G gives rise to parabolic P(\lambda) defined as points of G where "t-->0 limit" of the \lambda action exists
+	How does this correspond to being the stabilizer of a flag?
+The supercuspidality condition can be rephrased as some integral over all unipotents vanishes (after defining everything correctly). This is a local analogue of cuspidal automorphic form
+	Rephrasing here comes from unpacking construction of the Jacquet module
+Example construction: supercuspidal representation of \GL_2(\F_q)
+	C.f. Thm 6.2 of this paper: http://users.ictp.it/~pub_off/lectures/lns021/Prasad/Prasad.pdf
+	In positive char., this technique can be generalized to construct all supercuspidal representations for \GL_2
+Compact induction imposes compact support on the quotient homogeneous space (we may not be dealing with a normal subgroup)
+"Normalized Jacquet module"
+	Twist by modular quasichar. to the -1/2 to make Frobenius Reciprocity easier to state
+	Modular quasichar. also arises to relate behavior of induction with taking the contragredient, as well as carry over unitarizability
+Induction helps us construct non-examples of supercuspidal representations
+This is some general construction; any Borel will only have 1-dimensional irreducible representations because solvable algebraic groups are so called "trigonalizable"
+	Related to so-called Steinberg representation
+Ind(\pi_1 … \pi_n) in general is irreducible for \pi_1,...,\pi_n supercuspidal irreducible if and only if \pi_i is not isomorphic to \pi_j \cdot |\det|
+	Thm 4.2 of this source: http://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/BZ-induced-1.pdf
+	Thm 9.7 of Zelevinsky's 1980 paper
+	Theory of multisegments -- c.f. Thm 1.2.5 of Kudla's article on The Local Langlands Correspondence - the NA case
+What is the full significance of the multiplicativity of the local \gamma-factors?
+How do local \gamma-factors change when we modify the input parameters?
+	Bernstein variety -- Is there natural choice of topology/geometry for space of (maybe some adjectives here...) representations of \GL_n(F)?
+Local Euler factors (L-functions)
+	n=1 case handled by Tate's thesis
+	n>1 case we just get 1 (so it's not interesting; fortunately the local \epsilon-factor is interesting!)
+The decomposition of the Haar measure according to the Iwasawa decomposition is a non-trivial fact. You can find it for instance in Bump's book page 138
+	C.f. also Getz and Hahn Proposition 3.2.1
+If C(.) gives functions that are locally constant with compact support then C takes Cartesian products to tensor products
+	...at least for matrices using indicator function decompositions
+How can we generalize the rank stratification of \GL_n?
+	Role of the boundary in the BKN program
+	Connection to theory of perverse sheaves?

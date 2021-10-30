@@ -1,0 +1,15 @@
+There is some finicky stuff with topology
+	We have \O\subset K and \O^{\times}\subset K^{\times}
+	K^{\times} could be given one subspace top, inverse limit top, idelic top
+
+[In general the problem of finding test data (called test vectors) for a given zeta integral that produces the L-function is a difficult problem]
+[For unramified representations you can usually take some data which involves the normalized spherical vector, but in general it's difficult]
+Yes, only that I believe that these integral, factors, functions, … are rational functions on q^-s in the non arch field case. This might be related with a question that you did the last class, which we can discuss later.
+Yes, the zeta integrals produce rational functions in q^(-s), and therefore so do the local factors. There is a very general result about this by Bernstein (Written down by Williams Bank: 
+https://mospace.umsystem.edu/xmlui/handle/10355/10610)
+
+The Fubini-style symmetry trick won't work in its strong form in general:
+	In general, the strategy is to prove that some Hom space is 1-dimensional, and then f \mapsto Z(f, \chi) and f \mapsto Z(\hat{f}, \chi^{\check}) are elements in this space, therefore proportional
+
+Spherical vectors are often the natural choice for unramified representations
+	What do we do in the ramified case?

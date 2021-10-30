@@ -1,0 +1,18 @@
+Microlocal analysis
+	Play off functions against their Fourier transform
+	Compare things like supports
+	Maybe we make things nice locally somewhere at the cost of "niceness" somewhere else
+	Manifests in physics as uncertainty principles
+
+Ask Bjorn how he does live notes (Dropbox paired with iPad note app...)
+
+Kudla's summary of Tate's thesis - An Introduction to the Langlands Program
+	Gives canonical way of conceptualizing epsilon comparison factors
+	Way more than just a summary, with lots of insight not originally present in the thesis
+
+The global-local perspective gives us a much better way to see where the functional equations come from
+
+Siegel-Minkowski formula for quadratic forms (connection to Tamagawa measure)
+
+Tate has an excellent paper on residue pairings for curves
+	Reference?

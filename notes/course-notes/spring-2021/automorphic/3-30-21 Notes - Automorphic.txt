@@ -1,0 +1,24 @@
+Paley-Wiener Thm is a result on growth conditions
+	Possibly related to cuspidality
+Bernstein variety generalizes part of Tate's thesis in which \eta part of quasicharacter controls connected component
+	Where did \eta and "ramifiedness" go for n>1?
+Rankin-Selberg theory tells us about the relationship between representations and the location and order of poles of associated zeta integrals
+	Nature of poles described by subrepresentations of induction from appropriate cuspidals
+See Getz and Hahn for results on how matrix coefficients recover representations
+	How much do the matrix coefficients know about the representation from which they come?
+[Luo] and [Wang] seem to present genuinely different approaches to proving the functional equation
+	Can we reconcile the two approaches? Are they actually all that different?
+	When are the various local factors trivial (epsilon, gamma, L)? How can we describe them more generally?
+Where does the discrepancy arise for the cases n=1 and n>1?
+	What does Luo mean by \pi+{s+(n-1)/2}?
+	What fails for n=1?
+	How is duality related to compact support for parabolic induction?
+		Need associated integrals to converge for pairings to make sense
+		Similar to stuff for cohomology classes in de Rham theory
+Typos and deficiencies for [Luo]
+	GCD result -- What does it actually take to show we have a fractional ideal?
+	We have independence from s specifically because of how K_0 is chosen
+	When do we just recover \C[q^{\pm s}] as our fractional ideal? That is, when is our Euler factor equal to 1?
+
+https://www.youtube.com/channel/UCKTentL-zncr4uAaFyex0Aw/search?query=lei+zhang
+Master's thesis of Edva-Aida Roditty
