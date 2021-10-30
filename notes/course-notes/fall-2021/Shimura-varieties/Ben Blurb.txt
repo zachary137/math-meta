@@ -1,0 +1,9 @@
+My Topics in Algebra and Number Theory (MATH8845) will be an Introduction to Shimura Varieties. 
+
+The ides is to cover the first few expository papers in the "Shimura Varieties" volume edited by Haines and Harris. 
+The emphasis will be on the theory of integral models, especially for Shimura varieties associated to unitary groups. 
+
+There are no official prerequisites, but I will assume that anyone taking the course is already familiar with the basics of schemes 
+(at the level of Hartshorne) and abelian varieties.  
+Although the course will mostly consist of lectures delivered by me, 
+anyone registered for the course will be expected to give at least one lecture on a topic of their choosing.
