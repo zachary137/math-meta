@@ -1,0 +1,51 @@
+5
+(a)
+1 pt - T
+1 pt - normal to level curve
+1 pt - dimension mismatch
+(b)
+1 pt - T
+1 pt - partials
+1 pt - linearization info
+(c)
+1 pt - T
+1 pt - gradient
+1 pt - calculation/geometry
+(d)
+1 pt - F
+1 pt - critical point
+1 pt - saddle or some other kind of behavior
+
+4
+(a)
+	[1] Equation z^2-x^2=5 or x^2-z^2=-5
+	[1] Axes
+	[1] Intercepts
+	[1] Opens in the correct directions
+	[1] Symmetric (need both halves)
+(b)
+(i)
+	[1] Get equation x^2+4y^2=8
+	[1] Show work
+	[1] Correct param for x(t)
+		2sqrt(2)cos(t)
+	[1] Correct param for y(t)
+		sqrt(2)sin(t)
+(ii)
+	[1] Identify that we need to find point in domain of param
+	[1] Consistent point in domain of param
+	[1] Show work
+	[1] Consistent x(t) deriv
+		-2sqrt(2)sin(t)
+	[1] Consistent y(t) deriv
+		sqrt(2)cos(t)
+	[1] Plug in point in domain of param
+	[1] Consistent vector
+		<-2,1> (third component is fine)
+(c)
+	[2] Find gradient at (2,1,3)
+		Show work
+		Correct value <4,8,-6>
+	[1] Find normal vector to plane
+	[1] Mention that normal vectors are not parallel
+	[1] Mention that two planes are parallel iff their normal vectors are parallel
