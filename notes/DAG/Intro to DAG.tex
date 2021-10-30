@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\C}{\mathcal{C}}
+\renewcommand{\AA}{\mathcal{A}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\FF}{\mathcal{F}}
+\renewcommand{\L}{\mathbb{L}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\Sp}{\mathsf{Sp}} % spectra
+\newcommand{\UU}{\mathscr{U}}
+
+\begin{document}
+\title{Intro to DAG}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+\thispagestyle{fancydate}
+
+Our discussion will be guided by two essential questions.
+\begin{enum}{\arabic}
+\item Why \emph{derived} algebraic geometry?
+\item What do we mean by \emph{derived}?
+\end{enum}
+Let's start with the motivation that T\"{o}en refers to as ``proto DAG'' -- Serre's intersection formula. Unless otherwise stated, all rings and algebras are commutative and unital. Warning that our presentation might be a bit circular at times.
+
+\section{Proto-DAG}
+Let $C,C'\subset\P^2$ be ``nice'' algebraic curves defined over an algebraically closed field. Inside of the Chow ring of $\P^2$ there is an intersection class
+$$[C].[C']=\sum_{p\in C\cap C'}\mu_p(C,C')[p]$$
+defined in terms of intersection multiplicities $\mu_p(C,C')$. If $C,C'$ intersect transversally at $p$ then we have $\mu_p(C,C')=1$. Otherwise, we must first (algebraically) deform $C,C'$ so that they do intersect transversally. More generally, if $X$ is a smooth algebraic variety and $Y,Z\subset X$ are irreducible algebraic subsets then 
+$$[Y].[Z]=\sum_{W\subset Y\cap Z}\mu_W(Y,Z)[W]$$
+inside of the Chow ring for $X$, summing over irreducible components $W$ of $Y\cap Z$. Under a condition called \emph{Tor-independence} we have
+$$\mu_W(Y,Z)=\l_{\O_{X,W}}(\O_{Y,W}\tensor_{\O_{X,W}}\O_{Z,W}),$$
+which is the generic length of the structure sheaf of $Y\cap Z$ along $W$. Serre shows us that we can still compute this multiplicity in general, with the extra ingredient being some ``derived'' error correction terms.
+
+\begin{theorem}[Serre's Intersection Formula]
+Assume the above setup. Then,
+$$\mu_W(Y,Z)=\sum_{i\geq0}(-1)^i\l_{\O_{X,W}}(\Tor_i^{\O_{X,W}}(\O_{Y,W},\O_{Z,W})).$$
+\end{theorem}
+
+This is useful for dealing with ``bad'' intersections -- e.g., the worst case scenario that $Y=Z$. Can we still get some reasonable geometric understanding in these cases?
+
+\begin{example}
+Let $E$ be the exceptional divisor of the blowup of $\P^2$ at some point (the choice does not matter since $\P^2$ is homogeneous). Then, $E$ has self-intersection $-1$.
+\end{example}
+
+The Tor terms in Serre's intersection formula arise precisely from taking the homology of the derived tensor product $\O_{Y,W}\Ltensor_{\O_{X,W}}\O_{Z,W}$. This object, which naturally lives in the derived (1-)category of (left) $\O_{X,W}$-modules, should be viewed as the stalk of the structure sheaf of the \emph{derived} intersection of $Y$ and $Z$ (in $X$) at the generic point of $W$. We see that dimension in DAG should be measured by something like Euler characteristic (note that this makes the statement of Riemann-Roch really clean).
+
+\section{Cotangent Complexes}
+Let $S$ be a scheme and $f:X\to Y$ and $g: Y\to Z$ morphisms of schemes over $S$ (or even algebraic spaces over $S$!). Then, there is a canonical exact sequence \textup{($*$)}
+\begin{center}
+\begin{tikzcd}
+f^*\Omega_{Y/Z}^1 \arrow[r] & \Omega_{X/Z}^1 \arrow[r] & \Omega_{X/Y}^1 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and this is short exact if $f$ is formally smooth (see [Stacks, Tag 06BI]). It is then natural to wonder if, in the case that $f$ is not formally smooth, \textup{($*$)} can naturally be extended to get a longer exact sequence as one would do for (right) exact functors in an abelian category. In the affine case this is handled by work of Andr\'{e} and Quillen building a homology theory for commutative rings. This is globalized by work of Grothendieck and Illusie. Together they give us the so-called \emph{cotangent complex} $\L_X$ associated to a scheme $X$ which is now essential to deformation theory. As is the case for constructing usual derived functors, this rests on some kind of resolution procedure. The above suggests that we should be interested in smooth algebras (i.e., they should be ``acyclic''), and indeed one method of construction is to study simplicial resolutions of algebras by smooth algebras.
+
+In the affine case, given a commutative $R$-algebra $A$, one constructs a simplicial complex $A_*$ of smooth $R$-algebras equipped with an augmentation $A_*\to A$ which is a resolution in the sense that the natural map $\Tot(A_*)\to A$ is a qis (in cohomology).\footnote{The totalization of a (co-)simplicial complex is the same as the totalization of an associated double complex.} Taking $\L_A:=\Tot(n\mapsto\Omega_{A_n}^1)$ yields the cotangent complex, which is independent of the choice of resolution. This is important to deformation theory because infinitesimal deformations of $A$ correspond precisely with classes in $\Ext_A^1(\L_A,A)$ and obstructions to extension are parametrized exactly by $\Ext_A^2(\L_A,A)$ (at least in the case that $R$ is a field -- later we will discuss in more detail).
+
+In the global setting, given an $R$-scheme $X$ (with $R$ ``nice''), one chooses an affine open covering $\UU$ of $X$ and then constructs a simplicial sheaf $\AA_*$ of polynomial $R$-algebras equipped with an augmentation $\AA_*\to\O_X$ such that, for every $U\in\UU$, $\AA_*(U)\to\O_X(U)$ is a polynomial simplicial resolution.\footnote{There is a way to choose \emph{standard} simplicial resolutions of the $\O_X(U)$ by (infinite-dimensional) polynomial $R$-algebras. This makes gluing nice.} In particular, we wind up with the data of $X$ a scheme, $\AA_*$ a simplicial sheaf of $R$-algebras over $X$, and $\AA_*\to\O_X$ an augmentation such that $\Tot(\AA_*)\to\O_X$ is an isomorphism on cohomology sheaves. If we relax this last condition to simply require that $\HH^0(\Tot(\AA_*))\xto{\sim}\O_X$ then we essentially arrive at the notion of a \emph{derived scheme}. The terms $\HH^i(\Tot(\AA_*))$ for $i\neq0$ basically tell us ``how far'' our derived scheme is from being a scheme. In our setup for Serre's intersection formula, the term $\O_{Y,W}\Ltensor_{\O_{X,W}}\O_{Z,W}$ is the stalk of $\HH^{-i}(\Tot(\AA_*))$ at the generic point of $W$.
+
+There are many other sources of motivation for DAG, many of which are spelled out in T\"{o}en's survey. Let us simply mention that stacks are a motivating force that cuts across multiple areas. One deficiency of the classical theory of stacks is that manipulations involving $2$-categories can seem rather ad hoc and ``non-geometric.'' Another is suggested by our above ponderings on K\"{a}hler differentials. Namely, we would like to treat $\QCoh$ and other such things as though they were nicely behaved functors. This would have the added bonus of making many constructions and results within basic algebraic geometry (e.g., existence/nonexistence of the pushforward for quasicoherent sheaves) much more transparent.
+
+\section{Contrasting Perspectives}
+Moving forward, one thing to keep in mind is that there will be practically no difference for us between homotopy groups and (co-)homology groups ($H^i=\pi_{-i}$). Algebra and topology will also be on essentially equal footing as generally happens in $\infty$-category theory. Rambling aside, we now want to discuss a few different perspectives on the following things.
+\begin{itemize}
+\item Derived rings
+\item Derived schemes
+\item Derived stacks
+\end{itemize}
+Before getting into this, let's talk a little bit about notation and terminology. Given a $1$-category $\C$, there is often more than one way to get an $\infty$-categorical ``enhancement'' of $\C$. We can of course ``directly'' turn $\C$ into an $\infty$-category using the so-called \emph{nerve construction}, but this does not give us anything interesting from a homotopical standpoint. Instead, most homotopically interesting methods of enhancement will involve some kind of localization.
+
+Going the other way, let $\C$ be an $\infty$-category. Then, $\C$ has an underlying homotopy $1$-category $\Ho(\C)$. If $\C$ is a stable $\infty$-category (the $\infty$-categorical analogue of an abelian category) then $\Ho(\C)$ is naturally triangulated.\footnote{See [HA, Theorem 1.1.2.14]. The shift arises from suspension, which is well-defined up to canonical equivalence and exists since $\C$ is naturally enriched over the $\infty$-category $\Sp$ of spectra (to be discussed later).}
+
+\textbf{\un{Warning}:} $\Ho(\C)$ and thus $\C$ does not come equipped with a natural $t$-structure.
+
+Given a $t$-structure on $\Ho(\C)$ and thus $\C$, taking the heart gives us the heart $\C^{\heart}$ of $\C$. This is technically an $\infty$-category. However, taking the nerve of the \emph{abelian} $1$-category $\Ho(\C^{\heart})$ canonically yields $\C^{\heart}$ and so we often simply think of $\C^{\heart}$ as an abelian $1$-category. One fruit of this $t$-structure is that to objects $X$ of $\C$ we may associate homotopy groups $\pi_i(X)$ for $i\in\Z$ with $\pi_0(X)$ living in $\Ho(\C)$ (with $\C^{\heart}$ distinguished by $X$ such that $\pi_i(X)$ ``vanishes'' for $i\neq0$ and so is \emph{discrete}). One rule of thumb is that, in passing from $\C^{\heart}$ to $\C$, the main objects of interest will be \emph{connective} in the sense that $\pi_i(X)$ vanishes for $i<0$.
+
+Many abelian $1$-categories of interest arise naturally as the heart of some stable $\infty$-category. Because our interest is in homotopical matters we will from here-on-out often give notational preference to $\infty$-categories over their underlying $1$-categories. Since the heart notation is a useful distinguishing convention, we will also often use it to refer to \emph{non-abelian} $1$-categories. For example, taking for-granted for now that there is some good notion of an $\infty$-category of (left) $R$-modules, it is common to denote this $\infty$-category by $\Mod_R$. The category $\Mod_R^{\heart}$ is then the classical $1$-category of (left) $R$-modules. To hammer this home, here is a ``dictionary'' that may be of some help.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+``Classical'' AG & DAG \\
+\hline
+$\CAlg_R$ & $\CAlg_R^{\heart}$ \\
+$\Mod_R$ & $\Mod_R^{\heart}$ \\
+$D(\Mod_R)$ & $\Mod_R$ \\
+$\cdot\Ltensor_R\cdot$ & $\cdot\tensor_R\cdot$ \\
+$\cdot\tensor_R\cdot$ & $H^0(\cdot\tensor_R\cdot)=\pi_0(\cdot\tensor_R\cdot)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Another way to go is to use the notion of ``animation'' pioneered by Scholze and his collaborators (see, for instance, the most recent paper of Scholze and Cesnavicius). The idea is that, given a suitable $1$-category $\C$, we can ``breathe life'' into $\C$ (through a precise process) to get an $\infty$-category $\Ani(\C)$ (if the objects of $\C$ are called ``widgets'' then objects of $\Ani(\C)$ are called ``animated widgets''). Not every $\infty$-category arises this way but many we are interested in do. Applying this procedure to the $1$-category $\Set$ of sets yields the $\infty$-category $\Ani$ of animated sets or simply \emph{anima}. This $\Ani$ goes by many other names, with its objects variously called $\infty$-groupoids, $(\infty,0)$-categories, homotopy types, spaces, and Kan complexes (see the introduction to Lurie's thesis for more on this). Possible notation includes $\mc{S}$, $\Grpoid$, and $\infty$-$\Grpoid$.
+
+\subsection{Derived Rings}
+What are our contenders for a ``homotopical enhancement'' of commutative rings?
+\begin{enum}{\alph}
+\item CDGAs
+\item Simplicial commutative rings
+\item $\E_{\infty}$-rings
+\end{enum}
+Each of these should work as an avatar of the $\infty$-category $\CAlg$ of commutative rings, at least under the right conditions. Given any $R\in\CAlg^{\heart}$ we should be able to get an $\infty$-category $\CAlg_R$ enhancing $\CAlg_R^{\heart}$, and in fact it should be possible to consider $\CAlg_R$ for any $R\in\CAlg$. Morally, $\CAlg_R$ should itself be distinguished by some kind of ``universal property'' that allows us to reason about it independent of any incarnation.
+
+Let's now unpack CDGAs. Given a commutative ring $R$, a \textbf{commutative differential graded algebra} or simply \textbf{CDGA} over $R$ is a commutative monoid object in the category $\Ch(\Mod_R^{\heart})$ of chain complexes of $R$-modules. For the non-category theorists in the room, this is the data (using cohomological conventions) of a chain complex $A^{\bullet}=(\cdots\to A^i\xto{d^i}A^{i+1}\to\cdots)$ of $R$-modules with multiplication $A^i\tensor_RA^j\to A^{i+j}$ that is associative, graded commutative, and respects differentials. These form a $1$-category $\CDGA_R^{\heart}$ with an associated $\infty$-categorical derived category $\CDGA_R:=\D(\CDGA_R^{\heart})$ obtained by inverting qis's.\footnote{Note that this is different from the ``classical'' derived $1$-category $D(\CDGA_R^{\heart})$.} One avatar of $\CAlg$ is then $\CDGA_{\Z}$. The advantage of $\CDGA_R$ is that it can be useful for computations in characteristic $0$. Outside of characteristic $0$, however, computation is basically hopeless. The construction is also not fully homotopical as we might like.
+
+The other two enhancements come from thinking about topological and ``categorical'' commutative rings. The former are easy to understand -- take a ring together with a topology whose ring operations are continuous.\footnote{One could also directly consider \emph{categories} enriched with topological or simplicial structure.} The latter aims to equip \emph{categories} with ``addition'' and ``multiplication'' operations that behave as expected (which necessitates dealing with homotopical coherence). Pursuing the former strategy yields the $\infty$-category $\SCR$ of simplicial commutative rings. Pursuing the latter strategy yields the $\infty$-category $\Alg_{\E_{\infty}}$ of $\E_{\infty}$-rings.
+
+In more detail, we obtain $\SCR_R$ by considering simplicial $R$-algebras, which are by definition simplicial objects in $\CAlg_R^{\heart}$. The associated $1$-category is $(\CAlg_R^{\heart})_{\DDelta}=\Fun(\DDelta^{\op},\CAlg_R^{\heart})$, for $\DDelta$ the simplex category. Why is this natural to consider if we are interested in topological commutative rings? CW approximation tells us that every object in the $1$-category $\Top$ of topological spaces is realized up to weak homotopy equivalence by a CW complex. These CW complexes live in the full subcategory $\mc{T}\subset\Top$ spanned by the so-called compactly generated weakly Hausdorff spaces (see May's book).\footnote{One of the major advantages of $\mc{T}$ over $\Top$ is that it is Cartesian closed.} A classical result then tells us that the total singular complex functor $\Sing: \Top\to\Set_{\DDelta}$ induces a Quillen equivalence between $\mc{T}$ and the $1$-category $\Set_{\DDelta}$ of simplicial sets, the latter carrying the Kan model structure in which the fibrant objects are the Kan complexes.\footnote{Note that every Kan complex is a fortiori an $\infty$-category and that $\Sing(X)$ is a Kan complex for every topological space $X\in\Top$. Quillen equivalence is the natural notion of isomorphism in the ($2$-)category of all model categories.} The latter are naturally $\infty$-groupoids, which Grothendieck's Homotopy Hypothesis says are precisely the $\infty$-categorical analogue of topological spaces.
+
+What, then, about $\E_{\infty}$-rings? One first considers \emph{spectra}, which form an $\infty$-category $\Sp$ that is the \emph{stabilization} of $\Ani$ in the sense that it is the universal stable $\infty$-category obtained from $\Ani$. Spectra arise naturally in part because every stable $\infty$-category is automatically enriched over $\Sp$. The idea is that an $\E_{\infty}$-ring should be thought of as an $\E_{\infty}$-ring spectrum, which roughly has an underlying spectrum and ``ring operations'' which commute up to coherent homotopy. One way of making this precise is to consider certain ($\infty$-)functors from an appropriate \emph{operad} to $\Sp$ -- other methods exist but note that this is stronger than the notion of a ``homotopy commutative ring spectrum'' in which we forget exactly how things are homotopically identified with one another.\footnote{Here, we are sweeping under the rug the fact that $\Sp$ carries a \emph{smash product} $\tensor$ which behaves much like a tensor product of modules and essentially allows us to view $\Sp$ in terms of modules over the sphere spectrum.} There are also variations on this theme -- e.g., we can consider $\A_n$- and $\E_n$-ring spectra in which we impose different levels of coherent associativity or commutativity, respectively. The resulting $\infty$-category is $\Alg_{\E_{\infty}}=\Alg_{\E_{\infty}}(\Sp)$ and a similar process yields $\Alg_{R,\E_{\infty}}$ as an avatar of $\CAlg_R$. Note that $\CAlg_R^{\heart}$ sits inside of $\Alg_{R,\E_{\infty}}$ basically in terms of Eilenberg-MacLane spectra, with the left adjoint to this inclusion given by taking $\pi_0=H^0$.\footnote{This is an adjunction between discrete $R$-module spectra and connective $R$-module spectra.}
+
+\textbf{\un{Warning}:} One important way in which connectivity enters the picture is the following. The basic problem is that there is no map of $\E_{\infty}$-ring spectra from $\Z$ (identified with its Eilenberg-MacLane spectrum) to the sphere spectrum. This means that $\Alg_{\E_{\infty}}$ is not the same thing as $\Alg_{\Z,\E_{\infty}}$. More on this in a minute.
+
+In general, $\Alg_{R,\E_{\infty}}$ is the ``purest'' homotopical avatar of $\CAlg_R$ while $\SCR_R$ is often the most practical avatar in situations where we want to do explicit computations. Algebraic geometry done using $\SCR_R$ is typically called ``DAG,'' while $\E_{\infty}$-ring spectra give us ``SAG'' (``spectral algebraic geometry''). Working with $\E_{\infty}$-rings also has other quirks, such as there being not one but \emph{two} interpretations of the affine line $\A^1$. These are the \emph{flat} and \emph{smooth} affine line denoted $\A_{\flat}^1$ and $\A_{\sm}^1$.
+
+In characteristic $0$ we have equivalences among $\CDGA_R^{\leq0}$, $\SCR_R$, and $\Alg_{R,\E_{\infty}}^{\cn}$ (the latter denotes connective spectra). How does this work? The functor from $\SCR_R$ to $\Alg_{R,\E_{\infty}}^{\cn}$ is given simply by forgetting the ``strictness.'' At the same time, we have the Dold-Kan correspondence from $\CDGA_R^{\leq0}$ to $\SCR_R$ which is built on the level of $1$-categories and then ``lifted'' using Kan extension. The subtlety here arises from the fact that taking exterior powers does not give an additive functor for $R$-modules -- indeed, the formula is 
+$$\wedge_R^n(M\oplus N)\iso\bigoplus_{i+j=n}\Wedge_R^iM\tensor_R\Wedge_R^jN.$$
+In characteristic $0$ we can use Dold-Kan to \emph{define} exterior powers for (connective) chain complexes. This plays nice with the symmetric monoidal structure on $\CDGA_R^{\leq0}$ in characteristic $0$ but not so in positive characteristic (actually, what even \emph{is} this structure in this setting?).
+
+\subsection{Derived Schemes and Stacks}
+At this point we've spent way too much time discussing algebra and so should introduce some geometry to the mix. Let's start with some $1$-categorical observations. The $1$-category $\Sch$ of schemes is often obtained by considering locally ringed spaces $(X,\O_X)\in\LRS^{\heart}$ admitting an open covering by affine schemes (whose underlying topological spaces, up to isomorphism, look like prime spectra of commutative rings equipped with the Zariski topology).\footnote{We should be able to get away with working with \emph{all} ringed spaces -- i.e., $\RS^{\heart}$ in place of $\LRS^{\heart}$.} $\O_X$ is a sheaf of ordinary commutative rings, so it takes values in $\CAlg^{\heart}$. To get derived schemes one could replace $\CAlg^{\heart}$ by $\CAlg$. This necessitates changing the sheaf condition to account for homotopical coherence. In the simplest case, suppose we have a topological space $X\in\Top$ and $\C$ an $\infty$-category with limits. Then, $\FF\in\Fun(\Op(X)^{\op},\C)$ is a \textbf{sheaf} if, for every $U\subset X$ open and $\{U_i\}$ an open covering of $U$, the natural map 
+$$\FF(U)\to\lim\paren{\prod_i\FF(U_i)\rightrightarrows\prod_{i,j}\FF(U_i\cap U_j)\cdots}$$
+is an isomorphism.\footnote{}
+
+\begin{remark}
+The above sequence for the sheaf condition should be interpreted in terms of $\infty$-categories and not $1$-categories. In the classical $1$-categorical setting we only need to go out one ``level.'' People familiar with stacks might recognize that in that setting we need to go out two ``levels.'' In general, infinitely many ``levels'' are needed.
+\end{remark}
+
+From this we obtain the $\infty$-category $\RS$ of \emph{derived ring spaces} and thus the $\infty$-category $\DSch$ of \emph{derived schemes}, assuming we understand affine derived schemes.
+
+\begin{definition}
+Given a (connective) derived ring $A$, an \textbf{affine derived scheme} is the data of a derived ring space $\Spec A=(\abs{\Spec\pi_0(A)},\O_{\Spec A})$ with the \emph{derived structure sheaf} $\O_{\Spec A}$ defined as expected except using $\infty$-categorical localization.
+\end{definition}
+
+We quickly deduce that the data of a derived scheme in $\DSch$ is the data of a scheme $\pi_0(X)\in\Sch$ together with a presheaf $\O_X$ on $\pi_0(X)$ valued in $\CAlg$ such that $H^0(\O_X)\iso\O_{\pi_0(X)}$ and $H^i(\O_X)\in\QCoh(\pi_0(X))$ for every $i\geq1$ (from which it follows that $\O_X$ is automatically a sheaf).
+
+\begin{question}
+What happens if we choose to ``derive'' the instances of $\Top$ in this story?
+\end{question}
+
+Another perspective on all of this comes from thinking in terms of the functor-of-points. The name of the game here is the Yoneda embedding $\Sch\inj\Fun(\Sch^{\op},\Set)$. If we restrict our attention to the full subcategory $\Aff\Sch\subset\Sch$ of affine schemes then we are led to consider $\Fun(\Aff\Sch^{\op},\Set)\simeq\Fun(\CAlg^{\heart},\Set)$. And, in fact, we can realize $\Sch$ as a full subcategory of $\Fun(\CAlg^{\heart},\Set)$, without any appeals to topology! The key is that we can still make sense of Zariski descent and, moreover, port over many of the usual Grothendieck topologies to this setting. The upshot is that we can now consider $\Fun(\CAlg^{\cn},\Ani)$. Derived stacks live here!\footnote{Among these, the two most prevalent types are probably derived Deligne-Mumford and derived Artin stacks. More on this later\ldots}
+\end{document}
