@@ -1,0 +1,356 @@
+\documentclass[aspectratio=1610]{beamer}
+\usetheme{Boadilla}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[english]{babel}
+\usepackage{comment}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\usetikzlibrary{matrix, calc, arrows}
+
+\let\oldO\O
+\renewcommand{\O}{\mathcal{O}}
+\let\oldP\P
+\renewcommand{\P}{\mathbb{P}}
+\let\oldsubset\subset
+\renewcommand{\subset}{\subseteq}
+
+\renewcommand{\Im}{\textrm{Im}}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\df}{\dfrac}
+\newcommand{\eps}{\epsilon}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\ip}[1]{\left\langle#1\right\rangle}
+\newcommand{\iso}{\cong}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ov}{\overline}
+
+\newcommand{\ssum}{\displaystyle\sum}
+\newcommand{\pprod}{\displaystyle\prod}
+
+\DeclareMathOperator{\Art}{Art}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Spec}{Spec}
+
+\newtheorem{exercise}{Exercise}
+\newtheorem{reminder}{Reminder}
+
+\title{An Introduction to Heegner Points and the Gross-Zagier Formula}
+\author{Zachary Gardner}
+\date{October 23, 2020}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Overview}
+Let $E/\Q$ be an elliptic curve. Our goal is to construct and study certain rational points in $E(K)$, where $K$ is an imaginary quadratic field. We do this as follows.
+\begin{enumerate}
+\item It turns out to be advantageous to assume that $E$ is modular and so there is a ``modular covering'' $\phi_E: X_0(N)\to E$ for some $N$ (all of this will be made precise). This assumption is harmless by the modularity theorem.
+
+\item Produce a family of points in $X_0(N)(L)$ for $L/K$ a suitable Galois extension that behave nicely under the action of $\Gal(L/K)$. These are the so-called Heegner points.
+
+\item Precompose with $\phi_E$ and sum over our family to produce a point 
+$$P_K\in E(L)^{\Gal(L/K)}=E(K).$$
+
+\item Formulate the Gross-Zagier formula, which relates height data of the point $P_K$ to central derivatives of certain $L$-functions.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Elliptic Curves}
+As you have probably heard, elliptic curves are one of the central objects of study in number theory. 
+\begin{definition}
+An \textbf{elliptic curve} $E$ over a field $k$ is a smooth projective algebraic $k$-curve with genus one and a distinguished $k$-rational point (i.e., a point with ``coefficients in $k$'').
+\end{definition}
+Intuitively, $E$ is a one-dimensional object cut out by some algebraic equations that has a single ``hole.'' One of the key features is that the set $E(k)$ of $k$-rational points is an abelian group under an appropriately geometric operation. Over $\Q$, $E$ is defined by a Weierstra\ss\, model 
+$$y^2=x^3+ax+b$$
+with $a,b\in\Z$ and nonzero discriminant measuring smoothness:
+$$0\neq\Delta_{E/\Q}=16(4a^3+27b^2).$$ 
+\end{frame}
+
+\begin{frame}{Isogeny}
+In math it is often useful to study objects up to a certain notion of equivalence. For elliptic curves, that notion is isogeny. 
+\begin{definition}
+An \textbf{isogeny} $\phi: E\to E'$ of elliptic curves over $k$ is a nonzero map that preserves the underlying curve and group structures.
+\end{definition}
+The map $\phi$ has a well-defined kernel $\ker\phi$ whose structure is mostly determined by what happens to $\ov{k}$-points:
+$$(\ker\phi)(\ov{k})=\ker(\phi(\ov{k}): E(\ov{k})\to E'(\ov{k})).$$
+The structure of $\ker\phi$ encodes important geometric information -- e.g., if $(\ker\phi)(\ov{k})\iso\Z/N$ for $N$ prime to the characteristic of $k$ then $\phi$ should be viewed as a degree $N$ covering map. In this case we say that $\phi$ is a \textbf{cyclic $N$-isogeny}. Note that a $1$-isogeny is just an isomorphism (over $\ov{k}$).
+\end{frame}
+
+\begin{frame}{Moduli Spaces}
+We want to build a (``coarse moduli'') space $X_0(N)$ that parameterizes elliptic curves up to $N$-isogeny. We will do this by constructing a homogeneous space $Y_0(N)$ whose points correspond to $N$-isogeny classes of elliptic curves. The reason this is not the end of the story is that we want to think about elliptic curves in families and not just as isolated objects. Some families in $Y_0(N)$ will degenerate into ``cusps.'' We want to ensure that these cusps are contained in $X_0(N)$, which can be done by appropriately compactifying $Y_0(N)$. To see this in action let's investigate the case $N=1$.
+
+\begin{center}
+\includegraphics[scale=1.0]{projective_plane}
+\end{center}
+\end{frame}
+
+\begin{frame}{The Case $N=1$}
+Over $\C$, classifying elliptic curves is easy. We have $E=\C/\Lambda$ for some lattice
+$$\Lambda=\omega_1\Z+\omega_2\Z,\qquad\omega_1,\omega_2\in\C\textrm{ such that }\omega_1/\omega_2\not\in\R.$$
+By rescaling we may assume $\Lambda=\Z+\tau\Z$ for some $\tau\in\HH$, where
+$$\HH:=\{x+iy\in\C : y>0\}$$
+is the upper half-plane. Two points $\tau,\tau'\in\HH$ yield equivalent (``homothetic'') lattices if and only if they lie in the same orbit of $\SL_2(\Z)$, which acts on $\HH$ by fractional linear transformations \`{a} la
+\begin{equation*}
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+\cdot\tau
+=\df{a\tau+b}{c\tau+d}.
+\end{equation*}
+With this in mind, we define $Y_0(1):=\HH/\SL_2(\Z)$.
+\end{frame}
+
+\begin{frame}{Modular Curves}
+For general $N$ it turns out the right approach is to define
+$$\Gamma_0(N):=\left\{\gamma=\begin{pmatrix}a & b\\c & d\end{pmatrix}\in\SL_2(\Z) : c\equiv0\bmod{N}\right\}$$
+and $Y_0(N):=\HH/\Gamma_0(N)$. As promised, we obtain $X_0(N)$ by compactifying $Y_0(N)$. There are several (non-stacky) approaches to doing this.
+\begin{enumerate}
+\item Consider the extended upper half-plane $\HH^*:=\HH\cup\Q\cup\{\infty\}$ endowed with an extension of the Euclidean topology on $\HH$ so that $\HH^*$ naturally embeds into the compact Riemann sphere $\P^1(\C)$. The group $\Gamma_0(N)$ then acts on $\Q\cup\{\infty\}$ with finitely many orbits that formally give rise to cusps when passing to the quotient.
+
+\item The space $Y_0(N)$ inherits a Riemann surface structure from $\HH$ as a quotient of $\HH$ by a discrete subgroup of the group $\Aut(\HH)$ of holomorphic automorphisms of $\HH$. This in fact endows $Y_0(N)$ with an affine curve structure, which yields $X_0(N)$ as a (highly singular) compact projective curve (over $\Q$!) by first projectivizing and then looking at monodromy (c.f. \S4.2.3 of Donaldson's excellent book \textit{Riemann Surfaces}.) We call $X_0(N)$ the \textbf{modular curve} of level $N$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{The $j$-function}
+Elaborating on the second approach, we have the $j$-function $j: \HH\to\C$ given by 
+$$j(\tau):=1728\,\df{g_2(\tau)^3}{\Delta(\tau)}$$
+for $\Delta(\tau):=g_2(\tau)^3-27g_3(\tau)^2$ and
+$$g_2(\tau):=60\sum_{(m,n)\neq(0,0)}(m+n\tau)^{-4},\qquad g_3(\tau):=140\sum_{(m,n)\neq(0,0)}(m+n\tau)^{-6}.$$
+Miraculously, $j$ is well-defined since $\Delta(\tau)\neq0$. We obtain an associated elliptic curve 
+$$E_{\tau}: y^2=4x^3-g_2(\tau)x-g_3(\tau).$$
+There is then a bijection between $Y_0(1)$ and $1$-isogeny classes of elliptic curves via $[\tau]\longleftrightarrow[E_{\tau}]$. With some work we may parameterize $N$-isogeny classes of elliptic curves by pairs $(j(\tau),j(N\tau))$ and produce an affine curve structure from the associated relations. Because of the importance of the $j$-function, the curve $X_0(1)$ is often called the \textbf{$j$-line}.
+\end{frame}
+
+\begin{frame}{Complex Multiplication}
+Let $X\in X_0(N)$ be a noncuspidal point and $\End(X)$ its ring of endomorphisms relative to a field $k$ of characteristic $0$. Generically, we have $\End(X)\iso\Z$ but sometimes extra symmetries arise. We then have $\End(X)\iso\O$ for $\O\subset\O_K$ an order in an imaginary quadratic field $K$, which by definition means that $\O$ is a subring of $K$ which is a free abelian group generated by a $\Q$-basis of $K$. In this case, $X$ is said to have \textbf{complex multiplication} (\textbf{CM} for short). 
+\begin{example}
+Consider the elliptic curve $E/\Q$ defined by $y^2=4x^3-x$. Then, $\End(E)\iso\Z[i]$ as exhibited by the order $4$ automorphisms 
+$$x\mapsto-x,\qquad y\mapsto\pm iy.$$
+It follows that $[E]$ (equivalently, $E$) has CM.
+\end{example}
+\end{frame}
+
+\begin{frame}
+Carrying over this setup, suppose $X\in X_0(N)$ has CM. The \textbf{conductor} $c:=|\O_K:\O|$ encodes important Galois theoretic information about $K$. We will assume for the sake of simplicity that $c=1$. We have an isomorphism 
+$$\Art_K: \Cl(K)\to\Gal(H_K/K),\qquad[\mf{p}]\mapsto\Frob_{\mf{p}},$$
+where $\Art_K$ is the Artin map, $\Cl(K)$ is the class group of $K$, and $H_K$ is the Hilbert class field of $K$ (i.e., the maximal unramified abelian extension of $K$). The symbol $\Frob_{\mf{p}}$ denotes the Frobenius automorphism associated to $\mf{p}\in\Spec\O_K$, which corresponds to the usual Frobenius automorphism for extensions of finite fields and does not depend on lifts because $H_K$ is an abelian extension. The Artin map generalizes the Legendre symbol and allows us to analyze ramification behavior of prime ideals. 
+\begin{reminder}
+Given $L/k$ an extension of number fields, prime ideals of $\O_L$ restrict down to prime ideals of $\O_k$. Moreover, $\mf{p}\in\Spec\O_K$ generates an ideal $\mf{p}\O_L$ that factors uniquely as a product of prime ideals of $\O_L$. You should think of the map $\Spec\O_L\to\Spec\O_K$ as a (potentially ramified) map between curves, analogous to a ramified map between Riemann surfaces.
+\end{reminder}
+\end{frame}
+
+\begin{frame}{Heegner Points}
+Assume now the so-called \textbf{Heegner hypothesis}: 
+\begin{center}
+every prime dividing $N$ is split in $K$.
+\end{center} 
+For instance, if $K=\Q(i)$ then we may take any $N$ all of whose prime factors are $1$ mod $4$. Because of the splitting, we may choose an ideal $\mf{n}\subset\O_K$ such that $\O_K/\mf{n}\iso\Z/N$. Thinking of fractional ideals of $K$ as lattices in $\C$, we have a map
+$$\gamma_{\mf{n}}: \Cl(K)\to X_0(N)(\C),\qquad[\mf{a}]\mapsto[\C/\mf{a}\to\C/\mf{n}^{-1}\mf{a}]$$
+which in fact defines points in $X_0(N)(H_K)$ that have the Galois equivariance property
+$$\Art_K([\mf{p}])\cdot\gamma_{\mf{n}}([\mf{a}])=\gamma_{\mf{n}}([\mf{p}\mf{a}]).$$
+Such points are called \textbf{Heegner points} and are worthy of study in their own right. We won't get into this, however.
+\end{frame}
+
+\begin{frame}
+Suppose now that $E/\Q$ is an elliptic curve and let $N\in\Z$ be its conductor, which measures ramification of $E$ at certain torsion rational points and is an isogeny invariant. By the modularity theorem there is a rational map $\phi_E: X_0(N)\to E$ with integer coefficients called the \textbf{modular covering}. Given a family of Heegner points as before, we obtain a point 
+$$P_{K,\mf{n}}:=\sum_{[\mf{a}]\in\Cl(K)}\phi_E(\gamma_{\mf{n}}([\mf{a}]))\in E(H_K).$$
+The modular covering respects the earlier Galois equivariance and so we deduce 
+$$P_{K,\mf{n}}\in E(H_K)^{\Gal(H_K/K)}=E(K)$$ 
+since we are just permuting the terms in a sum. It turns out that different choices of $\mf{n}$ either leave $P_{K,\mf{n}}$ fixed or change it by a readily calculable amount and so we drop $\mf{n}$ from the notation. 
+\begin{exercise}
+To get a feel for this, look at the case $N=p$ prime so that $p\O_K=\mf{p}\ov{\mf{p}}$. Consider the action of conjugation and of the dual isogeny involution on $X_0(p)$.
+\end{exercise}
+\end{frame}
+
+\begin{frame}
+How do we define the map $\phi_E$? By the modularity theorem, there is a unique elliptic curve $E'/\Q$ isogenous to $E$ such that 
+$$f_{E'}(z)=\sum_{n\geq1}a_n(E')e^{2\pi inz}$$
+is a holomorphic cusp form of weight $2$ and level $N$ such that 
+$$|E'(\F_p)|=p+1-a_p(E')$$ 
+for every prime $p$. Concretely, this means that $f_E: \HH\to\C$ is a holomorphic function such that
+\begin{itemize}
+\item $f_{E'}(\gamma z)=(cz+d)^2f_{E'}(z)$ for every $\gamma\in\Gamma_0(N)$ and
+\item $(cz+d)^{-2}f_{E'}(\gamma z)\to0$ as $\Im\,z\to+\infty$ for every $\gamma\in\SL_2(\Z)$. 
+\end{itemize}
+Assume for the sake of simplicity that $E=E'$. The map $\phi_E$ need not be unique, but we can rigidify things by demanding that $\phi_E(\infty)=0$ and $\phi_E^*(\omega)=2\pi icf_E(z)dz$ for some $c>0$ and $\omega$ a translation-invariant holomorphic $1$-form on $E(\C)$. We then have
+$$\phi_E(z)=-2\pi ic\int_z^{i\infty}f_E(\tau)\;d\tau.$$
+\end{frame}
+
+\begin{frame}
+We now have a point $P_K\in E(K)$. What can we say about it? The field $K$ is imaginary quadratic and so is of the form $K=\Q(\sqrt{D})$ for $D<0$ a quadratic fundamental discriminant, which concretely means that 
+\begin{equation*}
+D=
+\begin{cases}
+d, & d\equiv 1\bmod 4, \\
+4d, & d\equiv 2,3\bmod 4,
+\end{cases}
+\end{equation*}
+for $d<0$ squarefree. There is a unique quadratic Dirichlet character $\chi_D$ of period $|D|$ arising from a group homomorphism $(\Z/D)^{\times}\to\{\pm1\}$ that satisfies 
+$$\zeta_K(s)=\zeta_{\Q}(s)L(s,\chi_D).$$
+Note that, for $D=p$ prime, $\chi_p$ is given by the Legendre symbol $\left(\df{\cdot}{-p}\right)$. The Heegner hypothesis is precisely the statement that $\gcd(N,D)=1$.
+\end{frame}
+
+\begin{frame}{Table of $L$-Functions}
+\begin{center}
+\includegraphics[scale=0.49]{L_function_table}
+\end{center}
+Here, $N_{K/\Q}\mf{p}=|\O_K/\mf{p}|$, $I\subset\O_K$ is a proper ideal, and 
+\begin{equation*}
+\beta_N(p):=
+\begin{cases}
+1, & p\nmid N, \\
+0, & p\mid N.
+\end{cases}
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+These product expansions are often called \textbf{Euler products} and their terms \textbf{Euler factors}. Euler products typically converge on some right half-plane. Suitably ``completing'' the associated $L$-function yields a new function satisfying a functional equation and we may use this symmetry to build an analytic continuation. For instance, the completed Hasse-Weil $L$-function 
+$$\Lambda_{E/\Q}(s):=(2\pi)^{-s}N^{s/2}\Gamma(s)L_{E/\Q}(s)$$
+satisfies the function equation
+\begin{equation*}
+\Lambda_{E/\Q}(s)=\eps(E/\Q)\Lambda_{E/\Q}(2-s),
+\end{equation*}
+where $\eps(E/\Q)\in\{\pm1\}$ is the \textbf{root number}. Similarly, the completed twisted $L$-function 
+$$\Lambda_{E/\Q}(s,\chi_D):=(2\pi)^{-s}(ND^2)^{s/2}\Gamma(s)L_{E/\Q}(s,\chi_D)$$
+satisfies
+\begin{equation*}
+\Lambda_{E/\Q}(s,\chi_D)=\eps(E/\Q)\chi_D(-N)\Lambda_{E/\Q}(2-s,\chi_D).
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+Consider now the product
+$$L_{E/K}(s):=L_{E/\Q}(s)L_{E/\Q}(s,\chi_D),$$
+which is in fact the Hasse-Weil $L$-function for $E/K$. The associated root number is 
+$$\eps(E/K)=\eps(E/\Q)^2\chi_D(-N)=\chi_D(-1)\chi_D(N)=-1$$
+since $D<0$ and $N$ is split in $K$. It follows that all even-order derivatives of $L_{E/K}(s)$ at $s=1$ (the fixed point of the involution $s\mapsto2-s$) vanish and so calculations originally done by Birch suggest looking at the first derivative. % (there will be some simplification because of the Leibniz rule)
+\begin{exercise}
+Let $p,q>0$ be distinct odd primes and $p^*:=(-1)^{(p-1)/2}p$. Show that
+\begin{equation*}
+\left(\df{q}{p}\right)=
+\begin{cases}
+1, & q\textup{ is split in }\Q(\sqrt{p^*}), \\
+-1, & q\textup{ is inert in }\Q(\sqrt{p^*}).
+\end{cases}
+\end{equation*}
+\end{exercise}
+\end{frame}
+
+\begin{frame}{The Gross-Zagier Formula}
+Without further ado, here is the main result.
+\begin{theorem}[Gross-Zagier]
+Let $E/\Q$ be an elliptic curve of conductor $N$ and $P_K\in E(K)$ built from the $\Gal(H_K/K)$-orbit of a Heegner point $X\in X_0(N)$ with associated order $\O\subset\O_K$ of conductor $1$. Then,
+$$L_{E/K}'(1)=\left.\df{d}{ds}\right\vert_{s=1}L_{E/K}(s)=\df{32\pi^2\ip{f_E,f_E}}{|\O_K^{\times}|^2\sqrt{|D|}}\cdot\df{\hat{h}_E(P_K)}{\deg\phi_E},$$
+following the notation of our earlier constructions.
+\end{theorem}
+Note that
+\begin{equation*}
+|\O_K^{\times}|=
+\begin{cases}
+4, & K=\Q(\sqrt{-1}), \\
+6, & K=\Q(\sqrt{-3}), \\
+2, & \textrm{otherwise},
+\end{cases}
+\end{equation*}
+and the term $|\O_K^{\times}|^2$ in the denominator can be eliminated if we preemptively divide $f_E$ through by $|\O_K^{\times}|$. We will spend the rest of our time unpacking what this formula means. 
+\end{frame}
+
+\begin{frame}{Petersson Inner Product}
+Let's first tackle the term $32\pi^2\ip{f_E,f_E}$. This is a form of the Petersson inner product
+$$\ip{f,g}:=\int_{Y_0(N)}f(\tau)\ov{g(\tau)}(\Im\tau)^2\;d\nu(\tau)=\int_{Y_0(N)}f(x+iy)\ov{g(x+iy)}\;dxdy$$
+defined for pairs $(f,g)$ of weight $2$ holomorphic cusp forms of level $N$. 
+\begin{itemize}
+\item The quantity $32\pi^2$ arises from normalization and from changes to the choice of domain of integration -- e.g., using a fundamental domain for $Y_0(N)$ instead of the entirety of $Y_0(N)$. You should think of a fundamental domain as supplying distinct coset representatives for the homogeneous space $Y_0(N)$.
+
+\item The quantity $\ip{f_E,f_E}$ is closely related to the integral $\int_{E(\C)}\omega\wedge\ov{\omega}$ for $\omega$ defined as before and so some forms of the Gross-Zagier formula use this integral instead.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Height Theory}
+The term $\hat{h}_E(P_K)$ is a bit harder to describe. The function $\hat{h}_E: E(\ov{K})\to\R^{\geq0}$ is called the \textbf{Tate canonical height} of $E$ and is built up as follows. Let $k$ be a number field and $\Omega_k$ its set of places. For each $v\in\Omega_k$, let $\abs{\cdot}_v$ be the associated normalized absolute value. For example, for $\Q$ we get the real absolute value $\abs{\cdot}$ as well as the standard $p$-adic absolute values $\abs{\cdot}_p$ that measure divisibility by a prime $p$. Define the height function
+$$h_{k/\Q}: \P^2(k)\to\R^{\geq0},\qquad[t_0,t_1,t_2]\mapsto\df{1}{[k:\Q]}\log\prod_{v\in\Omega_k}\max\{|t_0|_v,|t_1|_v,|t_2|_v\},$$
+which is well-defined by the product formula 
+$$\prod_{v\in\Omega_k}|t|_v=1,\qquad t\in k^{\times}.$$ 
+We think of heights as measuring the ``arithmetic complexity'' of points, with larger heights rarer in a sense that can be made precise (see, e.g., Northcott's theorem). 
+\end{frame}
+
+\begin{frame}{Height Theory}
+Given $L/k$ a finite extension, $h_{k/\Q}$ is equal to the composition of $h_{L/\Q}$ with the natural map $\P^2(k)\to\P^2(L)$ and so there is an induced map $h_k: \P^2(\ov{k})\to\R^{\geq0}$. Concretely, $h_k(P)=h_{L/\Q}(P)$ for any $L/k$ finite such that $L$ contains the coordinates of $P$. Let now $E/k$ be any elliptic curve (which need not be the same one as before) and choose a projective embedding $\iota: E\inj\P_k^2$. We obtain 
+$$h_E:=h_k\circ\iota: E(\ov{k})\to\R^{\geq0},$$
+which only depends on $\iota$ up to a bounded function. We can eliminate this ambiguity by considering 
+$$\hat{h}_E: E(\ov{k})\to\R^{\geq0},\qquad P\mapsto\lim_{n\to\infty}\df{h(nP)}{n^2}.$$
+It turns out that this function is not only well-defined but also quadratic in the sense that 
+$$\hat{h}_E(P+Q+R)-(\hat{h}_E(P+Q)+\hat{h}_E(P+R)+\hat{h}_E(Q+R))+(\hat{h}_E(P)+\hat{h}_E(Q)+\hat{h}_E(R))$$
+vanishes for all $P,Q,R\in E(\ov{k})$. Additionally, $\hat{h}_E(P)=0\iff P$ is torsion.
+\end{frame}
+
+\begin{frame}{Height Theory}
+It follows that there is an associated $\Z$-bilinear pairing $\ip{\cdot,\cdot}_{\textrm{NT}}$ called the \textbf{N\'{e}ron-Tate pairing}. This pairing actually provides some insight into how to go about deducing the Gross-Zagier formula. Intuitively, $\ip{\cdot,\cdot}_{\textrm{NT}}$ lets us ``decouple'' -- we can relate $\ip{P_K,P_K}_{\textrm{NT}}$ to $\ip{P_{\chi_1},P_{\chi_2}}_{\textrm{NT}}$ for $P_{\chi_1},P_{\chi_2}$ rational points associated to appropriate characters 
+$$\chi_1,\chi_2: \Gal(H_K/K)\to\{\pm1\}.$$
+Returning to the Gross-Zagier formula, it turns out that $\hat{h}_E(P_K)/\deg\phi_E$ is an isogeny invariant of $E$. Heights make sense for general abelian varieties over number fields. In particular, we can work with heights over the Jacobian $J_0(N)$ of $X_0(N)$. It turns out $X_0(N)$ embeds into $J_0(N)$ in such a way that we may envision $\phi_E$ as a well-behaved map $J_0(N)\to E$ via a suitable quotient construction. We realize $\hat{h}_E$ by choosing a projective embedding of $E$, which is equivalent to a choice of an ample line bundle $\mathscr{L}$ on $E$. Heights behave well under pullback, and the term $\deg\phi_E$ arises from pulling back $\mathscr{L}$ by $\phi_E$.
+\end{frame}
+
+\begin{frame}{Horizons}
+Here are a few applications of the Gross-Zagier formula and its generalizations.
+\begin{enumerate}
+\item Solving the Gauss class number $1$ problem and proving Goldfeld's theorem.
+\item Computing central values of $L$-functions.
+\item Understanding more about the BSD conjecture and associated rank bounds.
+\end{enumerate}
+We've barely scratched the surface on this topic. Here are some things I haven't said anything about.
+\begin{itemize}
+\item How things work if we try to use a real quadratic field (integration over geodesics)
+\item Role of Hecke algebra and notion of Rankin $L$-series
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\LARGE{\textbf{\qquad THANKS FOR COMING!!!}\vspace{1em}}
+\newline
+\includegraphics[scale=0.3]{Braeden}
+\qquad
+\includegraphics[scale=0.9]{Eric}
+\end{center}
+\end{frame}
+\end{document}
+
+Q: What happens if we try to do things with real quadratic fields?
+Q: What if the conductor $c$ is bigger than $1$?
+Q: How can we work with more general Rankin $L$-series?
+Q: How can we realize this in terms of Hecke algebras?
+Q: What about more general products of Hecke series?
+
+$L$-function table:
+\begin{center}
+\begin{tabular}{llll}
+Name & Notation & Series & Product \\
+Riemann zeta function & $\zeta_{\Q}(s)$ & $\ssum_{n\geq1}n^{-s}$ & $\pprod_{p}\df{1}{1-p^{-s}}$ \\
+Dedekind zeta function & $\zeta_K(s)$ & $\ssum_{I\subset\O_K}(N_{K/\Q}I)^{-s}$ & $\pprod_{\mf{p}}\df{1}{1-N_{K/\Q}\mf{p}^{-s}}$ \\
+Dirichlet $L$-function & $L(s,\chi_D)$ & $\ssum_{n\geq1}\chi_D(n)n^{-s}$ & $\pprod_p\df{1}{1-\chi_D(p)p^{-s}}$ \\
+Hasse-Weil $L$-function & $L_{E/\Q}(s)$ & $\ssum_{n\geq1}a_n(E)n^{-s}$ & $\pprod_p\df{1}{1-a_p(E)p^{-s}+\beta_N(p)p^{1-2s}}$ \\
+Twisted $L$-function & $L_{E/\Q}(s,\chi_D)$ & $\ssum_{n\geq1}a_n(E)\chi_D(n)n^{-s}$ & $\pprod_p\df{1}{1-a_p(E)\chi_D(p)p^{-s}+\beta_N(p)\chi_D(p)^2p^{1-2s}}$ \\
+\end{tabular}
+\end{center}

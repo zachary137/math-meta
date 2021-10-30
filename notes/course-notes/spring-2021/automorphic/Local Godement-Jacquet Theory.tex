@@ -1,0 +1,362 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\newcommand{\cInd}{\textup{cInd}} % compact induced
+\newcommand{\Ind}{\textup{Ind}} % induced
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\Rep}{\textup{Rep}}
+\renewcommand{\S}{\mathscr{S}}
+\newcommand{\sm}{\textup{sm}}
+\newcommand{\supp}{\textup{supp}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\triv}{\textup{triv}}
+\newcommand{\twid}{\widetilde}
+
+\begin{document}
+\title{Local Godement Jacquet Theory}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+Up until now we have been discussing Tate's thesis, which can be viewed as Godement-Jacquet theory for $\GL_1$. We first handled the local case and then tackled the global case from an ad\`{e}lic perspective, wrapping up with some results on compatibility. Our approach to Godement-Jacquet theory for general $\GL_n$ will be much the same. This is an important stepping stone to understanding the Braverman-Kazhdan-Ng\^{o} program. We will mostly follow the notational and linguistic conventions of [Luo], at times interpolating with [Wang].
+
+\section{Setup}
+Fix $F$ a $p$-adic local field (i.e., a finite extension of $\Q_p$) with finite residue field of cardinality $q$ and $\varpi$ a uniformizer. Denote by $M_n$ the affine algebraic $F$-group of $n\times n$ matrices. We equip each of $M_n(F),\GL_n(F)$ with the $p$-adic topology. As for Tate's thesis we need appropriate notions of Schwartz space and Fourier transform. It turns out that the obvious guesses work just fine. 
+
+\begin{definition}
+\hfill
+\begin{itemize}
+\item Define the \textbf{Schwartz space} to be $\S(M_n)=\S(M_n(F)):=C_c^{\infty}(M_n(F))$, the space of complex-valued, locally constant, compactly supported functions on $M_n(F)$.
+
+\item Let $\psi=\psi_F: F\to\T$ denote the unique additive character on $F$ of conductor $\O_F$. This is given explicitly by $\tr_{F/\Q_p}\circ\psi_0$, where $\psi_0$ is the composition
+\begin{center}
+\begin{tikzcd}
+\Q_p \arrow[r, twoheadrightarrow] & \df{\Q_p}{\Z_p} & \df{\Z{[}1/p{]}}{\Z} \arrow[l, "\sim"'] \arrow[r, hookrightarrow] & \df{\R}{\Z} \arrow[r, "\sim"] & \T
+\end{tikzcd}
+\end{center}
+characterized by $\psi_0|_{\Z_p}=1$ and $\psi_0(1/p^n)=\exp(2\pi i/p^n)$ for every $n\geq1$.
+
+\item Define the \textbf{Fourier transform} to be $\w{\cdot}=\mc{F}=\mc{F}_{\psi}: \S(M_n)\to\S(M_n)$ given by
+$$\w{f}(x):=\int_{M_n(F)}\psi(\tr(xy))f(y)\;d^+y,$$
+where $d^+y$ is the unique additive Haar measure on $M_n(F)$ self-dual with respect to $\psi$ in the sense that $\mc{F}^2(f)(x)=f(-x)$ for every $f\in\S(M_n)$ and $x\in M_n(F)$.\footnote{A more general notion is that of a dual or Plancherel measure, which exists for any locally compact Hausdorff abelian topological group equipped with a Haar measure. Our Haar measure in this case is defined explicitly in terms of differents.}
+\end{itemize}
+\end{definition}
+
+Fix $(\pi,V)$ an irreducible admissible (Hermitian) representation of $\GL_n(F)$\footnote{How do we obtain such a representation? A theorem of Harish-Chandra guarantees that any irreducible smooth unitary representation of $G(F)$ is admissible for G a reductive algebraic group over $F$.} and let $(\pi^{\vee},V^{\vee})$ denote the smooth contragredient.\footnote{Here, $\GL_n(F)$ acts on $\Hom(V,\C)$ via $g\cdot\lambda:=\lambda\circ\pi(g^{-1})$ and $V^{\vee}$ is the subspace of smooth linear functionals in $\Hom(V,\C)$.} This comes equipped with a pairing
+$$\ip{\cdot,\cdot}: V\times V^{\vee}\to\C,\qquad(v,\lambda)\mapsto\lambda(v).$$
+Let $\mc{C}(\pi)$ denote the space of matrix coefficients of $\pi$, which is by definition spanned by functions of the form 
+$$\phi: \GL_n(F)\to\C,\qquad g\mapsto\ip{\pi(g)v,\lambda}$$
+for fixed $v\in V$ and $\lambda\in V^{\vee}$.\footnote{Some sources choose not to take the span for defining matrix coefficients, a choice which ultimately does not matter. One reason to care about matrix coefficients is that, at least for unitary representations of compact td groups, they determine the representation in a sense that can be made precise. This leads to results like the Peter-Weyl theorem.} To each such $\phi$ we may associate $\phi^{\vee}$ via $\phi^{\vee}(g):=\phi(g^{-1})$, which defines a matrix coefficient of $\pi^{\vee}$ under the identification of $(\pi,V)$ with its double smooth contragredient.
+
+Given $f\in\S(M_n)$ and $\phi\in\mc{C}(\pi)$ we have the \textbf{local zeta integral}
+$$Z(s,f,\phi):=\int_{\GL_n(F)}f(g)\phi(g)|\det g|^{s+(n-1)/2}\;dg,$$
+where $dg$ is the unique Haar measure on $\GL_n(F)$ defined by $|\det g|^n\cdot dg=d^+g$ for $d^+g$ inherited from $M_n(F)$.\footnote{Some authors take the exponent on $|\det g|$ to simply be $s$ rather than $s+(n-1)/2$. Our convention ensures that the zeta functional equation is reminiscent to the one for Tate's thesis.} For the sake of convenience we will also have reason to consider the shifted local zeta integral
+$$\twid{Z}(s,f,\phi):=\int_{\GL_n(F)}f(g)\phi(g)|\det g|^s\;dg.$$
+
+Here is the main result to which we will devote much of our attention today.\footnote{One method of proof for this result which we will not touch on in these notes is to use the explicit classification of irreducible admissible representations of $\GL_n(F)$.}
+
+\begin{theorem}\label{main_thm}
+\hfill
+\begin{enum}{\alph}
+\item $Z(s,f,\phi)$ is absolutely convergent for $\Re(s)\gg0$.
+
+\item $Z(s,f,\phi)$ is a rational function in $q^{-s}$.
+
+\item The $\C[q^{\pm s}]$-submodule $I(s,\pi)\subset\C(q^{-s})$ spanned by $\{Z(s,f,\phi) : f\in\S(M_n),\phi\in\mc{C}(\pi)\}$ is a principal fractional ideal of $\C[q^{\pm s}]$, generated by \textbf{Euler factor} $L(s,\pi):=P(q^{-s})^{-1}$ for some $P(X)\in\C[X]$ with $P(0)=1$.\footnote{The condition $P(0)=1$ is achieved by scaling and ensures uniqueness of the Euler factor.}
+
+\item There exists a unique \textbf{(local) $\gamma$-factor} $\gamma(s,\pi,\psi)\in\C(q^{-s})$ such that 
+$$Z(1-s,\w{f},\phi^{\vee})=\gamma(s,\pi,\psi)Z(s,f,\phi)$$
+for every $f\in\S(M_n)$ and $\phi\in\mc{C}(\pi)$.\footnote{The dependence of the local $\gamma$-factor on $\psi$ comes from our choice of Fourier transform.}
+\end{enum}
+\end{theorem}
+
+The uniqueness of $\gamma(s,\pi,\psi)$ is clear by (b) and the fact that it must have value $Z(1-s,\w{f},\phi^{\vee})/Z(s,f,\phi)$ for \textbf{any} choice of $f\in\S(M_n)$ and $\phi\in\mc{C}(\pi)$. Using the \textbf{local $\eps$-factor} 
+$$\eps(s,\pi,\psi):=\gamma(s,\pi,\psi)\df{L(s,\pi)}{L(1-s,\pi^{\vee})},$$
+the functional equation takes on the form 
+\begin{align*}
+\df{Z(1-s,\w{f},\phi^{\vee})}{L(1-s,\pi^{\vee})}
+=\eps(s,\pi,\psi)\df{Z(s,f,\phi)}{L(s,\pi)}.
+\end{align*}
+It follows that $\eps(s,\pi,\psi)$ is an element of $\C[q^{\pm s}]^{\times}$ hence a monomial in $q^{-s}$.
+
+The set $\{Z(s,f,\phi) : f\in\S(M_n),\phi\in\mc{C}(\pi)\}$ need not be closed under addition. Assuming (b), however, we do have that this is set is closed under scaling by $q^{ms}$ for $m\in\Z$. Indeed, given $Z(s,f,\phi)\in I(\pi,s)$ we have 
+\begin{align*}
+q^{ms}Z(s,f,\phi)
+&=q^{ms}\int_{\GL_n(F)}f(g)\phi(g)|\det g|^{s+(n-1)/2}\;dg \\
+&=q^{-m(n-1)/2n}\int_{\GL_n(F)}f(q^{-m/n}g)\phi(q^{-m/n}g)|\det g|^{s+(n-1)/2}\;dg \\
+&=q^{-m(n-1)/2n}Z(s,f(q^{-m/n}\cdot),\phi(q^{-m/n}\cdot)) \\
+&\in I(s,\pi),
+\end{align*}
+where we have used the change of variables $g\mapsto q^{m/n}g$.\footnote{By definition, the function $f(q^{-m/n}\cdot)$ applies $f$ to the input scaled by $q^{-m/n}$. The same applies to $\phi(q^{-m/n}\cdot)$.} Since $\C[q^{\pm s}]$ is Noetherian, $I(s,\pi)$ is a fractional ideal of $\C[q^{\pm s}]$ if and only if it is finitely generated as a $\C[q^{\pm s}]$-module. Moreover, $I(s,\pi)$ is necessarily principal if it is fractional since $\C[q^{\pm s}]$ is a PID. The notation of the theorem then says that $I(s,\pi)=L(s,\pi)\C[q^{\pm s}]$.
+
+We will now show that $I(s,\pi)$ is in fact finitely generated as a $\C[q^{\pm s}]$-module. The key to this is the following two observations.
+\begin{enum}{\alph}
+\item Pick some $h\in\GL_n(F)$ and define $f_1,\phi_1$ via right translating $f,\phi$ by $h$ -- i.e., $f_1(g):=f(gh)$ and $\phi_1(g):=\phi(gh)$. Then, a simple change of variables gives 
+$$Z(s,f_1,\phi_1)=|\det h|^{-s-(n-1)/2}Z(s,f,\phi).$$ 
+Writing $\det h=u\varpi^m$ for some $u\in\O_F^{\times}$ and $m\in\Z$ gives 
+$$|\det h|^{-s-(n-1)/2}=|u\varpi^m|^{-s-(n-1)/2}=(q^{-m})^{-s-(n-1)/2}=q^{m(n-1)/2}q^{ms}\in\C[q^{\pm s}].$$
+
+\item Suppose $\phi=\ip{\pi(\cdot)v,\lambda}$ for some $v\in V$ and $\lambda\in V^{\vee}$. Using that $\pi$ is smooth, choose $K_0\leq\GL_n(F)$ compact open such that $v\in V^{K_0}$ and so the restriction of $\phi$ to $K_0$ has constant value $\phi_0$. Then,
+$$Z(s,\ind_{K_0},\phi)=\phi_0\int_{\GL_n(F)}\ind_{K_0}(g)\phi(g)|\det g|^{s+(n-1)/2}\;dg$$
+is a constant independent of $s$ (which is nonzero if $\phi$ is nontrivial). Indeed, even though the integral in question is over $K_0$, we may translate and scale as in (a) to get that $K_0=\GL_n(\O_F)$ and integrate with respect to the usual (normalized) Haar measure on this group. The determinant factor then goes away and we are left with some nonzero multiple of $\phi_0$.
+\end{enum}
+
+One then uses that $\pi$ is admissible (so $V^{K_0}$ is finite dimensional for every $K_0\leq\GL_n(F)$ compact open) and the fact that every element of $\S(M_n)$ is locally constant of compact support.
+
+\textcolor{red}{Note: The above comments seem a bit fishy. It seems like there is somehow ``too much'' information to account for. Maybe we need to use that something has finite index somewhere, or something like that...}
+
+\begin{remark}
+The above analysis tells us very little about what the Euler factor $L(s,\pi)$ actually looks like. This is no accident. In the case of Tate's thesis we already knew what our Euler factors should look like -- namely, 
+\begin{equation*}
+L(s,\eta)=
+\begin{cases}
+(1-q^{-s})^{-1}, & \eta\textrm{ is trivial}, \\
+1, & \textrm{otherwise},
+\end{cases}
+\end{equation*}
+for $\eta: F^{\times}\to\C^{\times}$ unitary. Using this we were able to bootstrap our way up and prove that we had meromorphic continuation and a functional equation. For general $\GL_n$ we basically do things in the opposite direction since calculating Euler factors is a subtle matter. One indication of this is the fact that, given an elliptic curve $E/\Q$ with conductor $N$, the associated (Hasse-Weil) Euler factor at $p$ is 
+\begin{equation*}
+L_p(s,E/\Q)=
+\begin{cases}
+(1-a_p(E)p^{-s}+p^{1-2s})^{-1}, & p\nmid N, \\
+(1-a_p(E)p^{-s})^{-1}, & p\mid N,p^2\nmid N, \\
+1, & p^2\mid N,
+\end{cases}
+\end{equation*}
+where $a_p(E):=p+1-|E(\F_p)|$.
+\end{remark}
+
+\begin{corollary}
+Let $\omega_{\pi}: F^{\times}\iso\cen(\GL_n(F))\to\C^{\times}$ denote the central character of $\pi$, defined by $\pi(zg)=\omega_{\pi}(z)\pi(g)$ for every $z\in F^{\times}$ and $g\in\GL_n(F)$.\footnote{Note that $\omega_{\pi}$ need not be unitary. We can fix this by twisting by a power of $\abs{\cdot}$ since then $\omega_{\pi}$ will be an extension of a character of $\O_F$ obtained by a choice of uniformizer and thus unitary. This corresponds to twisting $\pi$ by a power of $|\det|$. The character $\omega_{\pi}$ exists since Schur's Lemma tells us that the restriction of $\pi$ to the center factors through $\C^{\times}$.} Then, 
+$$\gamma(1-s,\pi^{\vee},\psi)\gamma(s,\pi,\psi)=\omega_{\pi}(-1).$$
+\end{corollary}
+
+\begin{proof}
+Let $f\in\S(M_n)$ and $\phi\in\mc{C}(\pi)$. Twice applying the functional equation of the previous theorem gives 
+\begin{align*}
+Z(s,\mc{F}^2(f),\phi)
+=\gamma(1-s,\pi^{\vee},\psi)Z(1-s,\w{f},\phi^{\vee})
+=\gamma(1-s,\pi^{\vee},\psi)\gamma(s,\pi,\psi)Z(s,f,\phi).
+\end{align*}
+At the same time,
+\begin{align*}
+Z(s,\mc{F}^2(f),\phi)
+&=\int_{\GL_n(F)}\mc{F}^2(f)(g)\phi(g)|\det g|^{s+(n-1)/2}\;dg \\
+&=\int_{\GL_n(F)}f(-g)\phi(g)|\det g|^{s+(n-1)/2}\;dg \\
+&=\int_{\GL_n(F)}f(g)\phi(-g)|(-1)^n\det g|^{s+(n-1)/2}\;dg \\
+&=\int_{\GL_n(F)}f(g)\omega_{\pi}(-1)\phi(g)|\det g|^{s+(n-1)/2}\;dg \\
+&=\omega_{\pi}(-1)Z(s,f,\phi).
+\end{align*}
+The result follows.
+\end{proof}
+
+Our strategy for proving Theorem \ref{main_thm} has two major steps.
+\begin{itemize}
+\item[\textbf{Step 1}] Use Tate's thesis and the ``niceness'' of supercuspidal representations to prove the theorem in the supercuspidal case.
+\item[\textbf{Step 2}] Use parabolic induction to reduce to the case that $\pi$ is supercuspidal.
+\end{itemize}
+
+These notes will address Step 1, leaving Step 2 to H\'{e}ctor.
+
+\section{Step 1 -- The Supercuspidal Case}
+We begin by recalling some things about supercuspidal representations. Let $G$ denote a reductive algebraic group over $F$. Unless otherwise stated, $(\pi,V)$ denotes a representation of $G(F)$.
+
+\begin{definition}
+\hfill
+\begin{itemize}
+\item Let $\phi\in\mc{C}(\pi)$ and $H\normal G(F)$. We say $\phi$ is \textbf{compactly supported mod $H$} if the image of $\supp(\phi)$ in $G(F)/H$ is compact. Equivalently, there exists $K\cc G(F)$ such that $\supp(\phi)$ is contained in $HK$.
+
+\item The representation $\pi$ is \textbf{supercuspidal} (resp., \textbf{quasicuspidal}) if it is admissible (resp., smooth) and each element of $\mc{C}(\pi)$ is compactly supported mod $\cen(G(F))$.\footnote{If $\pi$ is irreducible then one can show that $\pi$ is supercuspidal if and only if it is quasicuspidal.} % Getz and Hahn Theorem 8.3.5 presents one way of coming across supercuspidal representations
+
+\item Let $P\leq G$ be parabolic with Levi subgroup $M$ and unipotent radical $N$. Given $(\sigma,W)$ a smooth representation of $M(F)$, the \textbf{induced representation} $I(\sigma)=\Ind_P^G(\sigma)=\Ind_P^G(W)$ whose elements are locally constant functions $f: G(F)\to W$ such that $f(mng)=\delta_P(m)^{1/2}\sigma(m)f(g)$ for every $m\in M(F),n\in N(F),g\in G(F)$, where $\delta_P$ is the modular quasicharacter of $P$.\footnote{Our normalization is such that $I(\sigma)$ is unitarizable if $\sigma$ is unitarizable.} There is also a \textbf{compactly induced representation} $\cInd_P^G(\sigma)$ that is defined in the same way with an extra compact support condition.
+
+\item Using the above setup, define $V(N):=\ip{v-\pi(u)v : v\in V,u\in N(F)}$. The \textbf{Jacquet module} or \textbf{coinvariant space} of $N$ is $V_N:=V/V(N)$. Alongside this we define $\pi_N:=\pi_{M(F)}\tensor\delta_P^{1/2}$. 
+\end{itemize}
+\end{definition}
+
+From the above we obtain \textbf{parabolic induction functors} 
+$$\cInd_P^G,\Ind_P^G: \Rep_{\sm}(M(F))\to\Rep_{\sm}(G(F))$$ and \textbf{Jacquet functors} 
+$$\cdot_N: \Rep_{\sm}(G(F))\to\Rep_{\sm}(M(F)), \qquad(\pi,V)\mapsto(\pi_N,V_N).$$
+Here, $\Rep_{\sm}(G(F))$ denotes the category of smooth complex representations of $G(F)$ with its symmetric monoidal tensor product structure.
+
+\begin{theorem}[Frobenius Reciprocity]
+The Jacquet functor $\cdot_N$ is left adjoint to $\Ind_P^G$. More precisely, evaluation at the identity gives a natural $\C$-linear isomorphism
+$$\Hom_{G(F)}(V,\Ind_P^G(W))\to\Hom_{M(F)}(V_N,W)$$
+for every pair of smooth representations $(\pi,V)$ of $G(F)$ and $(\sigma,W)$ of $M(F)$.
+\end{theorem}
+
+\begin{theorem}[Jacquet]
+The Jacquet functor preserves admissibility. Moreover, a smooth irreducible representation $(\pi,V)$ of $G(F)$ is quasicuspidal if and only if $V_N=0$ for every $N$ the unipotent radical of a parabolic subgroup of $G$.
+\end{theorem}
+
+Let's resume tackling the proof of Theorem \ref{main_thm} in the case that $\pi$ is supercuspidal. By translating and scaling we may assume without loss of generality that $\supp(\phi)\subset F^{\times}K$ for $K:=\GL_n(\O_F)$. Choose suitable Haar measures $da$ on $F^{\times}$ and $dk$ on $K$ such that $dg=dadk$ and $dk(K)=1$.\footnote{Note that $|\det k|=1$ for every $k\in K$ since by definition $K=\{g\in M_n(\O_F) : \det g\in\O_F^{\times}\}$.} Define $T(s,f,\phi): F\to\C$ via 
+$$T(s,f,\phi)(a):=\int_Kf(ak)\phi(k)|\det k|^s\;dk=\int_Kf(ak)\phi(k)\;dk.$$
+Then, $T(s,f,\phi)\in\S(F)$ and 
+\begin{align*}
+\twid{Z}(s,f,\phi)
+=\int_{F^{\times}K}f(g)\phi(g)|\det g|^s\;dg
+=\int_{F^{\times}}T(s,f,\phi)\omega_{\pi}(a)|a|^{ns}\;da
+=Z(T(s,f,\phi),\omega_{\pi}|\cdot|^{ns}),
+\end{align*}
+with the latter a local zeta function of a character in the sense of Tate's thesis. Tate's thesis tells us that $Z(T(s,f,\phi),\omega_{\pi}|\cdot|^{ns})$ converges absolutely for $\Re(s)\gg0$ and so the same is true for $\twid{Z}(s,f,\phi)$ hence $Z(s,f,\phi)$.\footnote{We can also just show the convergence directly, using the same argument as for Tate's thesis.} Our goal now is to prove the existence of the desired local $\gamma$-factor $\gamma(s,\pi,\psi)$. The first step is to reinterpret our local zeta integrals in terms of operators. Given $s\in\C$ with $\Re(s)\gg0$, we have 
+$$Z(s,\pi): \S(M_n)\tensor V\tensor V^{\vee}\to\C,\qquad f\tensor v\tensor\lambda\mapsto Z(s,f,\ip{\pi(\cdot)v,\lambda}).$$
+Equivalently, this may be viewed as a map $Z(s,\pi,\cdot): \S(M_n)\to\End_{\C}(V)$ satisfying 
+$$\ip{Z(s,\pi,f)v,\lambda}=Z(s,f,\ip{\pi(\cdot)v,\lambda})$$
+for every $v\in V$ and $\lambda\in V^{\vee}$. From here there are two approaches.
+\begin{enum}{\arabic}
+\item Work with all test functions in $\S(M_n)$, dealing with the ``boundary'' of $M_n(F)$ by sorting matrices by their rank. This is the approach taken by [Luo].
+
+\item Restrict attention to a suitably nice class of test functions in $\S(M_n)$. Show that such test functions satisfy the desired functional equation and then show that there is ``enough'' of these nice functions to get the functional equation for all of $\S(M_n)$. This is the approach taken by [Wang].
+\end{enum}
+We will comment more on approach (2) in a little while. For now let's flesh out approach (1). Equip $\S(M_n)$ with the structure of a smooth $\GL_n(F)\times\GL_n(F)$-module via
+$$((g,h)\cdot f)(x):=f(g^{-1}xh).$$
+For ease of notation we let $G:=\GL_n(F)\times\GL_n(F)$. Consider now the $\C$-vector space $\S(M_n)\tensor V\tensor V^{\vee}$. We wish to equip this space with the structure of a smooth $G$-representation so that $Z(s,\pi)$ is a $G$-equivariant functional on $\S(M_n)\tensor V\tensor V^{\vee}$ -- i.e., so that $Z(s,\pi)\in\Hom_G(\S(M_n)\tensor V\tensor V^{\vee},\C)$. To do this, suppose that the $G$-module structure on $V$ is encoded by a (continuous) group homomorphism $\rho: G\to\Aut_{\C}(V)$. This induces an action of $G$ on $V^{\vee}$ via $(g,h)\cdot\lambda:=\lambda\circ\rho(g^{-1},h^{-1})$ and hence a (diagonal) action of $G$ on $\S(M_n)\tensor V\tensor V^{\vee}$. Fix now some $f\in\S(M_n)$, $v\in V$, and $\lambda\in V^{\vee}$. From the above we have
+\begin{align*}
+Z(s,\pi)((g,h)\cdot f\tensor v\tensor\lambda)
+&=Z(s,\pi)((g,h)\cdot f\tensor\rho(g,h)v\tensor\lambda\circ\rho(g^{-1},h^{-1})) \\
+&=\int_{\GL_n(F)}f(g^{-1}xh)\ip{\pi(x)(\rho(g,h)v),\lambda\circ\rho(g^{-1},h^{-1})}|\det x|^{s+(n-1)/2}\;dx.
+\end{align*}
+
+\textcolor{red}{TO DO: Finish defining the action $\rho$...}
+
+By the same token, the operator
+$$Z^{\vee}(s,\pi): \S(M_n)\tensor V\tensor V^{\vee}\to\C,\qquad f\tensor v\tensor\lambda\mapsto Z(1-s,\w{f},(\ip{\pi(\cdot)v,\lambda})^{\vee})$$
+lies in the same Hom space for suitable $s$.
+
+\begin{theorem}
+$$\dim\Hom_G(\S(M_n)\tensor V\tensor V^{\vee},\C)=1.$$
+\end{theorem}
+
+As an immediate corollary we get that $Z^{\vee}(s,\pi)=\gamma_s(\pi,\psi)Z(s,\pi)$ for some $\gamma_s(\pi,\psi)\in\C$. The function $s\mapsto\gamma_s(\pi,\psi)$ then defines $\gamma(s,\pi,\psi)$ as desired.\footnote{To be precise, we get the desired functional equation on a strip but then we can extend.}
+
+\begin{proof}
+The space $\S(M_n)$ admits a filtration
+$$\{0\}=S_{n+1}\subsetneq S_n\subsetneq\cdots\subsetneq S_0=\S(M_n),$$
+where $S_k$ is defined to be the subspace of $\S(M_n)$ of functions supported on matrices of rank $\geq k$. Since the underlying action of $G$ on $M_n(F)$ preserves rank, we have that each $S_k$ inherits the structure of a smooth $G$-module. Each successive quotient $S_k/S_{k+1}$ consists of functions in $\S(M_n)$ supported on matrices of rank exactly $k$ and so there is a splitting
+$$\S(M_n)\iso S_0/S_1\oplus S_1/S_2\oplus\cdots\oplus S_n/S_{n+1}.$$
+Hence, we have an isomorphism
+$$\Hom_G(\S(M_n)\tensor V\tensor V^{\vee},\C)\iso\bigoplus_{k=0}^n\Hom_G(S_k/S_{k+1}\tensor V\tensor V^{\vee},\C).$$
+We claim that 
+\begin{equation*}
+\dim\Hom_G(S_k/S_{k+1}\tensor V\tensor V^{\vee},\C)=
+\begin{cases}
+1, & k=n, \\
+0, & k\neq n,
+\end{cases}
+\end{equation*}
+noting that $S_n/S_{n+1}\leq C_c^{\infty}(\GL_n(F))$.\footnote{Note that there is a difference between $C_c^{\infty}(\GL_n(F))$ and the ``restriction'' of $\S(M_n)=C_c^{\infty}(M_n(F))$ to $\GL_n(F)$ due to the difference in topology -- i.e., the topology on $\GL_n(F)$ is \textbf{not} the subspace topology coming from $M_n(F)$.} To begin, we have 
+$$C_c^{\infty}(\GL_n(F))\iso\textup{cind}_{\GL_n(F)}^G(\C),$$
+where $\C$ denotes the trivial representation of $\GL_n(F)$ and $\textup{cind}_{\GL_n(F)}^G$ denotes the ordinary compact group theoretic induction associated to $GL_n(F)$ embedded diagonally in $G$. Explicitly, the RHS consists of compactly supported locally constant functions $T: G\to\C$ such that $T(gg_1,gg_2)=T(g_1,g_2)$ for every $g,g_1,g_2\in\GL_n(F)$. The isomorphism is given by sending $f$ to the function that takes $(g,h)$ to $f(g^{-1}h)$. It follows that 
+\begin{align*}
+\Hom_G(C_c^{\infty}(\GL_n(F))\tensor V\tensor V^{\vee},\C)
+&\iso\Hom_G(\textup{cind}_{\GL_n(F)}^G(\C)\tensor V\tensor V^{\vee},\C) \\
+&\iso\Hom_G(V\tensor V^{\vee},\textup{ind}_{\GL_n(F)}^G(\C) \\
+&\iso\Hom_{\GL_n(F)}(V\tensor V^{\vee},\C) \\
+&\iso\Hom_{\GL_n(F)}(V,V)=\End_{\GL_n(F)}(V),
+\end{align*}
+where we have used ordinary group theoretic Frobenius reciprocity and \textup{ind} denotes ordinary group theoretic induction. Since $\pi$ is irreducible and admissible, the last space is $1$-dimensional by Schur's Lemma. This settles the edge case $k=n$.
+
+Let's now settle the edge case $k=0$. In this case, $S_0/S_1$ is the trivial representation and so we are reduced to considering $\Hom_G(V\tensor V^{\vee},\C)$, which vanishes since $(\pi,V)$ is a supercuspidal representation of $\GL_n(F)$ and so $\pi\tensor\pi^{\vee}$ (and any appropriate twist) is a supercuspidal representation of $G$.\footnote{The fact that $S_0/S_1$ is trivial is somewhat non-obvious but can be shown by considering minors.} We're now left with the case $0<k<n$. Let $P$ denote the standard parabolic subgroup of $\GL_n$ of type $(n-k,k)$. The key ingredient is the following isomorphism:
+$$S_k/S_{k+1}\iso\cInd_{P\times P}^{\GL_n\times\GL_n}(C_c^{\infty}(\GL_k(F))).$$
+We won't concern ourselves with proving this (and the indexing might be off).\footnote{See pages 132-133 of \emph{Automorphic Representations and $L$-Functions for the General Linear Group} by Goldfeld-Hundley. The key observation is that a rank $k$ matrix is determined by an invertible $k\times k$ submatrix.} From this we get 
+$$\Hom_G(S_k/S_{k+1}\tensor V\tensor V^{\vee},\C)\iso\Hom_G(V\tensor V^{\vee},\Ind_{P\times P}^{\GL_n\times\GL_n}(C_c^{\infty}(\GL_k(F))),$$
+which vanishes as before by the fact that $\pi$ is supercuspidal and the adjunction between parabolic induction and the Jacquet functor.
+\end{proof}
+
+\begin{remark}
+In [Luo] we see further that $L(s,\pi)=1$ for $n>2$ as a result of the so-called matrix Paley-Wiener Theorem.
+\end{remark}
+
+Now, what can we say about approach (2)? [Wang] chooses to consider the space $\S_0(M_n)$ defined to be the collection of $f\in\S(M_n)$ such that $\supp(f)\subset\GL_n(F)$ and 
+$$\int_{N(F)}f(g_1ug_2)\;du=0$$
+for every $g_1,g_2\in\GL_n(F)$ and $N$ a unipotent radical of some parabolic subgroup of $\GL_n$. One of the nice things about this space is that it is stable under the action of the Fourier transform. $\S_0(M_n)$ is also ``big enough'' in the following sense.
+
+\begin{proposition}
+\hfill
+\begin{enum}{\alph}
+\item Given $T\in\End_{\C}(V)$ and $s\in\C$, there exists $f\in\S_0(M_n)$ such that $Z(s,\pi,f)=T$.
+
+\item Fix $v\in V$ nonzero. Then, $V$ is spanned by the collection of $u\in V$ such that 
+\begin{center}
+there exists $f\in\S_0(M_n),c\neq0,m\in\Z$ such that $Z(s,\pi,f)v=cq^{-ms}u$ for every $s\in\C$.
+\end{center}
+\end{enum}
+\end{proposition}
+
+The idea is then to pair this proposition with a generalized version of Plancherel's Formula.
+
+\section{Spherical Representations}
+In general, local Euler factors associated to irreducible admissible representations of $\GL_n(F)$ can be hard to write down explicitly. One case where we can say something explicit is when $(\pi,V)$ is \emph{spherical} -- i.e., $\dim V^K=1$ for $K:=\GL_n(\O_F)$. In this case, $\pi^{\vee}$ is also spherical and choosing $v_0\in V^K$ and $v_0^{\vee}\in(V^{\vee})^K$ such that $\ip{v_0,v_0^{\vee}}=1$ allows us to define the so-called \textbf{zonal spherical function} 
+$$\Gamma: \GL_n(F)\to\C,\qquad g\mapsto\ip{\pi(g)v_0,v_0^{\vee}}.$$
+
+Let $B=TU$ be the standard Levi decomposition of the standard Borel subgroup of $\GL_n$. Choose $\chi_1,\ldots,\chi_n\in X(F^{\times})$ unramified, so that then $\chi:=\chi_1\cdots\chi_n$ is a character of $T(F)$. Associate to this $\pi_{\chi}:=\Ind_B^{\GL_n}(\chi)$. Letting $V$ denote the $\C$-vector space of this representation, it turns out that $\dim V^K=1$ and we may consider the spherical representation $\pi_0$ defined to be the irreducible component of $\pi_{\chi}$ containing $V^K$.
+
+\begin{theorem}
+We have $\eps(s,\pi_0,\psi)=1$ and $L(s,\pi_0)=L(s,\chi_1)\cdots L(s,\chi_n)$.
+\end{theorem}
+
+\begin{proof}
+The key to the proof is to choose $f\in\S(M_n)$ and $\phi\in\mc{C}(\pi_0)$ which are particularly amenable to calculation. Choosing $f$ is easy -- anything bi-$K$-invariant will suffice for now but eventually we will want it to be $\ind_{M_n(\O_F)}$. Choosing $\phi$ is a little more tricky. Consider the Iwasawa decomposition $\GL_n(F)=B(F)K$, which also comes with a Haar measure decomposition $dg=dbdk$ with $dk(K)=1$. A theorem proved independently by Borel-Matsumoto and Casselman tells us that there exists a unique vector $\oldphi\in\pi_{\chi}$ such that $\oldphi(bk)=\delta_B(b)^{1/2}\chi(b)$ for every $b\in B(F)$ and $k\in K$ (hence $\oldphi$ is identically $1$ on $K$). We similarly get $\oldphi^{\vee}$ associated to $\pi_{\chi}^{\vee}\iso\Ind_B^{\GL_n}(\chi^{-1})$. To $\pi_{\chi}$ and hence $\pi_0$ we may associate the zonal spherical function $\Gamma_{\chi}\in\mc{C}(\pi_0)$ defined by 
+\begin{align*}
+\Gamma_{\chi}(g)
+=\ip{\pi_0(g)\oldphi,\oldphi^{\vee}}
+=\int_K\oldphi(kg)\oldphi^{\vee}(k)\;dk
+=\int_K\oldphi(kg)\;dk.
+\end{align*}
+We take this to be our choice of matrix coefficient. For $\Re(s)\gg0$, we then have
+\begin{align*}
+Z(s,f,\Gamma_{\chi})
+&=\int_{\GL_n(F)}f(g)\Gamma_{\chi}(g)|\det g|^{s+(n-1)/2}\;dg \\
+&=\int_{\GL_n(F)}\int_Kf(g)\oldphi(kg)|\det g|^{s+(n-1)/2}\;dg \\
+&=\int_{\GL_n(F)}\int_Kf(g)\oldphi(g)|\det g|^{s+(n-1)/2}\;dg,
+\end{align*}
+where the last equality comes from switching the order of integration, changing variables, and using the bi-$K$-invariance of $f$. Using the above Iwasawa decomposition this becomes 
+$$\int_{B(F)}f(b)\delta_B(b)^{1/2}\chi(b)|\det b|^{s+(n-1)/2}\;db.$$
+Every element $b\in B(F)$ has the explicit form
+\begin{equation*}
+b=
+\begin{pmatrix}
+a_1 & & u_{jk} \\
+& \ddots & \\
+0 & & a_n
+\end{pmatrix}.
+\end{equation*}
+Choose Haar measures $d^{\times}a_i$ on $F^{\times}$ and $du_{jk}$ on $F$ such that $d^{\times}a_i(\O_F^{\times})=1$ and $du_{jk}(\O_F)=1$. One explicitly computes that 
+$$db=\prod_{1\leq i\leq n}|a_i|^{-(n-i)}d^{\times}a_i\prod_{j,k}du_{jk}$$
+and
+$$\delta_B(b)=\prod_{1\leq i\leq n}|a_i|^{n+1-2i}.$$
+Hence, our desired integral becomes
+\begin{align*}
+\int_{(F^{\times})^n\times F^{n(n-1)/2}}f\begin{pmatrix}
+a_1 & & u_{jk} \\
+& \ddots & \\
+0 & & a_n
+\end{pmatrix}\prod_{1\leq i\leq n}\chi_i(a_i)|a_i|^sd^{\times}a_i\prod_{j,k}du_{j,k}.
+\end{align*}
+Using the isomorphism $\S(M_n)\iso\S(F)^{\tensor n^2}$, we may identify the function 
+\begin{align*}
+(a_1,\ldots,a_n)\mapsto\int_{F^{n(n-1)/2}}f\begin{pmatrix}
+a_1 & & u_{jk} \\
+& \ddots & \\
+0 & & a_n
+\end{pmatrix}\prod_{j,k}du_{j,k}
+\end{align*}
+with an element of $\S(F)^{\tensor n}$. Assuming without loss of generality that this gives a simple tensor $f_1\tensor\cdots\tensor f_n$, we get 
+$$Z(s,f,\Gamma_{\chi})=Z(s,f_1,\chi_1)\cdots Z(s,f_n,\chi_n).$$
+Taking $f:=\ind_{M_n(\O_F)}$ gives the desired result on $L$-functions. The fact that $\eps(s,\pi_0,\psi)=1$ follows from the fact that this choice of $f$ is Fourier-stable.
+\end{proof}
+\end{document}
+
+We have the following facts.
+\begin{itemize}
+\item $\pi(g)v=\Gamma(g)v$ for every $g\in\GL_n(F)$ and $v\in V^K$.
+
+\item $\int_K\Gamma(hkg)\;dk=\Gamma(g)\Gamma(h)$ for every $g,h\in\GL_n(F)$, where $dk$ is the Haar measure on $K$ such that $dk(K)=1$.
+
+\item The zonal spherical function of $\pi^{\vee}$ is $\Gamma^{\vee}(g):=\Gamma(g^{-1})$.
+\end{itemize}
+
+Goldfeld-Hundley - Automorphic Representations and $L$-Functions for the General Linear Group - pg. 132-133
+Bernstein - Representations of $p$-adic Groups - pg. 61 and 79
+Godement-Jacquet - Proposition 5.5 [Schur Orthogonality Relations]
