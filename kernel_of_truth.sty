@@ -1,0 +1,336 @@
+% Zachary Gardner
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kernel_of_truth}[2021/10/25 Custom Package]
+
+% Helpful commands for writing a package
+% \RequirePackage
+% \DeclareOptions
+% \ExecuteOptions{...}
+% \ProcessOptions\relax
+
+% Packages
+% -----
+\RequirePackage{adjustbox} % allows for graphical manipulation of symbols (e.g., reflection)
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{bbm} % extends blackboard bold font style to work for more symbols
+\RequirePackage{calligra}
+\RequirePackage{comment} % allows for block comments through \comment environment
+\RequirePackage{graphicx}
+\RequirePackage[utf8]{inputenc} % allows for internal character incoding
+\RequirePackage{mathrsfs} % provides font with command \mathscr
+\RequirePackage{mathtools}
+\RequirePackage{parskip} % automatically removes paragraph indents
+\RequirePackage{soul} % allows for striking through and highlighting text
+\RequirePackage{stmaryrd} % provides commands such as \llbracket and \rrbracket for left and right double square brackets, respectively
+\RequirePackage{tabu} % allows for creation of tables inside math mode
+\RequirePackage{thmtools}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{xcolor} % provides colored text with the command \textcolor{<color>}{<text>}
+
+\RequirePackage[english]{babel} % provides multilingual support
+\RequirePackage{csquotes} % supplementary package to babel (load after package inputenc or things will break)
+
+\usetikzlibrary{matrix, calc, arrows}
+
+% Graphical hacks
+% -----
+% Code command \rationalmap to draw a dashed arrow
+\newcommand*{\DashedArrow}[1][]{\mathbin{\tikz [baseline=-0.25ex,-latex, dashed,#1] \draw [#1] (0pt,0.5ex) -- (1.3em,0.5ex);}}%
+\newcommand{\rationalmap}{\DashedArrow[->,densely dashed]}
+
+% Fix formatting for \underbrace
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+\makeatletter
+\def\underbrace#1{\@ifnextchar_{\tikz@@underbrace{#1}}{\tikz@@underbrace{#1}_{}}}
+\def\tikz@@underbrace#1_#2{\tikz[baseline=(a.base)] {\node (a) {\(#1\)}; \draw[thick,line cap=round,decorate,decoration={brace,amplitude=5pt}] (a.south east) -- node[below,inner sep=7pt] {\(\scriptstyle #2\)} (a.south west);}}
+\makeatother
+
+% Filtered limit
+\newcommand{\flim}{\displaystyle\varprojlim}
+
+% Filtered colimit
+\makeatletter
+\newcommand{\fcolim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font colim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\fcolim}{%
+  \displaystyle\mathop{\mathpalette\fcolim@{\rightarrowfill@\textstyle}}\nmlimits@
+}
+\makeatother
+
+% Sha (for Shafarevich-Tate groups)
+\DeclareFontFamily{U}{wncy}{}
+\DeclareFontShape{U}{wncy}{m}{n}{<->wncyr10}{}
+\DeclareSymbolFont{mcy}{U}{wncy}{m}{n}
+\DeclareMathSymbol{\Sha}{\mathord}{mcy}{"58} 
+
+% Transverse intersection
+\newcommand{\transverse}{\mathrel{\text{\tpitchfork}}}
+\makeatletter
+\newcommand{\tpitchfork}{%
+  \vbox{
+    \baselineskip\z@skip
+    \lineskip-.52ex
+    \lineskiplimit\maxdimen
+    \m@th
+    \ialign{##\crcr\hidewidth\smash{$-$}\hidewidth\crcr$\pitchfork$\crcr}
+  }%
+}
+\makeatother
+
+% In-line big wedge product
+\newcommand{\Wedge}{\mathord{\adjustbox{valign=B,totalheight=.6\baselineskip}{$\bigwedge$}}}
+% -----
+
+% Renewed commands
+% -----
+\let\oldAA\AA % \AA can be renewed
+\let\oldIm\Im
+\renewcommand{\Im}{\textup{Im}}
+\let\oldl\l % \l can be renewed
+\renewcommand{\l}{\ell}
+\let\oldL\L % \L can be renewed
+\let\oldO\O % \O can be renewed
+\renewcommand{\O}{\mathcal{O}}
+\let\oldP\P % \P can be renewed
+\let\oldRe\Re
+\renewcommand{\Re}{\textup{Re}}
+\let\oldS\S % \S can be renewed
+\let\oldSp\Sp % \Sp can be renewed
+\let\oldsubset\subset % \subset can be renewed
+\renewcommand{\subset}{\subseteq}
+\let\oldsupset\supset % \supset can be renewed
+\renewcommand{\supset}{\supseteq}
+% -----
+
+% Blackboard bold
+% -----
+\newcommand{\A}{\mathbb{A}} % affine or ad\`{e}les
+\newcommand{\C}{\mathbb{C}} % complex
+\newcommand{\CP}{\mathbb{C}\mathbb{P}} % complex projective
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathbb{F}} % finite
+\newcommand{\N}{\mathbb{N}} % natural
+\newcommand{\Q}{\mathbb{Q}} % rational
+\newcommand{\R}{\mathbb{R}} % real
+\newcommand{\RP}{\mathbb{R}\mathbb{P}} % real projective
+\newcommand{\Z}{\mathbb{Z}} % integer
+% -----
+
+% Matrix groups (and associated Lie algebras)
+% -----
+\newcommand{\GL}{\textup{GL}} % general linear
+\newcommand{\GSp}{\textup{GSp}} % general symplectic (I think...)
+\newcommand{\MSp}{\textup{MSp}} % meta-symplectic (I think...)
+\newcommand{\PGL}{\textup{PGL}} % projective general linear
+\newcommand{\PSL}{\textup{PSL}} % projective special linear
+\newcommand{\SL}{\textup{SL}} % special linear
+\newcommand{\SO}{\textup{SO}} % special orthogonal
+\newcommand{\Sp}{\textup{Sp}} % symplectic
+
+\newcommand{\gl}{\mathfrak{gl}} % Lie algebra of $\GL$
+% -----
+
+% New commands
+% -----
+% No arguments
+\newcommand{\cen}{\mathcal{Z}} % center
+\newcommand{\D}{\mathcal{D}} % derived (typically derived categories of abelian categories)
+\newcommand{\df}{\dfrac}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ind}{\mathbbm{1}} % indicator
+\newcommand{\inj}{\hookrightarrow} % injective or faithful (sometimes monic or monomorphism)
+\newcommand{\iso}{\cong} % isomorphism
+\newcommand{\g}{\mathfrak{g}} % (typically) Lie algebra
+\newcommand{\h}{\mathfrak{h}} % (typically) Lie subalgebra
+\newcommand{\heart}{\heartsuit} % heart (of an $\infty$-category)
+\newcommand{\Ltensor}{\tensor^{\mathbb{L}}} % (left) derived tensor product
+\newcommand{\m}{\mathfrak{m}}
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ms}{\mathscr}
+\newcommand{\normal}{\trianglelefteq}
+\newcommand{\ov}{\overline}
+\newcommand{\semidirect}{\rtimes} % semidirect product with vertical line on the right
+\newcommand{\surj}{\twoheadrightarrow} % surjective or full (sometimes epic or epimorphism)
+\newcommand{\tensor}{\otimes}
+\newcommand{\Tensor}{\bigotimes}
+\newcommand{\tilt}{\flat}
+\newcommand{\twid}{\widetilde}
+\newcommand{\un}{\underline}
+\newcommand{\xto}{\xrightarrow}
+\newcommand{\w}{\widehat}
+
+% Arguments
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\dparen}[1]{% \dparen{..}
+	\!\left(\mkern-3mu\left(#1\right)\mkern-3mu\right)}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\FPS}[1]{\!\left\llbracket{#1}\right\rrbracket} % double square brackets for formal power series
+\newcommand{\ip}[1]{\!\left\langle#1\right\rangle}
+\newcommand{\Lang}[1]{\prescript{L}{}#1}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\trans}[1]{\prescript{t}{}#1}
+% -----
+
+% Math operators
+% -----
+% General
+\DeclareMathOperator{\ab}{ab} % abelianization
+\DeclareMathOperator{\Aut}{Aut} % automorphism
+\DeclareMathOperator{\Br}{Br} % Brauer group
+\DeclareMathOperator{\Cl}{Cl} % class group
+\DeclareMathOperator{\cn}{cn} % connective
+\DeclareMathOperator{\co}{co} % used for dualization
+\DeclareMathOperator{\codim}{codim} % codimension
+\DeclareMathOperator{\coeq}{coeq} % coequalizer
+\DeclareMathOperator{\coim}{coim} % coimage (not used that often...)
+\DeclareMathOperator{\coker}{coker} % cokernel
+\DeclareMathOperator{\colim}{colim} % colimit
+\DeclareMathOperator{\cone}{cone} % mapping cone (used in topology, homological algebra, etc.); same as homotopy cokernel in certain contexts
+\DeclareMathOperator{\cont}{cont} % continuous
+\DeclareMathOperator{\disc}{disc} % discriminant
+\DeclareMathOperator{\End}{End} % endomorphism(s)
+\DeclareMathOperator{\eq}{eq} % equalizer
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\ev}{ev} % evaluation
+\DeclareMathOperator{\Fil}{Fil} % filtration
+\DeclareMathOperator{\Frac}{Frac} % fraction field
+\DeclareMathOperator{\Frob}{Frob} % Frobenius
+\DeclareMathOperator{\Gal}{Gal} % Galois
+\DeclareMathOperator{\gr}{gr} % (associated) graded
+\DeclareMathOperator{\grp}{grp} % group (or grouplike) objects
+\DeclareMathOperator{\hcolim}{hcolim} % homotopy colimit
+\DeclareMathOperator{\hlim}{hlim} % homotopy limit
+\DeclareMathOperator{\Hom}{Hom} % homomorphism
+\DeclareMathOperator{\id}{id} % identity
+\DeclareMathOperator{\im}{im} % image
+\DeclareMathOperator{\Ind}{Ind} % induction (and Ind-categories)
+\DeclareMathOperator{\Inn}{Inn} % inner (automorphisms)
+\DeclareMathOperator{\inv}{inv} % invariant or inverse
+\DeclareMathOperator{\Isom}{Isom} % isomorphism (classes)
+\DeclareMathOperator{\lcm}{lcm} % least common multiple
+\DeclareMathOperator{\Map}{Map} % maps (often used in (pseudo-)topological settings)
+\DeclareMathOperator{\Mat}{Mat} % matrices
+\DeclareMathOperator{\Mor}{Mor} % morphisms
+\DeclareMathOperator{\oblv}{oblv} % forgetful (functor)
+\DeclareMathOperator{\op}{op} % opposite
+\DeclareMathOperator{\Out}{Out} % outer (automorphisms)
+\DeclareMathOperator{\pr}{pr} % projection
+\DeclareMathOperator{\rank}{rank} % rank
+\DeclareMathOperator{\rep}{rep} % representable
+\DeclareMathOperator{\res}{res} % restriction
+\DeclareMathOperator{\Res}{Res} % restriction (used for group cohomology)
+\DeclareMathOperator{\sep}{sep} % separable (closure)
+\DeclareMathOperator{\sgn}{sgn} % sign (function or stuff for permutations)
+\DeclareMathOperator{\sing}{sing} % singular
+\DeclareMathOperator{\Sing}{Sing} % total singular complex
+\DeclareMathOperator{\Span}{Span} % span
+\DeclareMathOperator{\Stab}{Stab} % stabilizer
+\DeclareMathOperator{\std}{std} % standard
+\DeclareMathOperator{\supp}{supp} % support
+\DeclareMathOperator{\Sym}{Sym} % symmetric (used for groups and algebras in abstract algebra and algebraic geometry)
+\DeclareMathOperator{\tf}{tf} % torsion-free (sometimes $p$-torsion-free for specified prime $p$)
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Tot}{Tot} % totalization
+\DeclareMathOperator{\tors}{tors} % torsion
+\DeclareMathOperator{\tr}{tr} % trace
+\DeclareMathOperator{\unr}{unr} % unramified
+
+% Algebraic geometry and commutative algebra
+\DeclareMathOperator{\ann}{ann} % annihilator
+\DeclareMathOperator{\Ass}{Ass} % associated (primes)
+\DeclareMathOperator{\Bl}{Bl} % blowup
+\DeclareMathOperator{\CH}{CH} % Chow (group)
+\DeclareMathOperator{\cl}{cl} % classical
+\DeclareMathOperator{\crys}{crys} % crystalline
+\DeclareMathOperator{\Def}{Def} % deformation
+\DeclareMathOperator{\Der}{Der} % derivation
+\DeclareMathOperator{\dR}{dR} % de Rham
+\DeclareMathOperator{\et}{\acute{e}t} % etale (sites and cohomology)
+\DeclareMathOperator{\EEnd}{\mathscr{E}\text{\kern -3pt {\calligra\large nd}}\,} % sheaf End
+\DeclareMathOperator{\EExt}{\mathscr{E}\text{\kern -3pt {\calligra\large xt}}\,} % sheaf Ext
+\DeclareMathOperator{\Func}{Func} % functions (in the sense of algebraic geometry)
+\DeclareMathOperator{\Gr}{Gr} % Grassmannian
+\DeclareMathOperator{\height}{ht} % height
+\DeclareMathOperator{\HHom}{\mathscr{H}\text{\kern -3pt {\calligra\large om}}\,} % sheaf Hom
+\DeclareMathOperator{\Jac}{Jac} % Jacobian
+\DeclareMathOperator{\Kos}{Kos} % Koszul
+\DeclareMathOperator{\MaxSpec}{MaxSpec} % maximal spectrum (collection of maximal ideals of a ring, or something that plays the same role within a given geometric theory)
+\DeclareMathOperator{\nil}{nil} % nilradical
+\DeclareMathOperator{\Pic}{Pic} % Picard
+\DeclareMathOperator{\PPic}{\mathbf{Pic}} % Picard***
+\DeclareMathOperator{\poly}{poly} % polynomials
+\DeclareMathOperator{\Pre}{\mathscr{P}} % presheaves
+\DeclareMathOperator{\Proj}{Proj} % Proj (as in Proj construction)
+\DeclareMathOperator{\rad}{rad} % radical
+\DeclareMathOperator{\red}{red} % reduction (of a ring or scheme)
+\DeclareMathOperator{\reg}{reg} % regular
+\DeclareMathOperator{\sh}{sh} % sheafification
+\DeclareMathOperator{\sm}{sm} % smooth
+\DeclareMathOperator{\Spa}{Spa} % affinoid adic space
+\DeclareMathOperator{\Spd}{Spd} % ``affinoid'' diamond
+\DeclareMathOperator{\Spec}{Spec} % affine scheme (not to be confused with the topological/homological notion of spectra)
+\DeclareMathOperator{\Spf}{Spf} % affine formal scheme
+\DeclareMathOperator{\Zar}{Zar} % Zariski (typically used for sites)
+% -----
+
+% Category names
+% -----
+% \mathsf encodes input in the default LaTeX sans serif font, which is useful for naming categories (and also $\infty$-categories)
+\DeclareMathOperator{\Ab}{\mathsf{Ab}} % abelian groups
+\DeclareMathOperator{\Aff}{\mathsf{Aff}} % affine (typically schemes)
+\DeclareMathOperator{\Alg}{\mathsf{Alg}} % (associative) algebras
+\DeclareMathOperator{\Ani}{\mathsf{Ani}} % animation
+\DeclareMathOperator{\CAlg}{\mathsf{CAlg}} % commutative (associative) algebras
+\DeclareMathOperator{\Cat}{\mathsf{Cat}} % categories
+\DeclareMathOperator{\CDGA}{\mathsf{CDGA}} % commutative differential graded algebras
+\DeclareMathOperator{\Ch}{\mathsf{Ch}} % (co-)chain complexes
+\DeclareMathOperator{\CMon}{\mathsf{CMon}} % commutative monoids
+\DeclareMathOperator{\Co}{\mathsf{Co}} % used for dualization
+\DeclareMathOperator{\Coh}{\mathsf{Coh}} % coherent sheaves
+\DeclareMathOperator{\Cov}{\mathsf{Cov}} % coverings
+\DeclareMathOperator{\CRing}{\mathsf{CRing}} % commutative rings
+\DeclareMathOperator{\DDelta}{\mathbf{\mathsf{\Delta}}}
+\DeclareMathOperator{\Diam}{\mathsf{Diam}} % diamonds
+\DeclareMathOperator{\DSch}{\mathsf{dSch}} % derived schemes***
+\DeclareMathOperator{\Et}{\mathsf{\acute{E}t}} % etale (categories of covers)
+\DeclareMathOperator{\FEt}{\mathsf{F\!\Et}} % finite etale
+\DeclareMathOperator{\Field}{\mathsf{Field}} % fields***
+\DeclareMathOperator{\Free}{\mathsf{Free}} % free***
+\DeclareMathOperator{\Fun}{\mathsf{Fun}} % functors
+\DeclareMathOperator{\Grp}{\mathsf{Grp}} % groups
+\DeclareMathOperator{\Grpoid}{\mathsf{Grpoid}} % groupoids
+\DeclareMathOperator{\Ho}{\mathsf{Ho}} % homotopy category
+\DeclareMathOperator{\Loc}{\mathsf{Loc}} % local (systems)
+\DeclareMathOperator{\LRS}{\mathsf{LRS}} % locally ringed spaces
+\DeclareMathOperator{\Mod}{\mathsf{Mod}} % (typically left) modules
+\DeclareMathOperator{\Mon}{\mathsf{Mon}} % monoids
+\DeclareMathOperator{\Monad}{\mathsf{Monad}} % monads (monoids in endofunctor categories)
+\DeclareMathOperator{\Op}{\mathsf{Op}} % open subsets/subspaces
+\DeclareMathOperator{\Perf}{Perf} % perfectoid spaces in characteristic p
+\DeclareMathOperator{\Perfd}{Perfd} % perfectoid spaces
+\DeclareMathOperator{\QCoh}{\mathsf{QCoh}} % quasicoherent sheaves
+\DeclareMathOperator{\Rep}{\mathsf{Rep}} % representations
+\DeclareMathOperator{\Ring}{\mathsf{Ring}} % (unital) rings
+\DeclareMathOperator{\RS}{\mathsf{RS}} % ringed spaces
+\DeclareMathOperator{\Sch}{\mathsf{Sch}} % schemes
+\DeclareMathOperator{\SCR}{\mathsf{SCR}} % simplicial commutative rings
+\DeclareMathOperator{\Set}{\mathsf{Set}} % sets
+\DeclareMathOperator{\Shv}{\mathsf{Shv}} % sheaves
+\DeclareMathOperator{\simp}{\mathsf{s}\!} % simplicial***
+\DeclareMathOperator{\Space}{\mathsf{Space}} % spaces***
+\DeclareMathOperator{\Top}{\mathsf{Top}} % topological spaces
+\DeclareMathOperator{\Vect}{\mathsf{Vect}} % vector bundles or vector spaces
+% -----
+
+\endinput
