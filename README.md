@@ -1,3 +1,15 @@
 # math-meta
 
-One goal of this project is creating a snapshot of mathy things.
+This is a place for me to store and organize math-related things of personal interest. There are several important sections.
+
+## archive
+
+This is where I store information about web content I have preserved using the Wayback Machine.
+
+## teaching
+
+This is where I store current and old teaching materials.
+
+## notes
+
+This is where I store my notes.
