@@ -1,0 +1,992 @@
+\documentclass[11pt]{article}
+
+% Expand margins
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\topmargin}{-.75in}
+\addtolength{\textheight}{1.5in}
+\linespread{1}
+
+% Packages
+% -----
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bbm} % extends blackboard bold font style to work for more symbols
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{mathrsfs} % provides font with command \mathscr
+\usepackage{mathtools}
+%\usepackage{parskip} % automatically removes paragraph indents
+\usepackage{soul} % allows for striking through and highlighting text
+\usepackage{stmaryrd} % provides commands such as \llbracket and \rrbracket for left and right double square brackets, respectively
+\usepackage{tabu} % allows for creation of tables inside math mode
+\usepackage{thmtools}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{xcolor} % provides colored text with the command \textcolor{<color>}{<text>}
+
+\usetikzlibrary{matrix, calc, arrows}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+% -----
+
+% Graphical hacks
+% -----
+% Redraw and sharpen angle brackets
+\newcommand{\lang}{\begin{picture}(5,7)
+\put(1.1,2.5){\rotatebox{45}{\line(1,0){6.0}}}
+\put(1.1,2.5){\rotatebox{315}{\line(1,0){6.0}}}
+\end{picture}}
+\newcommand{\rang}{\begin{picture}(5,7)
+\put(.1,2.5){\rotatebox{135}{\line(1,0){6.0}}}
+\put(.1,2.5){\rotatebox{225}{\line(1,0){6.0}}}
+\end{picture}}
+
+% Fix formatting for \underbrace
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+\makeatletter
+\def\underbrace#1{\@ifnextchar_{\tikz@@underbrace{#1}}{\tikz@@underbrace{#1}_{}}}
+\def\tikz@@underbrace#1_#2{\tikz[baseline=(a.base)] {\node (a) {\(#1\)}; \draw[thick,line cap=round,decorate,decoration={brace,amplitude=5pt}] (a.south east) -- node[below,inner sep=7pt] {\(\scriptstyle #2\)} (a.south west);}}
+\makeatother
+% -----
+
+% Blackboard bold
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% New commands - general
+% -----
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\cen}{\mathcal{Z}}
+\newcommand{\df}{\dfrac}
+\newcommand{\ip}[1]{\left\langle#1\right\rangle}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\iso}{\cong}
+\newcommand{\m}{\mathfrak{m}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\ms}[1]{\mathscr{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\normal}{\trianglelefteq}
+\newcommand{\ov}[1]{\overline{#1}}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\semidirect}{\rtimes} % semidirect product with vertical line on the right
+\newcommand{\sqbrac}[1]{\left[#1\right]}
+\newcommand{\sqbracd}[1]{\left\llbracket{#1}\right\rrbracket}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\tensor}{\otimes}
+\newcommand{\xto}[1]{\xrightarrow{#1}}
+% -----
+
+% Math operators
+% -----
+\DeclareMathOperator{\ab}{ab} % abelianization
+\DeclareMathOperator{\alg}{alg} % algebra
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Br}{Br} % Brauer group
+\DeclareMathOperator{\ch}{char}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\CoInf}{CoInf} % co-inflation
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\cone}{cone} % mapping cone (used in topology, homological algebra, etc.)
+\DeclareMathOperator{\cont}{cont} % continuous
+\DeclareMathOperator{\CoRes}{CoRes} % co-restriction
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\ev}{ev} % evaluation
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Frob}{Frob} % Frobenius
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\gr}{gr} % graded
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id} % identity
+\DeclareMathOperator{\im}{im} % image
+\DeclareMathOperator{\Inf}{Inf} % inflation
+\DeclareMathOperator{\inv}{inv} % invariant
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\length}{length}
+\DeclareMathOperator{\MaxSpec}{MaxSpec} % maximum spectrum (collection of maximal ideals of a ring)
+\DeclareMathOperator{\nil}{nil} % nilradical
+\DeclareMathOperator{\rad}{rad} % radical
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Res}{Res} % restriction
+\DeclareMathOperator{\sep}{sep} % used for separable closure
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\stab}{stab} % stabilizer
+\DeclareMathOperator{\Syl}{Syl} % used for Sylow subgroups
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\unr}{unr} % unramified
+
+% Matrix groups
+\DeclareMathOperator{\GL}{GL} % general linear
+\DeclareMathOperator{\SL}{SL} % special linear
+
+% Renewed commands
+\newcommand{\oldsubset}{\subset}
+\renewcommand{\subset}{\subseteq}
+
+\newcommand{\oldsupset}{\supset}
+\renewcommand{\supset}{\supseteq}
+
+\newcommand{\oldphi}{\phi}
+\renewcommand{\phi}{\varphi}
+
+\newcommand{\oldO}{\O}
+\renewcommand{\O}{\mc{O}}
+
+\newcommand{\oldl}{\l}
+\renewcommand{\l}{\ell}
+
+% filtered limit
+\newcommand{\flim}{\varprojlim}
+
+% filtered colimit
+\makeatletter
+\newcommand{\fcolim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font colim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\fcolim}{%
+  \mathop{\mathpalette\fcolim@{\rightarrowfill@\textstyle}}\nmlimits@
+}
+\makeatother
+
+% New environments
+\newenvironment{enum}[1]{
+\begin{enumerate}[label=\textup{({#1*})}]
+}
+{
+\end{enumerate}
+}
+
+% New theorems
+\newtheorem{claim}{\\Claim}[section]
+\newtheorem*{claim*}{\\Claim}
+\newtheorem{corollary}{\\Corollary}[section]
+\newtheorem*{corollary*}{\\Corollary}
+\newtheorem{definition}{\\Definition}[section]
+\newtheorem*{definition*}{\\Definition}
+\newtheorem{example}{\\Example}[section]
+\newtheorem*{example*}{\\Example}
+\newtheorem{exercise}{\\Exercise}[section]
+\newtheorem*{exercise*}{\\Exercise}
+\newtheorem{lemma}{\\Lemma}[section]
+\newtheorem*{lemma*}{\\Lemma}
+\newtheorem{proposition}{\\Proposition}[section]
+\newtheorem*{proposition*}{\\Proposition}
+\newtheorem{remark}{\\Remark}[section]
+\newtheorem*{remark*}{\\Remark}
+\newtheorem{theorem}{\\Theorem}[section]
+\newtheorem*{theorem*}{\\Theorem}
+
+\begin{document}
+\title{Local Class Field Theory}
+\author{Zachary Gardner}
+\date{\texttt{zacharygardner137@utexas.edu}}
+\maketitle
+
+These notes cover the first and third lecture in a class field theory graduate summer mini-course co-taught at UT Austin in Summer 2019 by Rok Gregoric and Zachary Gardner. The first lecture is a review of necessary number theory background and the third lecture is an introduction to local class field theory. The third lecture is dependent on the second lecture covering cohomological preliminaries and assumes the reader is familiar with the basics of Tate cohomology as well as restriction and inflation maps. Some familiarity with profinite groups would also be helpful. For the reader who is not so familiar, we highly recommend Andrew Sutherland's expository papers on Tate cohomology and Tate's theorem. As a final note, all rings are taken to be commutative and unital unless otherwise stated. 
+
+\tableofcontents
+\newpage
+
+\section{Number Theory Background}
+\subsection{Introduction}
+\begin{definition*}
+A \textbf{number field} is a field which is a finite dimensional $\Q$-vector space. A \textbf{global function field} is a field which is a finite dimensional $\F_p(t)$-vector space, for $p$ a prime and $t$ an indeterminant. A \textbf{global field} is either a number field or global function field.
+\end{definition*}
+
+Global fields will, unsurprisingly, be the main item of focus for global class field theory. A general rule of thumb is that if a result holds for one type of global field then an analogous result holds for the other type. This is why number fields and global function fields are placed under the same umbrella term. Note that things are often easier to prove for global function fields than for number fields. Before we get into the number theory proper, we will give a lightning tour of the algebraic results we need.
+
+\subsection{Some Field and Galois Theory}
+\begin{definition*}
+Let $L/K$ be an extension of fields. Then, $L/K$ is:
+\begin{itemize}
+\item \textbf{algebraic} if every $\alpha\in L$ is \textbf{algebraic over $K$} -- i.e., $\alpha$ is a root of some nonzero polynomial with coefficients in $K$;
+\item \textbf{separable} if every $\alpha\in L$ is \textbf{separable over $K$} -- i.e., the minimal polynomial of $\alpha$ over $K$ has no repeated roots;
+\item \textbf{normal} if every irreducible polynomial with coefficients in $K$ either has no roots in $L$ or splits completely in $L$;
+\item \textbf{Galois} if it is algebraic, separable, and normal;
+\item \textbf{abelian} if it is Galois and $\Gal(L/K)$ is abelian;
+\item \textbf{cyclic} if it is Galois and $\Gal(L/K)$ is cyclic.
+\end{itemize}
+For $L/K$ Galois, we let $\Gal(L/K)$ denote the group of $K$-linear automorphisms of $L$ fixing $K$ pointwise. This group has order $[L:K]$. We say $L/K$ is \textbf{$G$-Galois} if $L/K$ is Galois with $\Gal(L/K)\iso G$.
+\end{definition*}
+
+We record the following useful results for future (though possibly not explicit) reference. Know that these results are lurking in the proofs of various results that will go unproved in these notes.
+
+\begin{theorem*}[Primitive Element Theorem]
+Let $L/K$ be a finite separable extension. Then, there exists $\alpha\in L$ such that $L=K(\alpha)$.
+\end{theorem*}
+
+\begin{theorem*}[Normal Basis Theorem]
+Let $L/K$ be a finite $G$-Galois extension. Then, there exists $\alpha\in L$ such that $\{\sigma\alpha : \sigma\in G\}$ is a $K$-basis for $L$. Equivalently, $L\iso K[G]$ as $G$-modules.\footnote{Given a ring $R$ and group $G$, we use the notation $R[G]$ to denote the group ring of $R$-linear formal sums of elements of $G$. An $R$-module with a compatible $G$ action is then the same thing as an $R[G]$-module.}
+\end{theorem*}
+
+\begin{theorem*}[Fundamental Theorem of Galois Theory]
+Let $L/K$ be a (possibly infinite) $G$-Galois extension of fields and endow $G$ with the profinite topology arising from the natural isomorphism
+$$G\iso\flim\Gal(E/K),$$
+where the inverse limit is taken over $K\subset E\subset L$ with $E/K$ finite Galois. Then, the maps $H\mapsto L^H$ and $E\mapsto\Gal(L/E)$ induce an inclusion-reversing bijection between the set of closed subgroups of $G$ and fields intermediate between $K$ and $L$. Moreover,
+\begin{enum}{\roman}
+\item $H\leq G\implies L/L^H$ is Galois with $\Gal(L/L^H)\iso\ov{H}$, the closure of $H$ in $G$;
+\item open subgroups of $G$ correspond to finite extensions of $K$ (and, more generally, cosets correspond to embeddings);
+\item normal subgroups of $G$ correspond to Galois extensions of $K$ (and, more generally, conjugates correspond to conjugates).
+\end{enum}
+\end{theorem*}
+
+Given a field $K$, let $\ov{K}$ denote a choice of algebraic closure and $K^{\sep}$ a choice of separable closure. For $L/K$ a separable extension contained in $K^{\sep}$, the \textbf{Galois closure} of $L/K$ is the minimal field $M$ contained in $K^{\sep}$ such that $L\subset M$ and $M/K$ is Galois. Such an $M$ exists and is a finite extension of $L$. Unless otherwise stated, separable extensions of $K$ will be taken to be sub-extensions of some $K^{\sep}$ (this helps clarify any matters of uniqueness).
+
+\begin{proposition*}
+Let $K$ be a field and $L_1,L_2$ Galois over $K$. Then, the compositum $L_1L_2$ is Galois over $K$ satisfying 
+$$\Gal(L_1L_2/K)\inj\Gal(L_1/K)\times\Gal(L_2/K)$$
+with image $\{(\sigma,\tau) : \sigma|_{L_1\cap L_2}=\tau|_{L_1\cap L_2}\}$. Hence, if $L_1,L_2$ are abelian over $K$ then $L_1L_2$ is as well.
+\end{proposition*}
+
+This allows us to define a \textbf{maximal abelian extension} $K^{\ab}$ of $K$ relative to some separable closure $K^{\sep}$ as a suitable compositum. We define 
+\begin{align*}
+\Gal(K)&:=\Gal(K^{\sep}/K), \\
+\Gal^{\ab}(K)&:=\Gal(K^{\ab}/K).
+\end{align*}
+The former is the \textbf{absolute Galois group of $K$} and is in some sense the prime object of study for modern number theory.
+
+\begin{remark*}
+$\Gal^{\ab}(K)$ is sometimes referred to as the abelianized absolute Galois group of $K$ even though $\Gal^{\ab}(K)$ and $\Gal(K)^{\ab}$ are not literally isomorphic. They are, however, isomorphic in the ``profinite'' sense of having the same finite quotients. If $K$ is nonarchimedean local then this relationship can be strengthened somewhat by a result of local class field theory known as the Norm Limitation Theorem.
+\end{remark*}
+
+We say $K$ is \textbf{perfect} if every finite extension of $K$ is separable. If $K$ is finite or $\ch K=0$ then $K$ is perfect. For $\ch K=p>0$, $K$ is perfect if and only if every element of $K$ is a $p$th power. Recall that if $\l/k$ is an extension of finite fields then $\l/k$ is cyclic with $\Gal(\l/k)$ generated by the \textbf{Frobenius map} $\sigma: \alpha\mapsto\alpha^{|k|}$. This will be important later when we discuss unramified extensions.
+
+\begin{definition*}
+Let $L/K$ be a finite field extension (and so $L$ is a $K$-vector space of finite dimension). Define $N_{L/K}: L\to L$ by $a\mapsto\det\mu_{\alpha}$, where $\mu_{\alpha}: L\to L$ is the $K$-linear map given by multiplication by $\alpha$.
+\end{definition*}
+
+\begin{proposition*}
+Let $L/K$ be a finite field extension. Then, 
+\begin{enum}{\roman}
+\item the image of $N_{L/K}$ is contained in $K$;
+\item if $\alpha\in K$ then $N_{L/K}(\alpha)=\alpha^{[L:K]}$;
+\item $N_{L/K}$ defines a group homomorphism $L^{\times}\to K^{\times}$ and hence $N_{L/K}(L^{\times})\leq K^{\times}$;
+\item given $K\subset E\subset L$, $N_{L/K}=N_{E/K}\circ N_{L/E}$;
+\item if $L/K$ is Galois and $\alpha\in L$ then $N_{L/K}(\alpha)=\prod_{\sigma\in\Gal(L/K)}\sigma\alpha$;\footnote{There are similar product expressions for the norm in the case that $L/K$ is not separable but we will not need them.}
+\item if $L/K$ is separable and $M$ is the Galois closure of $L/K$ then $N_{L/K}=N_{M/K}|_L$.
+\end{enum}
+\end{proposition*}
+
+\subsection{Some Commutative Algebra}
+Let $A\subset B$ be an extension of rings. The \textbf{integral closure} of $A$ in $B$ is 
+$$\{b\in B : p(b)=0\textrm{\;for some monic\;}p(x)\in A[x]\},$$
+which is a subring of $B$ whose elements are said to be \textbf{integral (over $A$)}. If $A$ is an integral domain and no extension ring is specified then the \textbf{integral closure} of $A$ is taken to be the integral closure of $A$ in the quotient field $\Frac(A)$. $A$ is \textbf{integrally closed} if it is equal to its own integral closure. $A$ is a \textbf{Dedekind domain} if it is a Noetherian (i.e., every ascending chain of ideals terminates), integrally closed integral domain of Krull dimension $\leq1$ (i.e., if $A$ is not a field then every nonzero prime ideal is maximal). $A$ is a \textbf{discrete valuation ring} (\textbf{DVR} for short) if it is a local Dedekind domain which is not a field -- i.e., a local PID of Krull dimension 1. It follows that a Dedekind domain which is not a field is precisely a ring all of whose localizations at prime ideals are DVRs.
+
+Let $A$ be an integral domain and $K:=\Frac(A)$ its quotient field. A \textbf{fractional ideal} of $A$ is a nonzero $A$-submodule $I$ of $K$ such that $\alpha I\subset A$ for some nonzero $\alpha\in K$ (we may take $\alpha$ to lie in $A$). If $A$ is Noetherian then an $A$-submodule of $K$ is a fractional ideal of $A$ if and only if it is finitely generated. Intersections, products, and sums of fractional ideals are defined as for ordinary ideals of $A$. Given $I$ a fractional ideal of $A$, define
+$$I^{-1}:=\{\alpha\in K : \alpha I\subset A\}.$$
+This acts as an inverse for fractional ideal multiplication and makes the set of fractional ideals of $A$ into an abelian group. This group has a subgroup consisting of \textbf{principal fractional ideals} -- i.e., fractional ideals of the form $\alpha A$ for some nonzero $\alpha\in K$. The quotient by this subgroup yields the \textbf{class group} $\Cl(A)$ of $A$, which is another important object of study in number theory. 
+
+\begin{proposition*}
+Let $A$ be a Dedekind domain. Then, every nonzero proper fractional ideal of $A$ factors uniquely (up to reordering) as a finite product of prime ideals of $A$.
+\end{proposition*}
+
+Note that the statement is vacuously true if $A$ is a field. Given $\mf{p}\in\Spec(A)$ and $I$ a nonzero proper fractional ideal of $A$, define $v_{\mf{p}}(I)$ to be the multiplicity of $\mf{p}$ in a prime ideal factorization of $I$ (this is well-defined by the above proposition). Letting $K:=\Frac(A)$, this defines a map $v_{\mf{p}}: K\to\Z\cup\{\infty\}$ via $v_{\mf{p}}(0):=\infty$ and $v_{\mf{p}}(\alpha):=v_{\mf{p}}(\alpha A)$ for $\alpha\neq0$.
+
+Given a number field $K$, define the \textbf{ring of integers} $\O_K$ to be the integral closure of $\Z$ in $K$. This is a Dedekind domain with quotient field $K$ that is a finitely generated $\Z$-module. Dirichlet's Unit Theorem tells us that $\O_K^{\times}$ is a finitely generated abelian group. We define the \textbf{class group} of $K$ to be $\Cl(K):=\Cl(\O_K)$. An important theorem of algebraic number theory asserts that this is also a finitely generated abelian group. 
+
+\subsection{Valuation Theory and Local Fields}
+Let $K$ be a field. A \textbf{discrete valuation} on $K$ is a map $v: K\to\Z\cup\{\infty\}$ such that, for every $x,y\in K$,
+\begin{enum}{\roman}
+\item $v(x)=\infty\iff x=0$;
+\item $v(xy)=v(x)+v(y)$;
+\item $v(x+y)\geq\min\{v(x),v(y)\}$.
+\end{enum}
+An \textbf{absolute value} on $K$ is a map $\abs{\cdot}: K\to\R^{\geq0}$ such that, for every $x,y\in K$,
+\begin{enum}{\roman}
+\item $|x|=0\iff x=0$;
+\item $|xy|=|x||y|$;
+\item $|x+y|\leq|x|+|y|$.
+\end{enum}
+An absolute value $\abs{\cdot}$ is \textbf{nonarchimedean} if $|x+y|\leq\max\{|x|,|y|\}$ for every $x,y\in K$; it is \textbf{archimedean} otherwise. An absolute value $\abs{\cdot}$ is \textbf{trivial} if $|x|=1$ for every nonzero $x\in K$. For the sake of convenience we do not consider the trivial absolute value to be nonarchimedean (though there are reasons in the global case to think otherwise). Two absolute values $\abs{\cdot}_1,\abs{\cdot}_2$ are said to be \textbf{equivalent} if there exists $c>0$ such that $\abs{\cdot}_2=\abs{\cdot}_1^c$. This defines an equivalence relation $\sim$ whose equivalence classes are called \textbf{places} of $K$. If $\abs{\cdot}_1,\abs{\cdot}_2$ are equivalent absolute values and $\abs{\cdot}_1$ is nonarchimedean then $\abs{\cdot}_2$ is also nonarchimedean. A place represented by an archimedean absolute value is called an \textbf{infinite place}, while a place represented by a nonarchimedean absolute value is called a \textbf{finite place}
+
+A discrete valuation $v$ induces a nonarchimedean absolute value $\abs{\cdot}_v:=\exp(-v(\cdot))$. Similarly, a nonarchimedean absolute value $\abs{\cdot}$ induces a discrete valuation $w(\cdot):=-\log\abs{\cdot}$. It follows that nonarchimedean absolute values on $K$ and discrete valuations on $K$ are in bijection.\footnote{Technically, this may require excluding the trivial discrete valuation.}
+
+\begin{remark*}
+Discrete valuations are sometimes called additive valuations, while absolute values are sometimes called multiplicative valuations. Condition \emph{(iii)} for an absolute value is sometimes replaced with the condition that there exists a constant $d>0$ such that $|1+x|\leq d$ for every $x\in K$ such that $|x|\leq1$. This results in the same notion of absolute value for $d=2$, and in the notion of a nonarchimedean absolute value for $d=1$. The difference is immaterial at the end of the day since every absolute value of the second type is equivalent to an absolute value of the first type.
+\end{remark*}
+
+Note also that places are sometimes called primes. Given a Dedekind domain $A$ with quotient field $K$ and $\mf{p}\in\Spec(A)$, the map $v_{\mf{p}}$ defined previously extends to a discrete valuation on $K$. By the above comment, this induces a nonarchimedean absolute value $\abs{\cdot}_{\mf{p}}$ and hence a place of $K$. So, the prime $\mf{p}$ is essentially determining a place of $K$. The discrete valuation $v_{\mf{p}}$ is \textbf{normalized} in the sense that $v_{\mf{p}}(\pi)=1$ for every $\pi\in\mf{p}\setminus\mf{p}^2$. Some of the justification for classifying places as finite or infinite comes from:
+
+\begin{theorem*}[Ostrowski]
+Let $\omega$ be a place of a number field $K$. If $\omega$ is finite then it is represented by $\abs{\cdot}_{\mf{p}}$ for some $\mf{p}\in\Spec(\O_K)$. If $\omega$ is infinite then it is represented by $\abs{\cdot}'$ defined via $|\alpha|':=|\sigma\alpha|$ for $\abs{\cdot}$ the standard absolute value on $\C$ and $\sigma$ an embedding of $K$ into $\C$ fixing $\Q$ pointwise (note that there are $[K:\Q]$ such embeddings). 
+\end{theorem*}
+
+\begin{proposition*}
+Let $K$ be a field and $v$ a valuation on $K$. Define,
+\begin{align*}
+\O_K&:=\{x\in K : v(x)\geq0\}, \\
+\mf{p}_K&:=\{x\in K : v(x)>0\}.
+\end{align*}
+Then, $\O_K$ is a local PID with (nonzero) maximal ideal $\mf{p}_K$. Moreover,
+\begin{align*}
+\O_K&=\{x\in K : |x|\leq1\}, \\
+\mf{p}_K&=\{x\in K : |x|<1\}
+\end{align*}
+for every absolute value $\abs{\cdot}$ such that $\abs{\cdot}\sim\abs{\cdot}_v$.\footnote{Technically we ought to write $\O_v$ and $\mf{p}_v$ in place of $\O_K$ and $\mf{p}_K$ since $K$ might admit more than one place. This turns out not to matter if $K$ is local, but the difference is huge and important for $K$ global.}
+\end{proposition*}
+
+The field $k:=\O_K/\mf{p}_K$ is called the \textbf{residue field} of $K$, while $\O_K$ is called the \textbf{valuation ring} of $K$ and is a prime example of a DVR. A generator $\pi$ of $\mf{p}_K$ is called a \textbf{uniformizer} of $K$. Note that $v=v_{\mf{p}_K}$ with regard to our prior notation. Given $\pi$ a uniformizer of $K$, every $\alpha\in K^{\times}$ can be written uniquely as $u\pi^n$ for $u\in\O_K^{\times}$ and $n\in\Z$. For such an $\alpha$, $v(\alpha)=n$. This yields a short exact sequence 
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_K^{\times} \arrow[r] & K^{\times} \arrow[r, "v"] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+that splits to give a non-canonical isomorphism $K^{\times}\iso\O_K^{\times}\times\Z$.
+
+\begin{remark*}
+Even though they share the same notation, don't confuse the ring of integers of a field $K$ with the valuation ring of $K$ since the two notions may not agree even if they both make sense. For example, the integral closure of $\Z$ in $\Q_p$ is not the same as $\Z_p$ since the former is countable while the latter is not. To make matters even more confusing, people sometimes refer to valuation rings as rings of integers.
+\end{remark*}
+
+\begin{definition*}
+A \textbf{local field} is a field $K$ with an absolute value $\abs{\cdot}$ such that the induced metric topology makes $K$ into a (non-discrete) locally compact topological field (in particular, $K$ is a Hausdorff space such that every point has a compact neighborhood). 
+\end{definition*}
+
+\begin{lemma*}
+$K$ is nonarchimedean local if and only if it is complete with respect to a discrete valuation and has a valuation ring with finite residue field.
+\end{lemma*}
+
+Let $A$ be a Dedekind domain with $\mf{p}\in\Spec(A)$ and quotient field $K$. Define $K_{\mf{p}}$ to be the metric completion of $K$ with respect to the metric induced by $\abs{\cdot}_{\mf{p}}$. Define $\hat{A}_{\mf{p}}$ similarly. Then, $K_{\mf{p}}$ is a local field with valuation ring $\hat{A}_{\mf{p}}$. The ring $\hat{A}_{\mf{p}}$ is a DVR with maximal ideal $\hat{\mf{p}}:=\mf{p}\hat{A}_{\mf{p}}$ that is complete with respect to the extension metric induced by $\abs{\cdot}_{\hat{\mf{p}}}$. For a slightly more algebraic perspective, the filtration 
+$$A\supset\mf{p}\supset\mf{p}^2\supset\cdots$$
+gives rise to an inverse limit which we imbue with the ($\mf{p}$-adic) Krull topology in which $\{\mf{p}^n\}_{n\geq0}$ is a basis of 0. Then, there is a natural isomorphism $\hat{A}_{\mf{p}}\iso\flim A/\mf{p}^n$ of topological rings.
+
+More generally, given a field $K$ with absolute value $\abs{\cdot}$, we can consider the metric completion $\hat{K}$. This is a complete field with metric induced by the absolute value that is the unique extension of $\abs{\cdot}$ to $\hat{K}$. Of course, $\hat{K}$ also satisfies a universal property regarding embeddings of $K$ into complete valued fields (i.e., fields equipped with an absolute value). It follows that $\hat{K}=K$ if $K$ is already complete and that completion is defined up to unique isomorphism at a place and not just an absolute value.
+
+Let $A$ be a complete DVR with quotient field $K$ and maximal ideal $\mf{p}$. As above, $A\iso\flim A/\mf{p}^n$. The group $A^{\times}$ admits a similar filtration
+$$A^{\times}\supset1+\mf{p}\supset1+\mf{p}^2\supset\cdots$$
+and Krull-type topology, giving a natural isomorphism $A^{\times}\iso\flim A^{\times}/(1+\mf{p}^n)$. For future reference, $A^{\times}$ is naturally a profinite group satisfying the no small subgroups condition -- i.e., there is an open neighborhood of $1$ in $A^{\times}$ that contains no nontrivial subgroups of $G$.\footnote{Complete topological groups satisfying the no small subgroups condition are the natural object of study for a result called Chevalley's Theorem important in global class field theory.}
+
+\begin{theorem*}
+Let $K$ be a local field. Then, $K$ is isomorphic as a topological ring to one of the following:
+\begin{itemize}
+\item $\ch K=0$, $\abs{\cdot}$ archimedean: $\R$ or $\C$;
+\item $\ch K=0$, $\abs{\cdot}$ nonarchimedean: finite extension of $\Q_p$ (for $p>0$ prime);
+\item $\ch K=p>0$, $\abs{\cdot}$ nonarchimedean: $\F_q((t))$ for $q$ a power of $p$.
+\end{itemize}
+\end{theorem*}
+
+\begin{corollary*}
+Let $A$ be a Dedekind domain such that $K:=\Frac(A)$ is a global field. Then, given $\mf{p}\in\Spec(A)$, $K_{\mf{p}}$ is a local field. Conversely, every local field arises as the completion of a global field.\footnote{This provides some motivation for studying local fields if you initially only care about global fields.}
+\end{corollary*}
+
+\subsection{Ramification Theory}
+The ``$AKLB$ setup'' is the following: $A$ is a Dedekind domain which is not a field, $K=\Frac(A)$, $L$ is a finite separable extension of $K$, and $B$ is the integral closure of $A$ in $L$. The $AKLBG$ setup is similar except that we additionally require that $L/K$ is $G$-Galois. 
+
+\begin{example*}
+Take $L/K$ a separable extension of either nonarchimedean local or number fields and $A=\O_K,B=\O_L$. Note that such a field extension must necessarily be finite. That this is an example of the $AKLB$ setup follows from work done below.
+\end{example*}
+
+Assume the $AKLB$ setup. Then, $B$ is a Dedekind domain with quotient field $L$. Let $\mf{p}\in\Spec(A)$. $\mf{q}\in\Spec(B)$ is said to \textbf{lie above} $\mf{p}$ if $\mf{q}\cap K=\mf{p}$. There are only finitely many such primes, given precisely by $\mf{q}\in\Spec(B)$ such that $\mf{q}|\mf{p}B$.\footnote{People often use the notation $\mf{q}|\mf{p}$.} Let $g_{\mf{p}}$ denote the number of such primes lying above $\mf{p}$. Fix now $\mf{q}\in\Spec(B)$ lying above $\mf{p}$. The \textbf{ramification index} $e_{\mf{q}}$ of $\mf{q}$ is the multiplicity of $\mf{q}$ in a prime ideal factorization of $\mf{p}B$, while the \textbf{inertia degree} $f_{\mf{q}}$ of $\mf{q}$ is $[B/\mf{q}:A/\mf{p}]$. We sometimes use the notation $e_{\mf{q}/\mf{p}}$ and $f_{\mf{q}/\mf{p}}$ if we want to emphasize the role of $\mf{p}$. Ramification index and inertia degree behave well with respect to extensions -- e.g., they are multiplicative for chains of extensions. We obtain the following ``combinatorial'' result.
+
+\begin{proposition*}
+Assume the $AKLB$ setup and let $\mf{p}\in\Spec(A)$. Then, $[L:K]=\sum_{\mf{q}|\mf{p}B}e_{\mf{q}}f_{\mf{q}}$.
+\end{proposition*}
+
+\begin{definition*}
+Assume the $AKLB$ setup. Let $\mf{q}\in\Spec(B)$ lying above $\mf{p}\in\Spec(A)$. Then, $L/K$ is:
+\begin{itemize}
+\item \textbf{ramified at $\mf{q}$} if $e_{\mf{q}}>1$;
+\item \textbf{totally ramified at $\mf{q}$} if $e_{\mf{q}}=[L:K]$ (i.e., the ramification index is maximal);
+\item \textbf{unramified at $\mf{q}$} if $e_{\mf{q}}=1$ \emph{and} $B/\mf{q}$ is a separable extension of $A/\mf{p}$.
+\end{itemize}
+We say $L/K$ is \textbf{unramified above $\mf{p}\in\Spec(A)$} when it is unramified at every prime of $B$ lying above $\mf{p}$. In such case, $\mf{p}$ is \textbf{inert} if $\mf{p}B$ is prime and \textbf{splits completely} or is \textbf{split} if $g_{\mf{p}}=[L:K]$ (i.e., it is maximal). $L/K$ is \textbf{unramified} if it is unramified above every $\mf{p}\in\Spec(A)$.
+\end{definition*}
+
+\begin{proposition*}
+Assume the $AKLBG$ setup. $G$ acts on the set of fractional ideals of $B$ via $\sigma(I):=\{\sigma(x) : x\in I\}$. This restricts to an action of $G$ on $\Spec(B)$, whose orbits are precisely the primes lying above some prime of $A$. In particular, $G$ acts transitively on the set of primes lying above a prime of $A$.
+\end{proposition*}
+
+\begin{proposition*}
+Assume the $AKLBG$ setup and let $\mf{p}\in\Spec(A)$. Then, the ramification index and inertia degree are the same for every prime of $B$ lying above $\mf{p}$. We denote the common values by $e_{\mf{p}}$ and $f_{\mf{p}}$, respectively.
+\end{proposition*}
+
+\begin{corollary*}
+Assume the $AKLBG$ setup and let $\mf{p}\in\Spec(A)$. Then, $[L:K]=e_{\mf{p}}f_{\mf{p}}g_{\mf{p}}$.
+\end{corollary*}
+
+\begin{corollary*}
+Assume the $AKLBG$ setup and let $\mf{q}\in\Spec(B)$. Then, $v_{\mf{q}}$ is $G$-invariant in the sense that $v_{\mf{q}}(\sigma\alpha)=v_{\mf{q}}(\alpha)$ for every $\sigma\in G$ and $\alpha\in L$.
+\end{corollary*}
+
+One application of this result is the following.
+
+\begin{lemma*}
+Let $L/K$ be a finite separable extension of either nonarchimedean local or number fields. Then, $N_{L/K}(\O_L)\subset\O_K$.
+\end{lemma*}
+\begin{proof}
+In either case we have $\O_K=\O_L\cap K$. We already know $N_{L/K}(\O_L)\subset N_{L/K}(L)\subset K$, so it suffices to show $N_{L/K}(\O_L)\subset\O_L$. By passing to the Galois closure we may assume without loss of generality that $L/K$ is Galois. Suppose first that $L,K$ are local fields. Let $\abs{\cdot}$ be the relevant absolute value on $L$. Then, $\O_L=\{\alpha\in L : |\alpha|\leq1\}$. Given $\alpha\in\O_L$,
+$$N_{L/K}(\alpha)=\prod_{\sigma\in\Gal(L/K)}\sigma\alpha\implies|N_{L/K}(\alpha)|=\prod_{\sigma\in\Gal(L/K)}|\sigma\alpha|=|\alpha|^{|\Gal(L/K)|}\leq1,$$
+using that $\abs{\cdot}$ is $\Gal(L/K)$-invariant (this follows since $\abs{\cdot}$ arises from a $\Gal(L/K)$-invariant discrete valuation). Suppose now that $L,K$ are number fields. Given $\alpha\in\O_L$, there exists a monic $f\in\Z[x]$ such that $f(\alpha)=0$. Given $\sigma\in\Gal(L/K)$, 
+$$f(\sigma\alpha)=\sigma(f(\alpha))=\sigma(0)=0\implies\sigma\alpha\in\O_L.$$
+Since $N_{L/K}(\alpha)=\prod_{\sigma\in\Gal(L/K)}\sigma\alpha$ and $\O_L$ is a ring, $N_{L/K}(\alpha)\in\O_L$.
+\end{proof}
+
+One consequence of the above is that $N_{L/K}(\O_L^{\times})\subset\O_K^{\times}$. We will see later using group cohomology that $N_{L/K}(\O_L^{\times})=\O_K^{\times}$ for $L/K$ a finite unramified extension of local fields.
+
+\begin{definition*}
+Let $L/K$ be a finite separable extension, $v$ a discrete valuation on $K$, and $w$ a discrete valuation on $L$. Then, \textbf{$w$ extends $v$ with index $e>0$} if $w|_K=ev$. The relevant shorthand is $w|v$.
+\end{definition*}
+
+\begin{proposition*}
+Assume the $AKLB$ setup and let $\mf{p}\in\Spec(A)$. Then, given $\mf{q}\in\Spec(B)$ lying above $\mf{p}$, $v_{\mf{q}}$ extends $v_{\mf{p}}$ with index $e_{\mf{q}}$. Moreover, $\mf{q}\mapsto v_{\mf{q}}$ induces a bijection between primes lying above $\mf{p}$ and discrete valuations on $L$ extending $v_{\mf{p}}$. 
+\end{proposition*}
+
+It is often the case that, given $A$ a complete DVR with residue field $k$, we wish to understand $A$ in terms of information about $k$. Hensel's Lemma is a tool that lets us do just that. Note that Hensel's Lemma has many equivalent statements as well as a number of generalizations that all bear the same name.
+
+\begin{lemma*}[Hensel]
+Let $A$ be a complete DVR with maximal ideal $\mf{p}$ and residue field $k$. Let $F\in A[x]$ and $f\in k[x]$ its reduction mod $\mf{p}$. 
+\begin{enum}{\alph}
+\item Every simple root of $f$ in $k$ lifts to a simple root of $F$ in $A$.
+\item Suppose that $F$ is primitive (i.e., its coefficients generate $A$ as an ideal) and $g,h\in k[x]$ are coprime such that $f=gh$. Then, there exist $G,H\in A[x]$ such that $F=GH$, $\deg G=\deg g$, $\deg H=\deg h$, and $G,H$ reduce to $g,h$ mod $\mf{p}$. 
+\end{enum}
+\end{lemma*}
+
+\begin{remark*}
+The theory of filtered modules, filtered homomorphisms, and the associated graded provides tools that function analogously to Hensel's Lemma. Some results can be proven in different ways using both techniques, while other results only allow one technique. It is therefore useful to understand how to apply both filtered methods and Hensel's Lemma.
+\end{remark*}
+
+\begin{corollary*}
+Assume the $AKLB$ setup and that $A$ is a complete DVR with maximal ideal $\mf{p}$. Then, there exists a unique prime $\mf{q}$ of $B$ lying above $\mf{p}$.
+\end{corollary*}
+
+\begin{theorem*}
+Let $A$ be a complete DVR with maximal ideal $\mf{p}$ and $L/K$ a finite extension. Then, $\abs{\cdot}:=|N_{L/K}(\cdot)|_{\mf{p}}^{1/[L:K]}$ is the unique absolute value on $L$ extending $\abs{\cdot}_{\mf{p}}$ and is complete. If in addition $L/K$ is separable then we have the $AKLB$ setup with $B$ the valuation ring of $L$ with respect to $\abs{\cdot}$ and, moreover, $\abs{\cdot}=\abs{\cdot}_{\mf{q}}^{1/e_{\mf{q}}}$ for $\mf{q}$ the unique prime of $B$ lying above $\mf{p}$.
+\end{theorem*}
+
+\begin{remark*}
+Similar extension results hold for global fields. Moreover, the extension results for local and global fields are compatible under completion at the appropriate places. This is important for ad\`{e}lic and id\`{e}lic approaches to global class field theory, allowing for a clean local-global construction of the global Artin homomorphism.
+\end{remark*}
+
+\begin{theorem*}
+Let $A$ be a complete DVR with quotient field $K$ and residue field $k$. Let $\mc{C}_K$ denote the category whose objects are finite unramified extensions of $K$ and morphisms are $K$-algebra homomorphisms. Let $\mc{C}_k$ denote the category whose objects are finite separable extensions of $k$ and morphisms are $k$-algebra homomorphisms. Let $\ms{F}: \mc{C}_K\to\mc{C}_k$ be the functor which sends a finite unramified extension $L/K$ to its residue field $\l$ and a morphism $\phi\in\Hom_{K-\alg}(L_1,L_2)$ to $\ov{\phi}\in\Hom_{k-\alg}(\l_1,\l_2)$ defined by $\ov{\alpha}\mapsto\ov{\phi(\alpha)}$, where $\alpha$ is a lift of $\ov{\alpha}$ to $L_1$ and $\ov{\phi(\alpha)}$ is the projection of $\phi(\alpha)$ to $\l_2$. Then, $\ms{F}$ is a well-defined equivalence of categories.
+\end{theorem*}
+
+The proof of the theorem yields an important characterization of unramified extensions.
+
+\begin{corollary*}
+Assume the $AKLB$ setup and let $A$ be a complete DVR with quotient field $K$ and residue field $k$. Then, $L/K$ is unramified if and only if $B=A[\alpha]$ for some $\alpha\in L$ whose minimal polynomial in $A[x]$ has separable image in $k[x]$.
+\end{corollary*}
+
+\begin{corollary*}
+Let $A$ be a complete DVR with quotient field $K$ and finite residue field $k$ of size $q$. Then, a finite extension $L/K$ of degree $n$ is unramified if and only if $L\iso K(\zeta_{q^n-1})$ for $\zeta_{q^n-1}$ a primitive $(q^n-1)$-root of unity.
+\end{corollary*}
+
+\begin{corollary*}
+Let $A$ be a complete DVR with quotient field $K$ and finite residue field $k$ of size $q$. Then, $K$ has a unique (up to isomorphism) unramified extension of each finite degree. Moreover, the compositum of unramified extensions of $K$ is an unramified extension of $K$.
+\end{corollary*}
+
+It follows that $K$ has a maximal unramified extension $K^{\unr}$ obtained by adjoining suitable roots of unity. Hence, $L^{\unr}=LK^{\unr}$ for $L/K$ a finite separable extension. 
+
+Let $L/K$ be a finite unramified extension of nonarchimedean local fields with finite residue fields $\l/k$. The theorem gives that both extensions are Galois and there is a natural isomorphism $\phi: \Gal(L/K)\xto{\sim}\Gal(\l/k)$. It follows that $\Gal(L/K)$ is cyclic with generator $\Frob_{L/K}:=\phi^{-1}(\sigma)$, for $\sigma$ the Frobenius element of $\Gal(\l/k)$. More generally, let $L/K$ be an extension contained inside of $K^{\unr}$. Then, $\Frob_{L/K}$ is the unique element of $\Gal(L/K)$ such that 
+$$\Frob_{L/K}|_E=\Frob_{E/K}$$
+for every $K\subset E\subset L$ with $E/K$ finite (note that we have implicitly used that subgroups of cyclic groups are cyclic with ``compatible'' generators). It follows that 
+$$\Gal(K^{\unr}/K)\iso\Gal(\ov{k}/k)\iso\flim\Z/n\Z=\hat{\Z}$$
+and that there is a sequence of containments
+$$K\subset K^{\unr}\subset K^{\ab}\subset K^{\sep}\subset\ov{K}.$$
+
+\section{Local Class Field Theory}
+\subsection{Introduction}
+For future reference, we define Galois cohomology to be $H^{\bullet}(L/K):=H^{\bullet}(G,L^{\times})$ for $L/K$ a $G$-Galois extension of fields. Under the same hypotheses, Hilbert's Theorem 90 gives $H^1(L/K)=0$. Our focus will be on proving the following theorem.
+
+\begin{theorem*}[Local Artin Reciprocity]
+Let $K$ be a local field. Then, there exists a unique continuous homomorphism 
+$$\theta_K: K^{\times}\to\Gal(K^{\ab}/K)$$
+such that, for every finite extension $L/K$ in $K^{\ab}$, the homomorphism $\theta_{L/K}: K^{\times}\to\Gal(L/K)$ given by composing $\theta_K$ with the restriction map $\Gal(K^{\ab}/K)\surj\Gal(L/K)$ is surjective with kernel $N_{L/K}(L^{\times})$ and, for $K$ nonarchimedean and $L/K$ unramified, $\theta_{L/K}(\pi)=\Frob_{L/K}$ for every uniformizer $\pi$ of $\O_K$. Equivalently, $\theta_K^{-1}(\Frob_K)$ generates the maximal ideal of $\O_{K^{\unr}}$. Moreover, $\theta_K$ induces an isomorphism 
+$$\hat{\theta}_K: \widehat{K^{\times}}\to\Gal(K^{\ab}/K)$$
+for $\widehat{K^{\times}}$ the profinite completion of $K^{\times}$.
+\end{theorem*}
+
+As an abuse of notation, we often identify $\theta_{L/K}$ with the isomorphism it induces by the First Isomorphism Theorem. The case of $K$ archimedean is easy to dispense with, so we assume $K$ is nonarchimedean. Our strategy will be to use Tate cohomology theory to explicitly construct the isomorphism $K^{\times}/N_{L/K}(L^{\times})\xto{\sim}\Gal(L/K)$ induced by $\theta_{L/K}$ for $L/K$ a finite extension contained in $K^{\ab}$. This isomorphism will be functorial in $L$, allowing us to construct $\theta_K$ by using the fact that 
+$$\Gal(K^{\ab}/K)\iso\flim\Gal(L/K),$$
+where $L/K$ ranges over the inverse system of finite extensions contained in $K^{\ab}$ (with maps given by restriction). 
+
+\subsection{The Invariant Map}
+We will construct $\theta_{L/K}$ by building its inverse, a task which requires some machinery. Let $L/K$ be an unramified $G$-Galois extension of a nonarchimedean local field $K$ (we will consider general separable extensions later). Let $v$ be the valuation on $L$ extending the (normalized) valuation on $K$ and take $\Z$ to be a trivial hence discrete $G$-module. Then, we have an exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_L^{\times} \arrow[r] & L^{\times} \arrow[r, "v"] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of abelian groups which is in fact an exact sequence of $G$-modules since $v$ is constant on Galois orbits. Let $\pi$ be a uniformizer for $K$. Since $L/K$ is unramified, we may also take $\pi$ to be a uniformizer for $L$. The map $1\mapsto\pi$ extends to a $\Z$-linear map $f: \Z\to L^{\times}$ which is $G$-linear since, given $\sigma\in G$, $\sigma$ fixes $K$ pointwise and so 
+$$\sigma\cdot f(1)=\sigma(\pi)=\pi=f(1)=f(\sigma(1))=f(\sigma\cdot1).$$
+The map $f$ is then by construction a $G$-linear right section of the above short exact sequence and so the above short exact sequence splits, yielding a non-canonical $G$-module isomorphism $L^{\times}\iso\O_L^{\times}\oplus\Z$. This is great for a very important reason:
+
+\begin{lemma*}
+Let $L/K$ be an unramified $G$-Galois extension of nonarchimedean local fields. Then, $H^n(G,\O_L^{\times})=0$ for every $n>0$. Moreover, if $L/K$ is finite, then $\O_L^{\times}$ is \textbf{(Tate) cohomologically trivial} -- i.e., $\hat{H}^n(H,\O_L^{\times})=0$ for every $H\leq G$ and $n\in\Z$.
+\end{lemma*}
+\begin{proof}
+Suppose that we have shown the result for $L/K$ finite and let $L/K$ be arbitrary. Given $N\leq G$ open, $L^N/K$ is a finite unramified extension with $\Gal(L^N/K)\iso G/N$.\footnote{Note that a subgroup of a profinite group is open if and only if it is closed with finite index. This is perhaps not so surprising if you are familiar with infinite Galois theory.} Since Tate cohomology agrees with group cohomology for a finite group in positive degree,
+\begin{align*}
+H^{\bullet}(G,\O_L^{\times})
+=\fcolim H^{\bullet}(G/N,(\O_L^{\times})^N)
+\iso\fcolim H^{\bullet}(\Gal(L^N/K),\O_{L^N}^{\times})
+=0,
+\end{align*}
+where the colimits are taken over $N\normal G$ open.\footnote{Note that we have broken notational convention and written directed limits as colimits.} We now show the result for $L/K$  finite. We have $\hat{H}^{\bullet}(G,L^{\times})\iso\hat{H}^{\bullet}(G,\O_L^{\times})\oplus\hat{H}^{\bullet}(G,\Z)$.\footnote{This property of Tate cohomology is basically a consequence of the fact that $\Ext$ and $\Tor$ are additive functors. In fact, Tate cohomology may be viewed as an $\Ext$ functor for the appropriate module.} Since $G$ is cyclic, the corresponding Tate cohomology is $2$-periodic and so it suffices to look at degree $0$ and degree $1$. Hilbert's Theorem 90 gives $\hat{H}^1(G,L^{\times})=0$ and hence $\hat{H}^1(G,\O_L^{\times})=0$. At the same time, $\hat{H}^0(G,\Z)=\Z/[L:K]\Z$ and so $\hat{H}^0(G,L^{\times})=K^{\times}/N_{L/K}(L^{\times})$ contains a cyclic subgroup of order $[L:K]$. This subgroup is everything since 
+\begin{align*}
+|\hat{H}^0(G,L^{\times})|
+=|K^{\times}:N_{L/K}(L^{\times})|
+\leq|K^{\times}:N_{L/K}(K^{\times})|
+=|K^{\times}:(K^{\times})^{[L:K]}|
+=[L:K]
+\end{align*}
+and so $\hat{H}^0(G,\O_L^{\times})=0$. Hence, $\hat{H}^{\bullet}(G,\O_L^{\times})=0$. Given $H\leq G$, the Fundamental Theorem of Galois Theory gives $H=\Gal(L/L^H)$ and we obtain $\hat{H}^{\bullet}(H,\O_L^{\times})=0$ by applying the above argument to the finite unramified extension $L/L^H$.
+\end{proof}
+
+\begin{remark*}
+Recall from earlier that, for $L/K$ a finite separable extension of nonarchimedean local fields, $N_{L/K}(\O_L^{\times})\subset\O_K^{\times}$. An immediate consequence of the above is that $N_{L/K}(\O_L^{\times})=\O_K^{\times}$ in the case of $L/K$ unramified. The above proof also provides a sanity check for local Artin reciprocity since, for $L/K$ a finite unramified extension of local fields, both the groups $\Gal(L/K)$ and 
+$$\hat{H}^0(\Gal(L/K),L^{\times})=K^{\times}/N_{L/K}(L^{\times})$$ 
+are cyclic of order $[L:K]$ and so are (non-canonically) isomorphic.
+\end{remark*}
+
+By the lemma, looking at the long exact sequence induced by the above short exact sequence yields an exact sequence
+\begin{center}
+\begin{tikzcd}
+0=H^2(G,\O_L^{\times}) \arrow[r] & H^2(G,L^{\times}) \arrow[r, "v"] & H^2(G,\Z) \arrow[r] & H^3(G,\O_L^{\times})=0
+\end{tikzcd}
+\end{center}
+and so $v: H^2(G,L^{\times})\xto{\sim}H^2(G,\Z)$ is an isomorphism. Now, consider the following short exact sequence of trivial hence discrete $G$-modules:
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Z \arrow[r] & \Q \arrow[r] & \Q/\Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Once again, a lemma illustrates the importance of a given short exact sequence.
+
+\begin{lemma*}
+Let $G$ be a profinite group acting trivially on $\Q$. Then, $H^n(G,\Q)=0$ for every $n>0$. 
+\end{lemma*}
+\begin{proof}
+Fix $n>0$. We have 
+$$H^n(G,\Q)=\fcolim H^n(G/N,\Q)$$
+with the colimit taken over $N\normal G$ open and so it suffices to prove the result for $G$ finite. Multiplication by $|G|$ is an automorphism of $\Q$ and so induces an automorphism of $\hat{H}^n(G,\Q)$ which is also multiplication by $|G|$. We therefore have $\hat{H}^n(G,\Q)=0$ since $\hat{H}^n(G,\Q)$ is $|G|$-torsion.\footnote{In general, $\hat{H}^n(G,A)$ is $|G|$-torsion for $n\geq0$ and $A$ a $G$-module. One uses (co)induction to reduce to the case $n=0$, in which the statement is obvious.} The result follows since Tate and group cohomology agree for a finite group in positive degree.
+\end{proof}
+
+By the lemma, looking at the long exact sequence induced by the above short exact sequence yields an exact sequence
+\begin{center}
+\begin{tikzcd}
+0=H^1(G,\Q) \arrow[r] & H^1(G,\Q/\Z) \arrow[r, "\delta"] & H^2(G,\Z) \arrow[r] & H^2(G,\Q)=0
+\end{tikzcd}
+\end{center}
+where $\delta$ is the connecting homomorphism induced by the snake lemma. This prompts the following definition.
+
+\begin{definition*}
+Let $L/K$ be an unramified $G$-Galois extension of a nonarchimedean local field $K$. The \textbf{invariant map} $\inv_{L/K}: H^2(L/K)\to\Q/\Z$ is defined to be the composition
+\begin{center}
+\begin{tikzcd}
+H^2(L/K) \arrow[r, "v"] & H^2(G,\Z) \arrow[r, "\delta^{-1}"] & H^1(G,\Q/\Z) \arrow[r, "f\mapsto f(\Frob_{L/K})"] &[4em] \Q/\Z
+\end{tikzcd}
+\end{center}
+where we interpret $H^1(G,\Q/\Z)$ as the Pontryagin dual $G^{\vee}:=\Hom_{\cont}(G,\Q/\Z)$ of continuous group homomorphisms $G\to\Q/\Z$.\footnote{This follows since crossed homomorphisms are the same as homomorphisms in this case. The topology on $\Q/\Z$ is the quotient topology induced by the standard topology on $\Q$.}
+\end{definition*}
+
+\begin{lemma*}
+Under the same hypotheses as in the above definition, $\inv_{L/K}$ is an injective homomorphism, with image $\df{1}{[L:K]}\Z/\Z$ for $L/K$ finite.
+\end{lemma*}
+\begin{proof}
+We begin by showing that $f\mapsto f(\Frob_{L/K})$ and hence $\inv_{L/K}$ is injective. Suppose first that $L/K$ is finite. Then, $G$ is cyclic of order $[L:K]$ with generator $\Frob_{L/K}$ and so $f\mapsto f(\Frob_{L/K})$ is injective since $f\in G^{\vee}$ is then uniquely determined by its value at $\Frob_{L/K}$. Suppose now that $L/K$ is infinite. Then, $\Frob_{L/K}$ is defined by 
+$$\Frob_{L/K}|_E=\Frob_{E/K}$$
+for every $E/K$ finite contained in $L$. Let $f,g\in G^{\vee}$ such that $f,g$ agree on $\Frob_{L/K}$. Then, the above argument gives that 
+$$f|_{\Gal(E/K)}=g|_{\Gal(E/K)}$$ 
+for every $E/K$ finite contained in $L$. Continuity of $f,g$ and the fact that 
+$$\Gal(L/K)\iso\flim\Gal(E/K)$$
+then give $f=g$. Hence, $f\mapsto f(\Frob_{L/K})$ is injective.
+
+To see that $\inv_{L/K}$ has the claimed image in the case of $L/K$ finite, first note that the map $\Frob_{L/K}\mapsto1/[L:K]$ defines an element of $G^{\vee}$ and so $\inv_{L/K}$ contains $\df{1}{[L:K]}\Z/\Z$ in its image. This must be the entire image of $\inv_{L/K}$ since both $\df{1}{[L:K]}\Z/\Z$ and 
+$$H^2(\Gal(L/K),L^{\times})\iso\hat{H}^0(\Gal(L/K),L^{\times})$$ 
+have order $[L:K]$.
+\end{proof}
+
+Moreover, the functoriality of inflation and the maps used to define the invariant map gives a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+H^2(E/K) \arrow[r, "\inv_{E/K}"] \arrow[d, "\Inf"'] & \Q/\Z \arrow[d, equals] \\
+H^2(L/K) \arrow[r, "\inv_{L/K}"'] & \Q/\Z
+\end{tikzcd}
+\end{center}
+for $K$ a nonarchimedean local field and $K\subset E\subset L$ such that $L/K$ is unramified (which automatically gives that $E/K$ is unramified).
+
+\begin{theorem*}
+Let $K$ be a nonarchimedean local field. Then, there exists a unique isomorphism 
+$$\inv_K: H^2(K^{\unr}/K)\xto{\sim}\Q/\Z$$
+such that, for every finite extension $L/K$ contained in $K^{\unr}$, composition with inflation 
+$$\Inf: H^2(L/K)\to H^2(K^{\unr}/K)$$ 
+induces $\inv_{L/K}$.
+\end{theorem*}
+\begin{proof}
+Take $\inv_K:=\inv_{K^{\unr}/K}$. The above comments show this map behaves as desired. Uniqueness follows from a little bit of Galois theory.
+\end{proof}
+
+\begin{definition*}
+As the above theorem suggests, we have reason to study 
+\begin{align*}
+\Br(K)&:=H^2(K^{\sep}/K), \\
+\Br^{\unr}(K)&:=H^2(K^{\unr}/K)
+\end{align*}
+for a field $K$. The former is called the \textbf{(cohomological) Brauer group of $K$} and appears in many different applications outside of class field theory.
+\end{definition*}
+
+\begin{remark*}
+The notation $\Br^{\unr}(K)$ is our own. Though this may seem like a separate notion, we will see shortly that $\Br^{\unr}(K)\iso\Br(K)$ canonically for $K$ a local field.
+\end{remark*}
+
+\begin{theorem*}
+Let $L/K$ be a finite separable extension of nonarchimedean local fields. Then, there exists a canonical homomorphism $\psi: \Br^{\unr}(K)\to\Br^{\unr}(L)$ such that we have a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\Br^{\unr}(K) \arrow[r, "\psi"] \arrow[d, "\inv_K"'] & \Br^{\unr}(L) \arrow[d, "\inv_L"] \\
+\Q/\Z \arrow[r, "{[L:K]}"'] & \Q/Z
+\end{tikzcd}
+\end{center}
+where the bottom map is multiplication by $[L:K]$. Moreover, if $L/K$ is Galois then $\ker\psi$ can be canonically identified as a cyclic subgroup of $H^2(L/K)$ of order $[L:K]$.
+\end{theorem*}
+\begin{proof}
+Note first of all that $L^{\unr}=LK^{\unr}$ since maximal unramified extensions of local fields are obtained by adjoining suitable roots of unity that depend only on the characteristic of the residue field. One consequence of this is that $L^{\unr}/K$ is Galois provided that $L/K$ is Galois. Let $\mf{p}$ be the unique maximal ideal of $\O_K$ with associated normalized discrete valuation $v_K$. Let $\mf{q}$ be the unique maximal ideal of $\O_L$ lying above $\mf{p}$ with associated normalized discrete valuation $v_L$. Let $e$ and $f$ be the ramification degree and inertia degree of $\mf{q}$, respectively. Then, $v_L$ extends $v_K$ with index $e$, $[L:K]=ef$, and
+$$\Frob_L|_{K^{\unr}}=\Frob_K^f.$$
+Hence, $\Gal(K^{\unr}/K)$ has index $e$ in $\Gal(L^{\unr}/L)$. Moreover, $v_K$ and $v_L$ extend (by lifting uniformizers) to give a commutative diagram
+\begin{center}
+\begin{tikzcd}
+K^{\unr,\times} \arrow[r, "v_K"] \arrow[d] & \Z \arrow[d, "{[e]}"] \\
+L^{\unr,\times} \arrow[r, "v_L"'] & \Z
+\end{tikzcd}
+\end{center}
+where the righthand vertical map is multiplication by $e$. Let $\Res: H^2(L^{\unr}/K)\to\Br^{\unr}(L)$ and $\Inf': \Br^{\unr}(K)\to H^2(L^{\unr}/K)$ be the appropriate restriction and inflation maps. Define $\psi:=\Res\circ\Inf'$. Given $g\in\Gal(K^{\unr}/K)^{\vee}$, we have
+\begin{align*}
+([e]\circ\psi)(g)(\Frob_L)
+&=e\psi(g)(\Frob_L) \\
+&=eg(\Frob_K^f) \\
+&=efg(\Frob_K) \\
+&=[L:K]g(\Frob_K).
+\end{align*}
+Putting everything together therefore gives a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+\Br^{\unr}(K) \arrow[r, "v_K"] \arrow[d, "\psi"] & H^2(\Gal(K^{\unr}/K),\Z) \arrow[r, "\delta^{-1}"] \arrow[d, "{[e]}\circ\psi"] & H^1(\Gal(K^{\unr}/K),\Q/\Z) \arrow[r, "g\mapsto g(\Frob_K)"] \arrow[d, "{[e]}\circ\psi"] &[4em] \Q/\Z \arrow[d, "{[L:K]}"] \\
+\Br^{\unr}(L) \arrow[r, "v_L"'] & H^2(\Gal(L^{\unr}/L),\Z) \arrow[r, "\delta^{-1}"'] & H^1(\Gal(L^{\unr}/L),\Q/\Z) \arrow[r, "g\mapsto g(\Frob_L)"'] &[4em] \Q/\Z
+\end{tikzcd}
+\end{center}
+and hence a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\Br^{\unr}(K) \arrow[r, "\psi"] \arrow[d, "\inv_K"'] & \Br^{\unr}(L) \arrow[d, "\inv_L"] \\
+\Q/\Z \arrow[r, "{[L:K]}"'] & \Q/Z
+\end{tikzcd}
+\end{center}
+Thus, $\ker\psi\iso\df{1}{[L:K]}\Z/\Z$ is cyclic of order $[L:K]$. Suppose now that $L/K$ is Galois. Then, applying Hilbert's Theorem 90 gives us short exact inflation-restriction sequences
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^2(L/K) \arrow[r, "\Inf"] & H^2(L^{\unr}/K) \arrow[r, "\Res"] & \Br^{\unr}(L) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \Br^{\unr}(K) \arrow[r, "\Inf'"] & H^2(L^{\unr}/K) \arrow[r, "\Res'"] & H^2(L^{\unr}/K^{\unr}) \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+and hence a commutative diagram
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \ker\psi \arrow[r] \arrow[d, "\phi"] & \Br^{\unr}(K) \arrow[r, "\psi"] \arrow[d, "\Inf'"] & \Br^{\unr}(L) \arrow[d, equals] \\
+0 \arrow[r] & H^2(L/K) \arrow[r, "\Inf"'] & H^2(L^{\unr}/K) \arrow[r, "\Res"'] & \Br^{\unr}(L)
+\end{tikzcd}
+\end{center}
+defining $\phi$ as an injective homomorphism. It follows that $H^2(L/K)$ contains a cyclic subgroup of order $[L:K]$. 
+\end{proof}
+
+\begin{corollary*}
+Let $L/K$ be a finite $G$-Galois extension of nonarchimedean local fields. Then, $H^2(L/K)$ is cyclic of order $[L:K]$.
+\end{corollary*}
+\begin{proof}
+$H^2(L/K)$ contains a cyclic subgroup of order $[L:K]$ by the previous theorem and so it suffices to show that $|H^2(L/K)|\leq[L:K]$. Suppose first that $G$ is cyclic. We take as given that $\O_L^{\times}$ contains a cohomologically trivial $G$-submodule $A$ of finite index.\footnote{This follows from the Normal Basis Theorem and a fairly straightforward bootstrapping argument.} Letting $h$ denote the Herbrand quotient, the short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & A \arrow[r] & \O_L^{\times} \arrow[r] & \O_L^{\times}/A \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+gives $h(\O_L^{\times})=h(A)h(\O_L^{\times}/A)=1$ since $A$ is cohomologically trivial and $\O_L^{\times}/A$ is finite. The short exact sequence 
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_L^{\times} \arrow[r] & L^{\times} \arrow[r, "v"] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+then gives 
+\begin{align*}
+|H^2(L/K)|
+=|\hat{H}^0(G,L^{\times})|
+=\df{|\hat{H}^0(G,L^{\times})|}{|\hat{H}^1(G,L^{\times})|}
+=h(L^{\times})
+=h(\O_L^{\times})h(\Z)
+=[L:K]
+\end{align*}
+where we have implicitly invoked Hilbert's Theorem 90 and the $2$-periodicity of Tate cohomology for cyclic groups.
+
+Now, drop the assumption that $G$ is cyclic. $G$ is a $p$-group hence solvable, where $p$ is the characteristic of the residue field of $K$.\footnote{If $G$ is a finite $p$-group then it has a nontrivial center. This allows us to do an inductive argument to build a suitable composition series for $G$. That $G=\Gal(L/K)$ is a $p$-group for $L/K$ a finite separable extension of nonarchimedean local fields and suitable $p$ follows from looking at the ramification filtration of $G$.} Hence, $G$ admits a composition series
+$$1=G_0\normal G_1\normal\cdots\normal G_n=G$$
+all of whose successive quotients are cyclic $p$-groups. The goal now is to induct on both the length $n$ and the order of $G$. The base case is handled above. For the inductive step, it suffices by the Fundamental Theorem of Galois Theory to consider $K\subsetneq E\subsetneq L$ with $E/K$ Galois. Then, by Hilbert's Theorem 90 we have a short exact sequence 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^2(E/K) \arrow[r, "\Inf"] & H^2(L/K) \arrow[r, "\Res"] & H^2(L/E)
+\end{tikzcd}
+\end{center}
+$[E:K],[L:E]$ are both strictly smaller than $[L:K]$ and so the inductive hypothesis gives that $|H^2(E/K)|\leq[E:K]$ and $|H^2(L/E)|\leq[L:E]$. Hence,
+$$|H^2(L/K)|\leq|H^2(E/K)||H^2(L/E)|\leq[E:K][L:E]=[L:K]$$
+and so we have our result.
+\end{proof}
+
+\begin{remark*}
+The above proof along with the proof of the previous theorem actually shows something stronger than the statement of the corollary, namely that there exists a generator $\gamma\in H^2(L/K)$ with order $[L:K]$ such that, for every $H\leq G$, $H^2(H,L^{\times})$ is generated by $\Res(\gamma)$.
+\end{remark*}
+
+\begin{corollary*}
+Let $K$ be a nonarchimedean local field. Then, the canonical map 
+$$\Inf: \Br^{\unr}(K)\to\Br(K)$$ 
+is an isomorphism. There exists a unique isomorphism 
+$$\inv_K: \Br(K)\xto{\sim}\Q/\Z$$
+such that, for every finite extension $L/K$ contained in $K^{\sep}$, composition with inflation 
+$$\Inf: H^2(L/K)\to\Br(K)$$ 
+induces $\inv_{L/K}: H^2(L/K)\xto{\sim}\df{1}{[L:K]}\Z/\Z$ extending the invariant map in the unramified case. Moreover, we have a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+\Br^{\unr}(K) \arrow[r, "\psi"] \arrow[d, "\inv_K"'] & \Br^{\unr}(L) \arrow[d, "\inv_L"] \\
+\Q/\Z \arrow[r, "{[L:K]}"'] & \Q/Z
+\end{tikzcd}
+\end{center}
+and if $L/K$ is also Galois then 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^2(L/K) \arrow[r, "\Inf"] \arrow[d, "\inv_{L/K}"] & \Br(K) \arrow[r, "\Res"] \arrow[d, "\inv_K"] & \Br(L) \arrow[r] \arrow[d, "\inv_L"] & 0 \\
+0 \arrow[r] & \df{1}{[L:K]}\Z/\Z \arrow[r] & \Q/\Z \arrow[r, "{[L:K]}"'] & \Q/\Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is an isomorphism of exact sequences.
+\end{corollary*}
+\begin{proof}
+Most of the results follow from work we have done already. Given $L/K$ finite Galois, we have $\phi: \ker\psi\xto{\sim}H^2(L/K)$ canonically and so $H^2(L/K)$ is identified as a subgroup of $\Br^{\unr}(K)$ in a functorial manner. We already know that the inflation maps $H^2(L/K)\to\Br(K)$ are injective and so, since $\Br(K)$ and $\Br^{\unr}(K)$ are both expressible as colimits over directed systems with morphisms given by inflation, it follows that $\Inf: \Br^{\unr}(K)\to\Br(K)$ is an isomorphism. Thus, given $L/K$ finite separable, we may replace $K^{\unr}$ and $L^{\unr}$ in the previous theorem with $K^{\sep}$ and $L^{\sep}=K^{\sep}$, respectively. Then, $\psi=\Res$ as defined in the proof of the previous theorem and we obtain the desired commutative diagrams.
+\end{proof}
+
+\subsection{Proof of Main Part of Local Artin Reciprocity}
+\begin{definition*}
+Let $L/K$ be a finite $G$-Galois extension of nonarchimedean local fields. Then, the \textbf{fundamental class} of $L/K$ is $u_{L/K}:=\inv_{L/K}^{-1}(1/[L:K])$.
+\end{definition*}
+
+Fundamental classes will soon play a very important role. First, though, recall the basics of cup products and the statement of Tate's Theorem.
+
+\begin{definition*}
+Let $G$ be a finite group. A \textbf{cup product} on $G$ is a family of $\Z$-linear homomorphisms
+\begin{align*}
+\hat{H}^p(G,A)\tensor\hat{H}^q(G,B)&\to\hat{H}^{p+q}(G,A\tensor B) \\
+a\tensor b&\mapsto a\smile b
+\end{align*}
+for $p,q\in\Z$ and $G$-modules $A,B$ that is
+\begin{enum}{\roman}
+\item functorial in $A,B$;
+\item induced by the natural product $A^G\tensor B^G\to(A\tensor B)^G$ for $p=0=q$;
+\item ``well-behaved'' with respect to short exact sequences.
+\end{enum}
+Moreover, for all $p,q,r\in\Z$, $G$-modules $A,B,C$, $a\in\hat{H}^p(G,A),b\in\hat{H}^q(G,B),c\in\hat{H}^r(G,C)$, and $H\leq G$,
+\begin{enum}{\roman}
+\item $(a\smile b)\smile c=a\smile(b\smile c)$ via the natural isomorphism $(A\tensor B)\tensor C\iso A\tensor(B\tensor C)$;
+\item $a\smile b=(-1)^{pq}b\smile a$ via the natural isomorphism $A\tensor B\iso B\tensor A$;
+\item $\Res(a\smile b)=\Res(a)\smile\Res(b)$;
+\item $\CoRes(a\smile\Res(b))=\CoRes(a)\smile b$;
+\end{enum}
+where $\Res=\Res_H^G$ and $\CoRes=\CoRes_H^G$.\footnote{Note that $A\tensor B$ is the $G$-module whose underlying abelian group is $A\tensor_{\Z}B$ equipped with a diagonal action of $G$ -- i.e., $g\cdot(a\tensor b)=ga\tensor gb$ for $g\in G,a\in A,b\in B$.}
+\end{definition*}
+
+\begin{proposition*}
+Let $G$ be a finite group. Then, there exists a unique cup product on $G$.\footnote{Uniqueness here means up to natural equivalence.}
+\end{proposition*}
+
+\begin{theorem*}[Tate-Nakayama]
+Let $G$ be a finite group and $A$ a $G$-module such that $H^2(G,A)$ is cyclic with generator $\gamma$ and, for every $H\leq G$, $H^1(H,A)=0$ and $H^2(H,A)$ is cyclic of order $|H|$ generated by $\Res(\gamma)$.\footnote{It in fact suffices that these results hold for at least one $p$-Sylow subgroup of $G$ for every prime $p$ dividing $|G|$.} Then, for every $n\in\Z$, the map 
+$$\Phi_{\gamma}: \hat{H}^n(G,\Z)\to\hat{H}^{n+2}(G,A)$$
+given by taking the cup product with $\gamma$ is an isomorphism compatible with restriction and co-restriction in the sense that, given any $H\leq G$ and $n\in\Z$, we have commutative diagrams
+\begin{center}
+\begin{tikzcd}
+\hat{H}^n(G,\Z) \arrow[r, "\Phi_{\gamma}"] \arrow[d, "\Res"'] & \hat{H}^{n+2}(G,A) \arrow[d, "\Res"] \\
+\hat{H}^n(H,\Z) \arrow[r, "\Phi_{\Res(\gamma)}"'] & \hat{H}^{n+2}(H,A) \\
+\end{tikzcd}
+\textrm{and}
+\begin{tikzcd}
+\hat{H}^n(G,\Z) \arrow[r, "\Phi_{\gamma}"] & \hat{H}^{n+2}(G,A) \\
+\hat{H}^n(H,\Z) \arrow[r, "\Phi_{\Res(\gamma)}"'] \arrow[u, "\CoRes"] & \hat{H}^{n+2}(H,A) \arrow[u, "\CoRes"'] \\
+\end{tikzcd}
+\end{center}
+\end{theorem*}
+
+\begin{corollary*}
+Let $L/K$ be a finite $G$-Galois extension of nonarchimedean local fields. Then, for every $n\in\Z$, the map 
+$$\Phi_{L/K}: \hat{H}^n(G,\Z)\to\hat{H}^{n+2}(G,L^{\times})$$
+given by taking the cup product with $u_{L/K}$ is an isomorphism compatible with restriction and co-restriction.
+\end{corollary*}
+
+Let $L/K$ be a finite $G$-Galois extension of nonarchimedean local fields. The map $\theta_{L/K}$ is defined as the inverse of the composition
+\begin{center}
+\begin{tikzcd}
+G^{\ab} \arrow[r, "\sim"] & H_1(G,\Z)=\hat{H}^{-2}(G,\Z) \arrow[r, "\Phi_{L/K}"] & \hat{H}^0(G,L^{\times})=K^{\times}/N_{L/K}(L^{\times})
+\end{tikzcd}
+\end{center}
+where $\Phi_{L/K}$ is the isomorphism provided by the above corollary.
+
+\begin{lemma*}
+Let $K\subset E\subset L$ be a tower of finite Galois extensions of nonarchimedean local fields. Then, we have commutative diagrams
+\begin{center}
+\begin{tikzcd}
+E^{\times} \arrow[r, "\theta_{L/E}"] \arrow[d, "N_{E/K}"'] & \Gal(L/E)^{\ab} \arrow[d] \\
+K^{\times} \arrow[r, "\theta_{L/K}"'] & \Gal(L/K)^{\ab}
+\end{tikzcd}
+\textrm{and}
+\begin{tikzcd}
+K^{\times} \arrow[r, "\theta_{L/K}"] \arrow[d, equals] & \Gal(L/K)^{\ab} \arrow[d] \\
+K^{\times} \arrow[r, "\theta_{E/K}"'] & \Gal(E/K)^{\ab}
+\end{tikzcd}
+\end{center}
+where the unmarked vertical lefthand and righthand maps are inclusion and restriction maps, respectively.
+\end{lemma*}
+\begin{proof}
+Let $\Res: H^2(L/K)\to H^2(L/E)$ and $\CoRes: H^2(L/E)\to H^2(L/K)$ be the appropriate restriction and co-restriction maps. One can show that 
+\begin{enum}{\roman}
+\item $u_{E/K}=[L:E]u_{L/K}$;
+\item $\Res(u_{L/K})=u_{L/E}$;
+\item $\CoRes(u_{L/E})=[E:K]u_{L/K}$.
+\end{enum}
+The result then follows from the explicit forumlas for restriction and co-restriction and the compatibility of the Tate isomorphism with restriction and co-restriction.
+\end{proof}
+
+Thus, $\{\theta_{L/K}\}$ for $L/K$ finite abelian forms a compatible system giving rise to the desired continuous local Artin map $\theta_K: K^{\times}\to\Gal(K^{\ab}/K)$ via $\theta_K|_L=\theta_{L/K}$.\footnote{Continuity of $\theta_K$ follows from the continuity of each $\theta_{L/K}$ and the profinite nature of the topology on $\Gal(K^{\ab}/K)$.} That $\theta_K$ sends uniformizers to Frobenius elements follows from a very careful bookkeeping argument. In fact, careful accounting shows that the standard filtration of $\O_K^{\times}$ maps isomorphically onto the ramification filtration of $\Gal(K^{\ab}/K)$.\footnote{We have not explained ramification filtrations and so we do not give a precise formulation of this statement.}
+
+\subsection{The Existence Theorem}
+We merely sketch this part in the interest of time. We know from above that the local Artin map $\theta_K: K^{\times}\to\Gal(K^{\ab}/K)$ ``plays nice'' with respect to finite extensions $L/K$ contained in $K^{\ab}$ in the sense that the local Artin homomorphism 
+$$\theta_{L/K}: K^{\times}/N_{L/K}(L^{\times})\xto{\sim}\Gal(L/K)$$ 
+is functorial in $L$. It follows that the local Artin homomorphisms induce an isomorphism
+$$\flim K^{\times}/N_{L/K}(L^{\times})\iso\flim\Gal(L/K)\iso\Gal(K^{\ab}/K),$$
+where the inverse limits are taken over finite extensions $L/K$ contained in $K^{\ab}$. 
+
+\begin{definition*}
+Let $K$ be a field. Then, $\Gamma\leq K^{\times}$ is a \textbf{norm subgroup} if there exists a finite Galois extension $L/K$ such that $\Gamma=N_{L/K}(L^{\times})$.
+\end{definition*}
+
+To prove the statement about profinite completion, it suffices to prove the following.
+
+\begin{theorem*}[Existence Theorem]
+Let $K$ be a nonarchimedean local field and $\Gamma\leq K^{\times}$. Then, $\Gamma$ is a norm group if and only if it is open with finite index (equivalently, closed with finite index).
+\end{theorem*}
+
+\begin{lemma*}
+Let $\Gamma\leq\Gamma'\leq K^{\times}$ with $\Gamma$ finite index open. Then, $\Gamma'$ is finite index open.
+\end{lemma*}
+\begin{proof}
+The result follows from $|K^{\times}:\Gamma'|\leq|K^{\times}:\Gamma|<\infty$ and the fact that $U\subset K^{\times}$ is an open neighborhood of $1$ if and only if it contains $1+\mf{p}^m$ for some $m>0$.
+\end{proof}
+
+\begin{lemma*}
+Let $n>0$. Then, $(K^{\times})^n$ is a finite index open subgroup of $K^{\times}$.
+\end{lemma*}
+\begin{proof}
+Let $\pi\in\O_K$ be a uniformizer for $\mf{p}$ (so $v_{\mf{p}}(\pi)=1$). Define 
+$$N:=v_{\mf{p}}(n)+1,M:=2v_{\mf{p}}(n)+1.$$
+To show that $(K^{\times})^n$ is open in $K^{\times}$, it suffices to show that the $n$th power map $f: 1+\mf{p}^N\to1+\mf{p}^M$ is an isomorphism since then $1+\mf{p}^M\subset(K^{\times})^n$. Given $x\in\O_K$, we have 
+$$(1+\pi^Nx)^n=\sum_{j=0}^n\binom{n}{j}\pi^{Nj}x^j.$$
+Since $2N>M$ and 
+$$v_{\mf{p}}(n\pi^Nx)=v_{\mf{p}}(n)+N+v_{\mf{p}}(x)=M+v_{\mf{p}}(x)\geq M,$$
+the homomorphism $f$ is well-defined. The group $1+\mf{p}^N$ admits an exhaustive filtration by $1+\mf{p}^{N+i}$ for $i\geq0$ and similarly for $1+\mf{p}^M$. Computations similar to the above show that $f$ is a filtered homomorphism and so induces for each $i\geq0$ maps $f_i: \gr_i(1+\mf{p}^N)\to\gr_i(1+\mf{p}^M)$ on the associated graded. We have an isomorphism 
+$$\O_K/\mf{p}\iso(1+\mf{p}^{N+i})/(1+\mf{p}^{N+i+1})=\gr_i(1+\mf{p}^N)$$
+given by $x\!\!\mod\mf{p}\mapsto[1+\pi^{N+i}x]$. Similarly, $\O_K/\mf{p}\iso\gr_i(1+\mf{p}^M)$ and we obtain a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+\gr_i(1+\mf{p}^N) \arrow[r, "f_i"] \arrow[d, "\iso"'] & \gr_i(1+\mf{p}^M) \arrow[d, "\iso"] \\
+\O_K/\mf{p} \arrow[r, dotted, "g_i"'] & \O_K/\mf{p}
+\end{tikzcd}
+\end{center}
+defining $g_i$ for $i\geq0$. A quick binomial argument shows $f_i([1+\pi^{N+i}x])=[1+n\pi^{N+i}x]$ and so 
+$$g_i(x\!\!\!\!\mod\mf{p})=\df{n\pi^{N+i}x}{\pi^{M+i}}\!\!\!\!\mod\mf{p}=n\pi^{N-M}x\!\!\!\!\mod\mf{p}.$$
+Since $v_{\mf{p}}(n\pi^{N-M})=v_{\mf{p}}(n)+N-M=0$, $g_i$ is given by multiplication by a unit of $\O_K$. Thus, $g_i$ and hence $f_i$ is an isomorphism for every $i\geq0$. It follows that $f$ is an isomorphism and $(K^{\times})^n$ is open. We can leverage the former fact to show that $(K^{\times})^n$ has finite index in $K^{\times}$. The uniformizer $\pi$ induces an isomorphism
+$$K^{\times}\iso\Z\times\O_K^{\times},\quad x\mapsto(v_{\mf{p}}(x),x/\pi^{v_{\mf{p}}(x)}).$$
+It follows that $[K^{\times}:(K^{\times})^n]=[\Z:n\Z][\O_K^{\times}:(\O_K^{\times})^n]=n[\O_K^{\times}:(\O_K^{\times})^n]$. We have a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 1+\mf{p}^N \arrow[r] \arrow[d, "f"] & \O_K^{\times} \arrow[r] \arrow[d, "\alpha"] & (\O_K/\mf{p}^N)^{\times} \arrow[r] & 0 \\
+0 \arrow[r] & 1+\mf{p}^M \arrow[r] & \O_K^{\times} \arrow[r] & (\O_K/\mf{p}^M)^{\times} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with exact rows and $\alpha$ the $n$th power map. It follows that there is a unique homomorphism $\beta: (\O_K/\mf{p}^N)^{\times}\to(\O_K/\mf{p}^M)^{\times}$ such that the diagram 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & 1+\mf{p}^N \arrow[r] \arrow[d, "f"] & \O_K^{\times} \arrow[r] \arrow[d, "\alpha"] & (\O_K/\mf{p}^N)^{\times} \arrow[r] \arrow[d, dotted, "\beta"] & 0 \\
+0 \arrow[r] & 1+\mf{p}^M \arrow[r] & \O_K^{\times} \arrow[r] & (\O_K/\mf{p}^M)^{\times} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+commutes. A result from homological algebra says that 
+$$|\coker f||\ker\alpha||\coker\beta|=|\ker f||\coker\alpha||\ker\beta|,$$
+which holds even if some of the quantities involved are infinite. Since $f$ is an isomorphism, 
+$$|\ker f|=1=|\coker f|.$$ 
+Since $\O_K$ contains at most $n$ distinct $n$th roots of unity, $|\ker\alpha|<\infty$. Since $K$ is a nonarchimedean local field, $k:=\O_K/\mf{p}$ is finite. Since $\O_K/\mf{p}^N$ and $\O_K/\mf{p}^M$ are finite dimensional $k$-vector spaces, it follows that $|\ker\beta|$ and $|\coker\beta|$ are finite. Thus,
+$$[\O_K^{\times}:(\O_K^{\times})^n]=|\coker\alpha|=\df{|\ker\alpha||\coker\beta|}{|\ker\beta|}<\infty$$
+and we have our result.\footnote{With a bit more filtration work, this argument gives a precise computation of the desired index.}
+\end{proof}
+
+These two lemmas together prove the forward direction of the Existence Theorem since, given $L/K$ a finite abelian extension of nonarchimedean local fields, $N_{L/K}(L^{\times})\supset N_{L/K}(K^{\times})=(K^{\times})^{[L:K]}$.
+
+\begin{lemma*}
+Let $\Gamma\leq\Gamma'\leq K^{\times}$ with $\Gamma$ a norm subgroup. Then, $\Gamma'$ is a norm subgroup.
+\end{lemma*}
+\begin{proof}
+By assumption, there exists $L/K$ finite abelian such that $\Gamma=N_{L/K}(L^{\times})$. We have
+\begin{center}
+\begin{tikzcd}
+\Gamma'/\Gamma \arrow[r, hookrightarrow] & K^{\times}/N_{L/K}(L^{\times}) \arrow[r, "\theta_{L/K}"] & \Gal(L/K)
+\end{tikzcd}
+\end{center}
+where the first map is induced by the inclusion $\Gamma'\subset K^{\times}$ and so there exists $K\subset E\subset L$ such that $\Gamma'/\Gamma\iso\Gal(L/E)$. It then follows from the commutativity of the diagram
+\begin{center}
+\begin{tikzcd}
+E^{\times} \arrow[r, "\theta_{L/E}"] \arrow[d, "N_{E/K}"'] & \Gal(L/E) \arrow[d] \\
+K^{\times} \arrow[r, "\theta_{L/K}"'] & \Gal(L/K)
+\end{tikzcd}
+\end{center}
+that $\Gamma'=N_{E/K}(E^{\times})$.
+\end{proof}
+
+\begin{lemma*}
+Let $n>0$. Then, $(K^{\times})^n$ is a norm subgroup of $K^{\times}$.
+\end{lemma*}
+\begin{proof}
+First reduce to the case that $K$ contains the set of $n$th roots of unity. If $\ch K=0$ then Kummer theory quickly gives the result. If $\ch K>0$ then the argument is somewhat more involved.
+\end{proof}
+
+\begin{lemma*}
+Let $\Gamma\leq K^{\times}$ be a finite index open subgroup. Then, $\Gamma$ contains $(K^{\times})^n$ for some $n>0$.
+\end{lemma*}
+
+These lemmas together give a proof of the backward direction of the Existence Theorem.
+
+\section{References and Further Reading}
+These notes take heavy inspiration from Andrew Sutherland's lecture notes on 18.785 Number Theory I and 18.786 Number Theory II, which are quite good for learning algebraic number theory and local class field theory, respectively. The other key source for these notes is \textit{Algebraic Number Theory} by Cassels and Fr\"{o}hlich, with special emphasis placed on the section on local class field theory written by Serre. Serre's \textit{Local Fields} goes into far more detail on the same material and is recommended by Rok. Oron Propp's notes on 18.786 Number Theory II present a more homotopy theoretic viewpoint of local class field theory. Bjorn Poonen has some concise and wonderful notes summarizing the statements of local and global class field theory, while Keith Conrad has some great notes on the history of class field theory. We have in our treatment neglected to talk about many important things, among them Lubin-Tate formal groups and class formations. A good reference for the former is Emily Riehl's undergraduate thesis, while a good reference for the latter is \textit{Local Fields} or \textit{Class Field Theory} by Artin and Tate. Finally, Romyar Sharifi's notes on group and Galois cohomology contain a wonderful treatment of Kummer theory.
+\end{document}

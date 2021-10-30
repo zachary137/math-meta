@@ -1,0 +1,1291 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+
+\usepackage[
+	backend = biber,
+	style = alphabetic,
+	citestyle = alphabetic
+]{biblatex}
+\addbibresource{mordell_weil_references.bib}
+
+% Put tikzcd diagrams in displaystyle (i.e., math appears as though it were on its own line)
+\tikzcdset{
+  cells={font=\everymath\expandafter{\the\everymath\displaystyle}},
+}
+
+\newcommand{\F}{\mathscr{F}}
+
+\begin{document}
+\title{The Mordell-Weil Theorem for Abelian Varieties over Global Fields}
+\author{Zachary Gardner}
+\date{July 6-10, 2020}
+\maketitle
+
+These notes accompany the course ``Abelian varieties and the Mordell-Weil Theorem'' taught at UT Austin Summer Minicourses 2020 (\href{https://web.ma.utexas.edu/SMC/Minicourses.html}{website}). Please send all comments, complaints, corrections, and questions to \texttt{zacharygardner137@gmail.com}. Any and all feedback is very much appreciated.
+
+\tableofcontents
+\newpage
+
+\section{Beginnings}
+\subsection{Introduction}
+The goal of these notes is to prove the Mordell-Weil Theorem for abelian varieties over global fields. In its most basic form, the Mordell-Weil Theorem states that the set $E(\Q)$ of $\Q$-rational points of an elliptic curve $E$ is a finitely generated abelian group. By the structure theorem for such groups,
+$$E(\Q)\iso\Z^r\oplus E(\Q)_{\tors}$$
+with $E(\Q)_{\tors}$ torsion and $r\geq0$ the \textbf{rank} of $E$. Much of arithmetic geometry, number theory, and cryptography has centered around the study of $E(\Q)$ and $r$. It is therefore fair to say that the Mordell-Weil Theorem is a result of much importance. With basic motivation in place, we turn to the statement of the Mordell-Weil Theorem.
+
+\begin{theorem}[Mordell-Weil]\label{MW_Thm}
+Let $k$ be a global field and $A$ an abelian variety over $k$. Then, $A(k)$ is a finitely generated abelian group.
+\end{theorem}
+
+Part of the wisdom of number theory is that number fields (i.e., finite extensions of $\Q$) and global function fields (i.e., finite extensions of $\mathbb{F}_q(t)$ or, equivalently, function fields of algebraic curves over $\mathbb{F}_q$) behave very similarly in many different situations. As such, we collectively refer to both types of fields as \textbf{global fields}. Soon we will define precisely what we mean by abelian variety. For now, think of an abelian variety as a variety that also carries a group structure. 
+
+Our strategy for proving the Mordell-Weil Theorem will rest on two key results. The first of these, the Weak Mordell-Weil Theorem, is handled in Section \ref{WMW_Section}. The second of these, which concerns the construction of a suitably well-behaved bilinear pairing $\ip{\cdot,\cdot}: A(k)\times A(k)\to\R$, is handled in Section \ref{Pairing_Section}. The main reference for these notes is \cite{Conrad}. We also draw heavy inspiration from \cite{Bhatt}, which is in turn patterned off of Mumford's classic \textit{Abelian Varieties}.\footnote{\cite{Bhatt} also includes an enlightening treatment of the theory of Fourier-Mukai transforms and derived categories of coherent sheaves on abelian varieties.} We assume the reader is familiar with algebraic number theory as presented in chapters 1-2 of \cite{Neukirch} as well as algebraic geometry as presented in chapters 1-7 of \cite{Liu}. The next few subsections contain notational and conceptual preliminaries. The actual theory starts in Section \ref{Group_Scheme_Section}.
+
+\subsection{Category Theory}
+Sans serif will generally be used to denote the names of categories -- e.g., $\Ab$ is the category of abelian groups. Given a category $\mathsf{C}$ and objects $X,Y$ in $\mathsf{C}$, $\Mor_{\mathsf{C}}(X,Y)$ will be used to denote the set of morphisms from $X$ to $Y$. If $\mathsf{C}$ is additive then we may instead write $\Hom_{\mathsf{C}}(X,Y)$. We write $\mathsf{C}^{\op}$ for the opposite of $\mathsf{C}$. Given another category $\mathsf{D}$, $\Fun(\mathsf{C},\mathsf{D})$ denotes the corresponding functor category -- i.e., the category whose objects are morphisms from $\mathsf{C}$ to $\mathsf{D}$ and morphisms are natural transformations. $\ms{P}(\mathsf{C}):=\Fun(\mathsf{C}^{\op},\Set)$ is the category of presheaves (of sets) on $\mathsf{C}$, where $\Set$ is the category of sets. A functor $\F$ in $\ms{P}(\mathsf{C})$ is \textbf{representable} if there is an object $X$ of $\mathsf{C}$ such that $\F\iso\Mor_{\mathsf{C}}(\bullet,X)$ in $\ms{P}(\mathsf{C})$. In this situation, we say $X$ \textbf{represents} $\F$.\footnote{It is important to remember that we need more data than just $X$ for representability.}
+
+\subsection{Algebraic Geometry}
+Unless otherwise stated, $k$ denotes a field. Given such a $k$, fix once and for all compatible choices of algebraic closure $\ov{k}$ and separable closure $k_s$ -- i.e., $k_s\subset\ov{k}$. All separable and algebraic extensions of $k$ should be assumed compatible with these choices.
+
+Mathscript will generally be used for line bundles -- e.g., $\L$ and $\ms{P}$. 
+
+We let $\Sch$ denote the category of schemes. Given a scheme $S$, we let $\Sch_S$ denote the category of $S$-schemes -- i.e., the over category of schemes over $S$.\footnote{Note that $S$ is the terminal object of this category.} Given $S$-schemes $X$ and $T$, we let $X_T$ denote the base change $X\times_ST$. If either $S$ or $T$ is affine then we may replace them by their underlying ring in notation. For example, if $S=\Spec k$ then $X\times_ST$ becomes $X\times_kT$. The subscript on the fiber product may be dropped if it is clear from context or doing so makes things less cluttered.
+
+Fix a scheme $X$ and consider the following.
+\begin{itemize}
+\item Let $|X|$ denote the underlying set of $X$. Unless otherwise stated, it is assumed that $|X|\neq\emptyset$. Note that, in general, $|X\times Y|$ is not in bijection with $|X|\times|Y|$.
+
+\item Let $\Mod_{\O_X}$ denote the abelian category of (left) $\O_X$-modules. This has full abelian subcategories $\QCoh(X)$ and $\Coh(X)$ of quasi-coherent and coherent $\O_X$-modules, respectively.
+
+\item Let $h_X=\Mor_{\Sch}(\bullet,X)$ denote the functor-of-points of $X$. This resides in $\ms{P}(\Sch)$ and encodes the same data as $X$ by Yoneda's Lemma. We refer to objects in $\ms{P}(\Sch)$ or the closely related category $\Fun(\CRing,\Set)$ as \textbf{spaces}. 
+
+\item Given $\F$ a sheaf of abelian groups on $X$, let $H^i(X,\F)$ denotes the $i$th sheaf cohomology group of $\F$. One may think of this as the $i$th cohomology of $R\Gamma(X,\bullet)$ or as the $i$th \v{C}ech cohomology group of $\F$.
+
+\item Let $\omega_X$ denote the canonical sheaf of $X$.\footnote{Note that this may not exist in general.} Assuming $X\in\Sch_S$, let $\Omega_{X/S}=\Omega_{X/S}^1$ denote the sheaf of K\"{a}hler differential $1$-forms. Assume $S=\Spec k$ and let $x\in X$ be any $k$-point. Let $T_{X/k,x}=T_{X,x}=T_xX$ denote the ($k$-linear) tangent space of $X$ at $x$. Note that $\Omega_{X/k,x}$ and $T_{X/k,x}$ are canonically dual. Given $f: X\to Y$ a morphism of $k$-schemes and letting $y=f(x)\in Y$, there is an associated $k$-linear map $df: T_{X/k,x}\to T_{Y/k,y}$.
+\end{itemize}
+
+Given a scheme $X$, we let $\Pic(X)$ denote the Picard group of $X$ -- i.e., the abelian group consisting of isomorphism classes of line bundles on $X$ whose group structure is encoded by tensor product. This is the same as the sheaf cohomology group $H^1(X,\O_X^{\times})$. If $X=\Spec R$ is affine then we may write $\Pic(R)$ instead of $\Pic(X)$. If $R$ is a Dedekind domain then this is the same as the (ideal) class group of $R$ -- i.e., the abelian group obtained as the quotient of the group of fractional ideals of $R$ by its subgroup of principal fractional ideals. For $X$ a curve, we let $\Pic^0(X)$ denote the subgroup consisting of isomorphism classes of line bundles of degree $0$.
+
+Fix a scheme $X$ and let $\F\in\QCoh(X)$. We say that $\F$ is \textbf{globally generated} or \textbf{generated by global sections} if, for every $x\in X$, the canonical homomorphism $\phi_x: \F(X)\tensor_{\O_X(X)}\O_{X,x}\to\F_x$ is surjective. Equivalently, there exists a sheaf surjection $\O_X^{\oplus I}\surj\F$ for some index set $I$. Given $S\subset\F(X)$, $\F$ is \textbf{$S$-globally generated} or \textbf{globally generated by $S$} if, for every $x\in X$, the restriction of $\phi_x$ to $S$ is surjective. Equivalently, there is a sheaf surjection $\O_X^{\oplus I}\surj\F$. Finally, given $d\geq1$, we say that $\F$ is \textbf{$d$-globally generated} or \textbf{generated by $d$ global sections} if there exist sections $s_1,\ldots,s_d\in\F(X)$ such that $\F$ is $\{s_1,\ldots,s_d\}$-globally generated.
+
+Let $X$ be a scheme and $\L$ a line bundle on $X$. We say that $\L$ is \textbf{ample} if, given $\F\in\Coh(X)$, $\F\tensor\L^{\tensor n}$ is globally generated for every $n\gg0$. If $X$ is an $S$-scheme, we say that $\L$ is \textbf{very ample} (relative to $S$) if there exists $\E\in\QCoh(S)$ and $i: X\inj\P(\E)$ a locally closed embedding of $S$-schemes such that $\L\iso i^*\O_{\P(\E)}(1)$. If $S=\Spec R$ then it suffices that there be a closed embedding $i: X\inj\P_R^n$ for some $n>0$. Note that very ample line bundles are always ample. If $X$ is separated of finite type over an affine base and $\L$ is ample then $\L^{\tensor n}$ is very ample for every $n\gg0$.
+
+\subsection{Number Theory}
+Given a global field $k$, denote the set of (archimedean and nonarchimedean) places of $k$ by $\Sigma_k$.\footnote{Note for the sake of intuition that $\Q$ has only one archimedean place and $\mathbb{F}_q(t)$ has no archimedean places.} Given $v\in \Sigma_k$, denote the completion of $k$ at $v$ by $k_v$. Thinking of $v$ as an absolute value on $k_v$, there is an associated normalized absolute value $\norm{\cdot}_v:=v^{\eps_v}$ on $k_v$, where
+\begin{equation*}
+\eps_v:=
+\begin{cases}
+2, & v\textrm{ is complex}\iff k_v\iso\C, \\
+1, & \textrm{otherwise}.
+\end{cases}
+\end{equation*} 
+We let $\Gamma:=\Gal(k_s/k)$ denote the absolute Galois group of $k$, which is naturally a profinite group built up from the Galois groups of finite Galois extensions of $k$. Similarly, given any Galois extension $K$ of $k$, we let $\Gamma_K:=\Gal(k_s/K)$ denote the profinite Galois group of $K$. Given $v\in\Sigma_k$ and $w\in\Sigma_K$, we write $w\mid v$ in the case that $w$ extends $v$ (such extensions always exist but need not be unique). 
+
+Switching gears, let $S\subset\Sigma_k$ be a finite set of places containing the archimedean places. Define the \textbf{ring of $S$-integers} of $k$ to be 
+$$\O_{k,S}:=\{a\in k : v(a)\geq0\textrm{ for every }v\not\in S\},$$
+which is a Dedekind domain with fraction field $k$. The $S$-unit theorem says that $\O_{k,S}^{\times}$ is a finitely generated abelian group. Similarly, the $S$-class number theorem says that $\Pic(\O_{k,S})$ is a finite abelian group. As a result, $\O_{k,S}^{\times}/(\O_{k,S}^{\times})^m$ is finite for every $m\in\Z^{>0}$ since it is necessarily torsion.
+
+\subsection{Group and \'{E}tale Cohomology}
+Our proof of the Weak Mordell-Weil Theorem will make use of group and \'{e}tale cohomology. Our discussion here begins with a review of basic notions and notation for group cohomology. Fix $G$ a finite group. Let $\Mod_G$ denote the category of (left) $G$-modules, which is equivalent to the abelian category $\Mod_{\Z[G]}$. Given a $G$-module $M$, let $H^{\bullet}(G,M)$ denote the cohomology of $G$ with coefficients in $M$, obtained as the derived functor cohomology of $\bullet^G: \Mod_G\to\Ab$ applied to $M$. Given $H\leq G$, functoriality yields a \textbf{restriction} map $\Res: H^{\bullet}(G,M)\to H^{\bullet}(H,M)$ induced by $H\inj G$. If in addition $H\normal G$ then functoriality also yields an \textbf{inflation} map $\Inf: H^{\bullet}(G/H,M)\to H^{\bullet}(G,M)$ induced by $G\surj G/H$. There is an associated inflation-restriction sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(G/H,M) \arrow[r, "\Inf"] & H^1(G,M) \arrow[r, "\Res"] & H^1(H,M)
+\end{tikzcd}
+\end{center}
+whose exactness may be verified either directly or as a consequence of the degeneration of the associated Lyndon-Hochschild-Serre spectral sequence. 
+
+Group cohomology generalizes to the setting of profinite groups. Fix $G$ a profinite group (e.g., $G=\Gamma_k$ for any field $k$). The notion of a (left) $G$-module $M$ is the same as in the finite group case except that the action of $G$ on $M$ is also required to be continuous. We can talk about $G$-group cohomology for \textbf{discrete} $G$-modules -- i.e., $G$-modules $M$ such that $M$ is a filtered colimit of $M^H$ for $H$ ranging over the open normal subgroups of $G$ (which are the same as the finite index closed normal subgroups). We then define 
+$$H^{\bullet}(G,M):=\fcolim H^{\bullet}(G/H,M^H)$$
+ranging over the open normal subgroups. This generalized group cohomology is suitably functorial and we obtain versions of inflation, restriction, and the inflation-restriction exact sequence. In either case, $H^1(G,M)$ admits an explicit description as $1$-cocycles mod $1$-coboundaries, where a $1$-cocycle is a continuous crossed homomorphism $\xi: G\to M$ (i.e., $\xi_{gh}=\xi_g+g\cdot\xi_h$ for every $g,h\in G$) and a $1$-coboundary is a function $G\to M$ determined by $g\mapsto g\cdot a-a$ for some $a\in M$. Thus, if $M$ is a split $G$-module in the sense that $G$ acts trivially on $M$ then $H^1(G,M)$ may be identified with the group $\Hom_{\cont}(G,M)$ of continuous homomorphisms.
+
+Shifting our discussion to \'{e}tale cohomology, we begin with some general categorical preliminaries. A \textbf{site} is the data of a category $\mathsf{C}$ together with a set $\Cov(\mathsf{C})$ (called a \textbf{Grothendieck topology}) of families of morphisms $\{U_i\to U\}_{i\in I}$ with fixed target that contains all isomorphisms in $\mathsf{C}$, is closed under pullback, and is closed under composition in the sense that if $\{U_i\to U\}_{i\in I}$ is a family in $\Cov(\mathsf{C})$ and $\{V_{ij}\to U_i\}_{j\in J_i}$ is also a family in $\Cov(\mathsf{C})$ for every $i\in I$ then $\{V_{ij}\to U\}_{i\in I,j\in J_i}$ is a family in $\Cov(\mathsf{C})$. A \textbf{sheaf} (of sets) on a site $(\mathsf{C},\Cov(\mathsf{C}))$ is a presheaf $\F$ (of sets) on $\mathsf{C}$ (so an element of $\ms{P}(\mathsf{C})$ defined as before) such that the natural map
+\begin{equation*}
+\F(U)\to\Eq\paren{\prod_i\F(U_i)\rightrightarrows\prod_{i,j}\F(U_i\times_UU_j)}
+\end{equation*}
+is an isomorphism for every family $\{U_i\to U\}_{i\in I}$ in $\Cov(\mathsf{C})$. These sheaves form a category called a \textbf{Grothendieck topos}. In most situations which we will care about, such as the \'{e}tale setting described below, the functor-of-points $h_X=\Mor_{\mathsf{C}}(\bullet,X)$ associated an object $X$ in $\mathsf{C}$ defines a sheaf on the chosen site associated to $\mathsf{C}$.
+
+There are many interesting and useful Grothendieck topologies that appear in practice, such as the fppf, syntomic, smooth, \'{e}tale, and Zariski topologies (only the last one is an honest topology in the usual sense). Both the \'{e}tale and Zariski topologies give rise to small and big variants of a site obtained by varying the underlying category $\mathsf{C}$ but keeping the same procedure for building $\Cov(\mathsf{C})$. Enter the notion of \'{e}tale covering. An \textbf{\'{e}tale covering} of a scheme $X$ is a family $\{f_i: X_i\to X\}_{i\in I}$ of \'{e}tale morphisms such that $X=\bigcup_{i\in I}f_i(X_i)$. Fix a scheme $S$. The \textbf{big \'{e}tale site} $(\Sch_S)_{\et}$ consists of all \'{e}tale coverings of all $S$-schemes. The \textbf{small \'{e}tale site} $S_{\et}$ consists of all \'{e}tale coverings of all \'{e}tale $S$-schemes.\footnote{Technically, we need to carry out a refinement procedure in each case to ensure that $\Cov(\mathsf{C})$ is actually a set. The details do not matter for our purposes and so we say nothing further about this.} The associated Grothendieck topos $\Shv(S_{\et})$ of sheaves of abelian groups is an abelian category. Given $\F$ an \'{e}tale sheaf of abelian groups on $S$, let $H_{\et}^{\bullet}(S,\F)$ denote the \'{e}tale cohomology of $\F$ over $S$, obtained as the derived functor cohomology of the global section functor $\Gamma: \Shv(S_{\et})^{\op}\to\Ab$ applied to $\F$. Note that, given $A$ a $k$-scheme, there is a canonical identification 
+$$H_{\et}^i(\Spec k,A)\iso H^i(\Gamma,A(k_s))$$
+for every $i$ and so we let $H^i(k,A)$ denote either group.
+
+\section{Group and Abelian Schemes}\label{Group_Scheme_Section}
+\subsection{Group Schemes}
+Let $S$ be a scheme. An \textbf{$S$-group scheme} is a group object in $\Sch_S$ -- i.e., an $S$-scheme $G$ together with morphisms $m: G\times_SG\to G$, $i: G\to G$, and $e: S\to G$ such that the following diagrams commute:
+\begin{enum}{\roman}
+\item[] (Associativity)
+
+\begin{center}
+\begin{tikzcd}
+(G\times_SG)\times_SG \arrow[rr, "\iso"] \arrow[rd, "m\times\id_G"'] & & G\times_S(G\times_SG) \arrow[ld, "\id_G\times m"] \\
+& G\times_SG \arrow[d, "m"] & \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Identity)
+
+\begin{center}
+\begin{tikzcd}
+G\times_SS \arrow[r, "\id_G\times e"] \arrow[rd, "\pr_1"'] & G\times_SG \arrow[d, "m"] & S\times_SG \arrow[l, "e\times\id_G"'] \arrow[ld, "\pr_2"] \\
+& G &
+\end{tikzcd}
+\end{center}
+
+\item[] (Inverses)
+
+\begin{center}
+\begin{tikzcd}
+G \arrow[d] \arrow[r, "\Delta"] & G\times_SG \arrow[dd, bend left, "i\times\id_G"] \arrow[dd, bend right, "\id_G\times i"'] \\
+S \arrow[d, "e"'] & \\
+G & G\times_SG \arrow[l, "m"]
+\end{tikzcd}
+\end{center}
+\end{enum}
+In the above, $\Delta: G\to G\times_SG$ denotes the (canonical) diagonal morphism and $\pr_i$ denotes a (canonical) projection morphism. By Yoneda's Lemma, this is the same data as a group structure on the functor-of-points $h_G$ of $G$ -- i.e., for every $S$-scheme $T$ a group structure on $G(T)$ that is functorial in $T$. Equivalently, there is a factorization
+\begin{center}
+\begin{tikzcd}
+\Sch_S^{\op} \arrow[rr, "h_G"] \arrow[rd, dashed] & & \Set \\
+& \Grp \arrow[ru] &
+\end{tikzcd}
+\end{center}
+where the solid unmarked arrow is forgetful. We say that $G$ is \textbf{commutative} if there is a factorization
+\begin{center}
+\begin{tikzcd}
+\Sch_S^{\op} \arrow[rr, "h_G"] \arrow[rd, dashed] & & \Set \\
+& \Ab \arrow[ru] &
+\end{tikzcd}
+\end{center}
+which is equivalent to requiring that $G$ is pointwise invariant under the action of conjugation.
+
+\begin{remark}
+The notion of a group scheme is relatively well-behaved. For example, products and base changes of groups schemes are both themselves group schemes.
+\end{remark}
+
+\begin{example}
+The following are important examples of $S$-group schemes. We assume for simplicity that $S=\Spec R$ is affine.
+\begin{enum}{\arabic}
+\item The \textbf{additive group scheme} $\G_{\mathbf{a},S}=\G_{\mathbf{a}}$ has functor-of-points 
+$$\G_{\mathbf{a}}(T):=\O_T(T)=\Gamma(T,\O_T)$$ 
+and is represented by $\Spec R[t]$.
+\item The \textbf{multiplicative group scheme} $\G_{\mathbf{m},S}=\G_{\mathbf{m}}$ has functor-of-points 
+$$\G_{\mathbf{m}}(T):=\O_T(T)^{\times}=\Gamma(T,\O_T^{\times})$$ 
+and is represented by $\Spec R[t^{\pm1}]$.
+\item The \textbf{group scheme of $m$th roots of unity} $\mu_{m,S}=\mu_m$ has functor-of-points 
+$$\mu_m(T):=\{f\in\G_{\mathbf{m}}(T) : f^m=1\}$$ 
+and is represented by $\Spec R[t]/(t^m-1)$. Its behavior depends heavily on the characteristic of $R$.
+\end{enum}
+Note that all of these group schemes are commutative.
+\end{example}
+
+A \textbf{morphism of $S$-group schemes}\footnote{Common alternative names include $S$-group homomorphism or simply $S$-homomorphism.} is an $S$-morphism $\phi: G\to H$ such that the diagram
+\begin{center}
+\begin{tikzcd}
+G\times_SG \arrow[r, "\phi\times\phi"] \arrow[d, "m_G"] & H\times_SH \arrow[d, "m_H"] \\
+G \arrow[r, "\phi"] & H
+\end{tikzcd}
+\end{center}
+commutes. In this way, $S$-group schemes form their own (non-full) subcategory of $\Sch_S$. As with usual group homomorphisms, we deduce that $\phi\circ e_G=e_H$ and $\phi\circ i_G=i_H\circ\phi$. Similarly, $G$ is commutative if and only if inversion $i: G\to G$ is a morphism of $S$-group schemes. Given $\phi: G\to H$ a morphism of $S$-group schemes, $\ker\phi$ is described as a space via
+$$(\ker\phi)(T)=\ker(\phi(T): G(T)\to H(T)),$$
+where $T\in\Sch_S$. This space is represented by the $S$-scheme fiber product of 
+\begin{center}
+\begin{tikzcd}
+& S \arrow[d, "e_H"] \\
+G \arrow[r, "\phi"] & H
+\end{tikzcd}
+\end{center}
+which is a locally closed subscheme of $G$. It follows that $\ker\phi$ is a well-defined $S$-group scheme.\footnote{The situation for cokernels is a lot more delicate.}
+
+\begin{proposition}\label{identity_connected_component}
+Let $G$ be a $k$-group scheme. Then, there exists a canonical closed $k$-subgroup scheme $G^0$ of $G$ such that
+\begin{enum}{\arabic}
+\item $G^0\inj G$ is a flat closed embedding;
+\item $|G^0|$ is the connected component of the identity of $G$;
+\item $G^0$ is geometrically irreducible and quasi-compact.
+\end{enum}
+\end{proposition}
+
+The scheme $G^0$ is constructed by taking $|G_0|$ to be the connected component of the identity in $G$ and then attaching the associated canonical scheme structure built up affine locally.\footnote{See \cite[\textrm{Tag 047J}]{Stack} for details.} The notation $G^0$ is meant to suggest the relationship of $G^0$ with the identity element of $G$. Note that there is an isomorphism of tangent spaces $T_eG^0\iso T_eG$.
+
+\subsection{Abelian Schemes and Varieties}
+\begin{definition}
+An \textbf{abelian scheme} over a scheme $S$ is a smooth, proper $S$-group scheme $A$ with geometrically connected fibers.\footnote{We will see below that abelian schemes are commutative. The term ``abelian'' here is a reference to the mathematician Niels Henrik Abel.} If $S=\Spec k$ then we call $A$ an \textbf{abelian variety}. A \textbf{morphism of abelian $S$-schemes} is just a morphism of the underlying $S$-group schemes.
+\end{definition}
+
+It is fruitful to think of abelian schemes as families of abelian varieties over an appropriate base.
+
+\begin{remark}
+Note that morphisms of abelian schemes are always proper. To see this, let $f: A\to B$ be a morphism of abelian $S$-schemes and factor $f$ via the commutative diagram
+\begin{center}
+\begin{tikzcd}
+A \arrow[rr, "f"] \arrow[rd, "\Gamma_f"'] & & B \\
+& A\times_SB \arrow[ru, "\pr_2"'] &
+\end{tikzcd}
+\end{center}
+where $\Gamma_f$ is the graph morphism associated to $f$. Since the structure morphism $B\to S$ is separated, $\Delta_{Y/S}: Y\to Y\times_SY$ is a closed embedding and so $\Gamma_f$ is a closed embedding hence proper. The structure morphism $A\to S$ is proper and so $\pr_2$ is proper. It follows that $f$ is proper since properness is preserved under composition. As a result, $\ker f\to S$, obtained as a base change of $f$, is proper and thus quasi-compact. Moreover, $f$ is finite if and only if it has finite fibers if and only if $\ker f$ is a finite group scheme (as seen by translation).
+\end{remark}
+
+It follows immediately that the base change of an abelian scheme is an abelian scheme. Given $A/k$ an abelian variety, $A$ is locally of finite type over $\Spec k$ by assumption and so is locally Noetherian by Hilbert's Basis Theorem. It follows that $A$ is Noetherian since it is quasi-compact by assumption.\footnote{This result holds in general for abelian schemes over a locally Noetherian base.} $A$ is geometrically integral since a normal ring whose spectrum is connected is a domain. The condition that the fibers of $A$ be geometrically connected may be relaxed to them being connected since any connected $k$-scheme with a $k$-rational point is automatically geometrically connected.\footnote{See \cite[\textrm{Tag 0361}]{Stack} for details.} The smoothness condition on $A$ can also be relaxed for $k$ perfect, essentially since the smooth locus of $A$ is translation-invariant and will be open and dense under mild hypotheses.
+
+\begin{remark}
+Some sources define an abelian variety to be a geometrically integral projective algebraic group, an algebraic group itself being defined as a smooth $k$-group scheme. Projectivity here is a particularly nontrivial condition to verify given our definition -- the verification is precisely Theorem \ref{Projectivity_Thm}.
+\end{remark}
+
+\begin{example}
+Perhaps the most important example of an abelian $k$-variety is an elliptic curve over $k$ (i.e., a smooth projective genus $1$ curve over $k$ with distinguished $k$-rational point), which is automatically connected (and thus geometrically connected as mentioned above) and carries a group scheme structure.\footnote{The group law can be specified concretely by choosing a Weierstra\ss\, model.} We see that elliptic curves are precisely the $1$-dimensional abelian varieties.
+\end{example}
+
+\begin{exercise}
+Given a scheme $S$, precisely define the notion of a ``family of elliptic curves over $S$.''
+\end{exercise}
+
+\begin{example}
+Let $C$ be a smooth, proper curve over $k$ of genus $g$. Then, its Jacobian $\Jac(C)$ is a $k$-scheme with the defining property that $\Jac(C)(k)=\Pic^0(C)$ in a functorial manner (e.g., $\Jac(C)(K)=\Pic^0(C_K)$ for every finite field extension $K/k$). For $k=\C$, $\Jac(C)$ may be identified with the ``analytic'' Jacobian $\Omega_{dR}^1(C)^*/H_1^{\sing}(C,\Z)$ induced by the embedding 
+$$H_1^{\sing}(C,\Z)\inj\Omega_{dR}^1(C)^*,\qquad[\sigma]\mapsto\int_{\sigma}\bullet$$
+More generally, $\Jac(C)$ is an abelian variety over $k$ of dimension $g$ (more on this later).\footnote{Technically, the construction we have given is actually for what would be called an Albanese variety. Various duality results show the two approaches agree in this setting.}
+\end{example}
+
+\begin{exercise}
+Show that the analytic Jacobian satisfies the universal property of the Jacobian in the case $k=\C$ (note that this implicitly involves checking that $\Omega_{dR}^1(C)^*/H_1^{\sing}(C,\Z)$ is a complex manifold of the appropriate dimension).\footnote{Technically, what we have written here is an Albanese variety. }
+\end{exercise}
+
+\begin{remark}
+It is somewhat difficult to give examples of abelian varieties that are not the ``same as'' (i.e., isogenous to) a Jacobian. If you are interested in this topic then you should check out David Masser and Umberto Zannier's paper ``Abelian varieties isogenous to no Jacobian.''
+\end{remark}
+
+\begin{definition}
+Let $A$ be an abelian $S$-scheme, $T\in\Sch_S$, and $x\in A(T)$. Then, the \textbf{left translation} morphism $t_x: A_T\to A_T$ is defined to be the composition 
+\begin{center}
+\begin{tikzcd}
+A_T\iso T\times_TA_T \arrow[r, "x_T\times\id_{A_T}"] & A_T\times_TA_T \arrow[r, "m"] & A_T
+\end{tikzcd}
+\end{center}
+where $x_T:=x\times\id_T: T\to A\times_ST=A_T$. One can check that $t_x$ is given on the level of the functor-of-points by $y\mapsto x+y$.
+\end{definition}
+
+The remaining results in this section are stated for general abelian schemes but the arguments given technically only work for abelian varieties. The fiberwise reduction to the abelian variety case is left to the reader.
+
+\begin{theorem}[Rigidity]\label{Rigidity_Thm}
+Let $X,Y,Z$ be $k$-schemes with $X$ proper, $Z$ separated, and $X,Y$ geometrically integral and finite type. Let $f: X\times_kY\to Z$ be a $k$-morphism such that there exists an algebraically closed extension $K/k$ and $y_0\in Y(K)$ such that the restriction $f_{y_0}: X_K\to Z_K$ of $f_K$ to $X_K\times_K\{y_0\}$ is a constant morphism to some $z_0\in Z(K)$. Then, $f$ is independent of $X$ -- i.e., there exists a unique $k$-morphism $g: Y\to Z$ such that the diagram
+\begin{center}
+\begin{tikzcd}
+X\times_kY \arrow[rd, "f"] \arrow[d, "\pr_2"'] & \\
+Y \arrow[r, dotted, "\exists!\;g"'] & Z
+\end{tikzcd}
+\end{center}
+commutes.
+\end{theorem}
+
+The slogan is that if one map is constant in a family of maps $X\to Z$ with $X$ proper then every map in the family is constant. We will most often apply the Rigidity Theorem in the case that $K=\ov{k}$ and $y_0$ is obtained by pulling back $y_0'\in Y(k)$ such that $f|_{X\times_k\{y_0'\}}$ is constant.
+
+\begin{proof}
+See \cite[\textrm{Thm 1.7.1}]{Conrad}.
+\end{proof}
+
+\begin{corollary}\label{abelian_morphisms}
+Let $A,B$ be abelian $S$-schemes and $f: A\to B$ an $S$-morphism. Then, there exists $\phi: A\to B$ a morphism of $S$-group schemes such that $f$ factors as $f=t_{f(e_A)}\circ\phi$. In particular, if $f(e_A)=e_B$ then $f$ is a morphism of $S$-group schemes.
+\end{corollary}
+
+\begin{proof}
+Post-composing $f$ with $t_{f(e_A)}^{-1}=t_{-f(e_A)}$ if necessary, we may assume that $f(e_A)=e_B$. Consider the $k$-morphism $h: A\times_kA\to B$ defined by 
+$$(a_1,a_2)\mapsto f(a_1a_2)f(a_2)^{-1}f(a_1)^{-1},$$
+which is constant with value $e_B$ when restricted to $A\times_k\{e_A\}$ and $\{e_A\}\times_kA$.\footnote{Some care is necessary here since $X\times_kY$ is not in general given as a set by $|X|\times|Y|$. A more rigorous definition of $h$ is 
+$$h:=m_B(f\circ m_A,i_B\circ f\circ\pr_2,i_B\circ f\circ\pr_1).$$
+What we do in this argument is work on the level of the functor-of-points.} By the Rigidity Theorem, we have commutative diagrams
+\begin{center}
+\begin{tikzcd}
+A\times_kA \arrow[rd, "h"] \arrow[d, "\pr_1"'] & \\
+A \arrow[r, dotted, "\exists!\;g_1"'] & B
+\end{tikzcd}
+\end{center}
+and
+\begin{center}
+\begin{tikzcd}
+A\times_kA \arrow[rd, "h"] \arrow[d, "\pr_2"'] & \\
+A \arrow[r, dotted, "\exists!\;g_2"'] & B
+\end{tikzcd}
+\end{center}
+Given any $a_1,a_2\in A$, we have $g_1(a_1)=h(a_1,a_2)=g_2(a_2)$ and so 
+$$g_1(a)=h(a,e_A)=e_B=h(e_A,a)=g_2(a)$$
+for every $a\in A$. Hence, $h$ is constant with value $e_B$ -- i.e., $f$ is a homomorphism.
+\end{proof}
+
+One consequence of this theorem is the following.
+
+\begin{corollary}\label{abelian_structure_unique}
+Let $A\in\Sch_S$ and $e\in A(S)$. Then, there is at most one abelian $S$-scheme structure on $A$ such that $e$ is the identity section.
+\end{corollary}
+
+Thus, the multiplication and inversion morphisms for an abelian scheme carry redundant information already encoded by a choice of identity section. This is useful for deformation theory arguments as it means that the we do not have to keep as careful track of group laws as would a priori seem necessary.
+
+\begin{proof}
+Let $(m_1,i_1)$ and $(m_2,i_2)$ encode abelian $S$-scheme structures on $A$, each with identity section $e$. By the Rigidity Theorem, $\id_A: (A,m_1,i_1)\to(A,m_2,i_2)$ is a homomorphism and so $m_1=m_2$ and $i_1=i_2$.
+\end{proof}
+
+\begin{corollary}\label{abelian_schemes_commutative}
+Let $A$ be an abelian scheme. Then, $A$ is commutative.
+\end{corollary}
+
+\begin{proof}
+Apply the Rigidity Theorem to $i: A\to A$.
+\end{proof}
+
+\begin{remark}
+An alternative proof comes from showing that the action of conjugation is infinitesimally trivial. See \cite[\textrm{Thm 1.5.1}]{Conrad} for more details.
+\end{remark}
+
+\section{Line Bundles on Abelian Varieties}
+\subsection{Rigidification and Picard Functors}
+Throughout this section, let $X$ be a proper, geometrically reduced, geometrically connected $k$-scheme with $X(k)\neq\emptyset$. Our goal is to understand how to classify families of line bundles on $X$. We will do this by constructing the Picard functor for $X/k$ and explaining why it is representable, thereby obtaining the Picard scheme of $X/k$. In order to avoid the theory of stacks, we employ rigidification constraints to guarantee that the Picard functor satisfies the Zariski sheaf condition. Note that, though in general the assumption that $X(k)$ is nonempty is too strong if we want to construct Picard schemes, the assumption is harmless for our purposes as we will be applying the theory to the case of abelian varieties.
+
+Let $f: X\to\Spec k$ denote the structure morphism of $X$. Let $T\in\Sch_k$ and $e\in X(k)$. We obtain a commutative diagram
+\begin{center}
+\begin{tikzcd}
+T \arrow[r] \arrow[rd, dotted, "\exists!\;e_T"] \arrow[rdd, bend right, "\id_T"'] & \Spec k \arrow[rd, bend left, "e"] & \\
+& X_T \arrow[r] \arrow[d, "f_T"] & X \arrow[d, "f"] \\
+& T \arrow[r] & \Spec k
+\end{tikzcd}
+\end{center}
+with $e_T\in X_T(T)$ a section of $f_T$ induced by the universal property of $X_T$ as a pullback.
+
+\begin{definition}
+Let $T\in\Sch_k$ and choose $e\in X(k)$. Define $\mc{R}_{T,X/k,e}$ to be the category of rigidified line bundles on $X_T$ consisting of pairs $(\L,\iota)$ with $\L$ a line bundle on $X_T$ and 
+$$\iota: e_T^*\L\xto{\sim}\O_T,$$ 
+called a \textbf{rigidification} of $\L$ along $e$. A morphism in $\mc{R}_{T,X/k,e}$ is $\theta: (\L,\iota)\to(\L',\iota')$ such that $\theta: \L\to\L'$ is an $X_T$-sheaf morphism and the diagram
+\begin{center}
+\begin{tikzcd}
+e_T^*\L \arrow[rr, "e_T^*\theta"] \arrow[rd, "\iota"'] & & e_T^*\L' \arrow[ld, "\iota'"] \\
+& \O_T &
+\end{tikzcd}
+\end{center}
+commutes.
+\end{definition}
+
+The set $\mc{R}_{T,X/k,e}/\!\!\iso$ of isomorphism classes carries a natural group structure encoded by tensor product. This group structure is contravariantly functorial in the sense that, given $T\to T'$ a $k$-scheme morphism, there is a group homomorphism 
+$$\mc{R}_{T',X/k,e}/\!\!\iso\;\to\mc{R}_{T,X/k,e}/\!\!\iso.$$
+This allows us to define the \textbf{Picard functor} $\underline{\Pic}_{X/k,e}: \Sch_k\to\Ab$ by 
+$$T\mapsto\mc{R}_{T,X/k,e}/\!\!\iso.$$
+The discussion following \cite[\textrm{Def 2.2.11}]{Conrad} shows that $\underline{\Pic}_{X/k,e}$ is independent of the choice of $e$ in the sense that, given $e'\in X(k)$ and $T\in\Sch_k$, there is a natural change of base point isomorphism
+$$\underline{\Pic}_{X/k,e}(T)\xto{\sim}\underline{\Pic}_{X/k,e'}(T).$$
+As such, we may omit $e$ from the notation $\underline{\Pic}_{X/k,e}$.\footnote{Grothendieck actually gave a construction that makes no explicit mention of a $k$-rational point.} The following result shows that the Picard functor admits a more concrete description that is useful for computational purposes.\footnote{See \cite[\textrm{Prop 2.2.12}]{Conrad} for details.}
+
+\begin{proposition}\label{concrete_Picard}
+The natural map $\mc{R}_{T,X/k,e}/\!\!\iso\;\to\Pic(X_T)/f_T^*\Pic(T)$ given by 
+$$[(\L,\iota)]\mapsto\L\textrm{ mod }f_T^*\Pic(T)$$ 
+is a group isomorphism compatible with change of base point.
+\end{proposition}
+
+Our goal is to show that the Picard functor is representable. An important step toward representability is the following.
+ 
+\begin{theorem}\label{Picard_Zariski_Thm}
+$\underline{\Pic}_{X/k,e}$ is a Zariski sheaf.
+\end{theorem}
+
+\begin{proof}
+Given $T\in\Sch_k$ and $\{U_i\}$ a Zariski open cover of $T$ by $k$-schemes, we need to show that a system of isomorphism classes $[(\L_i,\iota_i)]\in\mc{R}_{U_i,X/k,e}/\!\!\iso$ agreeing on overlaps glues uniquely to $[(\L,\iota)]\in\mc{R}_{T,X/k,e}/\!\!\iso$ which restricts to each $[(\L_i,\iota_i)]$. Paraphrasing, we need to show that a system of isomorphisms
+$$\L_i|_{X_{U_{ij}}}\xto{\sim}\L_j|_{X_{U_{ij}}}$$
+compatible with $\iota_i,\iota_j$ extends to a globally defined rigidified line bundle $\L$ on $X_T$ unique up to isomorphism of rigidified line bundles on $X_T$. This reduces to showing that $(\L,\iota)\in\mc{R}_{T,X/k,e}$ has no nontrivial automorphisms, as such automorphisms are precisely the obstruction to gluing. To see this, let $\theta$ be an automorphism of $(\L,\iota)$. Then, $\theta$ is a line bundle automorphism of $\L$ and so corresponds to some element of $\Gamma(X_T,\O_{X_T}^{\times})$. By \cite[\textrm{Lemma 2.2.1}]{Conrad}, $f_T: X_T\to T$ induces a natural isomorphism $\O_T\xto{\sim}(f_T)_*\O_{X_T}$ and hence a natural isomorphism $\O_T^{\times}\xto{\sim}(f_T)_*\O_{X_T}^{\times}$.\footnote{Here, it is essential that $X$ is geometrically reduced since then $\Gamma(X,\O_X)\iso k$. See \cite[\textrm{Tag 0366}]{Stack} for details.} Passing to global sections gives $\Gamma(T,\O_T^{\times})\iso\Gamma(X_T,\O_{X_T}^{\times})$ and so $\theta$ is multiplication by some $u\in\Gamma(T,\O_T^{\times})$. It follows that $e_T^*\theta$ is also multiplication by $u$. Since $\iota=\iota\circ e_T^*\theta$ by assumption and $\iota$ is an isomorphism, $e_T^*\theta$ is the identity map and so $u=1$.
+\end{proof}
+
+The full picture is provided by the following.
+
+\begin{theorem}[Grothendieck/Oort-Murre/Artin]\label{Picard_Rep_Thm}
+The Picard functor $\underline{\Pic}_{X/k,e}$ is represented by a locally finite type $k$-scheme $\Pic_{X/k,e}=\Pic_{X/k}$.
+\end{theorem}
+
+\begin{proof}
+See \cite[\textrm{Part 5}]{Fantechi} for a proof as well as a wealth of other information on Picard functors.
+\end{proof}
+
+Note that, in general, if $\underline{\Pic}_{X/k,e}$ is representable then it is represented by a separated $k$-group scheme.\footnote{This follows since any group scheme over a field is separated. See \cite[\textrm{Tag 047G and 047J}]{Stack} for details.} For $C$ a smooth proper $k$-curve with $C(k)\neq\emptyset$, the associated Picard scheme is none other than the familiar Jacobian $\Jac(C)$.
+
+\subsection{The Theorems of the Cube and Square}
+Now that we have the notion of Picard scheme, we are well-equipped to study the behavior of families of line bundles. Let $X,Y\in\Sch_k$, $y\in Y(k)$, and $\L$ a line bundle on $X\times_kY$. Define $\L_y$ to be the restriction
+$$\L_y:=\L|_{X\times_k\{y\}}.$$
+The restriction of $\L$ to $x\in X(k)$ is defined similarly. Assuming that $X$ and $Y$ are proper, geometrically integral, and finite type, one might hope that if $\L_x$ and $\L_y$ are trivial for some $x\in X(k)$ and $y\in Y(k)$ then $\L$ itself is trivial. Unfortunately, this is not the case in general.
+
+\begin{example}
+Let $(E,e)$ be an elliptic curve over $k$ and $p$ any $k$-rational point of $E$. Then, it is easy to check that $\O(\Delta-\pr_1^*e-\pr_2^*e)$ restricts to $\O_E(p-e)$ on both $\{p\}\times_kE$ and $E\times_k\{p\}$. Taking $p=e$ therefore yields trivial restrictions, and taking $p\neq e$ yields non-trivial restrictions (as follows from Riemann-Roch).
+\end{example}
+
+Fortunately, the situation can be remedied by passing from pairs of $k$-schemes to triples.
+
+\begin{theorem}[Theorem of the Cube]\label{Cube_Thm}
+Let $X,Y,Z\in\Sch_k$ such that $X,Y$ are proper, $X,Z$ are geometrically integral and finite type, and $Y$ is geometrically reduced and geometrically connected. Let $\L$ be a line bundle on $X\times_kY\times_kZ$ and $x_0\in X(k),y_0\in Y(k),z_0\in Z(k)$. Suppose that $\L_{x_0},\L_{y_0},\L_{z_0}$ are all trivial. Then, $\L$ is trivial.
+\end{theorem}
+
+\begin{proof}
+By Theorem \ref{Picard_Rep_Thm}, $\underline{\Pic}_{Y/k,y_0}$ is represented by a separated, locally finite type $k$-scheme $\Pic_{Y/k}$ and so the data of a trivialization of $\L_{y_0}$ is equivalent to the data of a $k$-morphism $f: X\times_kZ\to\Pic_{Y/k}$. We claim that $f$ vanishes and so $\L$ is trivial. By assumption, $\L_{z_0}$ is trivial and so applying the universal property of $\Pic_{Y/k}$ once again gives that the restriction $f_{z_0}: X\times_k\{z_0\}\to\Pic_{Y/k}$ vanishes. By the Rigidity Theorem, there is a commutative diagram 
+\begin{center}
+\begin{tikzcd}
+X\times_kZ \arrow[rd, "f"] \arrow[d, "\pr_2"'] & \\
+Z \arrow[r, dotted, "\exists!\;g"'] & \Pic_{Y/k}
+\end{tikzcd}
+\end{center}
+Since $\L_{x_0}$ is trivial, the restriction $f_{x_0}: \{x_0\}\times_kZ\to\Pic_{Y/k}$ vanishes and so $g$ hence $f$ vanishes by commutativity of the diagram. 
+\end{proof}
+
+\begin{corollary}\label{adding_rational_points}
+Let $A/k$ be an abelian variety, $T\in\Sch_k$, $a_1,a_2,a_3\in A(T)$, and $\L$ a line bundle on $A$. Then, $\L(a_1,a_2,a_3)$ defined by
+\begin{equation*}
+(a_1+a_2+a_3)^*\L
+\tensor(a_1+a_2)^*\L^{-1}\tensor(a_1+a_3)^*\L^{-1}\tensor(a_2+a_3)^*\L^{-1}
+\tensor a_1^*\L\tensor a_2^*\L\tensor a_3^*\L
+\tensor(e^*\L)_T^{-1}
+\end{equation*}
+is a canonically trivial line bundle on $T$.
+\end{corollary}
+
+\begin{remark}
+Since $e^*\L$ is trivial, we may remove the term $(e^*\L)_T^{-1}$ in the above at the cost of making the isomorphism non-canonical.
+\end{remark}
+
+\begin{proof}
+Since $A^3=A\times_kA\times_kA$ is the universal $k$-scheme with a triple of $k$-morphisms to $A$, it suffices to consider the case that $T=A^3$ and each $a_i$ is a projection morphism. More precisely, the canonical isomorphism $\L(\pr_1,\pr_2,\pr_3)\to\O_{A^3}$ induces an isomorphism 
+\begin{align*}
+\L(a_1,a_2,a_3)
+&\iso(a_1\times a_2\times a_3)^*\L(\pr_1,\pr_2,\pr_3) \\
+&\iso(a_1\times a_2\times a_3)^*\O_{A^3} \\
+&\iso\O_T.
+\end{align*}
+Having made this reduction, the Theorem of the Cube tells us that it suffices to check triviality on $\{e\}\times A\times A$, $A\times\{e\}\times A$, and $A\times A\times\{e\}$. By symmetry we need only consider $\{e\}\times A\times A\iso A^2$. We obtain a series of canonical isomorphisms
+\begin{align*}
+(a_1+a_2+a_3)^*\L\tensor(a_2+a_3)^*\L^{-1}&\iso\O_{A^2}, \\
+(a_1+a_2)^*\L^{-1}\tensor a_2^*\L&\iso\O_{A^2}, \\
+(a_1+a_3)^*\L^{-1}\tensor a_3^*\L&\iso\O_{A^2}, \\
+a_1^*\L\tensor(e^*\L)_{A^2}^{-1}&\iso\O_{A^2},
+\end{align*}
+from which the result follows after tensoring up.
+\end{proof}
+
+Let $\L$ be a line bundle on an abelian scheme $A/S$. Then, the \textbf{Mumford bundle} of $A$ is the line bundle $\Lambda(\L)$ on $A\times_SA$ defined by 
+$$\Lambda(\L):=m^*\L\tensor\pr_1^*\L^{-1}\tensor\pr_2^*\L^{-1}.$$
+
+\begin{theorem}[Theorem of the Square]\label{Square_Thm}
+Let $A/k$ be an abelian variety, $\L$ a line bundle on $A$, $T\in\Sch_k$, and $x,y\in A(T)$. Then, there is a natural isomorphism
+\begin{align*}
+t_{x+y}^*\L_{A_T}\tensor\L_{A_T}\iso t_x^*\L_{A_T}\tensor t_y^*\L_{A_T}
+\tensor[(x\times y)^*\Lambda(\L)\tensor e^*\L]_{A_T}
+\end{align*}
+of line bundles on $A_T$, where the subscript $A_T$ denotes pullback by the projection $p: A_T\to A$. In particular, since $(x\times y)^*\Lambda(\L)\tensor e^*\L$ is a line bundle on $\Spec k$ hence trivial, there is a non-canonical isomorphism 
+$$t_{x+y}^*\L_{A_T}\tensor\L_{A_T}\iso t_x^*\L_{A_T}\tensor t_y^*\L_{A_T}.$$
+\end{theorem}
+
+\begin{proof}
+Let $c_x$ denote the constant morphism given by the composition
+\begin{center}
+\begin{tikzcd}
+A_T \arrow[r] & T \arrow[r, "x"] & A
+\end{tikzcd}
+\end{center}
+Define $c_y$ in a similar manner. By Corollary \ref{adding_rational_points}, there is a natural isomorphism
+\begin{align*}
+(p+c_x+c_y)^*\L\tensor p^*\L
+\iso(p+c_x)^*\L\tensor(p+c_y)^*\L\tensor(c_x+c_y)^*\L\tensor c_x^*\L^{-1}\tensor c_y^*\L^{-1}\tensor(e^*\L)_{A_T}.
+\end{align*}
+We have $p+c_x=p\circ t_x$, $p+c_y=p\circ t_y$, and $c_x+c_y=c_{x+y}$. Hence, 
+$$(p+c_x)^*\L=(p\circ t_x)^*\L=t_x^*\L_{A_T},$$
+with similar results for $y$ and $x+y$. Unpacking the definition of $\Lambda(\L)$ yields a natural isomorphism
+$$c_{x+y}^*\L\tensor c_x^*\L^{-1}\tensor c_y^*\L^{-1}\iso((x\times y)^*\Lambda(\L))_{A_T}.$$
+The result follows.
+\end{proof}
+
+\begin{corollary}\label{homomorphism}
+Let $A/k$ be an abelian variety and $\L$ a line bundle on $A$. Then, the $k$-morphism $\phi_{\L}: A\to\Pic_{A/k}$ defined by 
+$$x\mapsto t_x^*\L\tensor\L^{-1}$$
+is a morphism of group schemes.\footnote{Technically, $\phi_{\L}$ sends $x$ to the isomorphism class of $t_x^*\L\tensor\L^{-1}$. We will often ignore this technicality and freely interchange between isomorphism classes of line bundles and their representatives.}
+\end{corollary}
+
+Morphisms of the type $\phi_{\L}$ are massively important for their relationship to dual abelian varieties.
+
+\begin{proof}
+The definition of $\phi_{\L}$ given above is somewhat imprecise. A more precise definition is as follows. Let $T\in\Sch_k$ and $x\in A(T)$. Then,
+$$\phi_{\L}(T)(x)=\phi_{\L}(x):=t_x^*\L_{A_T}\tensor\L_{A_T}^{-1}.$$
+Given $x,y\in A(T)$, applying the Theorem of the Square yields
+\begin{align*}
+\phi_{\L}(x+y)
+&=t_{x+y}^*\L_{A_T}\tensor\L_{A_T}^{-1} \\
+&\iso(t_x^*\L_{A_T}\tensor t_y^*\L_{A_T}\tensor\L_{A_T}^{-1})\tensor\L_{A_T}^{-1} \\
+&\iso(t_x^*\L_{A_T}\tensor\L_{A_T}^{-1})\tensor(t_y^*\L_{A_T}\tensor\L_{A_T}^{-1}) \\
+&=\phi_{\L}(x)\tensor\phi_{\L}(y).
+\end{align*}
+The result follows.
+\end{proof}
+
+\begin{exercise}
+Use the Theorem of the Square to deduce other properties of $\phi_{\L}$. For example, what can be said about $\phi_{t_x^*\L}$ for $x\in A(k)$?
+\end{exercise}
+
+\section{Dual Abelian Varieties}
+Now that we understand some of the behavior of families of line bundles on an abelian variety, let's put that understanding to use.
+
+\subsection{Line Bundles and Duals}
+The subscheme $\Pic_{X/k}^0$ has many nice properties by Lemma \ref{identity_connected_component}. In the case of an abelian variety $A$, 
+$$A^{\vee}:=\Pic_{A/k}^0$$ 
+is called the \textbf{dual} of $A$. Some justification for the superscript notation comes from the case of curves.
+
+\begin{exercise}\label{degree_zero}
+Let $X$ be a proper, geometrically reduced, geometrically connected $k$-scheme of dimension $1$ with $X(k)\neq\emptyset$ and genus $g$. Then, $\Pic_{X/k}^0$ is smooth of dimension $g$ and satisfies
+$$\Pic_{X/k}(K)\iso\{[\L]\in\Pic(X_K) : \deg\L=0\}$$
+for every field extension $K/k$.\footnote{This exercise is \cite[\textrm{Exercise 2.4.3}]{Conrad}. See the reference for hints.}
+\end{exercise}
+
+Letting $Y:=\Pic_{X/k}$, we have $\underline{\Pic}_{X/k,e}(Y)=[(\U_X,\iota_X)]$. The pair $(\U_X,\iota_X)$ is called the \textbf{universal rigidified line bundle of $X$} (relative to $e$) and is unique up to isomorphism of rigidified line bundles. By definition, $\U_X$ is a line bundle on $X\times_kY=X_Y$ and $\iota_X: e_Y^*\U_X\xto{\sim}\O_Y$. Given any $T\in\Sch_k$ and $(\L,\iota)$ a rigidified bundle on $X_T$, there exists a unique $k$-morphism $\varphi: T\to Y$ such that 
+$$(\L,\iota)=(\id_X\times\varphi)^*(\U_X,\iota_X).$$
+
+Restricting now to the case of abelian varieties, let $(\U_A,\iota_A)$ be the universal rigidified line bundle of $A$ associated to $e$, so that $\U_A$ is a line bundle on $A\times_k\Pic_{A/k}$ and $\iota_A: \U_A|_{\{e\}\times_k\Pic_{A/k}}\xto{\sim}\O_{\Pic_{A/k}}$. Define the \textbf{Poincar\'{e} bundle} $\ms{P}_A$ to be the line bundle on $A\times_kA^{\vee}$ obtained by restricting $(\U_A,\iota_A)$ to $A\times_kA^{\vee}$. We have a rigidification $\ms{P}_A|_{A\times_k\{0\}}\xto{\sim}\O_A$, which can be made canonical by fixing the image of $(e,0)$. Every $k$-morphism $Y\to\Pic_{A/k}$ corresponds uniquely to the data of a rigidified line bundle $(\L,\iota)$ with $\L$ a line bundle on $A\times_kY$ and $\iota: \L_e\xto{\sim}\O_Y$, obtained via $(\id_A\times\varphi)^*(\U_A,\iota_A)$ for a unique $k$-morphism $\varphi: Y\to\Pic_{A/k}$. By the universal property of $\ms{P}_A$, the morphism $Y\to\Pic_{A/k}$ factors through $A^{\vee}$ precisely when $\L$ is $\pr_2$-trivialized in the sense that pulling back $(\ms{P}_A,\iota_A)$ and restricting induces a compatible family of trivializations $\L_y\xto{\sim}\O_A$ for $y\in Y(k)$. 
+
+Let's apply all of the above to $\phi_{\L}: A\to\Pic_{A/k}$ for $\L$ a line bundle on $A$. We deduce immediately that $\varphi$ as above is exactly $\phi_{\L}$ in this context. We claim that $\phi_{\L}$ factors through $A^{\vee}$ -- i.e., $(\id_A\times\phi_{\L})^*(\ms{P}_A)$ is $\pr_2$-trivialized. \cite[\textrm{Prop 3.3.1}]{Conrad} shows that there is a natural identification $(\id_A\times\phi_{\L})^*(\ms{P}_A)\iso\Lambda(\L)$ compatible with the rigidifications on each. But, $\Lambda(\L)$ is $\pr_2$-trivialized since, given $x\in A(k)$, 
+$$\Lambda(\L)|_{A\times_k\{x\}}=(m^*\L\tensor\pr_1^*\L^{-1}\tensor\pr_2^*\L^{-1})|_{A\times_k\{x\}}\iso\L\tensor\L^{-1}\tensor\O_A\iso\O_A.$$
+
+\begin{theorem}\label{Projectivity_Thm}
+Let $A/k$ be an abelian variety. Then, $A$ is projective.
+\end{theorem}
+
+\begin{proof}
+The goal is to produce an ample line bundle on $A$. Our argument is a sketch of the one given in the proof of \cite[\textrm{Thm 3.4.1}]{Conrad}. Here are the steps.
+\begin{enum}{\arabic}
+\item Using Galois descent, reduce to the case $k=\ov{k}$.
+\item Let $U$ be an open affine neighborhood of $e$ in $A$. Show that $D:=(A-U)_{\red}$ is an effective Weil divisor.\footnote{See \cite[Lemma 10.10]{Bhatt} for details.}
+\item Show that $\{x\in A(k) : t_x^*D=D\}$ is finite.
+\item Letting $\L:=\O_A(D)$, deduce that $\L^{\tensor2}$ is globally generated with $i_{\L}: A\to\P\Gamma(A,\L^{\tensor2})$ finite (note that $i_{\L}$ need not a priori be an embedding).
+\end{enum}
+Since $i_{\L}$ is finite, $\L^{\tensor2}\iso i_{\L}^*\O(1)$ is ample by \cite[\textrm{Tag 0B5V}]{Stack} and so we deduce that $\L$ is ample.
+\end{proof}
+
+\subsection{Duals as Abelian Varieties}
+Our goal in this section is to show that the dual of an abelian variety is itself an abelian variety and explore some of its geometry useful for proving the Mordell-Weil Theorem.
+
+\begin{theorem}\label{Dual_Abelian_Thm}
+Let $A/k$ be an abelian variety. Then, the dual $A^{\vee}$ is an abelian variety.
+\end{theorem}
+
+\begin{remark}
+Note that, for $X\in\Sch_k$ and $x\in X(k)$, there is a natural identification of $k$-vector spaces
+$$T_{X/k,x}=T_{x}X=\{y\in X(k[\eps]) : \mc{C}(y)\textrm{ commutes}\},$$
+where $k[\eps]$ is the $k$-algebra defined by $\eps^2=0$ and $\mc{C}(y)$ is the diagram
+\begin{center}
+\begin{tikzcd}
+\Spec k \arrow[rr] \arrow[rd, "x"'] & & \Spec k{[}\eps{]} \arrow[ld, "y"] \\
+& X &
+\end{tikzcd}
+\end{center}
+with horizontal arrow induced by the map $k[\eps]\to k$ given by $\eps\mapsto0$.
+\end{remark}
+
+\begin{proof}
+This boils down to showing that $A^{\vee}/k$ is
+\begin{enum}{\roman}
+\item a geometrically connected group scheme;
+\item proper;
+\item smooth.\footnote{If $\ch k=0$ then $A^{\vee}$ is automatically smooth since a celebrated theorem of Cartier gives that every finite type $k$-group scheme is smooth. The argument we give shows that $\Pic_{A/k}$ is smooth. This is perhaps somewhat surprising since Picard schemes, even if they exist, need not in general be smooth in positive characteristic.}
+\end{enum}
+
+We check each of these conditions separately.
+
+\begin{enum}{\roman}
+\item By construction, $A^{\vee}=\Pic_{A/k}^0$ is a geometrically irreducible closed $k$-group subscheme of $\Pic_{A/k}$ and so is a fortiori geometrically connected.
+
+\item It suffices to show that $\Pic_{A/k}$ is proper. The idea is to use the valuative criterion of properness. Since the structure morphism $\Pic_{A/k}\to\Spec k$ is finite type, we need only consider DVRs (discrete valuation rings) instead of valuation rings more generally. Let $R$ be a DVR which is a $k$-algebra and $K$ its fraction field. We claim any commutative diagram 
+\begin{center}
+\begin{tikzcd}
+\Spec K \arrow[r] \arrow[d] & \Pic_{A/k} \arrow[d, "f"] \\
+\Spec R \arrow[r] & \Spec k
+\end{tikzcd}
+\end{center}
+can be filled in uniquely to get a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\Spec K \arrow[r] \arrow[d] & \Pic_{A/k} \arrow[d, "f"] \\
+\Spec R \arrow[r] \arrow[ru, dotted, "\exists!"] & \Spec k
+\end{tikzcd}
+\end{center}
+The $k$-morphism $\Spec K\to\Pic_{A/k}$ is equivalent to the data of a line bundle on $A_K$ with a rigidification $\iota: \L_{e_K}\xto{\sim}\O_{\Spec K}$, where $e_K\in A_K(K)$ is induced by $e\in A(k)$. A similar statement applies to $\Spec R$ and so our goal is to construct a line bundle $\M$ on $A_R$ with rigidification $\iota': \M_{e_R}\xto{\sim}\O_{\Spec R}$ compatible with $(\L,\iota)$ under pullback. Identifying $X$ with $A_R$, this boils down to the following statement. Let $\eta$ by the generic point of $R$ and $\L$  a line bundle on the generic fiber $X_{\eta}$. Then, $\L$ extends to a line bundle defined on all of $X$. The idea is to use that $X_{\eta}$ is an integral $K$-scheme to think of $\L$ as a Cartier divisor on $X_{\eta}$ and then use the projectivity of $X$ to extend this to a Cartier divisor on $X$. See \cite{Extension} for details.
+
+\item Let $g:=\dim A$. By translation, smoothness reduces to showing that $\dim A^{\vee}=\dim_kT_0A^{\vee}$. We will show that both of these numbers are $g$. Here are the steps.
+\begin{enum}{\arabic}
+\item $\dim_kT_0A^{\vee}=\dim_kH^1(A,\O_A)$.
+\item $g\leq\dim A^{\vee}\leq\dim_kT_0A^{\vee}$.
+\item $\dim_kH^1(A,\O_A)\leq g$.
+\end{enum}
+
+By the remark, there is an isomorphism of $k$-vector spaces given by 
+$$T_0A^{\vee}\iso T_0\Pic_{A/k}\iso\ker(\Pic_{A/k}(k[\eps])\to\Pic_{A/k}(k)).$$
+The inclusion $k\inj k[\eps]$ makes $\Spec k[\eps]$ into a $k$-scheme. Let $A[\eps]:=A_k\times_k[\eps]$ and denote by $f[\eps]: A[\eps]\to\Spec k[\eps]$ the corresponding base change of the structure morphism $f: A\to\Spec k$. By Proposition \ref{concrete_Picard}, there are isomorphisms $\Pic_{A/k}(k)\iso\Pic(A)$ and 
+$$\Pic_{A/k}(k[\eps])\iso\Pic(A[\eps])/f[\eps]^*\Pic(k[\eps])\iso\Pic(A[\eps])$$
+that fit into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\Pic_{A/k}(k{[}\eps{]}) \arrow[r] \arrow[d, "\iso"'] & \Pic_{A/k}(k) \arrow[d, "\iso"] \\
+\Pic(A{[}\eps{]}) \arrow[r] & \Pic(A)
+\end{tikzcd}
+\end{center}
+with horizontal arrows given by pullback. We have a sort of exponential short exact sequence 
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & 1+\eps\O_{A{[}\eps{]}} \arrow[r] & \O_{A{[}\eps{]}}^{\times} \arrow[r] & \O_A^{\times} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+Under the identification $1+\eps\O_{A{[}\eps{]}}\xto{\sim}\O_A$ given by $1+\eps\sigma\mapsto\sigma$, we get a short exact sequence 
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_A \arrow[r, "\exp"] & \O_{A{[}\eps{]}}^{\times} \arrow[r] & \O_A^{\times} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+and hence a commutative diagram
+\begin{center}
+\begin{tikzcd}
+H^0(A,\O_{A{[}\eps{]}}^{\times}) \arrow[r, "\psi"] & H^0(A,\O_A^{\times}) \arrow[r] & H^1(A,\O_A) \arrow[r, "\exp"] & H^1(A,\O_{A{[}\eps{]}}^{\times}) \arrow[r] \arrow[d, "\iso"'] & H^1(A,\O_A^{\times}) \arrow[d, "\iso"] \\
+& & & \Pic(A{[}\eps{]}) \arrow[r] & \Pic(A)
+\end{tikzcd}
+\end{center}
+We have $H^1(A,\O_A^{\times})\iso k^{\times}$ and so dimensional considerations give that $\psi$ is surjective. Hence, $\ker\exp\iso\coker\psi=0$ and so 
+$$T_0A^{\vee}\iso H^1(A,\O_A)\implies\dim_kT_0A^{\vee}=\dim_kH^1(A,\O_A).$$
+This shows (1). By Theorem \ref{Projectivity_Thm}, $A$ is projective and so it has an ample line bundle $\L$. By Lemma \ref{phi_is_isogeny}, $\phi_{\L}: A\to A^{\vee}$ is finite and so is a fortiori quasi-finite. It follows that $g\leq\dim A^{\vee}$. This shows (2) since $\dim A^{\vee}\leq\dim_kT_0A^{\vee}$ is automatic. (3) is precisely \cite[\textrm{Prop 5.1.1}]{Conrad}, which uses Serre duality, the K\"{u}nneth formula, and a theorem of Borel on the structure of Hopf algebras to deduce that the map $\wedge^iH^1(A,\O_A)\to H^i(A,\O_A)$ induced by cup product is an isomorphism for every $i\geq0$.\footnote{\cite[\textrm{Cor 15.4}]{Bhatt} gives a different proof using Koszul complexes which, with some extra work, shows that the cohomology algebra of $A$ is isomorphic to the exterior $k$-algebra of $H^1(A,\O_A)$. This is an important starting point for the theory of the Fourier-Mukai transform.} \qedhere
+\end{enum}
+\end{proof}
+
+\section{The Weak Mordell-Weil Theorem}\label{WMW_Section}
+We now embark on our first of two major tasks involved in proving the Mordell-Weil Theorem, starting with a discussion of isogeny and torsion.
+
+\subsection{Isogeny and Torsion}
+In every field of mathematics, it is important to know in what sense the objects of interest are the ``same.'' In the context of abelian varieties, that notion of equivalence is isogeny.
+
+\begin{definition}
+An \textbf{isogeny} is a finite flat surjective morphism of abelian varieties. An abelian variety $A$ is said to be \textbf{isogenous} to another abelian variety $B$ if there exists an isogeny $f: A\to B$. For such $f$, the \textbf{degree} is defined to be $\deg(f):=[k(A):k(B)]$.
+\end{definition}
+
+\begin{remark}
+It is clear that isogeny is a reflexive and transitive relation. We will see later that it is also symmetric and so defines an equivalence relation.
+\end{remark}
+
+Given $f: A\to B$ a morphism of abelian varieties, it is natural to ask when $f$ is an isogeny.
+
+\begin{example}
+If $A,B$ are elliptic curves and $f$ is nonzero then it is a classical fact that $f$ is an isogeny (and is an isomorphism if and only if $\deg(f)=1$).\footnote{More generally, morphisms between projective curves are either constant or surjective.} This need not be the case for $A,B$ general abelian varieties of the same dimension.
+\end{example}
+
+\begin{exercise}
+Construct such a counterexample.
+\end{exercise}
+
+\begin{lemma}\label{isogeny_simplified}
+Let $f: A\to B$ be a morphism of abelian $k$-varieties.
+\begin{enum}{\alph}
+\item Suppose $f$ is flat. Then, $f$ is surjective.
+\item Suppose $f$ is surjective. Then, $f$ is flat.
+\item Suppose $f$ is finite and surjective. Then, $\dim A=\dim B$.
+\item Suppose $\dim A=\dim B$. Then, $f$ is flat if and only if it is finite.
+\end{enum}
+\end{lemma}
+
+\begin{proof}
+We begin by noting some facts about dimension. Let $e$ denote the identity of $A$. Given $x\in A$, $t_x: A\to A$ is an isomorphism and so induces a $k$-linear isomorphism $dt_x: T_eA\to T_xA$. Hence,
+$$\dim\O_{A,x}=\dim_kT_xA=\dim_kT_eA=\dim\O_{A,e}$$
+by smoothness and so $\dim A=\dim\O_{A,x}$. At the same time, $f$ is flat if and only if 
+\begin{equation}\label{miracle_flatness}
+\dim\O_{A,x}=\dim\O_{B,y}+\dim\O_{f^{-1}(y),x}
+\end{equation}
+for every $x\in A$ with $y=f(x)\in B$.\footnote{See \cite[\textrm{Tag 00R4}]{Stack} for details. This result often goes by the name of Miracle Flatness.}
+\begin{enum}{\alph}
+\item Since $f$ is a flat morphism between irreducible schemes, $f$ is dominant.\footnote{The point is that $f$ lifts generalizations. See \cite{Dominant} for details.} Since $f$ is proper, $f$ has closed image and so is surjective.
+
+\item By Grothendieck's Generic Flatness, there is a nonempty open $U\subset B$ such that the restriction $f^{-1}(U)\to U$ is flat.\footnote{See \cite[\textrm{Tag 0529}]{Stack} for details.} Equation \eqref{miracle_flatness} therefore holds on $f^{-1}(U)\neq\emptyset$ and so holds everywhere by translation.
+
+\item The key is that a scheme has dimension $n$ if and only if it has a cover by affine opens each of dimension $\leq n$ with at least one open having dimension exactly $n$. With that said, choose such a cover $\mc{C}$ realizing the dimension of $B$. Since $f$ is finite hence affine, $f$ pulls back $\mc{C}$ to a cover of $A$ by open affines. For each $U\in\mc{C}$, $f^{-1}(U)$ is nonempty and so has the same dimension as $U$ (recall that $f$ is proper and so is integral in this setting). It follows that $\dim A=\dim B$. 
+
+\item The empty fibers of $f$ are obviously well-behaved, so we will handle the nonempty fibers. Let $x\in A$ with $y=f(x)\in B$. Since $\dim A=\dim B$, Equation \eqref{miracle_flatness} gives that $f$ is flat at $x$ if and only if $\dim\O_{f^{-1}(y),x}=0$. Since $f^{-1}(y)$ is quasi-compact, it is finite if and only if it has dimension $0$ and so $f$ is flat if and only if it is finite. \qedhere
+\end{enum}
+\end{proof}
+
+An important notion in our discussion of isogeny is that of torsion. Given $m\in\Z$ and $A$ an abelian group, let $A[m]$ denote the $m$-torsion subgroup of $A$ (i.e., the kernel of the multiplication map $[m]: A\to A$). If $A/S$ is an abelian scheme then we let $A[m]$ denote the $m$-torsion subscheme of $A$, which naturally fits into a Cartesian diagram
+\begin{center}
+\begin{tikzcd}
+A{[}m{]} \arrow[r] \arrow[d] & S \arrow[d, "e"] \\
+A \arrow[r, "{[}m{]}"'] & A
+\end{tikzcd}
+\end{center}
+
+\begin{theorem}\label{Mult_Thm}
+Let $A/S$ be an abelian scheme and $m\in\Z^{\neq0}$. Then, $[m]: A\to A$ is an isogeny.\footnote{Note that the notion of isogeny generalizes easily from abelian varieties to all abelian schemes.} If in addition $m$ is invertible in $S$ (i.e., $m\in\O_S(S)^{\times}$) then $[m]$ is \'{e}tale.
+\end{theorem}
+
+\begin{proof}
+Suppose first that $m$ is invertible in $S$. We claim it suffices to show that $[m]$ is \'{e}tale. To see this, suppose that $[m]$ is \'{e}tale. Then, $[m]$ is flat and locally quasi-finite with open image. Since $[m]$ is also proper, $[m]$ is finite by \cite[\textrm{Tag 02LS}]{Stack} and surjective since it has closed image. Hence, we are reduced to showing that $[m]$ is \'{e}tale. Since flatness may be checked fiber-wise, we may assume without loss of generality that $S=\Spec k$.\footnote{See \cite[\textrm{Section 2.2 and 2.4}]{BLR} for details.} Since the structure morphism $A\to\Spec k$ is smooth by assumption, \cite[\textrm{Cor 2.2/10}]{BLR} gives that $[m]$ is \'{e}tale at $x\in A$ if and only if the canonical homomorphism $[m]^*\Omega_{A/k}\to\Omega_{A/k}$ induces an isomorphism on stalks at $x$. Dualizing, this is equivalent to the natural homomorphism $d[m]: T_{A/k,x}\to T_{A/k,[m]x}$ being an isomorphism of $k$-vector spaces. A small inductive argument gives that $d[m]$ is simply multiplication by $m$.\footnote{We see immediately that $[m]$ is not \'{e}tale if $m$ is not invertible in $k$ since then $d[m]$ is not an automorphism of $T_eA$.} It follows that $d[m]: T_{A/k,e}\to T_{A/k,e}$ is an isomorphism (since $m$ is invertible in $k$) and the diagram 
+\begin{center}
+\begin{tikzcd}
+T_{A/k,e} \arrow[r, "d{[}m{]}"] \arrow[d, "dt_x"'] & T_{A/k,e} \arrow[d, "dt_{{[}m{]}x}"] \\
+T_{A/k,x} \arrow[r, "d{[}m{]}"'] & T_{A/k,{[}m{]}x}
+\end{tikzcd}
+\end{center}
+commutes. Since $t_x$ and $t_{[m]x}$ are both isomorphisms, $dt_x$ and $dt_{[m]x}$ are isomorphisms and so $d[m]: T_{A/k,x}\to T_{A/k,[m]x}$ is an isomorphism.
+
+Now, consider the more general case where $[m]$ is not assumed to be invertible in $S$. As mentioned earlier, flatness may be checked fiber-wise. Since surjectivity and finiteness may also be checked fiber-wise, we may assume without loss of generality that $S=\Spec k$. By Lemma \ref{isogeny_simplified}, it suffices to show that $[m]$ is finite, which is the same as showing that $A[m]$ has dimension $0$. By Theorem \ref{Projectivity_Thm}, $A$ is projective and so we may choose $\L$ an ample line bundle on $A$. Consider the symmetric line bundle $\M:=\L\tensor[-1]^*\L$, which is ample since $\L$ is ample and $[-1]$ is an automorphism.\footnote{A line bundle $\L$ on $A$ is \textbf{symmetric} if $\L\iso[-1]^*\L$ and \textbf{anti-symmetric} if $\L^{-1}\iso[-1]^*\L$.} By Lemma \ref{mult_pullback} (statement and proof below), we have
+$$[m]^*\M\iso\M^{\tensor(m^2+m)/2}\tensor[-1]^*\M^{\tensor(m^2-m)/2}\iso\M^{\tensor m^2},$$
+which is ample since $\M$ is ample and $m^2>0$. At the same time,
+\begin{equation*}
+([m]^*\M)|_{A[m]}\iso[m]^*(\M|_{A[m]})\iso\O_{A[m]}.
+\end{equation*}
+Hence, $A[m]$ is affine along with all of its (nonempty) closed subschemes.\footnote{Here, we have made use of a combination of Serre's criteria for ampleness and affineness, which together say that a proper $R$-scheme $X$ for $R$ a Noetherian ring is affine if and only if $\O_X$ is ample.} It follows that $A[m]$ must have dimension $0$ since otherwise it would contain a proper closed $k$-curve which must necessarily be non-affine.
+\end{proof}
+
+\begin{lemma}\label{mult_pullback}
+Let $A/k$ be an abelian variety, $m\in\Z$, and $\L$ a line bundle on $A$. Then,
+$$[m]^*\L\iso\L^{\tensor(m^2+m)/2}\tensor[-1]^*\L^{\tensor(m^2-m)/2}.$$
+\end{lemma}
+
+\begin{proof}
+The claim clearly holds for $m=0,1$. The idea of the proof is to use Corollary \ref{adding_rational_points} to induct up and down. The argument for inducting down is very similar to the one for inducting up and so we omit it. Let $m\in\Z$ and assume the result holds for $m$ and $m+1$. Consider the maps $[m+1],[1]=\id_A,[-1]=-\id_A: A\to A$. By Corollary \ref{adding_rational_points},
+\begin{equation*}
+\O_A\iso[m+1]^*\L\tensor[m+2]^*\L^{-1}\tensor[m]^*\L^{-1}\tensor[m+1]^*\L\tensor\L\tensor[-1]^*\L,
+\end{equation*}
+where we have used that pulling back by $[0]$ gives a trivial bundle. Rearranging and applying the inductive hypothesis gives
+\begin{align*}
+[m+2]^*\L
+&\iso([m+1]^*\L)^{\tensor2}\tensor([m]^*\L)^{-1}\tensor\L\tensor[-1]^*\L \\
+&\iso\L^{\tensor(m^2+3m+2)}\tensor[-1]^*\L^{\tensor(m^2+m)}\tensor\L^{\tensor-(m^2+m)/2}\tensor[-1]^*\L^{\tensor-(m^2-m)/2}\L\tensor[-1]^*\L \\
+&=\L^{\tensor(m^2+5m+6)/2}\tensor[-1]^*\L^{\tensor(m^2+3m+2)/2},
+\end{align*}
+which is of the desired form.
+\end{proof}
+
+Moreover, the following result shows that $[m]$ is in some sense the prototypical example of an isogeny between abelian varieties.
+
+\begin{theorem}
+Let $f: A\to B$ be a morphism of abelian $k$-varieties. Then, $f$ is an isogeny if and only if there exists $d\in\Z^{\neq0}$ and $g: B\to A$ an isogeny such that $g\circ f=[d]_A$. In either case, $f\circ g=[d]_B$.
+\end{theorem}
+
+\begin{proof}
+Suppose first that $f$ is an isogeny and let $d:=\deg(f)\in\Z^{\neq0}$. Then, $\ker f$ is a finite group scheme of rank $d$ and so is annihilated by multiplication by $d$. It follows that $[d]_A$ factors as 
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "f"] & B \arrow[r, "g"] & A
+\end{tikzcd}
+\end{center}
+for $g: B\to A$ some morphism of abelian varieties. Since $[d]_A$ is surjective, $g$ is also surjective. Since $f$ is an isogeny, $\dim A=\dim B$ and so $g$ is finite flat hence an isogeny. Since $g$ is a morphism of abelian varieties,
+\begin{equation}\label{factor_torsion}
+g\circ[d]_B=[d]_A\circ g=(g\circ f)\circ g=g\circ(f\circ g)
+\end{equation}
+and so $[d]_B=f\circ g$. For the converse, suppose that there exists $d\in\Z^{\neq0}$ and $g: B\to A$ an isogeny such that $g\circ f=[d]_A$. The computation in Equation \eqref{factor_torsion} shows that $[d]_B=f\circ g$ and so $f$ is surjective since $[d]_B$ is surjective. Since $g$ is an isogeny, $\dim A=\dim B$ and so $f$ is finite flat hence an isogeny.
+\end{proof}
+
+\begin{exercise}
+Fill in the following details to complete the proof of the previous theorem. 
+\begin{enum}{\arabic}
+\item Let $\pi: G\to S$ be locally free group scheme of rank $r$ with $S$ a reduced irreducible scheme.\footnote{Recall that this means that $\pi$ is affine and $\pi_*\O_G$ is a rank $r$ locally free $\O_S$-module.} Show that $G$ is annihilated by multiplication by $r$ -- i.e., $[r]_G$ given on points by $g\mapsto g^r$ is the $0$-morphism $[0]_G=e\circ\pi: G\to S\to G$.\footnote{This is \cite[\textrm{Exercise (4.4)}]{Moonen}.}
+
+\item Let $f: A\to B$ be a morphism of abelian $k$-varieties and $d\in\Z$ such that multiplication by $d$ annihilates $\ker f$. Show that $[d]_A$ factors
+\begin{center}
+\begin{tikzcd}
+A \arrow[r, "f"] & B \arrow[r, "g"] & A
+\end{tikzcd}
+\end{center}
+for $g: B\to A$ a morphism of abelian varieties.
+
+\item Let $W,X,Y,Z$ be abelian $k$-varieties. Let $f: W\to X$ and $h: Y\to Z$ be isogenies and $g_1,g_2: X\to Y$ homomorphisms such that $h\circ g_1\circ f=h\circ g_2\circ f$. By working with $\ov{k}$-points, show that $f,h$ can be canceled to get $g_1=g_2$.
+\end{enum}
+\end{exercise}
+
+Given a group scheme $G/S$, $G$ determines a sheaf of groups on the small \'{e}tale site $S_{\et}$ via its functor-of-points $h_G$. For commutative group schemes, we similarly get \'{e}tale sheaves of abelian groups. Group subschemes give rise to injections on the level of \'{e}tale sheaves. One reason this matters is the following result.
+
+\begin{corollary}\label{torsion_exact_sequence}
+Let $A/S$ be an abelian scheme and $m\in\Z$ invertible in $S$. Then, the sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A{[}m{]} \arrow[r] & A \arrow[r, "{[}m{]}"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of commutative $S$-group schemes is short exact 
+\end{corollary}
+
+\begin{proof}
+The only nontrivial part is checking exactness at the right term (exactness elsewhere can be verified directly or by looking at geometric stalks). Let $U$ be an \'{e}tale $S$-scheme and $\alpha\in h_A(U)$. The morphism $[m]: A\to A$ induces a corresponding natural transformation $[m]: h_A\to h_A$. Define $U'$ so that it sits in a Cartesian diagram
+\begin{center}
+\begin{tikzcd}
+U' \arrow[r, "\beta"] \arrow[d, "\phi"'] & A \arrow[d, "{[}m{]}"] \\
+U \arrow[r, "\alpha"'] & A
+\end{tikzcd}
+\end{center}
+Then, $\phi$ is an \'{e}tale surjection since $[m]$ is an \'{e}tale surjection by Theorem \ref{Mult_Thm} and so $\{\phi: U'\to U\}$ is an \'{e}tale covering of $U$. By construction, $[m]\beta=\alpha$ and we have our result. \qedhere
+\end{proof}
+
+\begin{exercise}
+Given $A$ an abelian $k$-variety and $m\in\Z^{\neq0}$, Theorem \ref{Mult_Thm} shows that $[m]: A\to A$ is an isogeny. It is then natural to ask for the degree. There are several ways of going about this (such as using intersection theory) but we will take the approach of using Euler characteristic. Namely, let $X$ be a proper $k$-scheme, $\L$ a line bundle on $X$, and $\F\in\Coh(X)$. Then, $\chi(\F\tensor\L^{\tensor r})$ is a numeric polynomial in $r$ of degree $\leq g=\dim X$ -- i.e., it assumes integral values at integers and so is a $\Z$-linear combination of binomial coefficients. Hence, there is some $d_{\L}(\F)\in\Z$ such that 
+$$\chi(\F\tensor\L^{\tensor r})=\df{d_{\L}(\F)}{g!}r^g+(\textrm{lower order terms}).$$
+We let $\deg(\L):=d_{\L}(\O_X)$.
+
+\begin{enum}{\arabic}
+\item Given $n\in\Z$, show that $\deg(\L^{\tensor n})=n^g\deg(\L)$.
+
+\item Let $f: X'\to X$ be a finite morphism of schemes with $X$ proper integral and $d$ the degree of the generic fiber. Given $\L$ a line bundle on $X$, show that $\deg(f^*\L)=d\cdot\deg(\L)$.
+
+\item Show that $\deg([m])=m^{2g}$, where $g=\dim A$.
+
+\item[\textup{(Bonus!)}] Let $X$ be a smooth proper $k$-curve. Show that our notion of degree agrees with the one for line bundles on $X$ defined in terms of divisors. 
+
+\item[\textup{(Bonus!)}] Let $X$ be a proper integral $k$-scheme and $\L$ a very ample line bundle over $X$. Show that our notion of degree agrees with the one obtained by taking the $k$-rank of the finite intersection with a generic codimension-$g$ linear subspace. 
+\end{enum}
+\end{exercise}
+
+Though not directly relevant to the remainder of these notes, the last two results in this section help tie the notion of isogeny to the structure of abelian varieties and their duals.
+
+\begin{proposition}\label{phi_is_isogeny}
+Let $A/k$ be an abelian variety and $\L$ an ample line bundle on $A$. Then, $\phi_{\L}: A\to A^{\vee}$ is an isogeny.
+\end{proposition}
+
+\begin{proof}
+Since $\dim A=\dim A^{\vee}$, Lemma \ref{isogeny_simplified} tells us that $\phi_{\L}$ is an isogeny if it is finite.\footnote{Such isogenies (i.e., those that map an abelian variety to its dual) are called \textbf{polarizations}.} By previous work, we know that $\phi_{\L}$ is proper and $\phi_{\L}$ is finite if and only if $\ker\phi_{\L}$ is finite. Since $\ker\phi_{\L}$ is quasi-compact, the latter holds if and only if the abelian subvariety $B:=(\ker\phi_{\L})_{\red}^0$ has dimension $0$.\footnote{We take the reduction so that $B$ has nonzero smooth locus, which we then translate to show $B$ is smooth.} Since $\L$ is ample, $\M:=\L|_B$ is also ample. At the same time, $\phi_{\M}=0$ by assumption. Hence, 
+$$\O_{B\times_kB}\iso(\id_B\times\phi_{\M})^*\ms{P}_B\iso\Lambda(\M).$$
+Restricting to the anti-diagonal in $B\times_kB$, we have
+$$\O_B\iso(e^*\M)_B\tensor\M^{-1}\tensor[-1]^*\M^{-1}\iso\M^{-1}\tensor[-1]^*\M^{-1}.$$
+Inverting this gives $\O_B\iso\M\tensor[-1]^*\M$, which is ample since $\M$ is ample and $[-1]$ is an isomorphism. Hence, $B$ is affine. It follows that $B$ must have dimension $0$ since otherwise it would contain a proper closed $k$-curve which necessarily must be non-affine.
+\end{proof}
+
+\begin{corollary}
+Let $A/k$ be an abelian variety. Under the identification $\Pic_{A/k}^{\vee}(\ov{k})=\Pic(A_{\ov{k}})$,
+$$A^{\vee}(\ov{k})=\{[\L]\in\Pic(A_{\ov{k}}) : \phi_{\L}=0\}.$$
+\end{corollary}
+
+\begin{proof}
+Assume without loss of generality that $k=\ov{k}$. Given $\L$ a line bundle on $A$ with $\phi_{\L}=0$, $\Lambda(\L)$ is trivial and so $[\L]\in A^{\vee}(k)$ by earlier discussion. For the converse, let $[\L]\in A^{\vee}(k)$. Using that $A$ is projective, choose $\M$ an ample line bundle on $A$. Then, $\phi_{\M}: A\to A^{\vee}$ is an isogeny and so is surjective on $k$-points since $k=\ov{k}$. Hence, there is $x\in A(k)$ such that $\L\iso\phi_{\M}(x)$. Given $y\in A(k)$,
+$$\phi_{\L}(y)=t_y^*\L\tensor\L^{-1}\iso t_{x+y}^*\M\tensor t_y^*\M^{-1}\tensor t_x^*\M^{-1}\tensor\M\iso\O_A$$
+by the Theorem of the Square and so $\phi_{\L}=0$.
+\end{proof}
+
+\subsection{Proof of the Weak Mordell-Weil Theorem}
+Now we get to the heart of the matter.
+
+\begin{theorem}[Weak Mordell-Weil]\label{WMW_Thm}
+Let $k$ be a global field, $A$ an abelian variety over $k$, and $m\in\Z^{\geq2}$ such that $m\nmid\ch k$. Then, the quotient $A(k)/m$ is finite.
+\end{theorem}
+
+\begin{proof}
+The main idea of the proof is to realize $A(k)/m$ as a subgroup of an appropriate cohomology group which is finite. Where does cohomology enter the picture? By Corollary \ref{torsion_exact_sequence}, the sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A{[}m{]} \arrow[r] & A \arrow[r, "{[}m{]}"] & A \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+of commutative $k$-group schemes is short exact over the \'{e}tale site of $\Spec k$. Hence, passing to group/\'{e}tale cohomology yields an exact sequence 
+\begin{center}
+\begin{tikzcd}
+A(k) \arrow[r, "{[}m{]}"] & A(k) \arrow[r, "\delta"] & H^1(k,A{[}m{]})
+\end{tikzcd}
+\end{center}
+and hence an embedding $A(k)/m\inj H^1(k,A[m])$ with image $\delta(A(k))$. We need to carefully analyze this image since $H^1(k,A[m])$ is not in general finite.\footnote{Even in the nice case that $\mu_m\subset k$, Kummer theory tells us that $H^1(k,\mu_m)\iso k^{\times}/(k^{\times})^m$ and so $H^1(k,A[m])$ is a product of infinite groups since $A[m](k_s)\iso\mu_m^{2g}$ for $g:=\dim A$.} As explained in the proof of \cite[\textrm{Thm 9.3.11}]{Conrad}, we can ``spread out'' the abelian variety $A\to\Spec k$ to get an abelian scheme $\mc{A}\to U$ whose generic fiber is $A$, where $U:=\Spec\O_{k,S}$ for some $S\subset\Sigma_k$ finite containing the archimedean places such that $m$ and $\#|A[m]|=\#A[m](k_s)$ are $S$-units.\footnote{Classically, one takes $S$ to include the places of bad reduction for $A$ and uses N\'{e}ron models to construct $\mc{A}$. See \cite[Section 3.2]{Poonen_Var} for more on spreading out.} It then follows that we may identify $A(k)$ and $\mc{A}(U)$ as well as their quotients $A(k)/m$ and $\mc{A}(U)/m$.\footnote{This boils down to denominator chasing at the places away from $S$ and the valuative criterion for properness over a Dedekind base at the places in $S$.} By Corollary \ref{torsion_exact_sequence}, the sequence 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & \mc{A}{[}m{]} \arrow[r] & \mc{A} \arrow[r, "{[}m{]}"] & \mc{A} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+is exact on $U_{\et}$ and so passing to \'{e}tale cohomology yields an embedding $\mc{A}(U)/m\inj H_{\et}^1(U,\mc{A}[m])$ fitting into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+\mc{A}(U)/m \arrow[r, hookrightarrow] \arrow[d, equals] & H_{\et}^1(U,\mc{A}{[}m{]}) \arrow[d] \\
+A(k)/m \arrow[r, hookrightarrow] & H^1(k,A{[}m{]})
+\end{tikzcd}
+\end{center}
+with unmarked vertical arrow induced by $U\to\Spec k$. Thus, instead of studying the image $\delta(A(k))$ we may study the image of $\mc{A}(U)/m\inj H_{\et}^1(U,\mc{A}[m])$. We accomplish this by imposing certain ramification conditions. 
+
+Given $u\in U$ a closed point (equivalently, a nonzero prime ideal of $\O_{k,S}$), the \textbf{inertia group} $I_u$ of $u$ is a subgroup of $\Gamma$ obtained in one of two equivalent ways.\footnote{Recall that $\Gamma$ denotes the absolute Galois group of $k$.} The first approach is to view it as the Galois group $\Gal((k_u)_s/k_u^{\unr})$ for $(k_u)_s$ and $k_u^{\unr}$ compatible separable closure and maximal unramified extension of the completion $k_u$, respectively. This embeds into the absolute Galois group $\Gamma_{k_u}$ and hence $\Gamma$ by restriction (i.e., by sending $\sigma$ to $\sigma|_{k_s}$, thinking of $k_s$ as embedded nicely in $(k_u)_s$). The second approach is to view $I_u$ as the Galois group of the fraction field of the strict henselization $\O_{U,u}^{\sh}$ of the local ring $\O_{U,u}$, which has the important property that every finite \'{e}tale cover of $\Spec\O_{U,u}^{\sh}$ is split and so it is cohomologically trivial for the \'{e}tale topology (we think of $\Spec\O_{U,u}^{\sh}$ as the \'{e}tale local neighborhood of $U$ at $u$). This again embeds into $\Gamma$ via an appropriate restriction procedure. 
+
+No matter the approach taken, we obtain $I_u$ as a subgroup of $\Gamma$ well-defined up to conjugation (i.e., different choices of embedding yield conjugate subgroups). The equivalence between these two approaches comes from unpacking the construction of $k_u^{\unr}$ and $\O_{U,u}^{\sh}$. $\O_{U,u}^{\sh}$ is characterized by being universally strictly henselian with respect to $\O_{U,u}$ and so is a henselian local ring (i.e., it satisfies the conclusion of Hensel's Lemma) with maximal ideal $\m\O_{U,u}^{\sh}$ (for $\m$ the maximal ideal of $\O_{U,u}$) such that $\O_{U,u}^{\sh}/\m\O_{U,u}^{\sh}\iso\kappa^{\sep}$ (for $\kappa$ the residue field of $U$ at $u$). We construct $\O_{U,u}^{\sh}$ as a filtered colimit of finite \'{e}tale $\O_{U,u}$-algebras. It follows that $\Frac\O_{U,u}^{\sh}$ is a filtered colimit of finite \'{e}tale $k_u$-algebras, which we can then replace with a filtered colimit of finite unramified (field) extensions of $k_u$.
+
+With this information in hand, we claim that $\delta(A(k))$ lands in the subgroup of $\xi\in H^1(k,A[m])$ unramified outside $S$ in the sense that $\xi|_{I_u}=0$ in $H^1(I_u,A[m])$ for every closed point $u\in U$. This follows since, given $u\in U$ a closed point, the composition
+\begin{center}
+\begin{tikzcd}
+\mc{A}(U)/m \arrow[r, hookrightarrow] & H_{\et}^1(U,\mc{A}{[}m{]}) \arrow[r] & H^1(k,A{[}m{]}) \arrow[r] & H^1(I_u,A{[}m{]})
+\end{tikzcd}
+\end{center}
+factors through $H_{\et}^1(\Spec\O_{U,u}^{\sh},\mc{A}[m])=0$ since $I_u$ is the Galois group of $\Frac\O_{U,u}^{\sh}$. Phrased in more concrete terms, given $u$ a closed point of $U$, we want to know if the restriction to $I_u$ of $\xi_a\in H^1(k,A[m])$ vanishes, where $\xi_a$ is the image of $[a]\in A(k)/m$. If we view $\xi_a$ as an obstruction to $m$-divisibility then this is the same as viewing $[a]$ as an obstruction to $m$-divisibility as an element of $A(\Frac\O_{U,u}^{\sh})/m$. That is, we want to know if $[m]: A(\Frac\O_{U,u}^{\sh})\to A(\Frac\O_{U,u}^{\sh})$ is surjective. We get an affirmative answer after identifying $A(\Frac\O_{U,u}^{\sh})$ with $\mc{A}(\O_{U,u}^{\sh})$ and noting that every finite \'{e}tale cover of $\O_{U,u}^{\sh}$ is split. By \cite[\textrm{Cor 9.3.4}]{Conrad}, we also have that $A[m](k_s)$ is unramified outside $S$ in the sense that $I_u$ acts trivially on $A[m](k_s)$ for every closed point $u\in U$. Thus, we are done by the following theorem.
+\end{proof}
+
+\begin{theorem}\label{WMW_Redux_Thm}
+Let $k$ be a global field with absolute Galois group $\Gamma:=\Gal(k_s/k)$, $S\subset\Sigma_k$ finite containing the archimedean places, and $M$ a finite discrete $\Gamma$-module such that $m:=\#M$ is an $S$-unit and $M$ is unramified outside $S$. Then, 
+$$H_S^1(k,M):=\{\xi\in H^1(k,M) : \xi\textrm{ is unramified outside }S\}$$
+is finite.
+\end{theorem}
+
+\begin{proof}
+We claim it suffices to show the result assuming $\mu_m\subset k$, $M=\mu_m$, and the places of $k$ associated to $m$ are contained in $S$. To see this, let $K/k$ be a finite Galois extension splitting $M$ in the sense that $\Gamma_K:=\Gal(k_s/K)$ acts trivially on $M$.\footnote{Since $M$ is a finite discrete $\Gamma$-module, the corresponding homomorphism $\varphi: \Gamma\to\Aut_{\Set}(M)$ is continuous and has kernel a finite index closed normal subgroup of $\Gamma$. The Fundamental Theorem of Galois Theory then guarantees that $\ker\varphi=\Gamma_K$ for $K/k$ a finite Galois extension.} If $K'$ is any finite Galois extension of $K$ then $K'$ also splits $M$ and so we may assume $\mu_m\subset K$. Note that, since $m$ is an $S$-integer, $\ch k\nmid m$ and so $\mu_d$ is cyclic of order $d$ for every $d\mid m$. The elements of $\mu_m$ are ramified only at the places of $k$ associated to $m$. Enlarging $S$ by these places increases the size of $H_S^1(k,M)$, so if we prove finiteness for the larger group then we have finiteness for the smaller one. Hence, we may assume the places of $k$ associated to $m$ are contained in $S$. Now, let $S_K\subset\Sigma_K$ denote the set of places extending the places in $S$. We have an inflation-restriction exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & H^1(\Gal(K/k),M) \arrow[r, "\Inf"] & H^1(k,M) \arrow[r, "\Res"] & H^1(K,M)
+\end{tikzcd}
+\end{center}
+satisfying $\Res(H_S^1(k,M))\subset H_{S_K}^1(K,M)$.\footnote{This uses the assumption that $M$ is unramified outside $S$.} Since $H^1(\Gal(K/k),M)$ is finite, it follows that $H_S^1(k,M)$ is finite if $H_{S_K}^1(K,M)$ is finite. The isomorphism of abelian groups
+$$M\iso\prod_i\mu_{d_i}$$
+for some finite collection of integers $d_i\mid m$ is an isomorphism of $\Gamma_K$-modules since all of the $\Gamma_K$-modules involved are split. By assumption, each term in the product is finite and so $H_{S_K}^1(K,M)$ is finite. Hence, we may assume $\mu_m\subset k$, $M=\mu_m$, and the places of $k$ associated to $m$ are contained in $S$. 
+
+With the simplifying assumptions established, our goal now is to construct an exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_{k,S}^{\times}/(\O_{k,S}^{\times})^m \arrow[r] & H_S^1(k,\mu_m) \arrow[r] & \Pic(\O_{k,S}){[}m{]}
+\end{tikzcd}
+\end{center}
+The left-hand and right-hand terms are finite by the $S$-unit and $S$-class number theorems, respectively, from which we get the finiteness of $H_S^1(k,\mu_m)$.\footnote{One could forego the $S$-class number theorem by noting that suitably enlarging $S$ kills $\Pic(\O_{k,S})[m]$.} Let $L$ be the extension of $k$ maximal with respect to being unramified outside $S$, obtained as the compositum of all finite extensions of $k$ unramified outside $S$.\footnote{Recall that a general extension $E/k$ is unramified outside $S$ if it is the compositum of finite subextensions unramified outside $S$. In the case $k=\Q$, the theory of discriminants and the Minkowski discriminant bound show that $L=\Q$ if $S=\emptyset$ and $L$ is an infinite degree extension of $\Q$ if $S\neq\emptyset$. In general, $L$ is almost certainly an infinite degree extension of $k$.} Let $\O_L$ be the compositum of $\O_E$ for $E$ ranging over the finite extensions of $k$ unramified outside $S$.\footnote{This construction technically only makes sense for number fields since the ring of integers has no analogue for global function fields. We leave the modification of this construction to that approach to the reader.} The extension $L/k$ is Galois since roots of the same irreducible polynomial in $k[t]$ give rise to extensions with the same discriminant, with Galois group $G:=\Gal(L/k)$ satisfying $(\O_L)^G=\O_{k,S}$. Why should we consider $L$? Since $\Gamma$ acts trivially on $\mu_m$, we have
+$$H_S^1(k,\mu_m)=\{\xi\in\Hom_{\cont}(\Gamma,\mu_m) : \xi|_{I_u}=1\textrm{ for every closed point }u\in U\}.$$
+This says that elements of $H_S^1(k,\mu_m)$ are entirely determined by their action on the complement in $\Gamma$ of the union of the inertia groups $I_u$ ranging over the closed points $u\in U$ (what a mouthful!). In other words, they are determined by their action on $G$!\footnote{The following should help if this seems perplexing. Kummer theory gives us an isomorphism $k^{\times}/(k^{\times})^m\xto{\sim}\Hom_{\cont}(\Gamma,\mu_m)$ via $[a]\mapsto\xi_a$ sending $\sigma\in\Gamma$ to $\sigma(\alpha)/\alpha$ for $\alpha\in k_s$ an $m$th root of $a$. Then, $\xi_a$ is unramified at a closed point $u\in U$ if and only if any extension of $k$ obtained by adjoining an $m$th root of $a$ is unramified at $u$.} Hence, there is a natural isomorphism
+$$H_S^1(k,\mu_m)\iso\Hom_{\cont}(G,\mu_m)=H^1(G,\mu_m).$$
+Consider now the sequence 
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \mu_m \arrow[r] & \O_L^{\times} \arrow[r, "(\cdot)^m"] & \O_L^{\times} \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+We claim that this is an exact sequence of abelian groups. Exactness at the left term is just the fact that $\mu_m\subset\O_{k,S}^{\times}\subset\O_L^{\times}$. Exactness at the middle term is clear. To check exactness at the right term, let $a\in\O_L^{\times}$. Let $\alpha\in k_s$ be an $m$th root of $a$. Let $E$ be any subfield of $L(\alpha)$ such that $E/k$ is finite. Then, $E$ is either a subfield of $L$ or of the form $F(\alpha)$ for $F$ a subfield of $L$. The first case leaves nothing to check so we address the second case, in which $F$ is necessarily unramified outside $S$. The minimal polynomial $p_{\alpha}(t)\in\O_F[t]$ of $\alpha$ over $\O_F$ divides $t^m-a$. Let $\mf{p}\in\Spec\O_F$ representing the extension to $\Sigma_F$ of a place of $\Sigma_k\setminus S$. Then, the image of $t^m-a$ in $(\O_F/\mf{p})[t]$ has formal derivative $mt^{m-1}$ and so is separable since $m$ is nonzero in $\O_F/\mf{p}$. It follows that $p_{\alpha}(t)$ has separable image in $(\O_F/\mf{p})[t]$ and so $F(\alpha)/k$ is unramified outside $S$. Hence, $E$ is a subfield of $L$ and so $\alpha\in\O_L^{\times}$, giving exactness at the right term of the sequence. Passing to group cohomology relative to $G$, we obtain a commutative diagram
+\begin{center}
+\begin{tikzcd}
+H^0(G,\O_L^{\times}) \arrow[r, "(\cdot)^m"] \arrow[d, "\iso"] & H^0(G,\O_L^{\times}) \arrow[r] \arrow[d, "\iso"] & H^1(G,\mu_m) \arrow[r] \arrow[d, "\iso"] & H^1(G,\O_L^{\times}) \arrow[r, "(\cdot)^m"] \arrow[d, hookrightarrow] & H^1(G,\O_L^{\times}) \arrow[d, hookrightarrow] \\
+\O_{k,S}^{\times} \arrow[r, "(\cdot)^m"'] & \O_{k,S}^{\times} \arrow[r] & H_S^1(k,\mu_m) \arrow[r] & \Pic(\O_{k,S}) \arrow[r, "(\cdot)^{\tensor m}"'] & \Pic(\O_{k,S})
+\end{tikzcd}
+\end{center}
+with exact rows. Where do the embeddings come from? Letting $V:=\Spec\O_L$, the embedding $H^1(G,\O_L^{\times})\inj\Pic(\O_{k,S})$ is obtained by noting that 
+\begin{center}
+$\Pic(\O_{k,S})\iso\Pic(U)\iso H_{\et}^1(U,\G_{\mathbf{m}})$ and $H^1(G,\O_L^{\times})\iso H_{\et}^1(V,\G_{\mathbf{m}})$
+\end{center}
+and then applying the map induced by $V\to U$. Hence, we obtain the desired exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_{k,S}^{\times}/(\O_{k,S}^{\times})^m \arrow[r] & H_S^1(k,\mu_m) \arrow[r] & \Pic(\O_{k,S}){[}m{]}
+\end{tikzcd}
+\end{center}
+from the bottom row of the above two-row diagram.
+\end{proof}
+
+\begin{remark}
+A useful way of conceptualizing the above proof of the Weak Mordell-Weil Theorem is to appeal to Selmer and Shafarevich-Tate groups.\footnote{The reference for this material is \cite{Poonen_SS}.} Given $v\in\Sigma_k$, we obtain a map $\Res_v$ as the composition
+\begin{center}
+\begin{tikzcd}
+H^1(k,A)=H^1(\Gamma,A(k_s)) \arrow[r, "\Res"] & H^1(\Gamma_{k_v},A(k_s)) \arrow[r] & H^1(\Gamma_{k_v},A((k_v)_s))=H^1(k_v,A)
+\end{tikzcd}
+\end{center}
+From Corollary \ref{torsion_exact_sequence}, we get a short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A(k)/m \arrow[r] & H^1(k,A{[}m{]}) \arrow[r] & H^1(k,A){[}m{]} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+which fits into a commutative diagram
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A(k)/m \arrow[r] \arrow[d] & H^1(k,A{[}m{]}) \arrow[r, "\rho"] \arrow[rd, dotted, "\tilde{\rho}"] \arrow[d] & H^1(k,A){[}m{]} \arrow[r] \arrow[d] & 0 \\
+0 \arrow[r] & \prod_{v\in\Sigma_k}A(k_v)/m \arrow[r] & \prod_{v\in\Sigma_k}H^1(k_v,A{[}m{]}) \arrow[r] & \prod_{v\in\Sigma_k}H^1(k_v,A){[}m{]} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with exact rows, vertical arrows induced by the collection of $\Res_v$, and diagonal arrow induced by composition. Define the \textbf{Shafarevich-Tate group}\footnote{Several important open problems in number theory, notably the BSD conjecture, are concerned with the structure of this group.} of $A$ over $k$ to be
+$$\Sha(k,A):=\ker\paren{H^1(k,A)\to\prod_{v\in\Sigma_k}H^1(k_v,A)}.$$
+The group $\ker\rho$ is too unwieldy to work with in practice but the same is not true for the larger group $\ker\tilde{\rho}$. We denote the latter group by $\Sel_m(k,A)$ and call it the \textbf{$m$-Selmer group} of $A$ over $k$. Applying the Snake Lemma to the modified diagram 
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A(k)/m \arrow[r] \arrow[d] & H^1(k,A{[}m{]}) \arrow[r] \arrow[d, "\tilde{\rho}"] & H^1(k,A){[}m{]} \arrow[r] \arrow[d] & 0 \\
+0 \arrow[r] & 0 \arrow[r] & \prod_{v\in\Sigma_k}H^1(k_v,A){[}m{]} \arrow[r, equals] & \prod_{v\in\Sigma_k}H^1(k_v,A){[}m{]} \arrow[r] & 0 
+\end{tikzcd}
+\end{center}
+yields a short exact sequence
+\begin{center}
+\begin{tikzcd}
+0 \arrow[r] & A(k)/m \arrow[r] & \Sel_m(k,A) \arrow[r] & \Sha(k,A){[}m{]} \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+Thus, finiteness of $A(k)/m$ (and of $\Sha(k,A)[m]$) follows from finiteness of $\Sel_m(k,A)$. The point here is that $\Sel_m(k,A)$ is readily computable. Letting $S\subset\Sigma_k$ be as in the proof of the Weak Mordell-Weil Theorem, $\Sel_m(k,A)$ sits inside of $H_S^1(k,A[m])$ via
+$$\Sel_m(k,A)=\{\xi\in H_S^1(k,A[m]) : \xi\textrm{ maps to }0\textrm{ in }H^1(k_v,A)[m]\textrm{ for every }v\in S\}.$$
+Both $H_S^1(k,A[m])$ and $\Sel_m(k,A)$ can then be computed using the theory of torsors. See \cite{Poonen_SS} for examples of how this works in practice.
+\end{remark}
+
+\section{Construction of the Pairing}\label{Pairing_Section}
+Having completed the first of two major tasks involved in proving the Mordell-Weil Theorem, we now turn to the second major task, starting with some preliminaries on heights.
+
+\subsection{Heights}
+Given a global field $k$ and $n\geq1$, the standard height function is $h_{k,n}: \P_k^n(\ov{k})\to\R^{\geq0}$ defined by 
+$$[t_0,\ldots,t_n]\mapsto\df{1}{[K:k]}\sum_{w\in\Sigma_K}\max_{0\leq i\leq n}\log\norm{t_i}_w,$$
+where $K/k$ is a finite extension such that $k(t_0,\ldots,t_n)\subset K$.\footnote{An alternative way of going about this is to think of $h_{k,n}$ as a function from $\A_k^{n+1}\setminus0$ to $\R$ which satisfies certain invariance properties.}
+
+\begin{proposition}\label{height_well_defined}
+Let $k$ be a global field and $n\geq1$. Then, $h_{k,n}$ is well-defined -- i.e., it is
+\begin{enum}{\arabic}
+\item non-negative and invariant under scaling by $K^{\times}$;
+\item not dependent on the choice of finite extension $K/k$.
+\end{enum}
+\end{proposition}
+
+\begin{proof}
+\begin{enum}{\arabic}
+\item Scaling by $\lambda\in K^{\times}$ changes the value of the height by 
+$$\df{1}{[K:k]}\sum_{w\in\Sigma_K}\log\norm{\lambda}_w,$$
+which vanishes since the Product Formula says $\prod_{w\in\Sigma_K}\norm{\lambda}_w=1$. The standard height is non-negative because we can always scale $t_0,\ldots,t_n$ so that at least one of them has value $1$.
+
+\item Suppose we have finite extensions $k(t_0,\ldots,t_n)\subset K\subset K'$. Given $w\in\Sigma_K,w'\in\Sigma_{K'}$ with $w'\mid w$, 
+$$\norm{t_i}_{w'}=\norm{t_i}_w^{[K_{w'}':K_w]}.$$
+We also have $[K':k]=[K':K][K:k]$ and $[K':K]=\sum_{w'\mid w}[K_{w'}':K_w]$. Hence,
+\begin{align*}
+\df{1}{[K':k]}\sum_{w'\in\Sigma_{K'}}\max_i\log\norm{t_i}_{w'}
+=\df{1}{[K:k]}\sum_{w\in\Sigma_K}\paren{\df{1}{[K':K]}\sum_{w'\mid w}\max_i\log\norm{t_i}_{w'}}
+\end{align*}
+and
+\begin{align*}
+\df{1}{[K':K]}\sum_{w'\mid w}\max_i\log\norm{t_i}_{w'}
+&=\df{1}{[K':K]}\sum_{w'\mid w}\max_i\log\norm{t_i}_w^{[K_{w'}':K_w]} \\
+&=\max_i\log\norm{t_i}_w\cdot\df{1}{[K':K]}\sum_{w'\mid w}[K_{w'}':K_w] \\
+&=\max_i\log\norm{t_i}_w.
+\end{align*}
+The result follows. \qedhere
+\end{enum}
+\end{proof}
+
+One might hope that $h_{k,n}$ does not depend on a choice of homogeneous coordinates and so is $\PGL_{n+1}(k)$-invariant on $\P_k^n(\ov{k})$.\footnote{PGL here means projective general linear group.} This is false on the nose but turns out to be true modulo bounded functions. Since we will be working a lot modulo bounded functions, it makes sense to write $h\sim h'$ if $h-h'$ is bounded for $h,h'$ any functions from the same set into $\R$.
+
+\begin{lemma}\label{PGL_invariance}
+Let $k$ be a global field, $n\geq1$, and $S\in\PGL_{n+1}(k)$. Then, $h_{k,n}\sim h_{k,n}\circ S$.
+\end{lemma}
+
+\begin{proof}
+We may assume without loss of generality that $S$ is an elementary transformation since, given any $T\in\PGL_{n+1}(k)$,
+$$h_{k,n}\circ S\sim h_{k,n}\sim h_{k,n}\circ T\implies h_{k,n}\circ ST\sim h_{k,n}\sim h_{k,n}\circ TS.$$ 
+Given $[x_0,\ldots,x_n]=x\in\P_k^n(\ov{k})$, there are three possibilities for $S$:
+\begin{enum}{\arabic}
+\item $S$ swaps the $i$th and $j$th entries of $x$;
+\item $S$ scales $x_i$ by $\lambda\in k^{\times}$;
+\item $S$ adds $x_i$ to $x_j$.
+\end{enum}
+Let $Sx=[x_0',\ldots,x_n']$ and note that 
+\begin{equation}\label{switch_order}
+(h_{k,n}-h_{k,n}\circ S)(x)=(h_{k,n}\circ S^{-1}-h_{k,n})(Sx).
+\end{equation}
+Case (1) is clear since then $h_{k,n}=h_{k,n}\circ S$ as the sums involved in the height computations are invariant under permutation. For case (2), given $0\leq j\leq n$ and $w\in\Sigma_K$, we have 
+\begin{equation*}
+\log\norm{x_j'}_w=
+\begin{cases}
+\log\norm{x_j}_w, j\neq i, \\
+\log\norm{\lambda}_w+\log\norm{x_i}_w, & j=i
+\end{cases}
+\end{equation*}
+and so $\log\norm{x_j'}_w\leq\log\norm{x_j}_w+|\log\norm{\lambda}_w|$. Hence, 
+$$(h_{k,n}\circ S-h_{k,n})(x)
+=\df{1}{[K:k]}\sum_{w\in\Sigma_K}(\max_j\log\norm{x_j'}_w-\max_j\log\norm{x_j}_w)
+\leq\df{1}{[K:k]}\sum_{w\in\Sigma_K}|\log\norm{\lambda}_w|.$$
+$S^{-1}$ multiplies $x_i$ by $\lambda^{-1}$ and so is of the same form as $S$. Equation \eqref{switch_order} and the above computation then give that $h_{k,n}\sim h_{k,n}\circ S$. For case (3), note first of all that, given $a,b\in K$ and $w\in\Sigma_K$, 
+$$\log\norm{a+b}_w\leq\max\{\log\norm{a}_w,\log\norm{b}_w\}+c_w$$ 
+with 
+\begin{equation*}
+c_w:=
+\begin{cases}
+0, & w\textrm{ is non-archimedean}, \\
+\log2, & w\textrm{ is archimedean}.
+\end{cases}
+\end{equation*}
+Hence, given $0\leq t\leq n$ and $w\in\Sigma_K$, 
+$$\log\norm{x_t'}_w\leq\max\{\log\norm{x_i}_w,\log\norm{x_j}_w,\log\norm{x_t}_w\}+c_w$$ 
+and so 
+$$(h_{k,n}\circ S-h_{k,n})(x)\leq\df{1}{[K:k]}\sum_{w\in\Sigma_K}c_w.$$ 
+$S^{-1}$ is given by precomposing $S$ with a transformation of type (2) that multiplies $x_i$ by $-1$ and so $h_{k,n}\sim h_{k,n}\circ S$ by Equation \eqref{switch_order} and the above computation.
+\end{proof}
+
+\begin{lemma}\label{Weil_height_basic}
+Let $X$ be a projective $k$-scheme, $\L$ a very ample line bundle on $X$ with associated closed embedding $i_{\L}: X\inj\P\Gamma(X,\L)=\P_k^d$, and $f: X\to\P_k^n$ a $k$-morphism for some $n>0$ such that $f^*\O(1)\iso\L$. Define $h_f:=h_{k,n}\circ f$ and $h_{i_{\L}}:=h_{k,d}\circ i_{\L}$, viewed as functions from $X(\ov{k})$ to $\R$. Then, $h_f\sim h_{i_{\L}}$.
+\end{lemma}
+
+Technically, $i_{\L}$ depends on a choice of $d+1$ sections that globally generate $\L$. Lemma \ref{PGL_invariance} shows that this choice does not matter. Moreover, Lemma \ref{Weil_height_basic} shows that even the choice of embedding projective space relative to $\L$ does not matter.
+
+\begin{proof}
+By Lemma \ref{PGL_invariance}, we may without loss of generality change coordinates on $\P_k^n$ so that $f(X)$ is non-degenerate and hence $f^*: \Gamma(\P_k^n,\O(1))\to\Gamma(X,\L)$ is injective. We claim first that $h_f\leq h_{i_{\L}}$. Let $T_0,\ldots,T_n$ be a $k$-basis for $\Gamma(\P_k^n,\O(1))$. Then, letting $Z_j:=f^*T_j$ for $0\leq j\leq n$, we have $f=[Z_0,\ldots,Z_n]$. The map $f^*: \Gamma(\P_k^n,\O(1))\to\Gamma(X,\L)$ is injective by assumption and so we may complete $Z_0,\ldots,Z_n$ to a $k$-basis $Z_0,\ldots,Z_d$ for $\Gamma(X,\L)$. Changing coordinates on $\P_k^d$ if necessary, this gives $i_{\L}=[Z_0,\ldots,Z_d]$ and so $h_f\leq h_{i_{\L}}$ since we are taking a maximum over a larger list of numbers. 
+
+Next, we claim that $h_{i_{\L}}\leq h_f+O(1)$. By assumption, $X$ is covered by the open preimages $D_+(Z_j)=f^{-1}(D_+(T_j))$ and so the zero locus $\{Z_0=\cdots=Z_n=0\}$ on $X$ is empty. Since $\L$ is very ample, $i_{\L}$ is closed and so its image is of the form $\Proj S$ for 
+$$S:=k[Z_0,\ldots,Z_d]/I\subset\bigoplus_{r\geq0}\Gamma(X,\L^{\tensor r}).$$
+The ideal $J:=(Z_0,\ldots,Z_n)\subset S$ satisfies 
+$$\Proj S/J=\Proj S\cap\{Z_0=\cdots=Z_n=0\}=\emptyset$$
+as a subset of $\P_k^d$ and so the Nullstellensatz implies that the irrelevant ideal $(Z_0,\ldots,Z_d)$ hence $(Z_{n+1},\ldots,Z_d)$ has nilpotent image in $S/J$. It follows that $Z_{n+1}^e,\ldots,Z_d^e\in J$ for some $e\geq1$ and so each such $Z_j$ satisfies 
+$$Z_j^e=\sum_{i=0}^nF_{ij}Z_i\textrm{ mod }I$$
+with $F_{ij}\in k[Z_0,\ldots,Z_d]$ homogeneous of degree $e-1$. Given $x\in X(\ov{k})$, it follows that 
+\begin{equation}\label{Nullstellensatz_height_bound}
+eh_{i_{\L}}(x)\leq(e-1)h_{i_{\L}}(x)+h_f(x)+C
+\end{equation}
+for some constant $C$ independent of $x$. Where does this come from? By assumption, each $F_{ij}$ can be written as 
+$$F_{ij}=\sum_Ia_I^{ij}Z^I,$$
+where $I=(t_0,\ldots,t_d)$ with $t_0+\cdots+t_d=e-1$, $a_I^{ij}\in k$ is some coefficient, and $Z^I:=Z_0^{t_0}\cdots Z_d^{t_d}$. Let $N$ be the number of such tuples $I$. Given $x\in X(\ov{k})$, let $K/k$ be a finite extension containing $Z_0(x),\ldots,Z_d(x)$. Adopting the notation in the proof of Lemma \ref{PGL_invariance}, we have
+$$\log\norm{b_0+\cdots+b_M}_w\leq\max_{0\leq i\leq M}\norm{b_i}_w+(M-1)c_w$$
+given $b_0,\ldots,b_M\in K$ and $w\in\Sigma_K$. Careful application of this formula gives the result of Equation \eqref{Nullstellensatz_height_bound}, with $C$ given by 
+$$C:=\df{1}{[K:k]}\sum_{w\in\Sigma_K}\sqbrac{(n+N-2)c_w+\sum_{i,j}\max_I\log\norm{a_I^{ij}}_w}.$$
+The argument given in the proof of Proposition \ref{height_well_defined} shows that $C$ is independent of $x$.
+\end{proof}
+
+\begin{theorem}[Weil's Thesis]\label{Weil_Thm}
+There exists a unique assignment of pairs $(X,\L)$ with $X$ a projective $k$-scheme and $\L$ a line bundle on $X$ to functions $h_{k,\L}=h_{\L}$ from $X(\ov{k})$ to $\R$ modulo bounded functions satisfying
+\begin{enum}{\arabic}
+\item $h_{\L\tensor\L'}=h_{\L}+h_{\L'}$;
+\item $(\P_k^n,\O(1))\mapsto h_{k,n}$;
+\item $h_{f^*\L}=h_{\L}\circ f$ for $f: X'\to X$ a morphism of projective $k$-schemes.
+\end{enum}
+Moreover, if $\L$ is very ample then $h_{\L}=h_{i_{\L}}$.
+\end{theorem}
+
+We call any function from $X(\ov{k})$ to $\R$ representing $h_{\L}$ a \textbf{Weil height} associated to $\L$.
+
+\begin{proof}
+Given $X$ a projective $k$-scheme and $\L$ a very ample line bundle on $X$, define $h_{\L}:=h_{i_{\L}}$. This immediately verifies (2). Given $\L,\L'$ very ample line bundles on $X$, define $i_{\L\tensor\L'}$ to be the composition
+\begin{center}
+\begin{tikzcd}
+X \arrow[r, "\Delta_{X/k}"] & X\times_kX \arrow[r, hookrightarrow, "{(}i_{\L}{,}i_{\L'}{)}"] & \P_k^n\times_k\P_k^m \arrow[r, hookrightarrow] & \P_k^{(n+1)(m+1)-1}
+\end{tikzcd}
+\end{center}
+where the unlabeled arrow is the Segre embedding defined by 
+$$([s_0,\ldots,s_n],[t_0,\ldots,t_m])\mapsto[s_0t_0,\ldots,s_nt_m].$$
+\cite{Ample} implies $i_{\L\tensor\L'}$ is a closed embedding and so $\L\tensor\L'$ is very ample. The fact that logarithms take products to sums implies that $h_{\L\tensor\L'}=h_{\L}+h_{\L'}$. Now, let $\L$ be any line bundle on $X$. Since $X$ is projective, it has an ample line bundle $\M$. Then, there exists some $n>0$ such that $\M^{\tensor n}$ and $\L\tensor\M^{\tensor n}$ are both very ample.\footnote{To see this, note that, since $\M$ is ample, $\M^{\tensor n_1}$ is very ample and $\L\tensor\M^{\tensor n_2}$ is globally generated for some $n_1,n_2>0$. Then, $\M^{\tensor(n_1+n_2)}$ is very ample and $\L\tensor\M^{\tensor(n_1+n_2)}$ is very ample by \cite{Ample}.} This suggests the following extension procedure. Given $\L$ a line bundle on $X$, choose $\M$ a very ample line bundle on $X$ such that $\L\tensor\M$ is also very ample and define $h_{\L}:=h_{\L\tensor\M}-h_{\M}$. This procedure is well-defined since, given two such line bundles $\M,\M'$, 
+$$h_{\L\tensor\M}+h_{\M'}=h_{\L\tensor\M\tensor\M'}=h_{\L\tensor\M'}+h_{\M}.$$
+This immediately verifies (1). Property (3) requires a bit more care. Factor $f: X'\to X$ via the commutative diagram
+\begin{center}
+\begin{tikzcd}
+X' \arrow[rr, "f"] \arrow[rd, "\Gamma_f"'] & & X \\
+& X'\times_kX \arrow[ru, "\pr_2"'] &
+\end{tikzcd}
+\end{center}
+where $\Gamma_f$ is the graph morphism associated to $f$. To verify (3), it suffices to verify (3) with $f$ replaced by $\Gamma_f$ and $\pr_2$. $\Gamma_f$ is obtained as the base change via $f$ of the diagonal $\Delta_{X/k}: X\to X\times_kX$ and so is a closed embedding (hence finite) since $X$ is projective. Given any very ample line bundle $\M$ on $X'\times_kX$, $\Gamma_f^*\M$ is ample and so $(\Gamma_f^*\M)^{\tensor N}\iso\Gamma_f^*(\M^{\tensor N})$ is very ample for some $N>0$.\footnote{Note that the pullback of a very ample line bundle under a scheme morphism (even a finite morphism) is not in general very ample. For an example, take an elliptic curve $E$ with distinguished $k$-rational point $p$ and consider the line bundle $\O_E(2p)$ with induced morphism $E\to\P_k^1$.} Hence, replacing $\M$ with $\M^{\tensor N}$, we may assume by (1) without loss of generality that $\M,f^*\M$ are both very ample. (3) then follows from Lemma \ref{Weil_height_basic} applied to $i_{\L}\circ f$ and $i_{f^*\L}$. To verify (3) for $\pr_2$, it suffices to consider the case $X'=\P_k^n$, $X=\P_k^m$, and $\L=\O_{\P_k^m}(1)=\O(1)$. This follows from applying (1) and the work we just did to the commutative diagram
+\begin{center}
+\begin{tikzcd}
+X'\times_kX \arrow[r, "\pr_2"] \arrow[d, "{(}i_{\L}{,}i_{\L'}{)}"'] & X \arrow[d, "i_{\L}"] \\
+\P_k^n\times_k\P_k^m \arrow[r, "\pr_2"'] & \P_k^m
+\end{tikzcd}
+\end{center}
+with $\L'$ any very ample line bundle on $X'$. We have 
+$$\pr_2^*\O(1)\iso\O(0,1)\iso\O(2,2)\tensor\O(2,1)^{-1},$$
+where $\O(a,b)$ is the image of $(\O(a),\O(b))$ under $\Pic(\P_k^n)\times\Pic(\P_k^m)\inj\Pic(\P_k^n\times_k\P_k^m)$. The line bundles $\O(2,2)$ and $\O(2,1)$ are both very ample.\footnote{In general, $\O(a,b)$ is globally generated if and only if $a,b\geq0$ and both ample and very ample if and only if $a,b>0$.} Direct computation then shows 
+$$h_{\O(2,2)}-h_{\O(2,1)}=h_{\O(1)}\circ\pr_2.$$
+
+To see that $h$ is unique, let $h'$ be another assignment of pairs satisfying properties (1)-(3). By (2), $h$ and $h'$ agree on projective spaces and so by (3) they agree on very ample line bundles. But then $h$ and $h'$ agree on all line bundles by (1).
+\end{proof}
+
+\subsection{Pairings}
+Given an abelian group $A$ and $h: A\to\R$, $h$ is \textbf{almost quadratic} if the induced function 
+$$(x,y,z)\mapsto h(x+y+z)-(h(x+y)+h(x+z)+h(y+z))+(h(x)+h(y)+h(z))$$ 
+from $A^3$ to $\R$ is bounded.\footnote{Check for yourself that any quadratic function vanishes under this process.} This notion extends to equivalence classes of functions from $A$ to $\R$ modulo bounded functions.
+
+\begin{lemma}\label{almost_quad_height}
+Let $A/k$ be an abelian variety and $\L$ a line bundle on $A$. Then, $h_{\L}: A(\ov{k})\to\R$ is almost quadratic.
+\end{lemma}
+
+\begin{proof}
+By Corollary \ref{adding_rational_points}, 
+\begin{equation*}
+\M
+:=(\pr_1+\pr_2+\pr_3)^*\L
+\tensor(\pr_1+\pr_2)^*\L^{-1}\tensor(\pr_1+\pr_3)^*\L^{-1}\tensor(\pr_2+\pr_3)^*\L^{-1}
+\tensor\pr_1^*\L\tensor\pr_2^*\L\tensor\pr_3^*\L
+\end{equation*}
+is a trivial line bundle on $A^3$ and so $h_{\M}$ is bounded.\footnote{Both $A$ and $A^3$ are projective and so $\L$ and $\M$ have well-defined Weil heights by Weil's Thesis.} Given $(x,y,z)\in A^3(k)=A(k)^3$,
+$$h_{\M}(x,y,z)=h_{\L}(x+y+z)-(h_{\L}(x+y)+h_{\L}(x+z)+h_{\L}(y+z))+(h_{\L}(x)+h_{\L}(y)+h_{\L}(z))$$
+by \textrm{(1)} and \textrm{(3)} of Weil's Thesis.
+\end{proof}
+
+Since $h_{\L}$ is almost quadratic, is it possible to ``perturb'' $h_{\L}$ so that it is quadratic? The answer, which rests on the following algebraic result, is yes.
+
+\begin{theorem}[Tate]\label{Tate_Canonical_Height_Thm}
+Let $A$ be an abelian group and $h: A\to\R$ almost quadratic. Then, there exist unique symmetric $\Z$-bilinear $b: A\times A\to\R$ and $\Z$-linear $\l: A\to\R$ such that 
+$$h\sim\df{1}{2}(b\circ\Delta)+\l,$$
+where $\Delta: A\to A\times A$ is the diagonal map.\footnote{See \cite[\textrm{Thm 10.3.6}]{Conrad}, which proves a statement for more general multilinear maps.}
+\end{theorem}
+
+Lemma \ref{almost_quad_height} and Tate's Theorem together tell us that, given an abelian variety $A$ and $\L$ a line bundle on $A$, there exist unique symmetric $\Z$-bilinear $b_{\L}: A(\ov{k})\times A(\ov{k})\to\R$ and $\Z$-linear $\l_{\L}: A(\ov{k})\to\R$ such that 
+$$\hat{h}_{\L}:=\df{1}{2}(b_{\L}\circ\Delta)+\l_{\L}: A(\ov{k})\to\R$$ 
+is a Weil height associated to $\L$. The function $\hat{h}_{\L}$ is called the \textbf{Tate canonical height} associated to $\L$. 
+
+\begin{theorem}\label{Pairing_Thm}
+Let $A/k$ be an abelian variety. Let $\L,\L'$ be line bundles on $A$ and $f: B\to A$ a morphism of abelian varieties.
+\begin{enum}{\arabic}
+\item $\hat{h}_{\L\tensor\L'}=\hat{h}_{\L}+\hat{h}_{\L'}$.
+\item $\hat{h}_{f^*\L}=\hat{h}_{\L}\circ f$.
+\item Suppose $\L$ is symmetric. Then, $\l_{\L}=0$.
+\item Suppose $\L$ is ample and symmetric. Then, $b_{\L}$ is positive semi-definite.
+\item Suppose $\L$ is ample and symmetric. Then, the set
+$$\{x\in A(\ov{k}) : [k(x):k]\leq d,\hat{h}_{\L}(x)\leq C\}$$
+is finite for every $C>0$ and $d\geq0$.
+\end{enum}
+\end{theorem}
+
+\begin{proof}
+\begin{enum}{\arabic}
+\item Part (1) of Weil's Thesis gives $\hat{h}_{\L\tensor\L'}\sim\hat{h}_{\L}+\hat{h}_{\L'}$. Since both sides are quadratic of the desired form, the uniqueness part of Theorem \ref{Tate_Canonical_Height_Thm} gives that $b_{\L\tensor\L'}=b_{\L}+b_{\L'}$ and $\l_{\L\tensor\L'}=\l_{\L}+b_{\L'}$.
+
+\item Part (3) of Weil's Thesis gives $\hat{h}_{f^*\L}\sim\hat{h}_{\L}\circ f$. We have
+\begin{align*}
+\hat{h}_{\L}\circ f
+=\df{1}{2}(b_{\L}\circ\Delta_A)\circ f+\l_{\L}\circ f
+=\df{1}{2}((b_{L}\circ(f\times f))\circ\Delta_B)+\l_{\L}\circ f,
+\end{align*}
+with $b_{\L}\circ(f\times f)$ symmetric $\Z$-bilinear and $\l_{\L}\circ f$ $\Z$-linear since $f$ induces a group homomorphism $B(\ov{k})\to A(\ov{k})$. Hence, the uniqueness part of Theorem \ref{Tate_Canonical_Height_Thm} gives that $b_{f^*\L}=b_{\L}\circ(f\times f)$ and $\l_{f^*\L}=\l_{\L}\circ f$.
+
+\item Since $\L$ is symmetric, $\L\iso[-1]^*\L$ and so $\hat{h}_{\L}=\hat{h}_{\L}\circ[-1]$. Hence, given $x\in A(\ov{k})$, 
+$$b_{\L}(x,x)+\l(x)=b_{\L}(-x,-x)+\l_{\L}(-x)=b_{\L}(x,x)-\l_{\L}(x)\implies\l_{\L}(x)=0.$$
+
+\item Since $\L$ is ample, $\M:=\L^{\tensor n}$ is very ample for some $n\gg0$ and so $\M\iso i_{\M}^*\O(1)$. By parts (2) and (3) of Weil's Thesis, $\hat{h}_{\M}\sim h_{i_{\M}}$. Since $\hat{h}_{\M}=n\hat{h}_{\L}$ by (1), 
+$$n\hat{h}_{\L}=h_{i_{\M}}+\eps$$
+for $\eps: A(\ov{k})\to\R$ bounded. Since the function $h_{i_{\M}}$ is non-negative, $\hat{h}_{\L}$ is therefore bounded below. A quick inductive argument using (3) shows 
+$$\hat{h}_{\L}\circ[m]=\df{m(m+1)}{2}\cdot\hat{h}_{\L}$$
+for every $m\geq1$. It follows that torsion points of $A(\ov{k})$ have vanishing height (Is the converse true?) and non-torsion points have multiples whose heights increase in absolute value without bound.\footnote{Note that it is wrong to assume that $A(\ov{k})$ has a non-torsion point on the grounds that it is an infinite abelian group since, e.g., $\Q/\Z$ is infinite and torsion.} Hence, $\hat{h}_{\L}$ cannot take on negative values and so $b_{\L}$ is positive semi-definite.
+
+\item This follows from Northcott's Theorem, which is \cite[\textrm{Thm 10.1.6}]{Conrad}. \qedhere
+\end{enum}
+\end{proof}
+
+\subsection{Proof of the Mordell-Weil Theorem}
+Now that we have all of the ingredients needed to prove the Mordell-Weil Theorem, we state the final result tying everything together.
+
+\begin{theorem}\label{weak_to_strong}
+Let $A$ be an abelian group, $m\in\Z^{\geq2}$ such that $A/mA=A/m$ is finite, and $\ip{\cdot,\cdot}: A\times A\to\R$ a symmetric positive semi-definite $\Z$-bilinear form such that $\{a\in A : \ip{a,a}<C\}$ is finite for every $C>0$. Then, $A$ is finitely generated.
+\end{theorem}
+
+Using that $A$ is projective, we choose $\L$ an ample line bundle on $A$. By Theorem \ref{Pairing_Thm}, the pairing
+$$\ip{\cdot,\cdot}_{A/k}: A(k)\times A(k)\to\R$$
+obtained by restricting $\hat{h}_{\L}$ is $\Z$-bilinear, symmetric, positive semi-definite, and satisfies that
+$$\{x\in A(k) : [k(x):k]\leq d,\ip{x,x}\leq C\}$$
+is finite for every $C>0$ and $d\geq0$. Combining this with Theorems \ref{weak_to_strong} and \ref{WMW_Thm} proves the Mordell-Weil Theorem! 
+
+\begin{remark}
+The attentive reader might wonder what $A^{\vee}$ has to do with all of this. For a general abelian variety, there is no ``canonical'' choice of ample line bundle. However, for $A\times_kA^{\vee}$ there is such a canonical choice, namely the Poincar\'{e} bundle $\ms{P}_A$. The associated Tate canonical height yields a map $A(\ov{k})\times A^{\vee}(\ov{k})\to\R$ called the \textbf{N\'{e}ron-Tate pairing}. This pairing is of great historical and computational importance.
+\end{remark}
+
+To conclude, we present a proof of Theorem \ref{weak_to_strong}.
+
+\begin{proof}
+Analogous to the situation for inner products, we define $\norm{a}:=\ip{a,a}^{1/2}$ given $a\in A$. Since $\ip{\cdot,\cdot}$ is symmetric, $\Z$-bilinear, and semi-definite, the Cauchy-Schwarz inequality $|\ip{x,y}|\leq\norm{x}\norm{y}$ holds.
+
+Let $\{a_1,\ldots,a_n\}$ be a complete system of representatives for $A/m$. Define
+$$C:=2\max_{1\leq j\leq n}\norm{a_j}$$ 
+and let $A_0:=\{a\in A : \norm{a}<2C\}$, which is finite by assumption. We claim that $A_0$ generates $A$. The key ingredient is the following. Given $a\in A\setminus A_0$ and $1\leq j\leq n$, we have
+$$\norm{a-a_j}^2=\ip{a-a_j,a-a_j}=\ip{a,a}-2\ip{a,a_j}+\ip{a_j,a_j}$$
+and so
+\begin{align*}
+\norm{a-a_j}^2
+&\leq\norm{a}^2+2\abs{\ip{a,a_j}}+\norm{a_j}^2 \\
+&\leq\norm{a}^2+2\norm{a}\norm{a_j}+\norm{a_j}^2\textrm{ by Cauchy-Schwarz} \\
+&=\norm{a}^2+\norm{a_j}(2\norm{a}+\norm{a_j}) \\
+&\leq\norm{a}^2+\df{1}{2}\norm{a}\paren{2\norm{a}+\df{1}{2}\norm{a}} \\
+&=\df{9}{4}\norm{a}^2,
+\end{align*}
+where we have used that 
+$$\norm{a}\geq2C\geq2\norm{a_j}\implies\norm{a_j}\leq\df{1}{2}\norm{a}.$$
+Hence,
+\begin{equation}\label{key_ingredient}
+a\in A\setminus A_0,1\leq j\leq n\implies\norm{a-a_j}\leq\df{3}{2}\norm{a}.
+\end{equation}
+This sets us up for a proof by induction. To see this, let $a$ be as above. By assumption, given $\alpha\in A$, there exists $1\leq j\leq n$ such that $\alpha-a_j\in mA$. Using this, we obtain $b_1,b_2,\ldots\in A$ and $i_1,i_2,\ldots\in\{1,\ldots,n\}$ such that
+\begin{align*}
+mb_1&=a-a_{i_1} \\
+mb_2&=a-a_{i_1}-a_{i_2} \\
+mb_3&=a-a_{i_1}-a_{i_2}-a_{i_3} \\
+&\;\;\vdots
+\end{align*}
+Induction and Equation \eqref{key_ingredient} together give that, for every $v\geq1$, either $\norm{b_v}<2C/m$ or 
+$$\norm{b_v}\leq\paren{\df{3}{2m}}^v\norm{a}.$$
+Since $m\geq2$, we have $(3/2)m<1$ and so choosing $v$ large enough yields 
+$$\paren{\df{3}{2m}}^v\norm{a}<\df{2C}{m}.$$
+Hence, $a=mb_v+a_{i_1}+\cdots+a_{i_v}$ lies in the $\Z$-linear span of $A_0$.
+\end{proof}
+
+% Acknowledgments
+\newpage
+\section{Acknowledgments}
+These notes represent an expanded version of my undergraduate honors thesis. As such, a huge shout-out goes to those who helped me with the writing of that document. In particular, I would like to thank my good friend Leon Liu for supporting me emotionally and bringing me fresh mathematical excitement all these years I have spent at the University of Texas at Austin. I would like to thank my brother Nathan, my sister-in-law Alicia Tokarski, Mom, and Joe for housing me during the trying times of COVID-19 and quarantine. Much of this document was written at their houses, atop a TV dinner tray kindly lent to me by Nathan. I would also like to thank Mom and Joe for supporting me financially during my undergraduate experience. I would like to thank my advisor Sam Raskin for mentoring me in algebraic geometry, number theory, and much more ever since he arrived at UT back in Fall 2018. You have been a tremendous help and inspiration to me both in terms of how to do mathematics and how to be a responsible mathematician. Finally, thanks goes to Arun, Richard, and Desmond for organizing an amazing SMC 2020.
+
+% References
+\newpage
+\printbibliography[heading=bibintoc,title={References}]
+\end{document}
