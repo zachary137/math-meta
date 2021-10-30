@@ -1,0 +1,36 @@
+2. Local Langlands correspondence
+2.1 Weil group
+	Locally profinite
+	Admissible representation (of the Weil group)
+	Induced representation
+	Primitive (and imprimitive) representation
+	Admissible pair (with form (E/F,\chi))
+	Local Artin map
+	Local L-factor, \epsilon-factor, \gamma-factor
+	Artin L-factor
+	Langlands constant
+2.2 Local Langlands correspondence
+	Weil-Deligne group
+	Complex dual group
+	Langlands dual group
+	L-parameter
+	Tempered L-parameter
+	L-homomorphism
+3. Godement-Jacquet theory: Local
+3.1-3.2 Main theorem and parabolic induction
+	Central simple algebra
+	Schwartz space (for matrices)
+	Fourier transform (for matrices)
+	Matrix coefficients (of a representation \pi)
+	Smooth contragredient
+	Parabolic subgroup
+	Levi decomposition and subgroup
+	Supercuspidal representation
+	Iwasawa decomposition
+	Steinberg representation
+	Bernstein center and variety
+	Jacquet functor and module
+	Paley-Wiener Thm
+3.3 Example: Spherical representations
+	Spherical representation
+	Zonal spherical function
