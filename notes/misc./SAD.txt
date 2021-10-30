@@ -1,0 +1,98 @@
+Why do constructible sheaves form a nice class of sheaves?
+	Excision
+	"Noetherian" characterization at "finite level"
+	Preservation under higher direct images with proper support (and in many other cases)
+
+Passing between geometry and algebra for UFDs and Artinian rings...
+It's interesting that smoothness in AG basically corresponds to being a submersion in DG
+
+Rank
+Transcendence degree
+Krull dim
+Height
+Nakayama dim
+Length
+Depth
+Projective dim
+Injective dim
+Global dim
+Flat dim
+Tor dim
+Homological dim
+Homotopy dim
+
+Axiomatic characterization?
+Functorial characterization?
+Think about maps (functors?) valued on filtrations and other such things
+Compute lots of examples of lengths of modules
+What about codim?
+Transferring our understanding of dim to other geometric settings
+	Do things agree in the adic or other nonarchimedean (=ultrametric) settings?
+
+Lebesgue covering dim
+Hausdorff dim
+Gelfand–Kirillov dim
+Goldie dim
+Krull-Gabriel dim
+Bass number
+
+Genus (geometric, arithmetic, etc.)
+Index (topological, analytic, etc.)
+Kodaira dim
+General type
+Euler char
+
+https://en.wikipedia.org/wiki/Dimension_theory_(algebra)
+
+Should Krull chains be ascending or descending?
+What kinds of things are we allowed to put in the chain?
+Note that infinite rings can have proper subrings which are isomorphic to them
+
+Complement of closed is always open
+Complement of open need not be closed
+Rule of thumb: Any result solely involving commutative algebra transfers to our setting
+When do we naturally get a qcqs morphism?
+In the classical qc setting:
+	Underlying set of scheme-theoretic image is the topological closure of the classical image
+	Construction of the scheme-theoretic image commutes with restriction to open subschemes
+Open embeddings for us need not be qc but they are luckily always flat
+Affine local on source/target are sus
+
+F = \O^r \oplus \O(-1)^s
+\implies \chi(F) = r
+\implies H^0(F) = r+(r+s)d for d \geq 0
+This is a straightforward exercise using the explicit cohomology computation for Serre twists
+
+From the perspective of qcoh sheaves as we have realized them, how do we see the difference between globally and locally principal?
+	I would assume that the most obvious thing to write down corresponds to locally principal
+Use rational sections to get maps to P^1 and then pull back convenient (typically affine) open cover of P^1
+Local freeness of finitely presented quasicoherent sheaves can be checked modulo every maximal ideal
+Support is not something that lives in the world of quasicoherent sheaves
+	There should be something more "natural" to say here
+
+X smooth projective curve over field k
+F coherent sheaf on X
+--> H^i(X,F)=0 for i>0 since we have a quasi-finite map to P^1
+
+P^1 has cover by two affines and pulling back essentially gives us something that is affine (hence has no higher cohomology)
+
+For more general topoi which are subcanonical (i.e., respresentable guys are sheafy), when does representability (or maybe just local representability) have a cohomological characterization?
+
+Let X be a smooth projective k-scheme, B\in\Alg_k, F\in\Coh(X_B) flat over B. Then, \m\mapsto\chi(F_{B/\m}) is locally constant.
+
+Often, "quasi(-)" means "open subscheme of (-) scheme."
+
+Claim: X\to\Spec B quasi-projective and x\in X(B) \implies x is closed embedding.
+
+Pf: By definition, X\to\Spec B is X\xto{open embedding}Y\xto{closed embedding}\P_B^n\to\Spec B
+
+1. Reduce to case X=\P_B^n
+2. Prove the result explicitly in this simple case (do the computation!)
+	One way to go is to think about the diagonal embedding for \P_B^n and fit it into a fiber square involving x
+
+The point is that the product of X with itself has a universal section given by the diagonal
+
+Euler characteristic \chi is invariant under suitable pushforwards
+
+A vector bundle F is of general type if for all d either H^0(F(d\infty)=0 or H^1(F(d\infty))=0.
+	What is "general" about this notion?

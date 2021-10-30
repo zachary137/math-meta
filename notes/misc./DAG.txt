@@ -1,0 +1,138 @@
+Infinity-stacks and group actions
+Reference for Koszul duality
+Barr-Beck?
+Presheaves over presheaves vs. presheaves over the category of elements
+Skim papers of Ben-Zvi and Nadler
+Notes from Ken (thoughts on presheaves)
+Email from Sam (\infty-category theory notes)
+Grothendieck-Segal conditions for simplicial set to be same as a nerve
+"Derived category of schemes"
+
+What does it mean to say that a nilpotent thickening is split?
+We know that deformations should be classified by Ext^1 and obstructions should be classified by Ext^2
+What does this have to do with connections?
+Derivations should satisfy some kind of descent
+
+Schemes sit somewhere between 0-Artin and 1-Artin stacks, being considerably more general than the former and considerably less so than the latter
+
+Conditions we can put on a prestack:
+	Compact generation
+	Dualizability
+	Rigidity
+
+One nice consequence of our approach will be an intuitive description of G-equivariant sheaves over an arbitrary prestack
+
+\leq 0: connective
+\geq 0: coconnective
+eventually connective = bounded above
+eventually coconnective = bounded below
+
+The Lurie tensor product of Mod_A and Mod_B should be Mod_{A\tensor B}
+
+We cannot define \infty-categorical functors by specifying what they do on objects and morphisms, so we must make use of un/straightening or some other technique/process
+
+Derived analytic geometry (should come in archimedean and non-archimedean flavors, potentially quite different from each other)
+
+Morava K-theories are in some precise sense supposed to function as the points of the hypothetical Spec(S) (for S the sphere spectrum)
+
+One of the miracles of "higher" K-theory is that the only real obstruction comes from K_0 itself!
+
+What is the Ben-Zvi-Nadler approach to QCoh?
+	Again with the adjoint functor theorem
+
+Quot and Hilbert schemes in the most intuitive manner possible
+Presentability and other properties of the category of spaces
+
+Provide lots of examples
+Schedule (conceptual outline)
+Guidelines
+
+Prestability
+Inertia stack
+
+Loop spaces and connections
+
+Nonabelian derived category
+HTT 5.5.8
+
+Just to nitpick, the "animation" of a category C, in the sense advocated by Clausen et. al., 
+is not quite just taking P_Sigma(C).  Rather it's defined for "algebraic categories" C (in the sense of Lawvere).  
+So for example you want to animate something like the category of sets or abelian groups, and get P_Sigma(Fin) or P_Sigma(FAb), 
+respectively (finite sets and finite abelian groups).
+
+I don't know whether it is considered arithmetic geometry, 
+but the following seems to be a consequence of Pontryagin duality: 
+any cofiltered diagram of finite abelian groups has trivial higher derived limits.
+
+What's the basic idea behind Artin and Deligne-Mumford stacks?
+How do we describe schemes in a purely functorial way?
+
+Blog post from Akhil
+Stacks Project blog post
+Morita equivalence
+
+Stuff:
+	Categories of modules
+	Fpqc descent
+	LFP morphisms and open embeddings/immersions
+	Zariski covers
+	Derived schemes
+	QCoh
+	Fpqc descent for QCoh
+	Qcqs morphisms and qcqs base change
+	Compact and perfect objects (affine and non-affine cases)
+	Compact generation of QCoh
+	Cotangent complex
+	Derived Deligne-Mumford and Artin stacks
+
+Review Keerthi comments
+	"Correct" (morally) definition of Dold-Kan map (essential surjectivity comes from idempotent completeness)
+	Details for aspects of Koszul duality (symmetric, exterior, and divided power algebras; shifts and duals)
+	Correct definition of K_0^Y(X)
+	"Homotopy invariance" of G_0 with respect to A^1 (as described by Leon; I need more info on this...)
+	Pseudo-coherent complexes (Is this at all related to Kiran's notion?)
+	Recovering Serre's Tor intersection formula
+
+Adeel Khan offered to give input
+
+Forms of descent:
+	Zariksi
+	Fppf
+	Fpqc
+	Etale
+	Nisnevich
+	v
+	Arc
+
+Complete
+Cocomplete
+Sifted colimit
+Filtered colimit
+Geometric realization
+
+Why is general deformation theory "nice?"
+	Deformation to the normal cone
+	Diagonal for smooth varieties is lci
+Gillet-Soule approach over Z
+	Use K-theory
+	Alterations can be brought in to streamline things (and maybe provide conceptual insight?)
+
+The name for "blowing up" comes from the geometric idea of "zooming in"
+
+Blowups provide a universal way to turn subvarieties into Cartier divisors
+	Cartier divisors
+	Projective families
+	Resolution of singularities
+	Strict transform
+	Total transform
+	Exceptional divisor
+	Deformation to the normal cone
+
+Do the classic DAG example of an exceptional divisor with self-intersection -1
+	DAG explains how we could get a negative number
+
+Does DAG give us a better way to view the various forms of equivalence used in AG?
+
+The intuitive idea is to introduce potentially missing "directions" that help account for the singularities of the underlying scheme
+	We want to replace a troublesome point by something like the projectivized tangent cone at that point
+	How can we see this from the functor-of-points?
