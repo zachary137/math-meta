@@ -1,0 +1,301 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Fr}{\textup{Fr}} % Frobenius
+\newcommand{\tam}{\textup{tam}} % tamely ramified
+
+\begin{document}
+\section{Introduction}
+In number theory we are interested in studying $\Q$ and its finite extensions (known as \textbf{number fields}). This is primarily done using Galois theory and, in particular, the absolute Galois group $G_{\Q}:=\Gal(\ov{\Q}/\Q)$. This is an infinite topological group which is built up from finite Galois extensions $K/\Q$ in a way that can be made precise (more specifically, $G_{\Q}$ is a key example of a profinite group). Since $G_{\Q}$ itself is rather unwieldy, we get at its structure by way of (continuous) representations $\rho: G_{\Q}\to\GL(V)$ for $V$ some finite dimensional (topological) vector space.\footnote{We impose continuity constraints on $\rho$ so that it properly captures the topology on $G_{\Q}$.} Several possibilities exist for the space $V$ or, rather, its underlying topological ground field $F$. Of course, we may take $F$ to be $\C$ (with its Euclidean topology) or a finite field $\F_q$ (equipped with the discrete topology). But there is often also reason to consider $\Q_{\l}$ (and its finite extensions) for $\l$ prime, giving rise to so-called \textbf{$\l$-adic Galois representations}. At the same time, we don't just want to consider representations of $G_{\Q}$ but also of $G_{\Q_p}$. This is in part because the Galois theory of $\Q_p$ is nice and in part because $\Q_p$ captures important ``local'' information about $\Q$ relative to the prime $p$. The (topological) field $\Q_p$ provides the simplest example of a so-called \textbf{local field}, and it is exactly these kinds of fields that we are interested in studying in these notes.
+
+\section{Basic Theory of Local Fields}
+We begin by recalling some general notions.
+
+\begin{definition}
+Let $K$ be a field. An \textbf{absolute value} on $K$ is a map $\abs{\cdot}: K\to\R^{\geq0}$ such that, for every $x,y\in K$,
+\begin{enum}{\roman}
+\item $|x|=0\iff x=0$;
+\item $|xy|=|x||y|$;
+\item $|x+y|\leq|x|+|y|$.
+\end{enum}
+We say that $\abs{\cdot}$ is \textbf{nonarchimedean} or \textbf{ultrametric} if $|x+y|\leq\max\{|x|,|y|\}$ for every $x,y\in K$, and \textbf{archimedean} otherwise.\footnote{For technical reasons we don't consider the trivial absolute value (given by $|x|=1$ for every nonzero $x\in K$) to be nonarchimedean.} A \textbf{discrete valuation}\footnote{The word `discrete' here comes from the appearance of $\Z$ in the codomain of $v$.} on $K$ is a map $v: K\to\Z\cup\{\infty\}$ such that, for every $x,y\in K$,
+\begin{enum}{\roman}
+\item $v(x)=\infty\iff x=0$;
+\item $v(xy)=v(x)+v(y)$;
+\item $v(x+y)\geq\min\{v(x),v(y)\}$.\footnote{The symbol $\infty$ behaves as one would expect, satisfying $\infty+\infty=\infty$, $a+\infty=\infty=\infty+a$, and $a\leq\infty$ for every $a\in\Z$.}
+\end{enum} 
+The data of the pair $(K,\abs{\cdot})$ is called a \textbf{valued field} (we often suppress $\abs{\cdot}$ when it is clear from context). $K$ is then naturally a topological field with respect to the metric topology induced by $\abs{\cdot}$. There is a natural equivalence relation $\sim$ on the set of absolute values on $K$ given by $\abs{\cdot}_1\sim\abs{\cdot}_2$ if $\abs{\cdot}_2=\abs{\cdot}_1^c$ for some $c\in\R^{>0}$, which precisely captures when two absolute values on $K$ induce the same (metric) topology. Let $S_K$ denote the set of equivalence classes of $\sim$ (known as \textbf{places} and sometimes \textbf{primes}). Note that the notions of archimedean and nonarchimedean extend to places.
+\end{definition}
+
+Let $(K,\abs{\cdot})$ be a nonarchimedean valued field. The \textbf{ring of integers} or \textbf{valuation ring} of $K$ is 
+$$\O_K:=\{x\in K : |x|\leq1\},$$
+which the reader can verify is a local PID sitting inside of $K$ as a compact open subgroup. Moreover, $\O_K$ has fraction field $K$, unique maximal ideal $\m_K:=\{x\in K : |x|<1\}$, and unit group $\O_K^{\times}=\{x\in K : |x|=1\}$.\footnote{Technically these things depend on $\abs{\cdot}$ and not just $K$ but it is customary to omit $\abs{\cdot}$ from the notation. Hopefully some reassurance comes from the fact that only the associated place of $\abs{\cdot}$ matters.} Any generator of $\m_K$ is called a \textbf{uniformizer} for $K$ and is typically denoted $\pi_K$ or $\varpi_K$ (with the subscript $K$ often omitted).\footnote{Geometrically, we think of the 1-dimensional object $\O_K$ as a curve and $\pi_K$ as a choice of (affine) local coordinate.} Associated to this is the discrete valuation $v_K: K\to\Z\cup\{\infty\}$ recording order of divisibility by $\pi_K$ (which is independent of the choice of uniformizer).\footnote{The discrete valuation $v_K$ can be more intrinsically defined in terms of $\m_K$ itself. One first defines $v_K$ on $\O_K$ and then extends to $K$ via $x/y\mapsto v_K(x)-v_K(y)$.} This fits into a short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \O_K^{\times} \arrow[r] & K^{\times} \arrow[r, "v"] & \Z \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+with a choice of uniformizer $\pi_K$ inducing a splitting -- i.e., a (non-canonical) isomorphism $K^{\times}\iso\O_K^{\times}\times\Z$. For the future, we want to keep track of the \textbf{residue field} $k_K:=\O_K/\m_K$.
+
+\begin{definition}
+A \textbf{local field} is a valued field $K$ such that the induced metric topology makes $K$ into a (non-discrete) locally compact topological field.\footnote{In particular, $K$ is a Hausdorff space such that every point has a compact neighborhood).}
+\end{definition}
+
+We immediately see that $\R$ and $\C$ are examples of (archimedean) local fields.
+
+\begin{proposition}
+Let $K$ be a nonarchimedean valued field. Then, $K$ is local if and only if $K$ is (Cauchy) complete and $k_K$ is finite.
+\end{proposition}
+
+It follows that $K$ a nonarchimedean valued field has a unique discrete valuation $v_K$ such that $v_K(\pi_K)=1$ for any choice of uniformizer $\pi_K$.\footnote{In line with an earlier comment, $v_K$ depends on the chosen place associated to $K$.} We readily see that $\Q_p$ and $\F_q\dparen{t}$ (the field of Laurent series in $t$ over $\F_q$) are examples of nonarchimedean local fields.
+
+\begin{theorem}
+Let $K$ be a valued field. Then, $K$ is described up to isomorphism as a topological ring by one of the following (where $p>0$ is prime).
+\begin{center}
+\begin{tabular}{||c c c c||}
+\hline
+Case & \emph{char(}$K$\emph{)} & \emph{char(}$k_K$\emph{)} & Isomorphism Type \\
+\hline
+Equichar. $0$ & $0$ & $0$ & $\R,\C$ \\
+Mixed char. & $0$ & $p$ & Finite extension of $\Q_p$ \\
+Equichar. $p$ & $p$ & $p$ & Finite extension of $\F_p\dparen{t}$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorem}
+
+Notice how $\R$ arises from $\Q$ by completing with respect to the usual Euclidean absolute value $\abs{\cdot}=\abs{\cdot}_{\infty}$. Similarly, $\Q_p$ arises from $\Q$ via $\abs{\cdot}_p$ and $\F_q\dparen{t}$ arises from $\F_q(t)$ via $\abs{\cdot}_t$. This is no coincidence.
+
+\begin{definition}
+Let $K$ be a field and $v\in S_K$. Given $\abs{\cdot}$ representing $v$, define the \textbf{completion} $K_v$ of $K$ at $v$ to be the (Cauchy) completion of $K$ with respect to the metric topology induced by $\abs{\cdot}$. This is a well-defined object since choosing a different representative for $v$ changes $K_v$ by a unique isomorphism.\footnote{In fact, $K_v$ has a universal property that gives us this result for free. Note also that we can describe $K_v$ in a more algebraic way using the process of adic completion.}
+\end{definition}
+
+\begin{corollary}
+Let $K$ be a global field (i.e., a finite extension of either $\Q$ or $\F_p(t)$). Then, the completions of $K$ correspond precisely with the local fields -- i.e., every completion of a global field is a local field and every local field arises as a completion of a global field.
+\end{corollary}
+
+This explains one way in which local fields are ``local.'' We could say a lot more about the connections between local and global fields, but let's leave it at that for right now.
+
+\begin{proposition}
+Let $(K,\abs{\cdot})$ be a compete nonarchimedean valued field and $L$ a finite extension field of $K$. Then, $\abs{\cdot}$ admits a unique extension to $L$ via the formula
+$$|\alpha|:=|N_{L/K}(\alpha)|^{1/[L:K]},$$
+where $N_{L/K}(\alpha)$ is the norm of $\alpha\in L$ with respect to $K$.\footnote{Recall that that $N_{L/K}(\alpha)$ is by definition the determinant of the $K$-linear (left) multiplication map $\mu_{\alpha}: L\to L$. This can also be expressed in terms of the Galois conjugates of $\alpha$ in the case that $L/K$ is separable.}
+\end{proposition}
+
+Note that, given $\alpha\in L$ as above, we have a tower of field extensions $K\subset K(\alpha)\subset L$ and so $N_{L/K}=N_{K(\alpha)/K}\circ N_{L/K(\alpha)}$ and $[L:K]=[L:K(\alpha)][K(\alpha):K]$. Hence, the extension of $\abs{\cdot}$ to $L$ can be defined relative to each element of $L$. We obtain the following result.
+
+\begin{corollary}
+$(K,\abs{\cdot})$ be a compete nonarchimedean valued field and $L$ an algebraic extension field of $K$. Then, $\abs{\cdot}$ admits a unique extension to $L$ via the formula
+$$|\alpha|:=|N_{K(\alpha)/K}(\alpha)|^{1/[K(\alpha):K]}.$$
+In particular, we can extend $\abs{\cdot}$ all the way to $\ov{K}$.\footnote{For the future, we will tacitly assume that $\ov{K}$ is equipped with this extended absolute value.}
+\end{corollary}
+
+\begin{remark}
+The extended absolute value $\abs{\cdot}: \ov{K}\to\R^{\geq0}$ is nonarchimedean and so we can define a (rank $1$) valuation 
+$$v_c: \ov{K}\to\R\cup\{\infty\},\qquad \alpha\mapsto\df{\log|\alpha|}{\log c},$$
+where $0<c<1$. This is, however, not a \emph{discrete} valuation -- i.e., $v(\ov{K}^{\times})$ is not a discrete subgroup of $\R$.\footnote{An easy way to see this is to note that $p\in K$ and then consider all the rational powers of $p$ (which must be contained in $\ov{K}$).}
+\end{remark}
+
+\begin{theorem}[Ax-Sen-Tate]
+Let $K$ be a complete nonarchimedean valued field. Choose compatible separable and algebraic closures $K^{\sep}$ and $\ov{K}$, and let be $\C_K$ the completion of $\ov{K}$. Then, $\C_K$ is algebraically closed, $K^{\sep}$ is dense in $\C_K$, and $G_K$ acts continuous on $\C_K$ identifying $G_K$ with $\Aut_{\cont}(\C_K/K)$.\footnote{Part of this follows from a result called Krasner's lemma. The notation $\Aut_{\cont}(\C_K/K)$ denotes continuous automorphisms of $\C_K$ that fix $K$.}
+\end{theorem}
+
+\begin{definition}
+Let $L/K$ be a finite extension of nonarchimedean local fields with uniformizers $\pi_K$ and $\pi_L$. To this we associate the \textbf{ramification index} $e(L/K):=v_L(\pi_K)$ and \textbf{inertia degree} $f(L/K):=[k_L:k_K]$. We say that $L/K$ is \textbf{unramified} if $e(L/K)=1$ and \textbf{totally ramified} if $e(L/K)$ is as large as possible -- i.e., $e(L/K)=[L:K]$ since $e(L/K)f(L/K)=[L:K]$.\footnote{Note that the extension $k_L/k_K$ of finite residue fields is always separable and so this notion of being unramified agrees with more general notions.}
+\end{definition}
+
+The extension $L/K$ is unramified if and only if $\m_K$ is inert in $\O_L$ -- i.e., $\m_K\O_L=\m_L$. Equivalently, any uniformizer for $K$ is a uniformizer for $L$.
+
+\begin{example}
+\hfill
+\begin{enum}{\arabic}
+\item Let $L:=\Q_p[x]/(x^e-p)\iso\Q_p(p^{1/e})$. Then, $L/\Q_p$ is totally ramified of degree $e$.
+
+\item Let $L:=\Q_p(\zeta_{p^n})$. Then, $L/\Q_p$ is totally ramified of degree $\phi(p^n)=p^{n-1}(p-1)$. A uniformizer $\pi_L$ is given by $1-\zeta_{p^n}$.
+
+\item Let $L:=\Q_p(\zeta_{p^n-1})$. Then, $L/\Q_p$ is unramified of degree $n$.
+\end{enum}
+\end{example}
+
+The following result illustrates one way in which unramified extensions are nice.
+
+\begin{theorem}
+Let $K$ be a nonarchimedean local field. The correspondence $L\mapsto k_L$ induces an equivalence of categories between the category of finite unramified extensions of $K$ and the category of finite extensions of $k_K$.\footnote{One of the key results used in establishing this correspondence is Hensel's lemma.} This correspondence preserves, among other things, composita, Galois groups, and splitting fields of polynomials admitting lifts to $\Z[x]$.
+\end{theorem}
+
+This has several important consequences which we record here.
+\begin{itemize}
+\item $K$ has a unique (up to isomorphism) unramified extension $K_n$ of degree $n$. This corresponds to the degree $n$ extension of $k_K$, which is obtained as the splitting field of $x^{p^n}-x$ over $k_K$. Hence, $K_n=K(\zeta_{p^n-1})$ for $\zeta_{p^n-1}\in K^{\sep}$.
+
+\item The compositum of unramified extensions of $K$ is unramified.\footnote{In fact, unramified extensions of $K$ form a so-called distinguished class.} Hence, $K$ has a maximal unramified extension $K^{\unr}$ given by
+$$K^{\unr}=\bigcup_{n\geq1}K_n=\bigcup_{\gcd(a,p)=1}K(\zeta_a)$$
+corresponding to the algebraic closure $\ov{k_K}$.
+\end{itemize}
+
+We can also give a nice characterization of totally ramified extensions of $K$.
+
+\begin{proposition}
+Let $L/K$ be a finite extension of nonarchimedean local fields.
+\begin{enum}{\alph}
+\item Suppose $L/K$ is totally ramified of degree $n$. Then, the minimal polynomial over $K$ of any uniformizer $\pi_L$ is Eisenstein at $\m_K$.\footnote{One way to see this is through the theory of Newton polygons.}
+
+\item Conversely, suppose that $\alpha\in\ov{K}$ is a root of an Eisenstein polynomial over $K$ of degree $n$. Then, $K(\alpha)/K$ is totally ramified of degree $n$ and $\alpha$ is a uniformizer for $K(\alpha)$.
+\end{enum}
+\end{proposition}
+
+\begin{definition}
+Let $L/K$ be a finite extension of nonarchimedean local fields. Then, $L/K$ is \textbf{tamely ramified} if $e(L/K)$ is coprime to $p$ and \textbf{wildly ramified} otherwise. We say that $L/K$ is \textbf{totally tamely ramified} if it is both totally ramified and tamely ramified. Similarly, $L/K$ is \textbf{totally wildly ramified} if it is both totally ramified and wildly ramified.
+\end{definition}
+
+Note that $K$ admits a maximal totally tamely ramified extension which we will denote $K^{\tam}$. The following gives one reason why totally tamely ramified extensions are nice.
+
+\begin{proposition}
+Let $L/K$ be totally tamely ramified of degree $n$. Then, there exists a uniformizer $\pi_K\in K$ and an $n$th root $\pi_K^{1/n}\in L$ such that $L=K(\pi_K^{1/n})$.
+\end{proposition}
+
+It follows that $K^{\tam}=\bigcup_{n\geq1}K(\pi_K^{1/n})$, which should be understood as containing all $n$th roots of all uniformizers for $K$. In particular, $K^{\tam}$ contains all $n$th roots of unity and so contains $K^{\unr}$. Explicitly, the extension $K^{\tam}/K^{\unr}$ is generated by $\pi_K^{1/n}$ for $\gcd(p,n)=1$.
+
+\section{Galois Theory of Local Fields}
+Let $K$ be a nonarchimedean local field. Our ultimate goal is to understand the absolute Galois group $G_K:=\Gal(K^{\sep}/K)$.\footnote{Putting $K^{\sep}$ instead of $\ov{K}$ makes a difference in the case that $K$ has positive characteristic. Note that Galois extensions are required to be separable by definition.} Let $q:=|k_K|$. As above we have maximal unramified and totally tamely ramified extensions $K^{\unr}$ and $K^{\tam}$. Let $L/K$ be a finite Galois extension of nonarchimedean local fields with $G:=\Gal(L/K)$. We can understand a lot about $L/K$ by breaking $G$ into more manageable pieces.
+
+\begin{definition}
+The \textbf{(lower)\footnote{There is a somewhat more complicated theory of upper ramification series which we will not comment on in these notes.} ramification series} of $L/K$ is 
+$$G=G_{-1}\supset G_0\supset G_1\supset\cdots$$
+with $G_i:=\{\sigma\in G : v_L(\sigma(x)-x)\geq i+1\textrm{ for every }x\in\O_L\}$.\footnote{Using Hensel's lemma one can find $\alpha\in L$ such that $\O_L=\O_K[\alpha]$. Then, $G_i=\{\sigma\in G : v_L(\sigma(\alpha)-\alpha)\geq i+1\}$.} Of these ramification groups, $I_{L/K}:=G_0$ is called the \textbf{inertia subgroup} and $P_{L/K}:=G_1$ is called the \textbf{wild inertia subgroup} (we will see where these names come from in a moment).
+\end{definition}
+
+The valuation $v_L$ is $G$-invariant and so the action of $G$ preserves $\m_L$.\footnote{The fact that $v_L$ is $G$-invariant follows from the fact that the absolute value on $L$ (which is closely linked to $v_L$) is built from the absolute value on $K$ and $N_{L/K}$ (which is $G$-invariant).} It follows that $G_i$ consists of $\sigma\in G$ acting trivially on $\O_L/\m_L^{i+1}$. We conclude that $G_i\normal G$ and $G_i=1$ for $i\gg0$. There is a natural short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & G_0 \arrow[r] & G \arrow[r] & \Gal(k_L/k_K) \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+
+\begin{remark}
+At the same time, we have 
+$$G_0\to k_L^{\times},\qquad \sigma\mapsto\df{\sigma(\pi_L)}{\pi_L}$$
+inducing an injection $G_0/G_1\inj k_L^{\times}$ (hence $G_1\normal G_0$) and 
+$$G_i\to k_L,\qquad \sigma\mapsto\df{\sigma(\pi_L)-\pi_L}{\pi_L^{i+1}}$$
+inducing an injection $G_i/G_{i+1}\inj k_L$ (hence $G_{i+1}\normal G_i$, where $i\geq1$). 
+\end{remark}
+
+Let $L_{\unr}$ and $L_{\tam}$ respectively denote the maximal unramified and tamely ramified subextensions of $L/K$. $L_{\unr}/K$ is Galois with $\Gal(L_{\unr}/K)\iso\Gal(k_L/k_K)$. Since $G/G_0\iso\Gal(k_L/k_K)$ it follows that $L_{\unr}=L^{G_0}$. A similar argument shows that $L_{\tam}=G_1$ with $\Gal(L_{\tam}/K)\iso G/G_1$ (which has order $f(L/K)$). For this reason the notation $K_0:=L_{\unr}$ and $K_1:=L_{\tam}$ is common (more generally we have $K_i:=L^{G_i}$).
+
+\begin{corollary}
+\hfill
+\begin{enum}{\alph}
+\item $|I_{L/K}|=e(L/K)$. In particular, $L/K$ is unramified if and only if $I_{L/K}=1$.
+
+\item Write $e(L/K)=q^rm$ with $\gcd(q,r)=1$. Then, $|P_{L/K}|$ divides $|k_L|$ with order $p^r$. In particular, $L/K$ is tamely ramified if and only if $P_{L/K}=1$.
+\end{enum}
+\end{corollary}
+
+Pictorially, the extension $L/K$ factors as
+\begin{center}
+\begin{tikzcd}
+L \arrow[d, no head, "\textrm{totally wildly ramified}", "G_1"'] \\
+L_{\tam}=K_1 \arrow[d, no head, "\textrm{totally tamely ramified}", "G_0/G_1"'] \\
+L_{\unr}=K_0 \arrow[d, no head, "\textrm{unramified}", "G/G_0"'] \\
+K
+\end{tikzcd}
+\end{center}
+Motivated by this diagram, we sometimes call $G_0/G_1$ the \textbf{tame quotient} of $L/K$. Suppose now that $L/K$ is unramified. Then, there is a natural isomorphism $G\iso\Gal(k_L/k_K)$ and so $G$ is cyclic generated by the \textbf{Frobenius element} $\Fr_{L/K}$ corresponding to the canonical generator of $\Gal(k_L/k_K)$ and characterized by $\Fr_{L/K}(x)\equiv x^q\pmod{\pi_K}$ for every $x\in\O_L$ (where we have identified $\pi_K$ as a uniformizer of $L$). Continuing in this manner lets us describe the Galois group $G_K^{\unr}:=\Gal(K^{\unr}/K)$. Namely, $G_K^{\unr}\iso G_{k_K}\iso\w{\Z}$ is topologically cyclic with $1$ corresponding to $\Fr_K$ characterized by $\Fr_K(x)\equiv x^q\pmod{\pi_K}$ for every $x\in\O_{K^{\unr}}$ or, equivalently, $\Fr_K|_L=\Fr_{L/K}$ for every finite unramified extension $L/K$.\footnote{It's not hard to see from this that $\O_{K^{\unr}}$ is a DVR with perfect residue field $\ov{k_K}$. In case it isn't clear, a topological group is topologically cyclic if it has a dense cyclic subgroup.} What about $G_K^{\tam}:=\Gal(K^{\tam}/K)$? We have a natural short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & \Gal(K^{\tam}/K^{\unr}) \arrow[r] & \Gal(K^{\tam}/K) \arrow[r] & \Gal(K^{\unr}/K) \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+Recalling that $K^{\tam}=\bigcup_{\gcd(p,n)=1}K^{\unr}(\pi_K^{1/n})$, we have 
+$$\Gal(K^{\tam}/K^{\unr})\iso\prod_{\l\neq p}\Z_{\l}$$
+with topological generator $\tau_K$.\footnote{Note that $\w{\Z}\iso\prod_{\l}\Z_{\l}$.} Let $\w{\Fr}_K\in\Gal(K^{\tam}/K)$ be a lift of $\Fr_K\in\Gal(K^{\unr}/K)$.
+
+\begin{theorem}[Iwasawa]
+$\Gal(K^{\tam}/K)$ is topologically generated by $\w{\Fr}_K$ and $\tau_K$ with sole relation 
+$$\w{\Fr}_K\tau_K\w{\Fr}_K=\tau_K^q.$$
+\end{theorem}
+
+Analogous to before we have a factorization
+\begin{center}
+\begin{tikzcd}
+K^{\sep} \arrow[d, no head, "P_K"] \arrow[dd, bend right=45, swap, no head, "I_K"] \\
+K^{\tam} \arrow[d, no head] \\
+K^{\unr} \arrow[d, no head, "\w{\Z}"] \\
+K
+\end{tikzcd}
+\end{center}
+with $I_K$ the \textbf{absolute inertia group} of $K$ and $P_K$ the \textbf{absolute wild inertia group} of $K$. When $K$ has positive characteristic $G_K$ can be described relatively succinctly in terms of $P_K$ and $G_K^{\tam}$. When $K$ has characteristic $0$ things are much more difficult, though a result of Jannsen and Wingberg does give a relatively small set of generators and relations in the $p$-adic case for $p\neq2$.
+
+\begin{remark}
+It's worth saying a little more about extensions and valuations. Let $L/K$ be a degree $n$ extension of nonarchimedean local fields. Choose valuations $v_L,v_K$ and uniformizers $\pi_L,\pi_K$ with $v_L(\pi_L)=1=v_K(\pi_K)$. Fix $0<c<1$. We obtain 
+$$\abs{\cdot}_{K,c}: K\to\R^{\geq0},\qquad x\mapsto c^{v_K(x)}$$
+and similarly get $\abs{\cdot}_{L,c}$. Then, $|\pi_K|_{K,c}=c=|\pi_L|_{L,c}$. Now, consider the unique extension $\abs{\cdot}_c$ of $\abs{\cdot}_{K,c}$ to $L$ and write $\pi_L=u\pi_K^e$ for $u\in\O_L^{\times}$. Then, 
+\begin{align*}
+|\pi_L|_c
+=|N_{L/K}(\pi_L)|_{K,c}^{1/n}
+=|N_{L/K}(u\pi_K^e)|_{K,c}^{1/n}
+=|N_{L/K}(\pi_K)|_{K,c}^{e/n}
+=c^e
+\end{align*}
+and so $\abs{\cdot}_c$ and $\abs{\cdot}_{L,c}$ don't agree. What this does show is that $\abs{\cdot}_{L,c}^e=\abs{\cdot}_c$.
+\end{remark}
+
+\section{Differents}
+Let $L/K$ be a finite extension of nonarchimedean local fields. Then, $L/K$ is separable if and only if the trace pairing
+$$t_{L/K}: L\times L\to K,\qquad (x,y)\mapsto\tr_{L/K}(xy)$$
+is nondegenerate. Assume $L/K$ is separable. Then,
+$$\O_L':=\{x\in L : t_{L/K}(x,y)\in\O_K\textrm{ for every }y\in\O_L\}$$
+is a fractional ideal of $\O_L$ (i.e., $\O_L'\in\mc{I}_L$). Its inverse
+$$\D_{L/K}:=(\O_L')^{-1}=\{x\in L : x\O_L'\subset\O_L\}$$
+is called the \textbf{different} of $L/K$ and is an ideal of $\O_L$. The different is well behaved with respect to extensions -- given a tower $K\subset L\subset M$, we have 
+$$\D_{M/K}=\D_{M/L}\D_{L/K}.$$
+For convenience let $v_L(\D_{L/K}):=\inf\{v_L(x) : x\in\D_{L/K}\}$. The utility of the different comes from its ability to capture ramification.
+
+\begin{proposition}
+Let $L/K$ be a finite separable extension of nonarchimedean local fields with ramification index $e$.
+\begin{enum}{\roman}
+\item $\O_L=\O_K[\alpha]$ for some $\alpha\in L$ and $\D_{L/K}=m_{\alpha}'(\alpha)$ for $m_{\alpha}(x)$ the minimal polynomial of $\alpha$ over $K$.
+
+\item $\D_{L/K}=\O_L$ if and only if $L/K$ is unramified.
+
+\item $v_L(\D_{L/K})\leq e-1$.
+
+\item $v_L(\D_{L/K})=e-1$ if and only if $L/K$ is tamely ramified.
+\end{enum}
+\end{proposition}	
+
+In terms of ramification groups, we have 
+$$v_L(\D_{L/K})=\sum_{i\geq0}(|G_i|-1).$$
+
+\section{Local-to-Global}
+Fix a number field $K$. Let $L$ be a finite Galois extension field of $K$ and $\mf{q}$ a prime of $L$ lying above a prime $\mf{p}$ of $K$ (i.e., $\mf{p}=\mf{q}\cap K$). Denote the associated residue fields by $k_{\mf{q}}:=\O_L/\mf{q}$ and $k_{\mf{p}}:=\O_K/\mf{p}$. Let $D_{\mf{q}}$ and $I_{\mf{q}}$ denote the associated decomposition and inertia group.\footnote{Recall that the former is defined to be the stabilizer of $\mf{q}$ under the action of $\Gal(L/K)$.} We have a natural short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & I_{\mf{q}} \arrow[r] & D_{\mf{q}} \arrow[r] & \Gal(k_{\mf{q}}/k_{\mf{p}}) \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+which is in fact isomorphic to the short exact sequence
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & I_{L_{\mf{q}}/K_{\mf{p}}} \arrow[r] & D_{L_{\mf{q}}/K_{\mf{p}}} \arrow[r] & \Gal(k_{L_{\mf{q}}}/k_{K_{\mf{p}}}) \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+in the sense that we have a commutative diagram
+\begin{center}
+\begin{tikzcd}
+1 \arrow[r] & I_{\mf{q}} \arrow[r] \arrow[d, "\iso"] & D_{\mf{q}} \arrow[r] \arrow[d, "\iso"] & \Gal(k_{\mf{q}}/k_{\mf{p}}) \arrow[r] \arrow[d, "\iso"] & 1 \\
+1 \arrow[r] & I_{L_{\mf{q}}/K_{\mf{p}}} \arrow[r] & D_{L_{\mf{q}}/K_{\mf{p}}} \arrow[r] & \Gal(k_{L_{\mf{q}}}/k_{K_{\mf{p}}}) \arrow[r] & 1
+\end{tikzcd}
+\end{center}
+This follows from the fact that $\sigma\in D_{\mf{q}}$ induces a commutative diagram
+\begin{center}
+\begin{tikzcd}[row sep=scriptsize, column sep=scriptsize]
+& K \arrow[dl, hookrightarrow] \arrow[rr, equals] \arrow[dd, hookrightarrow] & & K \arrow[dl, hookrightarrow] \arrow[dd, hookrightarrow] \\
+L \arrow[rr, crossing over, near end, "\sigma"] \arrow[dd, hookrightarrow] & & L \\
+& K_{\mf{p}} \arrow[dl, hookrightarrow] \arrow[rr, equals] & & K_{\mf{p}} \arrow[dl, hookrightarrow] \\
+L_{\mf{q}} \arrow[rr, dotted, "\exists!"'] & & L_{\mf{q}} \arrow[from=uu, crossing over, hookrightarrow]\\
+\end{tikzcd}
+\end{center}
+\end{document}
