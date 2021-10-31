@@ -1,0 +1,35 @@
+Vakil Murphy's law
+	Deformation spaces are often highly pathological, even when the objects of study are nice
+Purity of moduli spaces
+	Captures the idea that all components have the same dim
+Boundary components of a moduli space tell us about degeneration behavior
+Closures of components of a moduli space may not admit a nice modular (i.e., functorial) interpretation
+	In other words, we don't necessarily know what the functor-of-points looks like
+Deformation theory tells us that so-called Gorenstein families are well-behaved
+
+Vocabulary
+	Euler sequence
+	Nodal curve
+	Complete intersection
+	Stability
+	Subvariety contracted by a morphism
+	Hyperelliptic cover
+		Probably has something to do with the "shape" of the fibers
+	Dual graph
+		Combinatorial construct easier to work with than underlying geometric object
+	Tacnode
+	Dual cone
+	Relevant geometric theories
+		Tropical
+		Toric
+		Logarithmic
+	Exceptional divisor
+	Virtual cycle
+	Weierstrass point
+	Core (of a model)
+	Brill-Noether theory
+		Studies divisors that encode more info than they ought to generically
+	Admissible cover
+	Hilbert scheme
+	Ribbons
+	Kontsevich space

@@ -1,0 +1,12 @@
+Recollement
+	Grothendieck's yoga of six functors/operations
+Forms of duality:
+	Coherent duality
+	Verdier duality
+	Poincare duality
+Important sheaves:
+	Orientation sheaf (local and global version)
+	Dualizing sheaf
+	IC sheaf (IC = intersection cohomology)
+
+Putting bounds on cohomology (relative to 0) naturally gives a t-structure on the bounded derived category of constructible sheaves

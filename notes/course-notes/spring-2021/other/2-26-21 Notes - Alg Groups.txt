@@ -1,0 +1,7 @@
+Review content (and main ideas of the proof) of Isomorphism Thm.
+Geometric intuition on Cartier's smoothness thm.
+In char. p, some high power of absolute Frob. is smooth.
+Bjorn's perspective on (nonabelian) group cohomology
+	H^1(G,A) appears as a pointed set.
+	Generalization to the profinite setting
+	Hilbert Thm 90

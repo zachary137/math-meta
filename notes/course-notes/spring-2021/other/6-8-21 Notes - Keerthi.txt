@@ -1,0 +1,11 @@
+In char 0 having a flat connection is the same as having isomorphisms of all infinitesimal neighborhoods (of the diagonal embedding)
+
+Crystalline site basically keeps track of infinitesimal thickenings with divided powers (to write down Taylor series)
+Crystalline site does not have final object, but crystalline topos does
+
+Crystals over F_p[x_1,...,x_n] correspond to vector bundles over Z_p[x_1,...,x_n]^ (p-adic completion) with flat connection
+
+Bhatt-de Jong (comparison of crystalline and de Rham cohomology)
+	Much easier than comparing the classical de Rham-Witt complex to crystalline cohomology
+
+Q: Given a p-torsion-free ring A, under what conditions will the de Rham complex also be p-torsion-free?

@@ -1,0 +1,5 @@
+Freedman's Thm on symmetric, unimodular, integer-valued pairings and their relationship to 4-manifolds
+	Stronger version yields topological 4D Poincare Conjecture (and won Freedman the Fields Medal)
+Donaldson has a related smooth manifold thm (and also won a Fields Medal)
+	One proof by Floer homology (two versions of the theory)
+	One proof by gauge theory and careful study of spaces of connections

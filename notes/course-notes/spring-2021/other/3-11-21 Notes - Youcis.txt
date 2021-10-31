@@ -1,0 +1,34 @@
+Shimura varieties of abelian type
+Modularity thm of Wiles (Conrad-Diamond-Taylor-Breuil)
+Local Langlands conjecture (proof in special cases) relies on study of PEL Shimura varieties of GU(1,n-1)-type
+
+Slogan: Deformation theory for suitably nice objects is the study of formal smoothness for the moduli space of those objects
+Serre-Tate thm (in a nutshell): Deformation theory of abelian scheme is same as deformation theory of the associated p-divisible group
+	Intuitive implication: formal local geometry of Shimura varieties is same as geometry of Rapoport-Zink spaces
+
+Cartier dual G^D represents sHom(G,\G_m) in the category of abelian fppf sheaves
+Q: What is the relationship between the Cartier dual and usual (Picard) dual of an abelian variety (and more generally an abelian scheme)?
+
+Exercise: Let K:=\Q_p(\mu_p) (which has ramification index p-1).
+	Show that \mu_p and \un{\Z_p} are isomorphic over K but not over \O_K.
+
+Approaches to formal geometry:
+	Pseudocompact rings
+	Pseudofinite rings
+	Nilpotent rings
+	Complete adic rings
+	Etc.
+
+Restricting attention to p-divisible groups, there is a near-perfect p-adic local field analogue of Riemann's classification of abelian varieties over \C
+	Due independently to Kisin and Scholze-Weinstein (probably...)
+
+Weight-monodromy conjecture (c.f. Scholze thesis conj. 1.13)
+	Rapoport-Zink spectral sequence
+	Standard conjectures
+	de Jong's alterations
+	Drinfeld's upper half-space
+Newton polygon
+Applications of Tate modules
+	NOS Criterion
+	Tate's Isogeny Thm
+	Good form: l-adic perspective on Tate module

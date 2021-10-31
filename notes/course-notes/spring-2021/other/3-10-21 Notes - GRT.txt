@@ -1,0 +1,10 @@
+Fourier-Mukai transform
+	Given suitably nice geometric objects X,Y (with associated sites), compare the bounded derived categories of sheaves on X,Y,X\times Y
+	Particularly nice version manifests for abelian varieties in conjunction with the Poincare bundle
+	Fourier-Saito transform offers similar description for bounded derived categories of constructible sheaves (these may not be so nicely behaved)
+F-injective subcategory (better way to view the bounded derived category)
+Constructible condition ensures that bounded derived category maps to something bounded
+
+HTT - D-Modules, Perverse Sheaves, and Representation Theory
+HTT = Hotta-Takeuchi-Tanisaki
+Kashiwara-Schapira(?) - Sheaves on Manifolds (kind of technical and hard to read...)

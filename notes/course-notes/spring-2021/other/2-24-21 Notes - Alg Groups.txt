@@ -1,0 +1,11 @@
+(Weil) Restriction of scalars works with a finite field ext. L/k and requires the input L-var. to be quasi-proj., outputting Y=Res_{L/k}X
+	Counterexamples to representability exist if the quasi-proj. condition is not met.
+	Fact (to be unpacked in due time): alg. groups in our setting are automatically quasi-proj.
+	If L/k is separable then Y admits a nice geometric description (in the sense of base change to a separable closure).
+		Cor: dim(Y)=[L:k]dim(X)
+	Weil restriction sends alg. groups to alg. groups via Yoneda.
+
+For G an alg. k-group, a (right) G-torsor is a k-var. X with a right G-action such that there is an isomorphism between X_{\ov{k}} and the trivial G-torsor.
+	Isomorphism in the sense of varieties over \ov{k} with right G_{\ov{k}}-action.
+	A choice of point in X(k) determines an explicit isomorphism, though there need not exist such a choice.
+	C.f. Bjorn for more general fppf setting.

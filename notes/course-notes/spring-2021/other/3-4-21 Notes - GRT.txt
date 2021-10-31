@@ -1,0 +1,12 @@
+Borel-Moore homology (related if we consider more typical dualizing sheaf)
+Cosheaf condition
+Verdier duality
+"Flavors" of sheaves
+	Injective
+	Flabby = flasque
+	Soft
+	c-soft
+Our Borel-Moore-type theory captures singular and dual compactly supported singular homology at the same time
+	Closed sets give one and open sets the other
+	Illustrates some of the utility of locally closed sets
+Massey - Notes on perverse sheaves and vanishing cycles
