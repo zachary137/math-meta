@@ -1,0 +1,34 @@
+Being more ramified brings you closer to a char p formal power series ring
+	You get "one place better" with each step
+
+X/k has a lift to W_2(k) --> vanishing of some deformation theoretic obstruction
+
+L\eta - decoulage (?) - torsion-free resolution
+	Its role is, more or less, to eliminate I-torsion
+	Prop 6.12 is a super useful result
+	Canonical representatives of homotopy classes - related to de Rham-Witt complex and crystalline cohomology
+	Most of this stuff known by Deligne before he even did Weil conjectures
+
+Prismatic cohomology gives us the best way to see the cohomology theory that BMS I produces
+
+Katz-Oda - Gauss-Manin connection
+	Local systems <--> flat (integrable) connections
+	Riemann-Hilbert correspondence
+	Higher order pushforwards of local systems by smooth proper maps yield local systems (think Ehresmann's(?) thm)
+
+A_inf with p inverted is like a curve, sort of 
+Modify vector bundle over A_inf along its theta fiber
+
+Kedlaya - all vectors bundles over A_inf same as all vector bundles over A_inf with maximal ideal removed
+
+Purity
+	Hartog gives you fully faithfullness for vector bundle categories
+	On dim 2 Noetherian scheme, removing codim 2 thing also gives you essential surjectivity
+		Regularity is necessary here
+		This is unique to the dim 2 case -- i.e., we can't just work with codim 2 (or higher stuff) for schemes of higher dim
+	What's going on with the fiber stuff? Some kind of exact sequence related to fiber modifications at a point...
+
+Some of the story comes from the so-called Hodge-Tate filtration
+
+The local story for the ramification bounds is closely tied to properties of Lubin-Tate formal groups
+	Upper/lower ramification groups come from looking at filtrations linking together things like (Z/p^n)^{\times} (or (\O_K/\pi^n)^{\times} more generally)

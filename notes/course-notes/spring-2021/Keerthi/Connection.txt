@@ -1,0 +1,71 @@
+The derived pushforward R^1 f_* (applied to a particular argument) is used to construct a locally constant sheaf 
+whose fibers are naturally identified with cohomology groups of fibers of f (relative to the given argument)
+In other words, derived pushforward is a useful tool for studying cohomology of families (which should encode important geometric information)
+
+Observation: Trying to descend a global period map from the universal cover often runs into problems caused by monodromy
+
+Flat/integrable connections have vanishing curvature
+How is this linked to flatness using the descent picture?
+Frobenius Integrability Thm says points in the fiber of a vector bundle equipped with flat connection can be locally lifted to get a flat local section
+Results like the Riemann-Hilbert correspondence are surprising because they link purely topological information (encoded by local systems) to analytic data (encoded by flat connections, which track solutions to systems of ODEs)
+
+Perspectives
+---
+Litt calculation of Gauss-Manin connection for curves
+Dore description of Gauss-Manin connection allowing comparison of de Rham cohomology of nearby fibers (using de Rham-crystalline comparison)
+Conrad description of connections in terms of descent data
+---
+
+Question: What do Newton and Hodge polygons have to do with all of this?
+
+
+Universal property for symmetric algebra over a module
+Universal property for divided power algebra over a module
+	Note that, given a ring A and an ideal I, there is often more than one way to put a divided power structure on I
+
+1. Crystalline site in general has no final object
+	This is why we need to work harder and consider crystals
+	Not a problem for perfectoid stuff
+	Given a perfect F_p-algebra, passing to Witt vectors gives initial object in category of PD thickenings (of rings)
+	Classical de Rham-Witt complex is not obviously linked to this stuff
+	Saturated de Rham-Witt complex is much more easily (and obviously) linked to this stuff
+
+2. Exterior algebra functor is not additive functor on chain complexes
+	Need to pass to simplicial stuff using Dold-Kan, compute exterior powers, and then translate back
+	Up to a shift, exterior powers of chain complexes are computed by taking divided powers
+	Koszul duality pairing gives rise to relationship among symmetric, exterior, and divided powers
+	Explains how divided powers naturally arise when deriving the de Rham complex
+	Geometric and categorical perspectives on Tor amplitudes of smooth things (degree 0) and local complete intersections (degree [-1,0])
+
+Two points above help explain why syntomic and quasi-syntomic things enter the picture when doing crystalline stuff
+What does the geometry of prisms have to say about all of this?
+
+Let's unravel what connections have to do with descent and such
+---
+Parallel transport perspective
+	Geometrically, this should give us a way to relate elements of nearby fibers for some bundle
+	In algebraic geometry we make sense of being "infinitesimally close" through various forms of nilpotence
+		Genuine nilpotence
+		Formal (limit of genuine nilpotence)
+		Topological nilpotence (linked to formal perspective in many ways)
+	Given a map f: X --> Y of geometric spaces (which we may simply take to be schemes or manifolds), we can consider nilpotent thickenings of the diagonal in X \times_Y X
+		Universal square-zero thickening (in fact we have universal nilpotent thickenings of any desired finite degree of nilpotence) involving ideal of definition for the diagonal
+		We get pairs of infinitesimally close elements by considering the fiber of each projection map
+		Doing this in the affine case recovers purely algebraic notion of connection
+		More generally we see that we need to specify an isomorphism between the pullbacks by each projection map
+	Cocycle condition on projection pullbacks
+		Parallel transport from fiber 1 to fiber 2 and then from fiber 2 to fiber 3 should be the same as parallel transport from fiber 1 to fiber 3
+		Corresponds exactly to flatness of the connection (also called integrability, with the name *possibly* influenced by a different differential geometry result)
+		Does this correspond to some object in an abelian category (or a closely related type of category) being flat?
+	What if instead of nilpotent thickenings we consider PD thickenings?
+		Z_p is exactly a PD thickening of F_p
+		Want to look at embeddings (even lifts) of char. p schemes to char. 0 schemes, compatible with the F_p-to-Z_p picture
+		Use PD envelopes to thicken things (a priori no canonical way to do this, however every choice is uniquely linked to every other choice by way of parallel transport)
+	Problem: divided powers may not be preserved under naive pullback
+		This problem is already apparent when looking at Z_2 (and seeing how the 2-adic valuations of elements vary)
+		There are two ways to get around this, both corresponding to imposing topological nilpotence on the right thing
+		One method recovers notion of topological (quasi-)nilpotent connection (can be written as power series in differential operators after choosing coordinates, at least in the smooth case)
+		With some work we identify crystals with the appropriate class of connections
+	Do D-modules provide any insight into this matter?
+
+Grothendieck tells us that divided powers and PD thickenings are also natural to consider for the purpose of getting a good theory of Chern classes

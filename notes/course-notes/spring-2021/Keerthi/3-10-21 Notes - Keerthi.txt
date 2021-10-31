@@ -1,0 +1,27 @@
+Relationship between Dold-Kan correspondence and derived categories
+The categorization of spectral topological spaces is highly non-constructive
+	Get concrete results in practice because of relationship between Spf and Spec
+
+Almost mathematics
+	Yoga of six functors
+	Serre quotient and (categorical) localization
+	Concrete realization of almost category (and stuff like almost Hom...)
+	Flat "idempotent" ideals and pseudo-uniformizers
+	"Content" and examples for higher rank valuations
+
+Square zero extensions, derivations, and the universal property of the cotangent module (Kahler differentials)
+	Jacobi-Zariski exact sequence
+	Generalize this to the setting of topological commutative rings to think about the cotangent complex
+	Functorial, (commutative) algebraic, and geometric properties of cotangent complex
+	Approach of Andre-Quillen homology and abelian group objects
+
+Check 1-dimensional Dieudonne module classification:
+	Why does algebraic closure make things trivial?
+	How does this relate to the classification of simple objects?
+	Can we check conditions of Frobenius twists for \alpha_p, \mu_p, and \un{\Z/p}?
+
+Let A be a (commutative) Hopf algebra over a perfect field k (equipped with Frob. \phi).
+We have relative Frob. F: A^{(p)}\to A given by \lambda\tensor f\mapsto \lambda f^p.
+Recall that A^{(p)}=k\tensor_{k,\phi}A is the Frobenius twist of A.
+
+Stack of torsors for a fixed group -- locally this is what "nice" stacks look like (c.f. Artin stacks)

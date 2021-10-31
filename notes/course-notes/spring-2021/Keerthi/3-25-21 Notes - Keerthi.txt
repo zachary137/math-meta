@@ -1,0 +1,11 @@
+This business with the map L\eta_IC \to C is a little subtle
+	Should help with crystalline computations later on
+Remember that D^{\geq0}(\O_T) has a boundedness condition on cohomology and not complexes themselves (the latter condition is not stable under qis)
+Nonetheless we CAN pass to computations with truncated complexes in certain cases
+For the valuation ring case, we can generalize things a bit by doing calculations with colon ideals
+	What happens if we are NOT working with a valuation ring?
+	What is the relationship to Koczul resolutions?
+Derived objects are built up (canonically) from their cohomology together with some Ext gluing relations
+	Things become nice if we have conditions on projective dim of underlying rings and modules
+If we choose a section f of I (which exists locally) then M[I] is (locally) just the f-torsion of M
+	This comes from how we interpret the tensor dual of I

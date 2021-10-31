@@ -1,0 +1,26 @@
+To review:
+	Bounded derived categories
+		Homotopy categories (do chain homotopy the "right" way)
+		F-injective subcategories
+	General derived categories
+		Triangulated categories
+		Model categories (particularly built with homotopic applications in mind)
+		dg categories (particularly built with geometric applications in mind)
+		Stable \infty-categories
+	Topoi
+		Grothendieck's yoga
+	Specifics for derived categories of modules over topoi
+		K-flat (and strongly K-flat) complexes
+		Convenient resolutions on the homotopy category
+	
+	(Naive) mapping cone
+	Homotopy (co-)kernels
+	Truncation
+	Totalization
+
+Dold-Kan correspondence
+Nerve
+Geometric realization
+Bar resolution
+Barr-Beck theorem
+Decalage

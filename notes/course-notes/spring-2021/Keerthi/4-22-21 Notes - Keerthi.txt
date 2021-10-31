@@ -1,0 +1,16 @@
+Almost Purity Thm
+	We'd like to do Galois descent
+		We can do faithfully flat descent, but this won't be the same if things aren't finite etale
+		Gluing data corresponds to Galois conjugation
+	Perfectoid things are almost etale (perfectoid over perfectoid implies almost etale)
+		Faithfully flat descent = almost Galois descent (so decalage will put us in business)
+	
+R_{\infty} is a local pro-etale cover of R
+We can compute etale cohomology in the pro-etale topology using the Cech complex for R_{\infty}
+	This computes Galois cohomology since R_{\infty} is Galois once you invert p
+	In a nutshell, R_{\infty} is almost acyclic
+
+It's a general result that we compute sheaf cohomology by taking limits over all possible Cech covers
+	In the quasiseparated case intersections of affines are affines (which are acyclic) and we don't need to take a limit
+
+Computing R\nu_* comes down to working with Cech complex with respect to Spf applied to R_{\infty}, R_{\infty}\tensor R_{\infty}, etc.

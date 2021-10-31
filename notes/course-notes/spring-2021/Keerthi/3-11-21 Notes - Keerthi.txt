@@ -1,0 +1,11 @@
+Cokernel of injective ghost map killed by power of p implies W_r(\O) is isomorphic to product of copies of K hence coherent
+
+To deduce coherence of W_r(\O):
+	\O is coherent
+	\O satisfies Artin-Rees property with respect to p
+	Something or another is an NZD...
+	Ideal becomes finitely generated when you invert p is itself finitely generated if p is NZD
+
+Next week:
+	Zachary is speaking
+	Let's talk about L\eta!

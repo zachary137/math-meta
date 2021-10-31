@@ -1,0 +1,5 @@
+Oka's thm on coherence
+Fontaine period ring A_inf itself is not coherent (see work of Kedlaya)
+Homomorphisms from finitely presented things commute with direct limits (finitely presented modules are precisely the compact objects in the category of modules)
+pg. 393 of Vakil
+Coherent = fin gen + every homo from fin free has fin gen kernel

@@ -1,0 +1,6 @@
+The key to getting L\eta_I from \eta_I is that \eta_I "kills I-torsion" in cohomology
+	And we obtain a non-left/right exact derived functor...
+The definition of \eta_I is made so that we don't have to choose a global generator for I (which may not exist)
+	Nonetheless it is probably best to restrict attention to trivializing nbhds on which we can write down a generator and see things more simply
+Watch your shift convention
+	For BMS, a positive shift means a shift to the left and vice-versa

@@ -1,0 +1,14 @@
+Sum of four squares generating function gives modular form on the upper half plane
+	Arises from theta correspondence between SL_2 and SO(4)
+	Kernel comes from theta function on GSp(8)
+
+Theta correspondence gives a way to relate functions on one group to functions on another group
+
+Kudla, Gross-Zagier
+	Geometric version of this
+	Get correspondence between arithmo-geometric invariants and L-functions
+	Connections to geometry of Q-varieties
+	Interesting work of Yun-Zhang taking place over function fields
+	How can we port this over to characteristic 0?
+	We have some tools to do stuff at least locally at p -- local characteristic 0
+	Drinfeld modular varieties and work of Peter Scholze

@@ -1,0 +1,10 @@
+Tangent sheaf rigidity
+Fontaine-Wintenberger theory
+Dalton's notes have precise formulation of almost etale descent
+Firmly understand the one-variable case
+
+Buzzard condition on sheafiness
+
+Adic spaces help explain the notion of admissible cover for rigid analytic spaces
+Key example: the nested increasing union of closed discs "is" an open cover of the open unit disc, but this cover is not admissible
+Adic explanation: this cover is not an open cover in the adic sense -- there is a "rank 2" point on the open unit disc not seen by any of the smaller closed discs
