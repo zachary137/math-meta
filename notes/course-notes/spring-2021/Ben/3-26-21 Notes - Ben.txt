@@ -1,0 +1,23 @@
+The Honda system stuff is trying to lift Hodge filtrations
+The conditions are enough to rule out p-torsion for M/L
+	Is this enough to get torsion-free in general?
+We want L to be a direct summand of L
+Condition (2) is equivalent to F(L+pM)=pM
+
+There are diametrically opposite cases where the image of Frob and the Hodge filtration are far apart
+Are image of Frob and the Hodge filtration always complementary? No? Supersingular elliptic curves?
+
+The Hodge filtration here is defined in analogy of other Hodge filtrations
+Frob-invariant differential forms
+
+Grothendieck-Messing theory applies only when the divided powers are nilpotent or connected
+	For p>2 the nilpotent condition is automatic, but it does not hold when p=2
+	When p=2 we can impose connectivity to get ourselves in the right boat
+
+The discrepancy seems to be due to the BC CMI notes rather than Oh
+	https://mathoverflow.net/questions/282972/clarification-on-relationship-between-grothendieck-messing-and-honda-systems
+
+Rigidity thm follows from Maximum Principle
+	We have a scheme theoretic analogue for proper things
+	Think about the relationship between P^1 and A^1
+Getting the geometric point is a result of faithfully flat descent

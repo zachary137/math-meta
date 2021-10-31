@@ -1,0 +1,8 @@
+Need to devote some time to understanding Oh notes
+Thm of Tate-Serre on equiv of categories for p-divisible groups and formal Lie groups
+	Full faithfulness argument shows that we have a limit of Hopf algebras (need to think about coalg structure)
+
+Need to check that completed(?) tensor product of two FPS rings is FPS ring
+	Need the completion since tensor product of FPS rings is probably not FPS ring
+	Can reduce to thinking over the residue field by (flat) complete Nakayama
+	Key at the beginning is replacing (p^n)-torsion by kernel of Frob., which is more explicit

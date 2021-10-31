@@ -1,0 +1,32 @@
+It's not true that the following categories are equivalent:
+	p-divisible groups over Z_p
+	p-divisible groups over F_p
+What we do have is that the special fiber functor is fully faithful
+
+We have equivalence of categories:
+	connected p-divisible groups
+	divisible formal Lie groups
+Use this to lift group law in connected case
+	How do we know we satisfy all of the axioms?
+	Certainly there must be a lift by complicated deformation theory technology
+
+For the special and general fiber stuff, the Noetherian hypothesis is absolutely essential
+	Both theorems fail spectacularly without the Noetherian hypothesis
+	\mu_{p^{\infty}} and Q_p/Z_p over Z_p^{\cycl} illustrate the difficulty
+
+Scholze-Weinstein classify p-divisible groups over C_p
+
+de Jong's theorem fails if we drop the discreteness of the valuation
+
+Condition (2) ensures in some sense that we are n-truncated and not (n-1)-truncated
+
+Grothendieck-Messing theory
+	Describes deformations through nilpotent thickenings
+	Needs the assumption that we have at least one deformation -- then we can describe all of them
+	Grothendieck settled this issue with an annoying affine condition
+	Theory of crystals
+
+p-divisible groups also have something that behaves like de Rham cohomology, with the Lie algebra arising from this thing (this is the "crystal" which can be somewhat complicated)
+Vector bundle comes with filtration analogous to Hodge filtration
+Assuming S --> S' is a PD thickening, the miracle is that the vector bundle over S' only depends on the vector bundle over S
+Reduces whole problem to doing linear algebra on the crystal, independent of choices of lift (assuming only that one exists)

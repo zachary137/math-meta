@@ -1,0 +1,42 @@
+Context: section 1.2.3.1 of Oh's notes
+
+Harris - notes on deformation theory that are very classical AG and informal
+	Read: highly sketchy
+Soul\'{e} gave some good lectures on arithmetic intersection theory
+	He also has a book on Arakelov geometry
+	Part 1 of lectures on arithmetic intersection theory: https://www.canal-u.tv/video/institut_fourier/c_soule_arithmetic_intersection_part1.41443
+Bhatt and Conrad offer contrasting approaches to prove the Rigidity Thm (for abelian varieties)
+	Both of them have notes on abelian varieties (both drawing largely from Mumford) that are both really good
+Proof of general rigidity lemma given in notes of Mumford-Fogarty-Kirwan on Geometric Invariant Theory
+So-called "absolute Pic functor" is never representable because of automorphisms
+
+For representability of the relative Picard functor we need at least that all geometric fibers have no non-constant global sections
+	We probably need this result relative to all pullbacks
+Properness assumptions are probably necessary here because otherwise what does Pic^0 mean (i.e., how do we know we have finite dimensional cohomology)?
+	We can maybe make sense of degree 0 without properness...
+Do we need to sheafify the quotient or is it already sheafy?
+
+Some technical things that came up that might be worth looking more into (since I don't understand them all that well):
+	Semicontinuity and base change (c.f. Hartshorne)
+	Compatibility of pushforward and "change in S" (for Cartesian diagrams)
+	Stein factorization
+		Zariski Connectedness Thm
+		Theorem on formal functions
+	Maybe require f: X\to S to be flat with some finiteness condition on the geometric fibers
+
+The quotient X/G, as a functor, can be viewed in terms of G-torsors on X
+	Here, G is a finite group acting freely on X (not in terms of the functor-of-points of X but rather the category induced by G)
+	X/G is an example of a Zariski sheaf (it is in fact fppf) and is actually an algebraic space
+
+Thought from Zachary regarding the above quotient stuff:
+	One way to view the action of a (ordinary) group G on a set X is to think of G as a groupoid with one object (all of the elements become automorphisms via multiplication) and consider a functor from G to Set with target X
+	Does this not work in the above setting as well, replacing Set by a more appropriate algebro-geometric category?
+
+Comments from Ben:
+	There's a valuative criterion for flatness
+	Locally of finite presentation is a 'compactness' property in terms of maps to colimits or I guess maps from limits for schemes (rather than algebras)
+
+Faltings-Chai shows that abelian algebraic spaces over a scheme S are (represented by) abelian schemes over S
+
+Formal smoothness states things in terms of thickenings of affines, capturing a local property
+	We ought to be able to check this on a cover, so we ought to be able to think about more general thickenings

@@ -1,0 +1,10 @@
+Isogeny category of abelian varieties
+	Poincare complete reducibility
+		Uses dual abelian variety and choice of polarization to construct a suitable complement
+	Semisimplicity of endomorphism algebras over Q
+	Isogeny variant V_{\l}(A) of the Tate module T_{\l}(A)
+Lefschetz principle
+	In char. 0, statements about algebraic varieties over a field can often be reduced to statements about the same sort of objects over an algebraically closed field (typically \C)
+	Admits various precise formulations
+Berthelot-Breen-Messing
+	Gives proof of result of Mazur-Messing-Oda

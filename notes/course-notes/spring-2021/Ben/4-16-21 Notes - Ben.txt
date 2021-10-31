@@ -1,0 +1,21 @@
+There is no good text on Shimura varieties
+	Milne has a book...
+	Christof Cornu(?) (he's French...) started writing a book at some point...
+	Brian Conrad has some notes on CM for abelian varieties that might act as a good jumping off point
+	Tate has some nice lecture notes on Stark's conjecture...
+
+For isogeny we usually don't need to worry about flatness assumptions since we work with fppf stuff
+
+Good way to view polarization is in terms of pulling back the Poincare bundle and getting something ample
+	Works well over a general base
+	Supposed to function like PSD bilinear form
+
+Appel-Humbert
+	Classification of line bundles on complex tori
+	Can we canonically metrize the Poincare bundle in the complex setting? If so then this would make the Neron-Tate pairing story easy to see
+
+Siegel modular forms and Siegel theta functions
+	How do these relate to our story?
+
+TO DO: Track down Brian Conrad's paper on Neron-Tate pairing
+	http://virtualmath1.stanford.edu/~conrad/BSDseminar/refs/Kktrace.pdf

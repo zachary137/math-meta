@@ -1,0 +1,22 @@
+Need right notion of length
+	The thing I said initially was wrong (I always get confused about this...)
+BC is wrong about putting p-torsion instead of order p
+Don't need any multiplicative structure on k^2
+Why should \alpha,\mu_p,\un{\Z/p} be a complete list over an algebraically closed field?
+	Hint: Hilbert Thm 90
+	Also, for Hilbert thm 90 stuff, what happens over a non-algebraically closed field? How exactly do we get non-isomorphic Dieudonne modules?
+Q: Why is every elliptic curve over \ov{\F_p} either ordinary or supersingular?
+	Hint: rule out the \'{e}tale case using the Weil pairing or something like that
+Duality here is something worth thinking about
+	What should the "natural" notion be (e.g., a pairing)?
+	Concretely describe the dual
+	Check compatibility of the dual
+Describe the dual of \alpha_{p^n}
+Check the construction of W_2^2
+	Superscript 2 probably refers to kernel of Frob squared
+	Subscript 2 probably refers to functor that takes k-alg R to the additive group (W_2(R),+)
+Why are Cartier duality and Weil duality compatible for abelian varieties (in other words, why do they capture the same thing)?
+I guess this depends on knowing how D is defined. How do we do that explicitly? Is there some semi-enlightening way to describe it?
+In the case that Frob is an isomorphism we can descend from W(k) to Z_p
+	This works in the etale case
+	Related to deficiencies of Tate module

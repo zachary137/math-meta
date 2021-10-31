@@ -1,0 +1,31 @@
+Context: Oh's notes, especially surrounding Proposition 1.2.14 (formal smoothness of Pic^0)
+
+There is a functorial version of the Rigidity Lemma that doesn't require the target to be representable
+	Useful for working with things defined naturally by their functor-of-points (and which may not be representable)
+
+We define Pic^0 in terms of the functor-of-points by having vanishing Euler characteristic -- What exactly does this mean?
+	Euler characteristic of fibers
+	Conrad gives some characterization in terms of Euler characteristic (in his notes on abelian varieties) that might be helpful
+
+Degree 0 line bundles are those with a certain symmetry
+	Multiplicative line bundles (I think this is the right term)
+
+Degree 0 line bundles are in some sense "very far" from being ample
+	Ample ~ positive Chern class ~ positive definite pairing
+	Deg 0 ~ vanishing Chern class ~ trivial pairing
+
+Triviality in the relative Picard means you are the pullback of a certain line bundle
+
+Why does the deformation result work?
+	This refers to Oh's written proof of the above named proposition
+	The presence of H^2 signals that we are looking for compatibility of trivialization data for line bundles
+
+David Hansen is a boss
+	Just look at the overpowered stuff he used to do his proficiency exam
+
+Notes from Sidd's GIST talk on the same day:
+	One way to see where HOMFLY comes from is representations of quantum groups
+	Incidence varieties and such (punctual Hilbert schemes) are good for generalizing zeta functions to work for curves with mild singularities
+	Hilbert schemes and maps to compactified Jacobians
+		Get projective bundle maps
+		This is one way we see that the "integrals" we write down return polynomials
