@@ -1,0 +1,172 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\newcommand{\B}{\mathbb{B}}
+\renewcommand{\D}{\mathbb{D}}
+
+\DeclareMathOperator{\kdim}{kdim} % Krull dimension
+
+\begin{document}
+\title{A $p$-adic Thanksgiving}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle 
+
+\thispagestyle{fancydate}
+
+The main inspiration for this talk is this \href{https://ayoucis.wordpress.com/2020/09/11/a-taster-on-rigid-geometry-pt-i-the-tate-perspective/#more-15092}{blog post} by Alex Youcis. We have shamelessly stolen the style and content of the post, liking introducing our own errors and sadly having to omit much of the material. In particular, we have cut all of the discussion of applications and overview of the literature. Go read the original post instead of this abbreviated nonsense.
+
+\section{Abstract}
+Over the past few decades, number theory has been revolutionized by a cornucopia of exotic geometric theories that can collectively be called $p$-adic geometry. Much of the story began with John Tate, who developed the notion of rigid analytic varieties. More recently, Peter Scholze and collaborators have put Roland Huber's theory of adic spaces to amazing use to construct perfectoid spaces and other such geometric objects. In this talk, we hope to give a gentle introduction to this universe of $p$-adic geometry. Prior experience with algebraic geometry is not necessary. In fact, we hope this talk is helpful for those currently learning algebraic geometry.
+
+\section{Introduction}
+One geometric theory that has been of interest to mathematicians for a long time is that of complex (holomorphic) manifolds. On the surface, this theory might seem not all that different from the theory of real (topological or smooth) manifolds. However, complex geometry is significantly more ``rigid'' due, e.g., to things like the general lack of (holomorphic) partitions of unity. In fact, this theory has far more in common with the (semi-classical) theory of algebraic geometry. One major result in this direction is Serre's famous GAGA theorem (which has been expanded upon by many others).\footnote{GAGA is short for ``G\'{e}ometrie Alg\'{e}brique et G\'{e}om\'{e}trie Analytique.''} Roughly, this says that there is an \emph{analytification functor} $(\cdot)^{\an}$ taking finite type $\C$-schemes (which can be viewed as ``algebraic manifolds'' built from rings of the form $\C[t_1,\ldots,t_n]/(f_1,\ldots,f_r)$) to complex analytic spaces (which should be thought of as some generalization of complex manifolds allowing singularities). This functor has many nice properties, acting as a sort of bridge between the two theories.\footnote{The so-called \emph{Lefschetz principle} is a great illustration of this.} 
+
+\begin{question}
+Can we do something similar with $\Q_p$ in place of $\C$?
+\end{question}
+
+As a quick refresher, $\Q_p$ is the completion (in the sense of metric spaces \`{a} la Cauchy sequences) of $\Q$ at the $p$-adic absolute value $\abs{\cdot}_p$ given by $\abs{x}_p:=p^{-v_p(x)}$. The latter is a key example of the following.
+
+\begin{definition}
+A \textbf{nonarchimedean (valued) field} is a field $k$ equipped with a map $\abs{\cdot}: k\to\R^{\geq0}$ satisfying 
+\begin{enum}{\roman}
+\item $|x|=0\iff x=0$;
+\item $|xy|=|x||y|$; and
+\item $|x+y|\leq\max\{|x|,|y|\}$.
+\end{enum}
+We say $k$ is \textbf{complete} if the metric space $k$ with metric $(x,y)\mapsto|x-y|$ is complete.
+\end{definition}
+
+Other key examples of complete nonarchimedean fields are the Laurent series rings $\F_p\dparen{t}$ and $\C\dparen{t}$, each equipped with the $t$-adic absolute value. Returning to $\Q_p$, what's to stop us from simply taking open subsets of $\Q_p^n$ and building ``$p$-adic manifolds'' in the usual manner? Certainly, inside of $\Q_p$ we can consider the ``closed unit disk'' $\Z_p=\{x\in\Q_p : |x|\leq1\}$. Alongside this, at least na\"{i}vely, $\Z_p^{\times}=\{x\in\Q_p : |x|=1\}$ is the ``unit circle'' and $p\Z_p=\{x\in\Q_p : |x|<1\}$ is the ``open unit disk.'' What we would want is for $\Z_p$ to be compact and connected. The former is true, but the latter is not -- in fact, $\Z_p$ is totally disconnected! This means there is reason to construct a theory of ``rigid analytic'' geometry with an underlying topology more suitable to our geometric interests.
+
+\textbf{\un{Warning}:} We're going to make use of point-set topology! If you've forgotten everything from your undergrad days then be prepared for a blast from the past. We will work with things in a way that makes sense for general adic spaces and not just rigid analytic spaces.
+
+\section{Refresher on Algebraic Geometry}
+The history of algebraic geometry is long and storied so we will not attempt to say anything about it here.\footnote{Know that, for today, the main players lurking in the background will be Hilbert, Noether, van der Waerden, Zariski, Weil, Serre, and Grothendieck. One of the amazing things is that many original ideas once thought obsolete have been resurrected and re-purposed} One of the things that sets algebraic geometry apart from other geometric theories is that there are different types of points. Of course, we can (usually) think of points as honest elements of a topological space. Among these, some are \emph{special} and some are \emph{generic}. These notions are often understood in terms of closure, but we will provide a different perspective. Unless otherwise stated, $X$ denotes a topological space.
+
+\begin{definition}
+Given $x,y\in X$, we write $y\prec x$ or $x\succ y$ if every open neighborhood of $y$ is an open neighborhood of $x$.\footnote{The Stacks Project uses $x\rightsquigarrow y$ in place $x\succ y$.} The terminology for this is
+\begin{itemize}
+\item $x$ \textbf{specializes} to $y$;
+\item $y$ \textbf{generalizes} to $x$;
+\item $y$ is a \textbf{specialization} of $x$; and
+\item $x$ is a \textbf{generalization} of $y$.
+\end{itemize}
+A \textbf{(proper) Krull chain} in $X$ is a sequence of \emph{nontrivial} specializations
+$$x_0\succ x_1\succ\cdots\succ x_n$$
+in the sense that $x_i\neq x_j$ for $i\neq j$. The \textbf{length} of this chain is defined to be $n$, and the supremum of all such lengths is the \textbf{Krull dimension} $\kdim X$. We say that $x\in X$ is \textbf{special} if it admits no nontrivial specializations and \textbf{generic} if it admits no nontrivial generalizations.
+\end{definition}
+
+It follows basically by definition that $x\in X$ is generic if and only if it is contained in every nonempty open subset of $X$. Also basically by definition, every point of a Hausdorff topological space $X$ is special and so $\kdim X=0$. This is one illustration of just how different our setting is from, say, the setting of real manifolds.
+
+Of course, in algebraic geometry the most prevalent topological spaces are Zariski spectra. Given $A\in\CRing$, the \textbf{Zariski spectrum} $\Spec A$ is the set of prime ideals of $A$ equipped with the Zariski topology, whose closed sets are the vanishing loci $V(I):=\{x\in\Spec A : I\subset x\}$ for $I\normal A$ an ideal. The resulting topological space $\Spec A$ naturally comes equipped with a sheaf of rings $\O_{\Spec A}$, called the \textbf{structure sheaf} of $\Spec A$, and the collection of all this data is an 
+\textbf{affine scheme} (the basic building block of general schemes). 
+
+\begin{example}
+Consider the affine scheme $\Spec\Z$. This has a generic point $(0)$ and a special point $(p)$ for every (positive) prime $p\in\Z$ (and no other points). The Krull dimension is $1$, so we think of $\Spec\Z$ as a ``curve'' in some sense that can be made precise.
+\end{example}
+
+\begin{example}
+Fix a (positive) prime $p\in\Z$ and consider the affine scheme $\Spec\Z_p$. This has a generic point $(0)$ and a special point $(p)$ (and no other points). The Krull dimension is $1$, so we again think of $\Spec\Z_p$ as a curve. In fact, $\Spec\Z_p$ is somehow related to the geometry of $\Spec\Z$ near the point $(p)$.
+\end{example}
+
+Somewhat surprisingly, Zariski spectra can be characterized in an entirely different way (at least as topological spaces). This requires some point-set topology.
+
+\begin{definition}
+We say that $X\in\Top$ is 
+\begin{itemize}
+\item \textbf{quasicompact} or \textbf{qc} if every open covering of $X$ admits a finite subcovering;
+
+\item \textbf{irreducible} if $X$ cannot be written as the union of nonempty proper closed subsets;
+
+\item \textbf{Kolmogorov} or \textbf{$T_0$} if for every pair of distinct points $x\neq y$ in $X$ there is an open subset of $X$ containing one of $x,y$ but not the other -- i.e., the points of $X$ are \emph{topologically distinguishable}; and
+
+\item \textbf{sober} if every irreducible closed subset has a unique generic point.\footnote{Note that irreducible components of a topological space are automatically closed. One reason to care about sobriety from the classical point of view comes from algebraic intersection theory, since then we can pass interchangeably between irreducible closed sets and their generic points.}
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+We have chosen to phrase our topological notions in such a manner that many of them make sense with little modification for both many (honest) geometric topologies and Grothendieck topologies, working either ``scheme-theoretically'' or ``stack-theoretically.'' In particular, we have avoided references to density or closure.
+\end{remark}
+
+\begin{remark}
+We place special emphasis on the notions of genericity and irreducibility both because they are extremely important in algebraic geometry and because objects with these properties can be surprisingly rare in some $p$-adic geometric theories (as opposed to algebraic geometry, where they are abundant).
+\end{remark}
+
+\begin{theorem}[Hochster]
+Let $X\in\Top$. TFAE:
+\begin{enum}{\roman}
+\item $X\iso\Spec A$ for some $A\in\CRing$.
+
+\item $X$ is sober and qc with a basis of qc opens stable under finite intersection.
+
+\item $X$ is the inverse limit of finite Kolmogorov spaces.
+\end{enum}
+\end{theorem}
+
+\begin{remark}
+This might seem like a result purely of formal interest but actually this is a foundational result for the theory of adic spaces. Experienced users of algebraic geometry have probably already noticed that the second condition above is essential for \v{C}ech cohomology computations.
+\end{remark}
+
+A space satisfying any of the above equivalent conditions is said to be \textbf{spectral}. It is then natural to consider more general \emph{locally spectral} spaces, equipped with sheaves of rings. These are precisely the kinds of general spaces one wants to work with for building various theories of $p$-adic geometry. Before moving on to this, we collect a few results and concepts from algebraic geometry that will be important later as inspiration. Let's first think a little about points.
+
+\begin{proposition}
+Let $A\in\CRing$. Then, the inclusion $\MaxSpec(A)\inj\Spec A$ induces a bijection between $\MaxSpec(A)$ and the set of special points of $\Spec A$, where $\MaxSpec(A)$ denotes the collection of maximal ideals of $A$ (hence is often called the \emph{maximal spectrum} of $A$). 
+\end{proposition}
+
+Under nice circumstances, we can get a much more explicit description of the special points of an affine scheme. To do this, we must consider the \emph{functor-of-points} of a scheme $X$. If $X=\Spec(A)$ then this is just the assignment $X(B)=\Hom_{\CRing}(A,B)$ for every $B\in\CRing$. Note that, for formal reasons, the functor-of-points of a scheme $X$ encodes essentially the same data as $X$. In fact, one approach to algebraic geometry takes this as the starting point and never mentions topology!
+
+\begin{proposition}
+Let $k$ be a field and $X$ a finite type $k$-scheme. Then, there is a natural action of $\Aut(\ov{k}/k)$ on $X(\ov{k})$ and there is a natural bijection between the set of special points of $X$ and $X(\ov{k})/\Aut(\ov{k}/k)$.\footnote{Don't confuse this quotient with the set of fixed points.}
+\end{proposition}
+
+If $X$ is affine (hence of the form $\Spec k[t_1,\ldots,t_n]/(f_1,\ldots,f_r)$) then $X(\ov{k})$ is simply the collection of $(c_1,\ldots,c_n)\in\ov{k}^n$ such that $f_i(c_j)=0$ for every $1\leq i\leq r$ and $1\leq j\leq n$. If $k$ is algebraically closed and $X\iso\Spec k[t_1,\ldots,t_n]$ then this reduces to the statement that 
+$$\MaxSpec(k[t_1,\ldots,t_n])\longleftrightarrow k^n$$ 
+with the maximal ideals of $k[t_1,\ldots,t_n]$ precisely ideals of the form $(t_1-a_1,\ldots,t_n-a_n)$ for $a_i\in k$.
+
+Let's now turn our attention to functions. Given a general scheme $X$, there is a notion of \emph{functions} on $X$ endowing us with a set $\Func(X)$. If $X=\Spec(A)$ then $\Func(X)$ is canonically identified with $A$. In this case, we ``evaluate'' a function $f\in A$ at a point $x\in\Spec(A)$ (which is just a prime ideal) by looking at its image in $A/x$. We call this image $f(x)$, noting that $f(x)=0$ if and only if $v_x(f)>0$. The following result tells us that the evaluations of a function know a lot about that function.
+
+\begin{proposition}
+Let $A\in\CRing$ and $f\in A$.
+\begin{enum}{\alph}
+\item $\Spec(A)=\emptyset$ if and only if $A=0$.
+
+\item $f\in A^{\times}$ if and only if $f(x)\neq0$ for every $x\in\Spec(A)$.
+
+\item $f\in\nil(A)$ (i.e., $f$ is nilpotent) if and only if $f(x)=0$ for every $x\in\Spec(A)$.\footnote{The geometry here becomes even more clear once we note that the \emph{reduction} $A_{\red}:=A/\nil(A)$ is such that $\Spec(A)$ and $\Spec(A)_{\red}$ are canonically homeomorphic.}
+\end{enum}
+\end{proposition}
+
+\section{Rigid Analytic Spaces}
+Let $k$ be a complete nonarchimedean field defined as above. We wish to make sense of the closed unit disk $\B_k^1=\B_k$ and hence the polydisks $\B_k^n$, in such a way that $\B_k^n$ has good topological properties. Because $k$ is nonarchimedean, we want both sets of the form $\{x : f(x)\neq0\}$ and $\{x : |f(x)|\leq1\}$ to be open, where $f$ is an ``analytic'' function defined over $k$ and we are intentionally being vague about where these sets live. As above, $\B_k^n$ should \emph{ideally} admit a description both in terms of its functor-of-points and as a spectral topological space together with a sheaf of rings. Let's first think about the functor-of-points. Motivated by the above, we define
+$$\B_k^n(\ov{k}):=\{(x_1,\ldots,x_n)\in\ov{k}^n : |x_i|\leq1\}.$$
+Then, given any algebraic extension $L$ of $k$ we can define 
+$$\B_k^n(L):=\B_k^n(\ov{k})/\Aut(\ov{k}/L).$$
+In particular, we get a description of $\B_k^n(k)$. Let's now think about ``analytic'' functions on $\B_k^n$, specializing to the case $n=1$ for ease of notation. A reasonable choice is to consider 
+$$k\ip{t}:=\left\{\sum_{i\geq0}a_it^i\in k\FPS{t} : |a_i|\to0\right\},$$
+which is precisely the ring of formal power series over $k$ converging on the closed unit disk 
+$$\O_k:=\{x\in k : |x|\leq1\}.$$ 
+We can define $k\ip{t_1,\ldots,t_n}$ in a similar manner. The real kicker is now the following. 
+
+\begin{proposition}
+The natural map 
+$$\B_k^n(\ov{k})/\Aut(\ov{k}/k)\to\MaxSpec(k\ip{t_1,\ldots,t_n}),\qquad [\alpha]\mapsto\ker(\ev_{\alpha}: k\ip{t_1,\ldots,t_n}\to\ov{k})$$ 
+is bijective.
+\end{proposition}
+
+So, our set-theoretic descriptions match! What about the topology? This turns out to be a surprisingly subtle matter. $\B_k^n(\ov{k})$ has a natural topology with basis of open sets given by 
+$$\{x\in\B_k^n(\ov{k}) : |f(x)|\leq\eps\}$$
+for $\eps\in\R^{>0}$ and $f(t_1,\ldots,t_n)\in k\ip{t_1,\ldots,t_n}$. By the above, this induces a (quotient) topology on $\MaxSpec(k\ip{t_1,\ldots,t_n})$ called the \textbf{canonical topology}. Unfortunately, however, this topology is far too fine! Recall from way back that $\B_k^n$ should be qc and connected. The open covering
+$$\B_k(\ov{k})=\bigcup_{n\geq1}\{x\in\ov{k} : |x|\leq|\pi|^{1/n}\}\cup\{x\in\ov{k} : |x|=1\}$$
+shows this dream is doomed if we use the canonical topology, where $\pi\in k$ is a \textbf{pseudo-uniformizer} (i.e., $0<|\pi|<1$). The fix is to disqualify this collection of opens (and others like it) as an open covering. So, what we want to do is properly topologize $\MaxSpec A$, where $A\in\CAlg_k$ is \textbf{affinoid} in the sense that it is (isomorphic to) a quotient of $k\ip{t_1,\ldots,t_n}$ for some $n>0$. For affine schemes, a convenient basis for the Zariski topology is given by principal open sets (which correspond to localizations at some ring element). In our setting, the correct analogue of a principal open set turns to be a so-called \emph{rational domain}. These are sets of the form 
+$$U\paren{\df{f_1,\ldots,f_m}{g}}:=\{x\in\MaxSpec(A) : |f_i(x)|\leq|g(x)|\},$$
+where $f_1,\ldots,f_m,g\in A$ generate the unit ideal. These rational domains are open in the canonical topology and don't depend on their presentation (which means we can work coordinate-free). One can then define $\O_{\MaxSpec(A)}$ on each rational domain in terms of power series whose restriction to that rational domain converge. We can almost extend $\O_{\MaxSpec(A)}$ to a sheaf on $\MaxSpec(A)$ (with topology generated by rational domains), with the caveat being that we must throw out certain covers as suggested above (for simplicity, one basically need only consider finite rational coverings of rational domains). What we obtain is a \emph{$G$-space}, denoted $\Spm(A)$. If we apply this procedure to $k\ip{t_1,\ldots,t_n}$ then we get 
+$$\B_k^n:=\Spm(k\ip{t_1,\ldots,t_n}).$$
+One can show that this $G$-space is connected and qc as desired. The functor-of-points of $\B_k$ is given by $\B_k(A)=A^{\circ}$, where $A$ is an affinoid $k$-algebra and $A^{\circ}$ is the set of \emph{power-bounded elements} of $A$.\footnote{An element $a\in A$ is power-bounded if the set $\{a^n\}_{n\geq0}$ is bounded.}
+
+\section{Toward Adic Spaces}
+What about all that nonsense regarding spectral spaces? In the above setup, we can form a geometric theory whose building blocks are the affinoid spaces $\Spm(A)$. The resulting objects are called \textbf{rigid analytic spaces}, and as we saw there are some annoying subtleties. The fix for this (alongside many other $p$-adic ailments) is Huber's theory of adic spaces. Here, the main input are so-called \emph{Huber pairs} $(A,A^+)$, where $A$ is a suitable topological ring and $A^+\subset A$ is a suitable subring. Given such a pair, one can form a topological space $\Spa(A,A^+)$ whose points are basically (continuous) valuations on $A$ with a restraint condition coming from $A^+$. Some of these points are allowed to have ``nontrivial'' geometry (i.e., rank $>1$) and this automatically rules out the topological funny business from above. The resulting \emph{affinoid adic spaces} $\Spa(A,A^+)$ are spectral and have ``enough'' functions in a way that can be made precise, similar to the more classical result for affine schemes stated earlier.
+\end{document}
