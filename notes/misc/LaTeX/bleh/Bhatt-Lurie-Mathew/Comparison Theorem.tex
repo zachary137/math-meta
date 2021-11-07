@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\A}{\mathcal{A}}
+\renewcommand{\L}{\mathbb{L}} % cotangent complex
+\renewcommand{\phi}{\varphi}
+\newcommand{\W}{\mathcal{W}} % saturated completion
+
+\DeclareMathOperator{\cn}{cn} % connective
+\DeclareMathOperator{\conj}{conj} % conjugate
+\DeclareMathOperator{\qrsp}{qrsp} % quasiregular semiperfect
+\DeclareMathOperator{\qsyn}{qsyn} % quasisyntomic
+
+\begin{document}
+\title{Comparison Theorem}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+Let $k$ be a perfect field of characteristic $p>0$ and $X$ a smooth $k$-scheme. Our main motivation behind defining the saturated de Rham-Witt complex in the first place is the following result.
+
+\begin{theorem}
+There is a canonical isomorphism of cohomology rings $H_{\crys}^*(X)\iso H^*(X,\W\Omega_X^{\bullet})$ functorial in $X$.
+\end{theorem}
+
+Interestingly, the only real input we will need concerning the saturated de Rham-Witt complex is the following result proved earlier.
+
+\begin{theorem}
+The functorial comparison map $\W\Omega_X^{\bullet}\to\Omega_X^{\bullet}$ induces a qis 
+$$\W\Omega_X^{\bullet}/p\W\Omega_X^{\bullet}\to\Omega_X^{\bullet}.$$
+\end{theorem}
+
+To get a handle on things we will focus only on the affine case $X=\Spec R$, leaving gluing matters for some other time. Let $\CAlg_{\F_p}^{\reg}$ denote the category of commutative Noetherian regular $\F_p$-algebras. Given $i\in\Z$, the assignment $R\mapsto\Omega_{(-)}^i$ determines a functor $\CAlg_{\F_p}^{\reg}\to\Ab$. Putting everything together gives 
+$$\W\Omega_{(-)}^{\bullet}\in\Fun(\CAlg_{\F_p}^{\reg},\Ch(\Ab))\simeq\Ch(\Fun(\CAlg_{\F_p}^{\reg},\Ab)).$$
+The category $\A:=\Fun(\CAlg_{\F_p}^{\reg},\Ab)$ is abelian with abelian structure inherited from $\Ab$. The image $\W\Omega_{(-)}$ of $\W\Omega_{(-)}^{\bullet}$ in $D(\A)$ is a commutative algebra object with respect to the symmetric monoidal structure induced by $\Ltensor$. Similarly, $R\Gamma_{\crys}(-)\in\CAlg(D(\A))$.\footnote{More properly we should write $R\Gamma_{\crys}(\Spec(-))$. The distinction won't matter to us since we will only be looking at affine schemes.} Consider now the functor $R\mapsto\Omega_R$, viewed as a commutative algebra object of $D(\A_p)$ with $\A_p:=\Fun(\CAlg_{\F_p}^{\reg},\Vect_{\F_p})$. We readily see that both $\W\Omega_{(-)}$ and $R\Gamma_{\crys}(-)$ reduce mod $p$ to the functor $R\mapsto\Omega_R$. Surprisingly, this is enough for our purposes!
+
+\begin{theorem}
+Let $A(-)\in\CAlg(D(\A))$ be $p$-complete and $u_0: \Omega_{(-)}\xto{\sim}\F_p\Ltensor A(-)$ an isomorphism in $\CAlg(D(\A_p))$. Then, $u_0$ lifts uniquely to an isomorphism $u: R\Gamma_{\crys}(-)\xto{\sim}A(-)$ in $\CAlg(D(\A))$.
+\end{theorem}
+
+The proof of this theorem proceeds in three main steps.
+\begin{enum}{\arabic}
+\item Construct the natural transformation $u$ using syntomic ideas (and verify that it is a lift of $u_0$).
+
+\item Show that $u$ is an isomorphism using a rigidity property of the de Rham functor $\Omega_{(-)}$.
+
+\item Show that $u$ is unique.
+\end{enum}
+
+This third step is unnecessary for our purposes, so we will touch on it more if we get the time. Before discussing the proof, let's first explain why this result is what we want. We have a collection of functorial qis's $\W\Omega_R^{\bullet}/p\W\Omega_R^{\bullet}\to\Omega_X^{\bullet}$. Hence, we have $u_0: \Omega_{(-)}\xto{\sim}\F_p\Ltensor\W\Omega_{(-)}$ an isomorphism in $\CAlg(D(\A_p))$. By the main theorem this lifts to an isomorphism $u: R\Gamma_{\crys}(-)\xto{\sim}\W\Omega_{(-)}$ in $\CAlg(D(\A))$. Viewing $X=\Spec R$ as an object of its own crystalline site, we have
+\begin{align*}
+R\Gamma_{\crys}(\Spec R)
+&\simeq\flim_UR\Gamma_{\crys}(U) \\
+&\simeq\flim_U\W\Omega_{\O_X(U)} \\
+&\simeq R\Gamma(X,\W\Omega_X^{\bullet}).
+\end{align*}
+Here, the limits are taken over Zariksi affine open subschemes $U\subset X$ and are formed in the $\infty$-category $\D(\Z)$.\footnote{We also think of $\W\Omega_X^{\bullet}$ as a complex of sheaves on $X$.} Passing to cohomology rings then gives 
+$$H_{\crys}^*(X)\iso H^*(X,\W\Omega_X^{\bullet}).$$
+
+\section*{Step (1)}
+Fix $A(-)\in\CAlg(D(\A))$ $p$-complete equipped with $u_0: \Omega_{(-)}\xto{\sim}\F_p\Ltensor A(-)$ an isomorphism in $\CAlg(D(\A_p))$. Thinking about things in terms of $\infty$-categories, we can view $A(-)$ as an object in
+$$\D(\Fun(\CAlg_{\F_p}^{\reg},\Ab))\simeq\Fun(\CAlg_{\F_p}^{\reg},\D(\Z)),$$
+with underlying homotopy category $D(\A)$. Note that $A(-)$ necessarily factors through $\D_p(\Z)$.
+
+Given $R\in\CAlg_{\F_p}^{\reg}$, define $\eps_R$ to be the composition
+\begin{center}
+\begin{tikzcd}
+A(R) \arrow[r] & \F_p\Ltensor A(R) \arrow[r, "u_0^{-1}"] & \Omega_R \arrow[r] & R
+\end{tikzcd}
+\end{center}
+This induces a natural transformation $\eps$ from $A(-)$ to the (composite) forgetful functor 
+$$\CAlg_{\F_p}^{\reg}\xto{\obv}\Ab\inj\D(\Z).$$ 
+We similarly have the composite $\eps_R^{\crys}$ given by 
+\begin{center}
+\begin{tikzcd}
+R\Gamma_{\crys}(\Spec R) \arrow[r] & \F_p\Ltensor R\Gamma_{\crys}(\Spec R) \arrow[r, "\sim"] & \Omega_R \arrow[r] & R
+\end{tikzcd}
+\end{center}
+This induces an evaluation natural transformation $\eps^{\crys}$.
+
+\begin{proposition}
+There exists a natural transformation $u: R\Gamma_{\crys}(-)\to A(-)$ compatible with the commutative algebra structures on each such that the diagram
+\begin{center}
+\begin{tikzcd}
+R\Gamma_{\crys}(-) \arrow[rr, dotted, "u"] \arrow[rd, "\eps^{\crys}"'] & & A(-) \arrow[ld, "\eps"] \\
+& \id_{\CAlg_{\F_p}^{\reg}} &
+\end{tikzcd}
+\end{center}
+commutes.
+\end{proposition}
+
+Note that we will need to explicitly relate $u$ to $u_0$ and not just $\eps$ as in the proposition. To prove the proposition we will make several modifications to the functor $A(-)$.
+
+\begin{definition}
+We say $R\in\CAlg_{\F_p}$ is \textbf{quasisyntomic} if $\L_{R/\F_p}\in D(R)$ has $\Tor$-amplitude in $[-1.0]$.\footnote{By definition, this means that $\L_{R/\F_p}\Ltensor_RM$ has cohomology supported in degrees $[-1,0]$ for every $M\in\Mod_R$.} These objects span a full subcategory $\CAlg_{\F_p}^{\qsyn}\subset\CAlg_{\F_p}$.
+\end{definition}
+
+\begin{definition}
+For the sake of clarity we briefly recall the theory of cotangent complexes. Given $A\to B\to C$ a sequence of ring maps, we obtain an exact sequence
+\begin{center}
+\begin{tikzcd}
+\Omega_{B/A}^1\tensor_BC \arrow[r] & \Omega_{C/A}^1 \arrow[r] & \Omega_{C/B}^1 \arrow[r] & 0
+\end{tikzcd}
+\end{center}
+in $\Mod_C$ which we would like to ``extend'' further to the left. What we want is a functorial distinguished triangle 
+\begin{center}
+\begin{tikzcd}
+\L_{B/A}\tensor_BC \arrow[r] & \L_{C/A} \arrow[r] & \L_{C/B} \arrow[r] & (\L_{B/A}\tensor_BC)[1]
+\end{tikzcd}
+\end{center}
+in $D(C)$. We construct these cotangent complexes by building off of the smooth case, which ultimately boils down to simply considering free polynomial algebras. In more detail, we construct $\L_{C/B}$ by taking a ``cofibrant resolution'' $\twid{C}_{\bullet}\to C$ -- i.e., $\twid{C}_{\bullet}$ is a simplicial commutative $B$-algebra with free terms and $\twid{C}_{\bullet}\to C$ is a weak equivalence of simplicial commutative rings -- and applying $\Omega_{-/B}^1$ termwise to get a simplicial module over $\twid{C}_{\bullet}$ which we interpret as an object of $D(C)$ via Dold-Kan. Crucially, $H^0(\L_{C/B})\iso\Omega_{C/B}^1$ in $\Mod_C$. 
+
+While we're at it, we can make sense of cotangent complexes for general maps of simplicial commutative rings. The first item of business is to note that, given $A\in\SCR$, $M\in\Mod_A^{\cn}$, and $B:=\Sym_A(M)$, $\L_{B/A}$ exists and is naturally equivalent to $B\tensor_AM$ (where we note that $B$ is characterized by a suitable adjunction property). Using this, given any map $A\to B$ of simplicial commutative rings, we obtain $\L_{B/A}$ as a connective $B$-module which satisfies an appropriately weakened finiteness condition assuming we place a certain finiteness condition on $B$ (over $A$). Note that $\Hom(\L_{B/A},M)$ can be characterized by trivial square-zero extensions assuming that $M$ is discrete.
+\end{definition}
+
+Let $\CAlg_{\F_p}^{\poly}\subset\CAlg_{\F_p}$ denote the full subcategory spanned by finitely generated polynomial $\F_p$-algebras. We obtain a sequence of inclusions
+$$\CAlg_{\F_p}^{\poly}\subset\CAlg_{\F_p}^{\reg}\subset\CAlg_{\F_p}^{\qsyn}$$
+along with the following result.
+
+\begin{lemma}
+View $A: \CAlg_{\F_p}^{\reg}\to\D_p(\Z)$ as a functor of $\infty$-categories. Then, $A$ is a left Kan extension of its restriction to $\CAlg_{\F_p}^{\poly}$ and admits a left Kan extension $\ov{A}: \CAlg_{\F_p}^{\qsyn}\to\D_p(\Z)$.
+\end{lemma}
+
+The proof rests on a mix of formal results and some commutative algebra. Part of what's going on here is the role that cotangent complexes play as nonabelian left derived functors (realized in the $\infty$-categorical setting as left Kan extensions). Given $j\geq1$ and fixing $R\in\CRing$, we have $\Wedge^j\L_{-/R}$ is a left Kan extension of $\Omega_{-/R}^j$ from $\CAlg_R^{\poly}$ to $\SCR_{R/}$ (this follows since we can obtain $\SCR_{R/}$ as an $\infty$-category by freely adjoining sifted colimits to $\CAlg_R^{\poly}$).\footnote{By definition, a sifted colimit is a colimit of a diagram whose shape is a sifted index category. In more detail, an index category $I$ is sifted if its diagonal functor is final, recalling that any functor is said to be final if restricting along it preserves colimits in some precise sense.} If $A\in\CAlg_R$ is smooth then each natural map $\Wedge_A^i\L_{A/R}\to\Omega_{A/R}^i$ is an equivalence. Given a sequence of ring maps $A\to B\to C$, $\Wedge_C^i\L_{C/A}$ admits a decreasing exhaustive filtration by $\Fil^j(\Wedge_C^i\L_{C/A})$ which vanishes for $j\geq i+1$ and satisfies
+$$\gr^j(\Wedge_C^i\L_{C/A})\simeq(\Wedge_B^j\L_{B/A}\tensor_B^{\L}C)\tensor_C^{\L}\Wedge_C^{i-j}\L_{C/B}.$$
+\textcolor{red}{I'm not sure exactly how this filtration is defined. It seems we need to be a little careful about transferring filtrations and gradings from the setting of complexes to the derived setting.} This seems related to the conjugate filtration which we can place on the derived de Rham complex. This necessitates making sense of derived de Rham complexes and derived de Rham-Witt complexes. The functor $\CAlg_{\F_p}^{\poly}\to\D_p(\Z)$ given by $R\mapsto\W\Omega_R$ admits a nonabelian left derived functor $\SCR_{\F_p/}\to\D_p(\Z)$, which we can apply to a given $R\in\CAlg_{\F_p}^{\poly}$ to get the derived de Rham-Witt complex $\L\W\Omega_R$. The derived de Rham complex of $R$ is then $\L\Omega_R:=\L\W\Omega_R\tensor_{\F_p}^{\L}\F_p\in\D(\F_p)$. This induces a functor $R\mapsto\L\Omega_R$ which is the nonabelian left derived functor of $\Omega_{(-)}: \CAlg_{\F_p}^{\poly}\to\D(\F_p)$. There is a comparison map $\L\Omega_R\to\Omega_R$ that is an equivalence in $\D(\F_p)$ provided that $\L_{R/\F_p}$ is flat and the Cartier map $\Omega_R^{\bullet}\to H^{\bullet}(\Omega_R^{\bullet})$ is an isomorphism. This holds when $R$ is Noetherian and regular. The derived de Rham complex admits an exhaustive increasing filtration, called the conjugate filtration, which is defined as follows. The functor 
+$$\CAlg_{\F_p}^{\poly}\to\D(\F_p),\qquad R\mapsto\tau^{\leq n}\Omega_R$$
+admits a nonabelian left derived functor 
+$$\SCR_{\F_p}\to\D(\F_p),\qquad R\mapsto\Fil_n^{\conj}\L\Omega_R.$$
+This induces the exhaustive conjugate filtration on $\L\Omega_R$, with
+$$\gr^n(\Fil_{\bullet}^{\conj}\L\Omega_R)\simeq(\Wedge^n\L_{R^{(1)}/\F_p})[-n]$$
+for $R^{(1)}$ the image of $R$ under the Frobenius $\phi_R: R\to R$. \textcolor{red}{Presumably, the conjugate filtration is linked to what would typically be called a Postnikov filtration.} The main reason that we choose to extend to the quasisyntomic setting is the following result.
+
+\begin{lemma}
+Let $R\in\CAlg_{\F_p}^{\qsyn}$. Then, $H^n(\ov{A}(R))$ vanishes if $n<0$ and is $p$-torsion-free if $n=0$.
+\end{lemma}
+
+\begin{proof}
+We just need to show that $\F_p\tensor_{\Z}^{\L}\ov{A}(R)\simeq\L\Omega_R$ has cohomology concentrated in nonnegative degrees. This follows immediately from inspecting the conjugate filtration (\textcolor{red}{I'm actually a little confused on this one}).
+\end{proof}
+
+Inside of $\CAlg_{\F_p}^{\qsyn}$ we have the full subcategory $\CAlg_{\F_p}^{\qrsp}$ spanned by \textbf{quasiregular semiperfect} $\F_p$-algebras which are required to be quasisyntomic with surjective Frobenius.\footnote{In related work of Scholze and others one also encounters quasiregular semiperfectoid algebras.} From a computational perspective, taking $R$ to be quasiregular semiperfect makes sense since then $\gr^n(\Fil_{\bullet}^{\conj}\L\Omega_R)\simeq(\Wedge^n\L_{R/\F_p})[-n]$ -- i.e., we have $R^{(1)}=R$. One nice thing about these quasiregular semiperfect algebras is that $\L_{R/\F_p}[-1]$ is flat concentrated in degree zero and the same holds true for each $(\Wedge^n\L_{R/\F_p})[-n]$. It follows that $\F_p\tensor_{\Z}^{\L}\L\Omega_R$ is concentrated in degree zero and the same holds true for $\ov{A}(R)$ by $p$-completeness. So, we can identify $\ov{A}(R)$ with an ordinary ring and $\L\Omega_R$ just looks like $\ov{A}(R)/p\ov{A}(R)$. Another nice thing about quasiregular semiperfect algebras is the following result.
+
+\begin{lemma}
+The functor $\ov{A}: \CAlg_{\F_p}^{\qsyn}\to\D_p(\Z)$ is a right Kan extension of its restriction to $\CAlg_{\F_p}^{\qrsp}$.
+\end{lemma}
+
+We take this on faith for now. Recall that our goal with all of this nonsense is to construct a commutative diagram
+\begin{center}
+\begin{tikzcd}
+R\Gamma_{\crys}(-) \arrow[rr, dotted, "u"] \arrow[rd, "\eps^{\crys}"'] & & A(-) \arrow[ld, "\eps"] \\
+& \id_{\CAlg_{\F_p}^{\reg}} &
+\end{tikzcd}
+\end{center}
+We can actually do better, constructing a commutative diagram
+\begin{center}
+\begin{tikzcd}
+R\Gamma_{\crys}(-) \arrow[rr, dotted, "\ov{u}"] \arrow[rd, "\eps^{\crys}"'] & & \ov{A}(-) \arrow[ld, "\eps"] \\
+& \id_{\CAlg_{\F_p}^{\qsyn}} &
+\end{tikzcd}
+\end{center}
+Here, $\eps$ and $\eps^{\crys}$ are essentially unique extensions of their more restrictive counterparts. The key to the construction lies in the following lemma.
+
+\begin{lemma}
+Let $R\in\CAlg_{\F_p}^{\qrsp}$. Then, $\eps_R: \ov{A}(R)\to R$ is surjective and $I:=\ker\eps_R$ admits divided powers (with this structure necessarily unique since $\ov{A}(R)$ is $p$-torsion-free).
+\end{lemma}
+
+\begin{proof}
+We may simultaneously consider the Frobenius endomorphism on $\L\Omega_R$ and the endomorphism of $\L\Omega_R$ induced by the Frobenius $\phi_R: R\to R$, and it is a fact that these endomorphisms coincide. Moreover, this common endomorphism factors as the composition $\L\Omega_R\xto{\eps_R^{\dR}}R\xto{\iota}\L\Omega_R$ for $\eps_R^{\dR}: \L\Omega_R\to R$ the projection and $\iota: R\to\L\Omega_R$ the inclusion of the first stage of the conjugate filtration. This can be verified first by using Kan extension to reduce to the case of $R$ smooth, and then working explicitly at the level of chain complexes. What does this have to do with the problem at hand? Using the identification $\L\Omega_R\simeq\ov{A}(R)/p\ov{A}(R)$, we may identify $\eps_R^{\dR}$ with the map $\eps_R^{\dR}: \ov{A}(R)/p\ov{A}(R)\to R$ induced by $\eps_R: \ov{A}(R)\to R$ (and using the fact that $R$ is an $\F_p$-algebra). Restricting $\eps_R^{\dR}$ to the first stage of the conjugate filtration gives $\phi_R$, which is surjective by assumption and so $\eps_R^{\dR}$ hence $\eps_R$ is surjective as well. Moreover, the endomorphism $\phi$ of $\ov{A}(R)$ induced by $\phi_R$ is a lift of the Frobenius on the $\F_p$-algebra $\ov{A}(R)/p\ov{A}(R)$ hence equips $\ov{A}(R)$ with the structure of a $\delta$-ring. We may map all of this out in a big ol' commutative diagram 
+\begin{center}
+\begin{tikzcd}
+\ov{A}(R) \arrow[rr, "\phi"] \arrow[d, twoheadrightarrow] \arrow[rd, twoheadrightarrow, "\eps_R"] & & \ov{A}(R) \arrow[d, twoheadrightarrow] \\
+\ov{A}(R)/p\ov{A}(R) \arrow[r, twoheadrightarrow, "\eps_R^{\dR}"'] & R \arrow[r, hookrightarrow, "\iota"'] & \ov{A}(R)/p\ov{A}(R)
+\end{tikzcd}
+\end{center}
+From this it is easy to see that $x\in\ov{A}(R)$ belongs to $I$ if and only if $\phi(x)$ is divisible by $p$. General results on $\delta$-rings then guarantee that $x\in I$ has divided powers in $\ov{A}(R)$ in the sense that $x^n/n!$ makes sense in $\ov{A}(R)$ for $n\geq0$. Moreover,
+\begin{align*}
+\phi\paren{\df{x^n}{n!}}
+=\df{x^n}{n!}
+=\df{p^n}{n!}\paren{\df{\phi(x)}{p}}^n
+\end{align*}
+is $0$ \textup{mod} $p$ so these divided powers belong to $I$.
+\end{proof}
+\end{document}
+\section*{Step (2)}
+
+\section*{Step (3)}
+\end{document}

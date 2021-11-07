@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+
+\usepackage{kernel_of_truth}
+\usepackage{normal_setup}
+
+\renewcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathcal{E}}
+\renewcommand{\phi}{\varphi}
+
+\DeclareMathOperator{\iinj}{inj}
+\DeclareMathOperator{\pproj}{proj}
+
+\begin{document}
+\title{Chain Complexes}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+Our goal in these notes is to describe the category of (left) $R$-modules (and related categories) for $R$ a fixed commutative ring from various homotopical perspectives. (Our goal isn't to beat the homotopy theorists, who've honestly had us beat since before we even started.) Unless otherwise stated, $\C$ denotes a category and $\Map(\C)$ the category whose objects are morphisms in $\C$ and morphisms are commutative squares in $\C$.
+
+\section{Generalities for Model Categories}
+\subsection{Basic Definition}
+\begin{definition}
+A morphism $f\in\Map(\C)$ is a \textbf{retract} of $g\in\Map(\C)$ if there exists a commutative diagram
+\begin{center}
+\begin{tikzcd}
+A \arrow[r] \arrow[rr, bend left, "\id_A"] \arrow[d, "f"] & C \arrow[r] \arrow[d, "g"] & A \arrow[d, "f"] \\
+B \arrow[r] \arrow[rr, bend right, "\id_B"'] \arrow[r] & D \arrow[r] & B
+\end{tikzcd}
+\end{center}
+A \textbf{functorial factorization} relative to $\C$ is the data of a pair of functors $\alpha,\beta: \Map(\C)\to\Map(\C)$ such that $f=\beta(f)\circ\alpha(f)$ for every $f\in\Map(\C)$.
+\end{definition}
+
+\begin{definition}
+Let $i: A\to B$ and $p: X\to Y$ be morphisms in $\C$. We say that $i$ has the \textbf{left lifting property} (LLP) with respect to $p$ or, equivalently, $p$ has the \textbf{right lifting property} (RLP) with respect to $i$ if we may complete every commutative diagram
+\begin{center}
+\begin{tikzcd}
+A \arrow[r] \arrow[d, "i"'] & X \arrow[d, "p"] \\
+B \arrow[r] \arrow[ru, dotted, "\exists"] & Y
+\end{tikzcd}
+\end{center}
+\end{definition}
+
+\begin{definition}
+A \textbf{model structure} on $\C$ is the data of subcategories $W,C,F$ (whose morphisms are respectively called \textbf{weak equivalences}, \textbf{cofibrations}, and \textbf{fibrations}) and functorial factorizations $(\alpha,\beta)$ and $(\gamma,\delta)$ such that
+\begin{itemize}
+\item $W$ satisfies the $2$-out-of-$3$ property for pairs of composable morphisms;
+
+\item $W,C,F$ are closed under retracts;
+
+\item trivial\footnote{The word ``trivial'' here denotes that the morphism in question is also a weak equivalence.} cofibrations have the LLP with respect to fibrations;
+
+\item cofibrations have the RLP with respect to trivial fibrations;
+
+\item given any $f\in\Map(\C)$,
+\begin{align*}
+\alpha(f)\in C,
+\qquad \beta(f)\in F\cap W,
+\qquad \gamma(f)\in C\cap W,
+\qquad \delta(f)\in F.
+\end{align*}
+\end{itemize}
+A \textbf{model category} is a small, complete, cocomplete category $\C$ equipped with a model structure.
+\end{definition}
+
+Unless otherwise stated, we will from here on out take $\C$ to be a model category. By assumption, $\C$ has an initial object $0$ and a final object $1$.\footnote{The notation here is meant to be reminiscent of intervals. It's also common to see the initial object denoted $\emptyset$ and the final object denoted $*$.} We say an object $X\in\C$ is \textbf{cofibrant} if the canonical map $0\to X$ is a cofibration and \textbf{fibrant} if the canonical map $X\to1$ is a fibration. Applying $(\alpha,\beta)$ to $0\to X$ yields a \textbf{cofibrant replacement} functor $Q: \C\to C\subset\C$ equipped with a natural transformation $q: Q\to\id_{\C}$ such that $q_X: QX\to X$ is a trivial fibration for every $X\in\C$. Similarly, applying $(\gamma,\delta)$ to $X\to1$ yields a \textbf{fibrant replacement} functor $R: \C\to F\subset\C$ equipped with a natural transformation $r: R\to\id_{\C}$ such that $r_X: RX\to X$ is a trivial cofibration for every $X\in\C$.
+
+\begin{lemma}
+Let $f\in\Map(\C)$. Then, $f$ is a cofibration (resp., trivial cofibration) if and only if it has the LLP with respect to all trivial fibrations (resp., fibrations). Dually, $f$ is a fibration (resp., trivial fibration) if and only if it has the RLP with respect to all trivial cofibrations (resp., cofibrations).
+\end{lemma} 
+
+Since $\C^{\op}$ is naturally a model category and $(\C^{\op})^{\op}=\C$, many statements about model categories have a corresponding dual statement. We will most often omit such statements.
+
+\begin{corollary}
+Both $C$ and $C\cap W$ are closed under pushouts.
+\end{corollary}
+
+Just to make sure we know how to play the dualizing game, the dual of the above statment is that $F$ and $F\cap W$ are closed under pullbacks.
+
+\begin{lemma}[Brown]
+Let $\D$ be a category with a subcategory of weak equivalences satisfying the $2$-out-of-$3$ property for pairs of composable morphisms. Let $F: \C\to\D$ be a functor sending trivial cofibrations between cofibrant objects to weak equivalences. Then, $F$ sends all weak equivalences between cofibrant objects to weak equivalences.
+\end{lemma}
+
+\subsection{Aside on Homotopy}
+
+
+\subsection{Quillen Stuff}
+What is the natural notion of ``morphism'' between model categories?\footnote{We can away with the quotes here by working with $2$-categories.}
+
+\begin{definition}
+A functor $F: \C\to\D$ between model categories is a \textbf{left Quillen functor} if $F$ is a left adjoint preserving both cofibrations and trivial cofibrations (there is a corresponding dual notion of \textbf{right Quillen functor}). A \textbf{Quillen adjunction} is an adjunction $(F,U,\phi)$ (so $\phi: \D(FA,B)\xto{\sim}\C(A,UB)$ functorial in $A\in\C$ and $B\in\D$) such that $F$ is a left Quillen functor.\footnote{Note that there is no ambiguity in this definition since any right adjoint to $F$ is isomorphic to $U$ via a unique natural isomorphism.}
+\end{definition}
+
+We think of a ``morphism'' between model categories as a Quillen adjunction. This has the advantage of being ``self-dual'' in the sense that, given $(F,U,\phi)$ an adjunction, $F$ is a left Quillen functor if and only if $U$ is a right Quillen functor. We ``compose'' adjunctions $(F,U,\phi): \C\to\D$ and $(F',U',\phi'): \D\to\E$ by taking $(F'\circ F,U\circ U',\phi\circ\phi'): \C\to\E$ with $\phi\circ\phi'$ defined by the composition 
+$$\E(F'FA,B)\xto{\phi'}\D(FA,U'B)\xto{\phi}\C(A,UU'B).$$
+Using this, we can define a \textbf{Quillen equivalence} to be a Quillen adjunction with an inverse Quillen adjunction under composition.
+
+We're now in a position to discuss Quillen derived functors (note that, nowadays,nobody thinks about derived functors this way outside of computational applications). 
+
+\begin{definition}
+Let $F: \C\to\D$ be a left Quillen functor. We define the \textbf{left Quillen derived functor} $LF: h\C\to h\D$ as the composition
+$$h\C\xto{hQ}h\C_c\xto{hF}h\D.$$
+\end{definition}
+
+Note that we may also derive natural transformations between left Quillen functors. Both of these constructions have right analogs.
+
+\section{Chain Complexes}
+Let $\Ch(R)$ denote the abelian category of chain complexes of (left) $R$-modules (such modules themselves form a category denoted $\Mod(R)$). Note that $\Hom$-sets in $\Ch(R)$ are naturally enriched over $\Mod(R)$ but not over $\Ch(R)$. We can partially overcome this shortcoming by working with internal $\Hom$ characterized by 
+$$\un{\Hom}(X,Y)_n:=\prod_{i\in\Z}\Hom_R(X_i,Y_{i+n})$$
+with differential $df:=d_Y\circ f-(-1)^nf\circ d_X$.\footnote{Motivating this definition is a rabbit hole well worth the effort to explore.} This should not be confused with $[X,Y]$, the set of chain homotopy classes of maps from $X$ to $Y$.
+
+In what follows, we will describe two model structures on $\Ch(R)$ that we choose to call the \emph{projective} and \emph{injective} model structures. Let's first start with the projective model structure. Given $n\in\Z$, define functors $S^n,D^n: \Mod(R)\to\Ch(R)$ by taking $S^n(M)$ to be $M$ concentrated in degree $n$ and $D^n(M)$ to be two copies of $M$ in degrees $n,n-1$ with the identity map between them. Note that there is a natural injection $S^{n-1}(M)\inj D^n(M)$, giving rise to a collection 
+$$I:=\{S^{n-1}\inj D^n\}_{n\in\Z}$$
+with $S^{n-1}:=S^{n-1}(R)$ and $D^n:=D^n(R)$. We also make note of the collection $J:=\{0\to D^n\}_{n\in\Z}$. 
+
+\begin{definition}
+Fix $f\in\Map(\Ch(R))$. We say that $f$ is a \textbf{weak equivalence} if it is a qis. We say that $f$ is a \textbf{fibration} if it is \textbf{$J$-inj} -- i.e., $f$ has the RLP with respect to every morphism in $J$. We say that $f$ is a \textbf{cofibration} if it is \textbf{$I$-cof} -- i.e., $f$ is ($I$-inj)-proj in the sense that it has the LLP with respect to every $I$-inj morphism. These notions together define the \textbf{projective model structure} on $\Ch(R)$.
+\end{definition}
+
+Of course, we still need to check that the above actually defines a model structure. We begin by examining each type of morphism in more detail, starting with the fibrations.
+
+\begin{proposition}
+A morphism $f\in\Map(\Ch(R))$ is a fibration if and only if it is levelwise surjective, and a trivial fibration if and only if it is $I$-inj.
+\end{proposition}
+
+Cofibrations are a bit trickier to work with. We first handle the cofibrant objects.
+
+\begin{proposition}
+Let $A\in\Ch(R)$. Suppose $A$ is cofibrant. Then, $A_n$ is projective for every $n\in\Z$. As a partial converse (the full converse is false), suppose that $A$ is bounded below and $A_n$ is projective for every $n\in\Z$. Then, $A$ is cofibrant.
+\end{proposition}
+
+\begin{lemma}
+Let $C,K\in\Ch(R)$ with $C$ cofibrant and $K$ acyclic. Then, $[C,K]=0$.
+\end{lemma}
+
+\begin{proposition}
+A morphism $i\in\Map(\Ch(R))$ is a cofibration if and only if it is levelwise split injective with cofibrant cokernel.
+\end{proposition}
+
+\begin{proposition}
+A morphism $i\in\Map(\Ch(R))$ is $J$-cof if and only if it is levelwise injective with cokernel projective as a complex. Hence, every element of $J$-cof is a trivial cofibration.
+\end{proposition}
+
+\textcolor{red}{How are monomorphisms in $\Ch(R)$ related to levelwise injections? How are epimorphisms in $\Ch(R)$ linked to levelwise surjections? How are projective complexes linked to complexes of projectives? What role does boundedness play in all of this (and why)?}
+
+The caveat now is that this is enough to \emph{generate} a model structure. What this means precisely is a bit subtle and requires some set theoretic considerations. \textcolor{red}{This generating business implies that we have at this point only described ``basic'' weak equivalences, cofibrations, and fibrations. What about ``general'' morphisms in each class?}
+
+For the injective model structure, we say a morphism in $\Ch(R)$ is an \textbf{injective fibration} if it has the RLP with respect to all levelwise injective qis's. We call the fibrant objects in this setup \textbf{inj-fibrant} for emphasis (\textcolor{red}{TO DO: compare this with fibrant objects in the projective setup.}). As before we take weak equivalences to be qis's.
+
+\begin{theorem}
+The above conventions give rise to a cofibrantly generated model structure on $\Ch(R)$, called the \textbf{injective module structure}. Moreover, given $f\in\Map(\Ch(R))$ and $A\in\Ch(R)$,
+\begin{itemize}
+\item $f$ is an injective fibration if and only if it is levelwise surjective with inj-fibrant cokernel;
+
+\item if $A$ is inj-fibrant then $A_n$ is injective for every $n\in\Z$;
+
+\item if $A$ is bounded above and $A_n$ is injective for every $n\in\Z$ then $A$ is inj-fibrant;
+
+\item $f$ is a trivial injective fibration if and only if it is levelwise surjective with injective cokernel;
+
+\item $A$ is injective if and only if it is inj-fibrant and acyclic.
+\end{itemize}
+\end{theorem}
+
+Let's now compare the projective and injective model structures, using $\Ch(R)^{\pproj}$ and $\Ch(R)^{\iinj}$ to distinguish between the associated model categories. \textcolor{red}{TO DO: Finish this!!!}
+\end{document}
