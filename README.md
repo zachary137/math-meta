@@ -12,4 +12,4 @@ This is where I store current and old teaching materials.
 
 ## notes
 
-This is where I store my notes for courses, talks, etc.
+This is where I store my notes for courses, talks, etc. Some notes are unfinished or really unpolished (even containing errors!), so use at your own risk.
