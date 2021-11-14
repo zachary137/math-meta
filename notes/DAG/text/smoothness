@@ -1,1 +1,7 @@
+In the classical setting, smoothness (which is a "relative notion") is a combination of formal smoothness plus an appropriate finiteness condition.
+
+Can various kinds of singularity (nodal, cuspidal, etc.) be detected at the formal level? 
+More generally, can we describe "singularity types" by specifying the (non-)existence of certain formal lifts?
+
+Under suitable conditions, smoothness is the same as regularity (an "absolute notion"). Does this generalize to the derived setting?
 
