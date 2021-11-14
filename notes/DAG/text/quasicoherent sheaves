@@ -1,1 +1,7 @@
+Let X be a scheme.
+QCoh(X) is a Grothendieck abelian category (c.f. https://amathew.wordpress.com/2011/07/30/quasi-coherent-sheaves-presentable-categories-and-a-result-of-gabber/)
+	Roughly, there is a nice system of generators and filtered colimits are exact
+	Implies that there are enough injectives
+
+We want to recover all of the nice properties of QCoh(X) when X is a scheme (or even a stack!) from the derived setting.
 
