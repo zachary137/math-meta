@@ -13,10 +13,25 @@ This is stable since stability is preserved under limits of (\infty,1)-categorie
 This inherits symmetric monoidal structure from the module categories (module structure?).
 This extends the previous definition because...
 Expanding everything out gives us an explicit description in terms of cocycles.
+QCoh can be viewed as RKE of Mod along Yoneda embedding \Spec: \SCR^{\op}\inj\PStk.
+	What exactly is the target category here?
+
+Forgetful functor from symmetric monoidal \infty-categories to plain \infty-categories preserves and detects limits.
+Monadic functors are conservative.
 
 QCoh can be used to restate the notion of Zariski open covering.
+	Uses notion of conservativity
+
+ANY morphism of f: Y\to X of prestacks automatically induces an adjoint pair with f^* the left adjoint and f_* the right adjoint.
+	Are these symmetric monoidal? The functor f^* certainly is but maybe not f_*...
+	Are these (co-)continuous (might need to index by cardinal...)?
 
 Derived prestack X has structure presheaf \O_X in QCoh(X) which functions as unit for the symmetric monoidal structure.
 
 Let p: X\to S be a morphism of derived prestacks and F a quasicoherent module over S. 
 We have sections \Gamma(X,F) defined by Hom_{QCoh(X)}(\O_X,p^*F).
+
+Proposition: For derived schemes we need only sample over affine open derived subschemes.
+	This should be the same as showing that QCoh is a Zariski sheaf.
+	
+What is the difference between "sheafiness" and excision?
