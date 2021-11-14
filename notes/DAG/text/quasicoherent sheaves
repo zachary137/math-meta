@@ -5,3 +5,18 @@ QCoh(X) is a Grothendieck abelian category (c.f. https://amathew.wordpress.com/2
 
 We want to recover all of the nice properties of QCoh(X) when X is a scheme (or even a stack!) from the derived setting.
 
+To a simplicial commutative ring A we can associate the category Mod_A, which is stable and symmetric monoidal. Moreover, it is an arena (i.e., presentable).
+
+Given an affine derived scheme X, define QCoh(X) to be Mod_A, where X is equivalent to Spec A and QCoh(X) is independent of A in a way that can be made precise.
+Given a derived prestack X, define QCoh(X) to be \flim_{S\to X}\QCoh(S) for S an affine derived scheme, with limit taken in the category of arenas.
+This is stable since stability is preserved under limits of (\infty,1)-categories.
+This inherits symmetric monoidal structure from the module categories (module structure?).
+This extends the previous definition because...
+Expanding everything out gives us an explicit description in terms of cocycles.
+
+QCoh can be used to restate the notion of Zariski open covering.
+
+Derived prestack X has structure presheaf \O_X in QCoh(X) which functions as unit for the symmetric monoidal structure.
+
+Let p: X\to S be a morphism of derived prestacks and F a quasicoherent module over S. 
+We have sections \Gamma(X,F) defined by Hom_{QCoh(X)}(\O_X,p^*F).
