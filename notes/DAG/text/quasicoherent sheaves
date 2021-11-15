@@ -14,13 +14,14 @@ This inherits symmetric monoidal structure from the module categories (module st
 This extends the previous definition because...
 Expanding everything out gives us an explicit description in terms of cocycles.
 QCoh can be viewed as RKE of Mod along Yoneda embedding \Spec: \SCR^{\op}\inj\PStk.
-	What exactly is the target category here?
+	What exactly is the target category here? I think it should be infty-Cat or arenas...
 
 Forgetful functor from symmetric monoidal \infty-categories to plain \infty-categories preserves and detects limits.
 Monadic functors are conservative.
 
 QCoh can be used to restate the notion of Zariski open covering.
 	Uses notion of conservativity
+Should be possible to define a derived scheme only referring to classical rings and quasicoherent sheaves (I think...).
 
 ANY morphism of f: Y\to X of prestacks automatically induces an adjoint pair with f^* the left adjoint and f_* the right adjoint.
 	Are these symmetric monoidal? The functor f^* certainly is but maybe not f_*...
