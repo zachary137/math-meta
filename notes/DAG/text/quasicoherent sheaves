@@ -26,7 +26,7 @@ ANY morphism of f: Y\to X of prestacks automatically induces an adjoint pair wit
 	Are these symmetric monoidal? The functor f^* certainly is but maybe not f_*...
 	Are these (co-)continuous (might need to index by cardinal...)?
 
-Derived prestack X has structure presheaf \O_X in QCoh(X) which functions as unit for the symmetric monoidal structure.
+Derived prestack X has structure presheaf \O_X in QCoh(X) which is unit for the symmetric monoidal structure.
 
 Let p: X\to S be a morphism of derived prestacks and F a quasicoherent module over S. 
 We have sections \Gamma(X,F) defined by Hom_{QCoh(X)}(\O_X,p^*F).
