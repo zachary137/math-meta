@@ -11,3 +11,5 @@ The equivalence of the two notions is not a priori obvious.
 In the derived setting, we should be able to follow the above recipe for general derived prestacks, demanding surjectivity on \pi_0 for affine derived schemes.
 We want closed immersions of derived schemes to induce closed immersions on underlying classical schemes (and vice-versa because...).
 What happens when we pass from derived prestacks to the classical realm?
+
+Is every open immersion the complement of a closed immersion? This may be true for derived schemes but probably not for general derived prestacks.
