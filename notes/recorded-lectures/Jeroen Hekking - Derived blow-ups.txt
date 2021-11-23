@@ -1,0 +1,19 @@
+Projectivity is not a local property
+
+Part of the subtlety for virtual Cartier divisors is that we want Cartesian diagrams once we pass to underlying classical schemes (I think...)
+
+What is geometric interpretation of taking nonnegative part of the graded algebra?
+
+R_{Z/X} is the nonnegative part of R_{Z/X}^{ext}
+
+Derived blowup Bl_Z X is Proj of R_{Z/X}
+
+Derived Rees algebra does not behave quite like the classical Rees algebra
+
+What is the geometry of the derived Proj construction?
+	What about the spectral analogue?
+	Is this related to pseudo-coherence?
+
+Jeroen gives definition of normal cone as pullback of D_{Z/X}
+	Can show that this is total space of a vector bundle, though should beware of non-connectivity
+	Why is the pullback stacky with the right properties?

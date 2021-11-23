@@ -1,0 +1,48 @@
+Note: There might be separate "Sato" and "Saito" in this story...
+
+MacPherson (conjecture of Deligne and Grothendieck)
+	X char. 0
+	Cons(X) = {constructible functions f: X\to\Z}
+		This means we have some stratification with f locally constant on each stratum
+	Natural map c_X: Cons(X)\to CH_*(X) compatible with proper pushforward
+	X smooth \implies c_X(1) is total Chern class of T_X (tangent sheaf) capped with fundamental class [X]
+	Can be seen as analogue of Gauss-Bonnet in the singular case
+
+Microlocal description of c_X (Sabbah, Ginzburg, Kashiwara, Sato)
+	"Microlocal" here indicates that are we working with things in terms of the geometry of cotangent bundles
+1. Cons(X) --> {Lagrangian cycles in T^*M supported on X}
+	This is assuming we can find an embedding X\inj M with M smooth (often possible)
+	This map is some version of microlocalization
+	RHS can be viewed as symplectic analogue of Chow group
+2. Intersection with zero section 0: M\inj T^*M
+
+Sheaf-theoretic interpretation (Sato (1969), Kashiwara-Schapira)
+	D_c(X) = {constructible sheaves on X}
+	There is a rank isomorphism rk: K_0(D_c(X))\to Cons(X)
+	So, we can write down cc_X: K_0(D_c(X))\to CH_*(X) giving us characteristic cycles
+	Constructing this map is a bit subtle
+
+Sato: define a "microlocalization of sheaves" \mu_X: D(X)\to D^{\G_m}(T^*X)
+	Specialization to the tangent bundle
+	Fourier-Sato transform FS: D^{\G_m}(TX)\to D^{\G_m}(T^*X)
+		One checks that this preserves constructible objects
+		Actually works for any vector bundle and its dual
+
+Singular support SS(F) of constructible sheaf F
+	Contained in T^*X
+	Lets us define characteristic class CC(F) living in CH_*(T^*X) supported on SS(F)
+	From this we can build some kind of characteristic cycle
+	Somehow lets us pass from sheaves to functions
+
+Deligne gives analogy between:
+	irregular singularities (of a D-module or PDE, in the analytic setting)
+	wild ramification (of an l-adic sheaf, in the pos. char. algebraic setting)
+	analogy can't be super simple because of things like Grothendieck-Ogg-Shafarevich (GOS) formula which tells you that MacPherson's result breaks down
+	Beilinson and Sato have succeeded in getting higher dimensional analogues of GOS formula, allowing us to better understand things like proper pushforward
+	Warning: We don't (yet, at least) have microlocalization in the l-adic setting!
+
+Cisinski's program:
+	1. Do Beilinson and Sato stuff in motivic setting
+	2. Do microlocalization for motivic sheaves
+
+Need to come back to this one at some point...
