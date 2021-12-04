@@ -1,0 +1,9 @@
+Bat-Man for stacks
+	Batyrev-Manin(-Malle)
+	Work of Ellenberg-Satriano-Zureick-Brown
+	Want to get inherent notion of height on the stack BG
+
+Tauberian methods
+Pathological role played by quadratic shifts
+
+Relates to very computationally explicit work of John Voight, Carl Pomerance, etc.
