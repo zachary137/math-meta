@@ -1,0 +1,37 @@
+Goal: Define a good theory of motivic cohomology for singular schemes
+
+Theorem (Grothendieck): 
+Let X be a quasiprojective smooth scheme over a field.
+Then, K_0(X)_Q = \bigoplus_{i=0}^{dim X} CH^i(X)_Q. [rational statement]
+
+Some History
+1968: Bass makes sense of negative K-groups
+1990: Thomason associates Bass K-groups K^B(X) to X quasiprojective which are "nice"
+	Form Nisnevich sheaf of spectra
+	Projective bundle formula
+	A^1-invariance for regular Noetherian schemes (with K-groups vanishing in negative degrees)
+2001: Weibel gives an interesting interpretation of K_{-2}(X) in certain circumstances
+	Let X be a normal surface over a field 
+	K_{\leq -3}(X) = 0
+	K_{-2}(X) = Z^{\rho} for \rho the # of loops in the exceptional divisor for any resolution of singularities for X
+Weibel also conjectures that K_{-dim(X)}(X) = 0 for X Noetherian and finite dimensional
+2018: Kerz, Strunk, and Tamme prove Weibel's conjecture
+
+
+1986: Bloch introduces higher Chow groups
+1987: Notes on motivic cohomology (Beilinson-MacPherson-Schechtman, the "first" BMS)
+	"Imagine a world where KU^*(X) is defined (for X a topological space) but not H^*(X)."
+	Mused that, for X smooth quasiprojective over a field, K(X) should carry some descending filtration with Atiyah-Hirzebruch-style spectral sequence relating K-theory to cohomology of some twists (generalization of Tate twists)
+	Chow line - computed by Chow groups using Riemann-Roch
+	Milnor line - computed by Milnor K-theory
+	Some precise vanishing region (support condition)
+	Very closely connected to so-called Beilinson's conjectures
+
+2019: Bachmann-Elmanto (close with Morrow) define Z(j)^{mot} which has many nice properties and agrees with many other constructions
+	NOT A^1-invariant
+	Nisnevich sheaf but not a cdh sheaf (there is a version with a cdh sheaf but we have to replace K-theory by motivic K-theory)
+	Char. 0 theory here is closely related to THH and other such things a la BMS II (we are working in the equichar. case to avoid these kinds of mixed char. phenomena)
+
+https://math.mit.edu/topology/notes/fa21/elmanto-22nov2021.mp4
+27:00:00/1:08:14
+	
