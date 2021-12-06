@@ -1,0 +1,16 @@
+---Random torsor stuff---
+Construct an example of GL_2-torsor whose associated automorphism group is group of invertible elements in a quaternion algebra
+
+Let H be a group scheme over Spec B which is an fppf sheaf and assume BH has affine diagonal.
+	Then, H is the fiber product of * with itself over BH (in the sense of groupoids).
+	The induced map from H to * is fppf.
+	* here is just Spec B.
+	* --> BH is trivial H-torsor.
+	The point is that H is canonically given by automorphisms of the trivial H-torsor.
+---
+
+---Thing from Tobi---
+Z_p{t} = Z_p[[t]] \cap Hol(C)
+	What topology should we put on it?
+	Should it have any kind of nice moduli-theoretic interpretation?
+---
