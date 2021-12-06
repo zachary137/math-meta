@@ -1,0 +1,14 @@
+---Meeting with Keerthi---
+Student of Ayoub has some result on rigid motives
+	Some kind of tilting correspondence
+	Says that this is somehow a topological notion
+Exponential motives
+Student of Bhatt has stacky approach to integral cohomology theories (says over F_p)
+	Somehow things are encoded by quasi-ideals (not exactly sure what these are but I think Drinfeld gives a definition)
+Prismatic perspective on Bruhat-Tits buildings
+	Readable reference of Bruhat-Tits theory: http://citeseerx.ist.psu.edu/viewdoc/download?rep=rep1&type=pdf&doi=10.1.1.217.9089
+	Fargues-Fontaine curve should play a foundational role that cleans things up significantly
+---
+
+Are there suitable conditions we can put on a rigid analytic space to make it behave like a Kahler manifold?
+	What properties do we want to transfer over (e.g., Hodge symmetry)?
