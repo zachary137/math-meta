@@ -1,0 +1,38 @@
+https://ayoucis.wordpress.com/2020/09/11/a-taster-on-rigid-geometry-pt-i-the-tate-perspective/#more-15092
+	Excellent source of exposition in its own right
+	Main inspiration for this talk
+	Provides good summary of introductory literature for further reading
+
+Goal: "algebraic" theory of "p-adic manifolds"
+
+Want BOTH of the following to be open:
+	{x : f(x) \neq 0}
+	{x : |f(x)| \leq 1}
+
+Closed unit disc should be: 
+	Connected
+	Quasi-compact (same as compact, for the non-algebraic geometers in the room)
+
+Topological properties
+Picard group
+Dimension
+Functor-of-points
+
+The closed unit disk
+The punctured closed disk
+The multi-punctured disk
+The open disk
+Affine space
+Projective space
+The multiplicative group
+Tate elliptic curves
+
+Warning: Irreducible rigid analytic spaces are relatively rare!
+	This means that we will not be able to follow the standard practice of working with generic points.
+
+Classical theory of covering spaces
+	Establishes conditions on base topological space giving correspondence: 
+		discrete fibrations over the (dual of the) fundamental groupoid
+		actual topological spaces over the base space
+
+Artin-Tate lemma
