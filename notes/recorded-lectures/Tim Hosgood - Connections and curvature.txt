@@ -1,0 +1,59 @@
+---Introduction---
+Excellent book
+Stephen Bruce Sontz - Principal Bundles: The Classical Case
+
+One important application of connections is to gauge theory
+	Yang-Mills theory
+	Maxwell's equations
+	Dirac monopole
+	Instantons
+
+Higher analogues
+	Gerbe theory (can be viewed as sheaves of groupoids or through an iterative procedure)
+	Deligne cohomology (interesting mix of topological and analytic obstruction theory)
+
+Ehresmann connections (smooth fiber bundles)
+	Principal connections (principal bundles)
+	Linear/Koszul connections (holomorphic/smooth vector bundles)
+		Levi-Civita connections (tangent bundles of Riemannian manifolds)
+
+Common approaches to connections
+	Parallel transport
+	Covariant derivatives
+	Distributions of horizontal subspaces
+	Characteristic classes
+---
+
+---Linear systems of ODEs---
+This is where we see a connection presented as the de Rham differential d plus some matrix of 1-forms
+Slogan: Flat sections of a connection correspond to solutions of an IVP.
+Curvature (square of connection) is obstruction to solving the system
+	Being able to solve for given ANY initial conditions is equivalent to vanishing of the curvature
+
+Beautiful and clear exposition on the statement and significance of the Frobenius integrability theorem (especially in relation to the Riemann-Hilbert correspondence)
+---
+
+---Parallel transport---
+Let X be some kind of (geometric) space.
+Let E be some kind of bundle living over X.
+To paths in X we may associate morphisms of fibers of E (at the endpoints of a given path).
+As a general principle, asking for these morphisms to
+	respect underlying structure;
+	be smooth (in some sense); and
+	be functorial (w.r.t. path concatenation)
+is equivalent to asking for a connection!
+
+This perspective is really interesting if we think of principal G-bundles over X as functors from X to the classifying space BG.
+We get that the data of a principal G-bundle over X equipped with a connection is equivalent to the data of a functor from P_1(X) to BG.
+	P_1(X) is the path groupoid of X with objects points of X and morphisms "thin homotopy classes of paths with sitting instants."
+---
+
+---Chern-Weil theory---
+Some motivation:
+	X closed smooth manifold
+	Euler char. of X = Euler class of tangent bundle TX evaluated on the fundamental class
+	Basically a consequence of Gauss-Bonnet-Chern theorem (admits vast generalization: arXiv.math/0702162 [math.DG])
+	One omni-present topic that comes in here is the Atiyah-Singer index theorem
+
+Beautiful story relating curvature (hence connections) with Chern classes, showing that Chern classes can be seen as measuring obstructions to the existence of global connections for holomorphic vector bundles
+---
