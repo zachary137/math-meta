@@ -1,0 +1,14 @@
+A partition of a topological space is a decomposition into a disjoint union of locally closed subsets
+If we obtain one partition from another simply by taking unions of parts then we have a refinement
+A stratification is a partition whose closures of parts are contained in suitable unions of other parts
+
+An affine stratification of a scheme X is a stratification that:
+	is locally finite -- i.e., every point has a nbhd meeting only finitely many strata
+	has affine strata
+	has inclusion maps from strata to X which are affine
+These conditions should imply that we can take scheme-theoretic closure, thus eliminating the topology...
+
+Existence of finite affine stratification of a scheme is same as that scheme being qcqs
+
+For a Noetherian scheme of finite Krull dim, the affine stratification number is at most the Krull dim
+For a nonempty qcqs scheme of affine stratification number n, the pth cohomology of any quasicoherent sheaf vanishes for p>n

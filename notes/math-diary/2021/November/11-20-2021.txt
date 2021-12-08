@@ -1,0 +1,21 @@
+According to Scholze...
+	If we want a global char. 0 shtuka then we need to look at a paper of Kottwitz thinking about compatible lobal BG (classifying stack) with some kind of global reciprocity law encoding compatibility
+
+Thinking in terms of test objects, p-completion tells us to restrict attention to p-nilpotent test objects
+
+---Conversation with Sidd---
+Broadly speaking, Sidd is interested in zeta functions (and values) and their relationship to "stacky" point counts
+Want to compactify Bun_G in a suitable way (e.g., accounting for singularities) and take stacky point count
+	Sidd has a formula for certain smooth curves
+	Sidd has a conjectural formula for the cuspidal cubic
+
+Key players: Hilbert and motivic zeta functions
+
+Papers with results worth contextualizing and generalizing
+	Altman-Kleiman - compactification of Pic^0
+	Two papers of Zhiwei Yun
+	Paper of Lurie-Gaitsgory
+	Atiyah - stacky classification of vector bundles over elliptic curves for SL_2(C)
+
+Does Beauville-Lazslow play any role here?
+---

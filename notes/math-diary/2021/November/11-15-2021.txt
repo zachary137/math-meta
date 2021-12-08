@@ -1,0 +1,16 @@
+Does the universal property of divided power algebras naturally also us to relate with symmetric and exterior algebras?
+
+What is it about rigid analytic motives that Keerthi believes we should be able to extract and employ?
+	Want a notion of motivic cohomology that works for a general class of diamonds (maybe locally spacial, etc.) and in particular Bun_G
+		This would be where cycle classes live
+		Want to have intersection product and other such tools to work with
+		This would explain why Shimura cycles are as they are
+
+Can we define condensed analogs of abelian varieties/schemes that are "rigid" in a manner similar to their classical counterparts?
+
+Perfect qcoh sheaves (need this if we want to do algebraic K-theory)
+	One must determine the appropriate setting for applying Grothendieck's construction
+
+Every derived ring has an underlying H\Z-algebra in spectra
+H\F_2\tensor H\F_2 (tensor product of Eilenberg-MacLane spectra) is not a derived ring
+	Has to do with DL action
