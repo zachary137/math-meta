@@ -1,0 +1,18 @@
+We want a theory of "solid modules" (condensed abelian groups + extra conditions) over "analytic rings" (condensed rings + extra data)
+
+Category of usual coherent sheaves (discrete modules) over a ring does NOT have good notions of f_! and f^!
+Can embed this fully faithfully into category of solid modules over a ring
+	DOES have good notions of f_! and f^!
+
+Moral: The construction of f^! is closely tied to Pontrjagin duals
+	Taken from theory of harmonic analysis over locally compact Hausdorff groups
+	Interchanges discrete abelian groups and compact abelian groups
+
+Problem: A good notion of shtuka over Z does not exist as of the date of this talk (Spring 2021)
+
+Bambozzi-Ben-Bassat-Kremnizer
+	"Derived bornological geometry"
+	Goal is to construct, in some sense, Fargues-Fontaine curve over F_1
+Ginzburg did some char. 0 work on geometric Satake following ideas of Drinfeld
+Smith-Treumann theory
+	Can maybe mix with the condensed theory but this is currently unknown
