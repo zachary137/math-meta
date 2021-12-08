@@ -1,0 +1,21 @@
+connections <---> connection forms (certain kinds of g-valued 1-forms)
+horizontal lifts of vector fields on the base space
+	relative to a principal bundle with distinguished connection (given by choice of subbundle)
+holonomy comes from lifting paths for the projection of a principal bundle
+	we get a subgroup in the diffeomorphism group of the fiber
+	restricted holonomy group comes from looking at contractible paths
+	holonomy group is some subgroup of G (this is not canonical; we get a conjugacy class)
+	holonomy group does not depend on the regularity of the paths we are lifting, so is some sense a topological gadget
+		well almost -- the only difference between \pi_1 and the holonomy group has to do with curvature (so no curvature means holonomy = homotopy)
+curvature form
+	flat = curvature form vanishes
+	same as horizontal subbundle being involutive (in the sense of being closed under the Lie bracket)
+structure equation
+	Maurer-Cartan equations
+modified form of everything for vector bundles
+	get parallel transport
+	subbundle is flat if it is involutive (by definition)
+next time
+	duality
+	curvature form on vector bundles
+	Ambrose-Singer Thm (fundamentally relates curvature and holonomy)
