@@ -1,0 +1,14 @@
+https://www.youtube.com/watch?v=czz7XPb4ePk
+
+Attempts at getting Atiyah-Hirzebruch spectral sequence for Beilinson's conjectures:
+	Bloch-Lichtenbaum (by hand for fields, using "moving by blowing up")
+	Friedlander-Suslin (extending BL)
+	Grayson (quite different)
+	Voevodsky (coordinate-free, using the motivic stable homotopy category)
+
+Voevodsky gives motivic version of the Postnikov tower used in stable homotopy theory
+	This more classical stable gadget is the sense in which Beilinson wanted an Atiyah-Hirzebruch spectral sequence
+	Voevodsky defines what are often referred to as homotopy motives for K-theory 
+	Elegant connection with topological K-theory given (in its modern form) by work of Hopkins-Morel (sketch) and Hoyois (details) (using motivic Steenrod algebra)
+	Landweber exact formal group laws let us get K-theory from cobordism theory (works in the algebraic and topological (or at least complex) settings)
+	Important computation of Spitzwech
