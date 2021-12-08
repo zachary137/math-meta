@@ -1,0 +1,28 @@
+https://www.youtube.com/watch?v=uA9d2LNeqmY
+
+We can get category of rigid analytic spaces by taking category of formal schemes and formally inverting admissible blowups
+	Yields so-called generic fiber approach of Raynaud
+	Formal schemes here are required to be qcqs with finite type ideal of definition
+	Admissible blowups are blowups of open finite type ideals
+	Technically this only gives qcqs rigid analytic spaces -- next need to glue along open immersions
+
+Raynaud's approach seems to yield a "detopologized" rigid analytic space, since we can approach formal schemes without using topology
+
+Affinoid adic spaces Spa(A,A^+) are related to rigid analytic spaces by rigidifying Spf(A^+) [What does this even mean?]
+
+How do we understand etale morphisms for rigid analytic spaces?
+	One guess is to say that they arise from etale morphisms of formal scheme
+	It's certainly true that the Raynaud generic fiber of an etale morphism of formal schemes is etale
+	However, this is not everything -- etale should mean "ramified only along the special fiber"
+	There is good notion of rigid-etale morphism that does what we want
+	Also have good notion of smoothness
+
+For rigid etale motives, need to replace affine line by the so-called Tate ball
+	Get different flavors when comparing the Nisnevich and etale topologies
+	Overconvergence plays some role here (analytic topology as well)
+
+Six-functor formalism
+	Involves a Thom space twist somewhere
+	One of the key results is extended proper base change
+
+Formal motives are related to ordinary motives via the "special fiber" functor
