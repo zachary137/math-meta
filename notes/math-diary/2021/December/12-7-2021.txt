@@ -1,0 +1,71 @@
+---DAG---
+Don't need \twid{B} in the (Lurie) definition of small/infinitesimal extension
+	Really what matters are the sections s, since we can recover everything from this (better looks like classical setting)
+
+o(f) is the obstruction class (for f flat morphism of classical guys)
+	In the commutative square, both vertical maps are flat and both horizontal maps are square-zero
+
+Ext^i(M,N) = \pi_0 Hom(M,N[i])
+
+For the deformation theory story, we take the \pi_0 of the associated Mor in stacks (get pointed maps...)
+
+This is all to get a derived geometric interpretation of the obstruction class
+
+Should be able to formulate our morphism property more intrinsically, using cotangent complex
+
+Beware that there are different standards for "measuring" amplitude
+	[-1,0] and [0,1] could mean the same thing but in different contexts
+
+VCD has modified universal property from the classical case
+	Looking at all maps instead of just ones arising from effective Cartier divisors
+
+What is the "meaning" of the second condition in the definition of VCD?
+	Shift by -1 should be related to conormal sheaf
+	Maybe Koszul duality...
+
+Intrinsic normal cone
+	https://arxiv.org/abs/alg-geom/9601010
+	Behrend and Fantechi give an older construction that might be compatible...
+
+I should point out one reason we might care about derived deformations over classical ones
+	Rigidity of abelian schemes not seen if we look at the broader setting of extensions
+	Flesh out the details here...
+	Connection to Lie algebras, mathematical physics, etc.
+
+What is the geometric understanding of the Weil restriction?
+
+BG_{m,X} classifies line bundles on X with a section
+[A_X^1/G_{m,X}] classifies... line bundles with a section (maybe not...)
+---
+
+---Keerthi research proposal---
+Siegel-Weil formula
+Theta 
+	Lift
+	Series
+	Correspondence
+Modular form
+	Holomorphic
+	Siegel
+	Modularity
+Hodge structure
+	Pure/mixed
+	Polarization
+	Filtration(s)
+	Variation
+Hecke
+	Correspondence
+	Eigensheaf
+
+K3 surface
+CM lift
+Deformation space
+Formal p-divisible group
+Faltings height
+
+Constructing geometric local theta lifts using p-adic geometry
+Arithmetic Chow group related to Fourier expansion of vector-valued modular form
+WTF do we actually mean by a Fourier expansion? By a function-sheaf correspondence?
+
+Can we gain access to integral Chow groups using spectral methods (in the sense of homotopy theory)?
+---

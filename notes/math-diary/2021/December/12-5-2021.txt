@@ -1,0 +1,8 @@
+Functorial perspective on G^0 (connected component of the identity)
+
+Borel-Moore-type theory captures singular and dual compactly supported singular homology at the same time
+Fourier-Mukai transform
+	Given suitably nice geometric objects X,Y (with associated sites), compare the bounded derived categories of sheaves on X,Y,X\times Y
+	Particularly nice version manifests for abelian varieties in conjunction with the Poincare bundle
+	Fourier-Saito transform offers similar description for bounded derived categories of constructible sheaves (these may not be so nicely behaved)
+Constructible condition ensures that bounded derived category maps to something bounded
