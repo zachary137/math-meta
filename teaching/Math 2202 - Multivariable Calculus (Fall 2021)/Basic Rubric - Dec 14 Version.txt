@@ -1,0 +1,112 @@
+6 [12]
+---
+a
+	[1] Compute x-partial derivative
+	[1] Correct x-partial derivative
+	[1] Compute y-partial derivative
+	[1] Correct y-partial derivative
+	[1] z-component
+	[2] Plug in to get normal vector
+		Normal vector: <1,1,-1>
+		Partial credit for consistency
+	[2] Plug in to get tangent plane
+		Tangent plane: 0 = x-1+y-1-(z-2) = x+y-z
+	Partial credit for consistency
+b
+	[1] Plug in to get estimate
+	[1] Correct estimate: 1.03+0.95 = 1.98
+		Full points if consistent
+c
+	[1] Tangent line: x+y-2 = 0
+---
+
+7 [20]
+---
+ai
+	[1] Length
+	[1] "Parallelism"
+	[1] Orientation
+aii
+	[2] Pick B
+	[2] Pick D
+	No points if all circled (good faith judgment)
+bi
+	[2] Pick True
+bii
+	[2] Pick False
+biii
+	[2] Pick True
+c
+	[3] Pick ii
+di
+	[2] Pick D
+	Points deducted for circling other answers
+dii
+	[2] Pick "the value is positive"
+---
+
+8 [22]
+---
+a
+	[1] Solve for parametrization r(t)
+	[1] Compute dr
+	[1] Compute F(r(t))
+	[1] Integrate
+	[1] Show work
+b
+	[1] Use Green's theorem
+	[2] Compute partial derivatives for component functions
+	[2] Convert to polar
+	[1] Correct value (up to sign)
+	[1] Correct orientation
+	[1] Show work
+c
+	[1] Compute g_x
+	[1] Compute g_y
+	[1] Solve g_x = 0
+	[1] Solve g_y = 0
+	[3] Classify the critical points
+		Local min at (-2,0)
+		Saddle point at (0,0)
+		Local min at (2,0)
+d
+	[2] Pick ii
+---
+
+9 [15]
+---
+a
+	[1] x bounds: y^2 \leq x \leq 4
+	[2] y bounds: -2 \leq y \leq 2
+	[1] z bounds: 0 \leq z \leq 9
+	[1] Consistent order of integration
+	[2] Solve for volume
+b
+	[1] Insert density term into integrand
+c
+	[1] z bound unchanged
+	[2] 0 \leq x \leq x_0 on one piece and x_0 \leq x \leq 4 on the other piece
+	[1] -\sqrt{x} \leq y \leq \sqrt{x} on both pieces
+	[1] Set up equation for x_0
+	[2] Solve for x_0
+		Correct answer: 4^{2/3}
+---
+
+10 [12]
+---
+a
+	[1] Pick iv (hyperboloid of two sheets)
+b
+	[1] x-partial: 3x^2-2y
+	[1] y-partial: -2x
+	[1] z-partial: -1
+	[1] Normal vector: <10,-4,-1>
+		Just needs to be consistent with partial derivative calculations
+		Scalar multiple is okay
+c
+	[2] Find other normal vector: <4,2,-6>
+		Scalar multiple is okay
+	[1] Consider intersection of tangent planes
+	[4] Compute tangent line (to curve of intersection)
+		(2,1,3)+t<13,28,18>
+---

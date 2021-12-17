@@ -1,0 +1,112 @@
+6 [12]
+---
+a
+	[1] Compute x-partial derivative
+	[1] Correct x-partial derivative
+	[1] Compute y-partial derivative
+	[1] Correct y-partial derivative
+	[1] z-component
+	[2] Plug in to get normal vector
+		Normal vector: <2,0,-1>
+		Partial credit for consistency
+	[2] Plug in to get tangent plane
+		Tangent plane: 0 = 2(x-1)-(z-1) \implies z = 2(x-1)+1 = 2x-1
+	Partial credit for consistency
+b
+	[1] Plug in to get estimate
+	[1] Correct estimate: 2(0.93)-1 = 0.86
+		Full points if consistent
+c
+	[1] Tangent line: 0 = 2(x-1) \implies x = 1
+---
+
+7 [20]
+---
+ai
+	[1] Length
+	[1] "Parallelism"
+	[1] Orientation
+aii
+	[2] Pick B
+	[2] Pick D
+	No points if all circled (good faith judgment)
+bi
+	[2] Pick True
+bii
+	[2] Pick False
+biii
+	[2] Pick True
+c
+	[3] Pick i
+di
+	[2] Pick F
+	Points deducted for circling other answers
+dii
+	[2] Pick "the value is negative"
+---
+
+8 [22]
+---
+a
+	[1] Solve for parametrization r(t)
+	[1] Compute dr
+	[1] Compute F(r(t))
+	[1] Integrate
+	[1] Show work
+b
+	[1] Use Green's theorem
+	[2] Compute partial derivatives for component functions
+	[2] Convert to polar
+	[1] Correct value (up to sign)
+	[1] Correct orientation
+	[1] Show work
+c
+	[1] Compute g_x
+	[1] Compute g_y
+	[1] Solve g_x = 0
+	[1] Solve g_y = 0
+	[3] Classify the critical points
+		Local min at (0,-1)
+		Saddle point at (0,0)
+		Local min at (0,1)
+d
+	Pick ii
+---
+
+9 [15]
+---
+a
+	[2] x bounds: -3 \leq x \leq 3
+	[1] y bounds: x^2 \leq y \leq 9
+	[1] z bounds: 0 \leq z \leq 4
+	[1] Consistent order of integration
+	[2] Solve for volume
+b
+	[1] Insert density term into integrand
+c
+	[1] z bound unchanged
+	[2] 0 \leq y \leq y_0 on one piece and y_0 \leq y \leq 9 on the other piece
+	[1] -\sqrt{y} \leq x \leq \sqrt{y} on both pieces
+	[1] Set up equation for y_0
+	[2] Solve for y_0
+		Correct answer: 
+---
+
+10 [12]
+---
+a
+	[1] Pick iii (hyperboloid of two sheets)
+b
+	[1] x-partial: -2y
+	[1] y-partial: 3y^2-2x
+	[1] z-partial: -1
+	[1] Normal vector: <-2,5,-1>
+		Just needs to be consistent with partial derivative calculations
+		Scalar multiple is okay
+c
+	[2] Find other normal vector: <-2,2-4>
+		Scalar multiple is okay
+	[1] Consider intersection of tangent planes
+	[4] Compute tangent line (to curve of intersection)
+		(-1,1,2)+t<3,1,-1>
+---
