@@ -1,1 +1,15 @@
-
+Fix an integer N\geq1.
+To this we may associate the congruence subgroups \Gamma_0(N) and \Gamma_1(N) of \SL_2(\Z) consisting respectively of matrices which are upper-triangular and unipotent modulo N.
+Given an integer k\geq2, let S_k(\Gamma_1(N),\C) be the space of cusp forms of weight k.
+  All that matters for now is that these cusp forms are particular instances of modular forms, which can be viewed as sections of appropriate line bundles.
+Acting on these are three types of operators, which are characterized by their Fourier expansions.
+  Hecke operators T_{\l} for \l not dividing N
+  Atkin-Lehner operators U_{\l} for \l dividing N
+  diamond operators <d>
+Let f(z) be a normalized Hecke eigen-cusp form.
+This has a Fourier expansion \sum_{n\geq1}a_n\exp(2\pi inz) with the coefficients a_n all algebraic integers generating a number field F.
+Let p be a rational prime and \p its lift to \O_F, from which we obtain the \p-adic completion \O.
+Using etale cohomology, Deligne associates a continuous Galois representation \rho_{f,\p}: \Gal(\ov{Q}/Q)\to\GL_2(\O).
+For \l not dividing Np, this representation is unramified and \rho_{f,\p}(\sigma_{\l}) has characteristic polynomial x^2-a_{\l}x+\l^{k-1}\psi(\l).
+  \sigma_{\l} is a lift of the Frobenius from \Gal(\ov{\F_p}/\F_p) to G_{\l}:=\Gal(\ov{\Q_{\l}}/\Q_{\l}).
+  \psi is the level-type character, whatever that means.
