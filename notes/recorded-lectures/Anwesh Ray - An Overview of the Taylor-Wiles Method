@@ -87,10 +87,13 @@ We have natural maps \phi_Q: R_Q\to\T_Q which we want to show are isomorphisms b
 
 Patching - the basic idea here is simple but there is still a lot of content (needs input from Galois/etale cohomology)
 Statement: There exists an integer r\geq1 such that, for every n\geq1, there is a set Q_n of r Taylor-Wiles primes such that every q\in Q_n is 1 mod p^n.
-  We get from this a deformation ring R_n=R_{Q_n} and Hecke algebra \T_n=\T_{Q_n}.
-  In fact, given the pair (R_n,\T_n), we can compatibly choose the pair (R_{n+1},\T_{n+1}).
-  Letting \Delta_n=\Delta_{Q_n}, note that R_n and T_n are algebras over \O[\Delta_n]\iso\O[S_1,\ldots,S_r]/((1+S_1)^{p^n}-1,\ldots,(1+S_r)^{p^n}-1).
-  Taking the inverse limit over n gives \O_{\infty}\iso\O[[S_1,\ldots,S_r]].
-
-
-  
+We get from this a deformation ring R_n=R_{Q_n} and Hecke algebra \T_n=\T_{Q_n}.
+  In fact, given the pair (R_n,\T_n), we can compatibly choose the pair (R_{n+1},\T_{n+1}); this does NOT mean there is any kind of functorial relationship between Q_n and Q_{n+1}.
+Letting \Delta_n=\Delta_{Q_n}, note that R_n and T_n are algebras over \O[\Delta_n]\iso\O[S_1,\ldots,S_r]/((1+S_1)^{p^n}-1,\ldots,(1+S_r)^{p^n}-1).
+Taking the inverse limit over n gives \O_{\infty}\iso\O[[S_1,\ldots,S_r]].
+Moral of the story: We are reduced to showing that an appropriately defined \phi_{\infty}: R_{\infty}\to\T_{\infty} is an isomorphism.
+Each Hecke algebra \T_n acts faithfully on a space M_n of modular forms which is a finitely generated free \O[\Delta_n]-module.
+We get a finitely generated free module M_{\infty} over \O_{\infty}.
+It follows that \T_{\infty} is likewise a finitely generated free module over \O_{\infty}.
+Using Galois theoretic techniques we can show that R_{\infty} is a quotient of \O[[X_1,\ldots,X_r]] and so must be this entire ring by dimensional considerations.
+The result then follows since \phi_{\infty} is surjective and \T_{\infty} acts faithfully.
