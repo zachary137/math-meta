@@ -1,0 +1,11 @@
+Unless otherwise stated, let G be a (connected) reductive group over \R, K a maximal compact subgroup of G(\R), and \g:=\Lie(G).
+Associated to this is the symmetric space \S which can be defined extrinsically as G(\R)/K.
+For G semisimple, we have an intrinsic description coming from the following bijections.
+  {maximal compact subgroups of G(\R)}
+  \longleftrightarrow {Cartan involutions on G(\R)}
+  \longleftrightarrow {Cartan involutions on \g}
+  
+Definition: An involution \theta on \g is Cartan if \k+i\p is a compact form (in the sense of positivity of the Killing form).
+  Here, \k and \p are the (-1)- and (+1)-eigenspaces of \g under \theta.
+
+Example: For G=\SL_n, the standard Cartan involution is the negative transpose on the Lie algebra and the transpose inverse on G(\R).
