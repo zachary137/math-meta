@@ -17,6 +17,6 @@ Hence, \S(\SL(V)) is the space of norms on V (up to constant multiples).
 
 We write \S_{\red}(G) for extra emphasis to denote the space of Cartan involutions on \g.
 
-Exercise: Let G be a torus. Compute \S(G) and \S_{\red}(G) (which need not coincide since G is not reductive). What happens if G is anisotropic? Anisotropic modulo center?
+Exercise: Let G be a torus. Compute \S(G) and \S_{\red}(G) (which need not coincide since G need not be semisimple). What happens if G is anisotropic? Anisotropic modulo center?
   Recall that a torus is an algebraic group scheme T over a field k such that T_{\ov{k}} is isomorphic to a finite product of copies of \G_m defined over \ov{k}.
   We can measure the maximal rank of a split subtorus of T, yielding the notion of anisotropic on one end of the spectrum and the notion of split on the other.
