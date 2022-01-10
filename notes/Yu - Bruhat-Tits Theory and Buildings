@@ -9,3 +9,14 @@ Definition: An involution \theta on \g is Cartan if \k+i\p is a compact form (in
   Here, \k and \p are the (-1)- and (+1)-eigenspaces of \g under \theta.
 
 Example: For G=\SL_n, the standard Cartan involution is the negative transpose on the Lie algebra and the transpose inverse on G(\R).
+
+Example: (same as before but more intrinsic) Let V be a finite dimensional real vector space (or rational -- it doesn't matter) and take G=\SL(V).
+Maximal compact subgroup of G(\R) is SO(q) for q some positive definite quadratic form on V.
+Cartan involution is inverse of the adjoint (relative to q).
+Hence, \S(\SL(V)) is the space of norms on V (up to constant multiples).
+
+We write \S_{\red}(G) for extra emphasis to denote the space of Cartan involutions on \g.
+
+Exercise: Let G be a torus. Compute \S(G) and \S_{\red}(G) (which need not coincide since G is not reductive). What happens if G is anisotropic? Anisotropic modulo center?
+  Recall that a torus is an algebraic group scheme T over a field k such that T_{\ov{k}} is isomorphic to a finite product of copies of \G_m defined over \ov{k}.
+  We can measure the maximal rank of a split subtorus of T, yielding the notion of anisotropic on one end of the spectrum and the notion of split on the other.
