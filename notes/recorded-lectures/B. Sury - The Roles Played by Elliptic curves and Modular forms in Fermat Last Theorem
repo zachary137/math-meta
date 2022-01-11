@@ -1,0 +1,67 @@
+Let E be a cubic curve over an algebraically closed field K satisfying a Weierstrass equation.
+	If E is singular then it has exactly one singular point which is either a node or a cusp.
+	The nonsingular points of E satisfy a group law.
+		Node --> multiplicative group of K
+		Cusp --> additive group of K
+
+Suppose E is an elliptic curve defined over \Q.
+	Choose a model over \Z which has minimal discriminant.
+	We obtain reduced curves E_p over \F_p for each rational prime p.
+	Good reduction: E_p is nonsingular
+	Semistable/multiplicative reduction: E_p has a node
+	Unstable/additive reduction: E_p has a cusp
+
+What follows can be viewed in a much more intrinsically geometric manner, but let's not worry about that for now.
+
+A meromorphic function f on \H is modular of weight k for \Gamma:=\SL_2(\Z) if:
+	f(\gamma z)=(cz+d)^kf(z) for every \gamma={{a,b},{c,d}} in \Gamma;
+	Fourier expansion of f in variable q:=\exp(2\pi iz) looks like f(z)=\sum_{n\geq n_0}c(n)q^n for some integer n_0.
+A modular function f of weight k is a modular form if:
+	f is holomorphic;
+	n_0=0 (in which case f(\infty):=c(0)).
+A cusp form is a modular form with c(0)=0.
+
+Example: Consider the standard Eisenstein series
+G_{2k}(z):=\sum_{(m,n)\neq(0,0)}(m+nz)^{-2k}.
+This is a modular form of weight 2k.
+
+M_k:={space of modular forms of weight 2k}
+M_{k,0}:={spacce of cusp forms of weight 2k}
+These are naturally \C-vector spaces with M_k in fact a graded \C-algebra.
+
+Facts:
+	Every modular form is a homogeneous polynomial in G_4 and G_6 -- i.e., M\iso\C[G_4,G_6].
+	M_k={0} for k<0.
+	\dim_{\C}M_k=[k/6] for k\geq0 and 1 mod 6.
+	\dim_{\C}M_k=[k/6]+1 for k\geq0 and not 1 mod 6.
+
+Consider the extended upper half-plane \H^*:=\H\cup\P^1(\Q).
+Our interest is in the Riemann surface \H^*/\Gamma, and in the role played by various congruence subgroups of \Gamma.
+We can extend the notions of modular function, modular form, and cusp form to make sense for, e.g., working with \Gamma_0(N).
+
+Fact: There is an isomorphism of vector spaces between
+	{weight 2 cusp forms for \Gamma_0(N)} and
+	{holomorphic 1-forms on \H^*/\Gamma_0(N)}.
+
+Corollary: N=2 \implies genus=0 \implies there are no nonzero weight 2 modular forms for \Gamma_0(2).
+
+To a cusp form f Shimura associates an elliptic curve E_f by considering appropriate integrals.
+	Consider the set L_f of points in \C given by \int_{z_0}^{gz_0} f(z)dz for g in \Gamma_0(N).
+	L_f is a lattice independent of the choice of z_0 and the torus \C/L_f is defined over \Q.
+	p+1-|E_f(\F_p)|=a_p the pth Fourier coefficient of f.
+
+The moduli interpretation of \H/\Gamma_0(N) is that it parametrizes (isomorphism classes of) tori with a cyclic subgroup of order N.
+
+Statement of Taniyama-Shimura-Weil - look this up later when relevant.
+
+Theorem (Deligne-Serre): There exists a unique (up to unique isomorphism) continuous semisimple Galois representation \rho: \Gal(\Q)\to\GL_2(k_M) such that:
+	\det\rho = \lth cyclotomic character for \l the characteristic of k_M (the residue field of the Hecke algebra T at some maximal ideal M)
+		[Should this be \rho(\Fr_p)?]
+	\rho is unramified away from N
+	\tr\rho(\Fr_p) = T_p mod N away from N
+
+Note: Uniqueness comes from:
+	2 dimensional representation is determined by its trace and determinant
+	Chebotarev denisty theorem
+
+49:08
