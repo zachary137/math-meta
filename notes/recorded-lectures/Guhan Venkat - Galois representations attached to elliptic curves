@@ -1,1 +1,6 @@
-
+There's not too much to say here but we will record the definition of the minimal level N_E associated to an elliptic curve E over \Q.
+Namely, we define N_E to be the product over \l dividing \Delta_E of \l^{f_{\l}(E/\Q)}, where f_{\l}(E/\Q) is given by
+  0, if E has good reduction at \l
+  1, if E has semistable reduction at \l
+  2, if \l does not divide 6 and E has additive reduction at \l
+  2+\delta, if \l is 2 or 3 (\delta some suitable different factor)
