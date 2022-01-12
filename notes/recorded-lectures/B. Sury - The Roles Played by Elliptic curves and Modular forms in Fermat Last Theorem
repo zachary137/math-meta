@@ -52,8 +52,6 @@ To a cusp form f Shimura associates an elliptic curve E_f by considering appropr
 
 The moduli interpretation of \H/\Gamma_0(N) is that it parametrizes (isomorphism classes of) tori with a cyclic subgroup of order N.
 
-Statement of Taniyama-Shimura-Weil - look this up later when relevant.
-
 Theorem (Deligne-Serre): There exists a unique (up to unique isomorphism) continuous semisimple Galois representation \rho: \Gal(\Q)\to\GL_2(k_M) such that:
 	\det\rho = \lth cyclotomic character for \l the characteristic of k_M (the residue field of the Hecke algebra T at some maximal ideal M)
 		[Should this be \rho(\Fr_p)?]
@@ -64,4 +62,23 @@ Note: Uniqueness comes from:
 	2 dimensional representation is determined by its trace and determinant
 	Chebotarev denisty theorem
 
-49:08
+Statement of Taniyama-Shimura-Weil (TSW) - look this up later when relevant.
+We can simplify the statement of TSW by appealing to the notion of finiteness (yes the term is overloaded).
+Let \gamma: \Gal(\Q)\to\GL_2(F) be a continuous semisimple representation for F a finite field.
+We say \gamma is finite at a rational prime p if there exists a finite flat group scheme \G over \Z_p such that
+	F acts on \G making \G of rank 2 over F; and
+	\gamma is isomorphic to the representation of \Gal(\Q_p) on \G(\ov{\Q_p}).
+New statement of TSW (rough): The \l-adic representation of E afforded by its Tate module is modular of level equal to the conductor of E.
+
+Cutting through a lot of details, we care about TSW because of its connection to results like FLT.
+
+Proposition (Serre): Let E be a semistable elliptic curve over \Q with minimal model over \Z having minimal discriminant \Delta.
+Let \rho be the representation of \Gal(\Q) on E[\l] for some rational prime \l.
+Given any rational prime p, \rho is finite at p iff \l divides \ord_p(\Delta).
+
+Theorem (Ribet): Let \gamma be an irreducible 2-dimensional representation of \Gal(\Q) over a finite field of odd characteristic \l.
+Let N be a squarefree positive integer with a prime divisor q not equal to \l such that \gamma is NOT finite at q.
+Assume \gamma is modular of level N.
+Then, \gamma is automatically modular of level N/p for every rational prime p dividing N such that \gamma is finite at p.
+
+One then looks at the Frey curve and realizes that, if FLT is false, we must have a (nonzero) modular form of weight 2 and level 2 -- an object which does not exist!
