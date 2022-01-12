@@ -64,6 +64,7 @@ Note: Uniqueness comes from:
 
 Statement of Taniyama-Shimura-Weil (TSW) - look this up later when relevant.
 We can simplify the statement of TSW by appealing to the notion of finiteness (yes the term is overloaded).
+	[I think this is not quite right: finiteness does not so much simplify the statement of TSW as better connect it to FLT, which we will see below...]
 Let \gamma: \Gal(\Q)\to\GL_2(F) be a continuous semisimple representation for F a finite field.
 We say \gamma is finite at a rational prime p if there exists a finite flat group scheme \G over \Z_p such that
 	F acts on \G making \G of rank 2 over F; and
@@ -82,3 +83,15 @@ Assume \gamma is modular of level N.
 Then, \gamma is automatically modular of level N/p for every rational prime p dividing N such that \gamma is finite at p.
 
 One then looks at the Frey curve and realizes that, if FLT is false, we must have a (nonzero) modular form of weight 2 and level 2 -- an object which does not exist!
+
+The notion of finiteness generalizes to the notion of flatness (which, yes, is also overloaded).
+A Galois representation over a general complete Noetherian \Z_{\l}-algebra A is called flat if it satisfies the condition called finiteness in the restricted setting.
+We say that a Galois representation \rho: \Gal(\Q)\to\GL_2(A) is semistable if its restriction to every decomposition group G_p (isomorphic to \Gal(\Q_p)) is either ordinary or flat.
+	Looking at G_{\l}, ordinary here means that we have an action by matrices of the form {{\eps,*},{0,1}} for \eps the \lth cyclotomic character on A^*.
+
+Fact: The \l-adic uniformization theory of Tate implies that the Galois representation associated to the \l-adic Tate module is semistable.
+
+59:54
+Lifting theorem of Wiles and the 3-5 trick for usage.
+	
+	
