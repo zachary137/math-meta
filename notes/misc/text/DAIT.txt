@@ -1,0 +1,64 @@
+Sum of four squares generating function gives modular form on the upper half plane
+	Arises from theta correspondence between SL_2 and SO(4)
+	Kernel comes from theta function on GSp(8)
+
+Stack of torsors for a fixed group -- locally this is what "nice" stacks look like (c.f. Artin stacks)
+
+More "natural" definition/approach to numerical equivalence and other forms of (algebraic) equivalence
+
+We define Pic^0 in terms of the functor-of-points by having vanishing Euler characteristic -- What exactly does this mean?
+	Euler characteristic of fibers
+	Conrad gives some characterization in terms of Euler characteristic (in his notes on abelian varieties) that might be helpful
+
+Degree 0 line bundles are those with a certain symmetry
+	Multiplicative line bundles (I think this is the right term)
+
+Degree 0 line bundles are in some sense "very far" from being ample
+	Ample ~ positive Chern class ~ positive definite pairing
+	Deg 0 ~ vanishing Chern class ~ trivial pairing
+
+Derived part of purity in flat cohomology
+
+Artin-Schreier sheaf and Lang isogeny in context of pro-etale topology
+Codim and eigenspaces of Adams (Adems?) operators
+
+Closed immersions are not monomorphisms in the derived setting
+
+Being open immersion and unramified are both truncated versions of a more general thing
+	Ask Ken about this (apparently there is something in the algebraic geometry channel for the AT Discord)
+
+Derived prismatic cohomology
+
+Bhargav Bhatt gave a course on D-modules (handwritten notes by Shizhang Li)
+
+We should have a theory of Chow groups valued in families of local systems
+	These families *should* (conjecturally) arise from motives
+
+Rank r positive definite lattices give rise to codim r cycle classes in the Chow group CH^r
+Given an appropriately formed power series with coefficients given by cycle classes, we can ask if it arises as the Fourier expansion of a modular form
+In the classical setting, singular matrices don't have a good moduli interpretation
+
+Applications of l-adic perverse sheaves and the l-adic Fourier transform
+	Brylinski-Radon transform and proof of the Hard Lefschetz Theorem
+	Estimates for exponential sums (e.g., Kloosterman sums)
+	Springer representations of Weyl groups of semisimple algebraic groups
+
+Contructibility is a technical condition which eliminates pathologies
+Working with so-called middle perversity significantly simplifies the picture
+	We impose dim conditions on supports of various cohomology sheaves
+
+How I should think about gerbes in classical stack theory vs. DAG?
+
+Basics of swapping representations for theta correspondence
+Basics of Siegel-Weil formula
+
+What exactly is a Hecke correspondence and how is it related to Hecke operators?
+	This should be connected to the Eichler-Shimura relation, though I'm not too familiar with that story...
+What makes metaplectic stuff "natural" to consider?
+	Double cover of symplectic group
+	Weil representation, projective representation theory, Pontrjagin duality
+What's up with cohomology sheaves in Lysenko's picture?
+	This is needed to get the metaplectic gerbe
+
+https://mathoverflow.net/questions/19390/intuition-behind-the-eichler-shimura-relation/19399#19399
+https://math.stackexchange.com/questions/165973/how-does-one-graduate-from-hecke-operators-to-hecke-correspondences

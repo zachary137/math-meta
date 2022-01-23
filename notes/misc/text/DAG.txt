@@ -1,3 +1,85 @@
+quasi-smooth
+virtual dim
+separated
+
+algebraic stack
+algebraic space
+Deligne-Mumford stack
+Artin stack
+torsor
+gerbe (general, smooth, residual, banded, etc.)
+root stack
+
+Characterizing derived schemes in terms of quasicoherence
+For closed immersions, why do we only need to work with \pi_0?
+What is the subtlety in understanding epimorphisms for \infty-categories?
+Do both forms of the sheaf condition always work for a general \infty-category as target (is there any Yoneda funny business)?
+Both approaches to presheaves and how the fibered approach to stacks is the same as the functor approach
+
+Derived perspectives on Euler classes of vector bundles...
+	Useful for DAC
+
+Derived character variety
+Derived "mapping scheme"
+Derived Hilbert scheme
+
+Cotangent complexes are always compatible with fiber products
+Whitehead thm for derived schemes
+Role of virtual fundamental classes in K-theory
+Embeddable derived schemes
+
+Basic geometry of Hilbert schemes
+	Hilbert scheme of hypersurfaces and linear subspaces
+	Hilbert scheme of points on a curve
+	Hilbert scheme of points on a surface
+	Twisted cubics
+	Non-emptiness
+	Connectedness
+	Murphy's law
+	Smoothness
+
+Algebraic space - etale-locally affine
+Deligne-Mumford stack - etale-locally affine (in terms of stacks)
+Algebraic stack - smooth-locally affine (in terms of stacks)
+
+Don't need \twid{B} in the (Lurie) definition of small/infinitesimal extension
+	Really what matters are the sections s, since we can recover everything from this (better looks like classical setting)
+
+o(f) is the obstruction class (for f flat morphism of classical guys)
+	In the commutative square, both vertical maps are flat and both horizontal maps are square-zero
+
+Ext^i(M,N) = \pi_0 Hom(M,N[i])
+
+For the deformation theory story, we take the \pi_0 of the associated Mor in stacks (get pointed maps...)
+
+This is all to get a derived geometric interpretation of the obstruction class
+
+Should be able to formulate our morphism property more intrinsically, using cotangent complex
+
+Beware that there are different standards for "measuring" amplitude
+	[-1,0] and [0,1] could mean the same thing but in different contexts
+
+VCD has modified universal property from the classical case
+	Looking at all maps instead of just ones arising from effective Cartier divisors
+
+What is the "meaning" of the second condition in the definition of VCD?
+	Shift by -1 should be related to conormal sheaf
+	Maybe Koszul duality...
+
+Intrinsic normal cone
+	https://arxiv.org/abs/alg-geom/9601010
+	Behrend and Fantechi give an older construction that might be compatible...
+
+I should point out one reason we might care about derived deformations over classical ones
+	Rigidity of abelian schemes not seen if we look at the broader setting of extensions
+	Flesh out the details here...
+	Connection to Lie algebras, mathematical physics, etc.
+
+What is the geometric understanding of the Weil restriction?
+
+BG_{m,X} classifies line bundles on X with a section
+[A_X^1/G_{m,X}] classifies... line bundles with a section (maybe not...)
+
 Infinity-stacks and group actions
 Reference for Koszul duality
 Barr-Beck?

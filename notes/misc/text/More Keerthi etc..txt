@@ -1,0 +1,52 @@
+Thm (Lazard): Module if flat iff filtered colimit of finite free modules.
+
+Deligne - Hodge II (~ page 13) - full perspective on decolage - move the spectral sequence by one page
+	Page 14 gives one perspective on what the pages of the spectral sequence are capturing
+
+L\eta plays a role in the book of Berthelot-Ogus at the end
+	Want to do this because of work of Kisin
+	Mazur's Thm
+	Interaction of Frobenius, Hodge filtration, and crystalline stuff
+
+Theory of crystals: Roy --> Kisin
+Geometrically recover Kisin's functor in the prismatic story
+
+Thm of Ogus on crystalline cohomology - characterizing image of Frob
+
+See Katz-Oda paper on Gauss-Manin connection
+
+Thm (Bhatt-Scholze): Z_p-lattices in Galois representations of appropriate sort form category equivalent to category of prisms
+	How do prisms relate to Breuil-Kisin-Fargues modules?
+
+Annulus of radius 1/p in a proper thing (like the closed unit disc)
+	Why does proper mean you can enlarge slightly?
+	Valuative criterion!
+Annulus of slightly larger radius restricting down
+	Compact image (this means the image is finite mod p)
+	Relative compactness
+
+Cover P^1 by G_m's
+Vertical specialization
+
+Extending from Spa(K,K^{\circ}) to Spa(K,K^+)
+	Points can have valuations of rank larger than 1
+
+Proper --(Chow's Lemma)--> projective ----> P^n
+	Gives finiteness of cohomology for proper schemes
+	Is there a more conceptual proof?
+
+Getting smaller annulus corresponds to taking a blowup
+	Different formal models for the same rigid analytic space
+	Z_p\ip{t} is a formal model for Q_p\ip{t}
+	Blowup at the origin (which corresponds to special fiber F_p\ip{t})
+	Proj Z_p[x,y]/(px-ty)
+	Suggests Z_p\ip{t} is a surface (of course it literally has Krull dim 2)
+	Different choices of R^+ yield different formal models (though this does not account for everything)
+	Maybe look at this paper: http://achinger.impan.pl/rigid/blowups.pdf
+
+In what sense does the local structure of etale maps relate to maps to A^1?
+Why does A^1 have no nontrivial etale covers?
+
+Explicitly compute tilts and Tate twists associated to:
+	\Z_p[\zeta_{p^{\infty}}]_p^{\wedge}
+	\Z_p[p^{1/p^{\infty}}]_p^{\wedge}

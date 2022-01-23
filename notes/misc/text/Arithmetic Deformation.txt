@@ -1,0 +1,103 @@
+Thm of Tate-Serre on equiv of categories for p-divisible groups and formal Lie groups
+	Full faithfulness argument shows that we have a limit of Hopf algebras (need to think about coalg structure)
+
+Need to check that completed(?) tensor product of two FPS rings is FPS ring
+	Need the completion since tensor product of FPS rings is probably not FPS ring
+	Can reduce to thinking over the residue field by (flat) complete Nakayama
+	Key at the beginning is replacing (p^n)-torsion by kernel of Frob., which is more explicit
+
+It's not true that the following categories are equivalent:
+	p-divisible groups over Z_p
+	p-divisible groups over F_p
+What we do have is that the special fiber functor is fully faithful
+
+We have equivalence of categories:
+	connected p-divisible groups
+	divisible formal Lie groups
+Use this to lift group law in connected case
+	How do we know we satisfy all of the axioms?
+	Certainly there must be a lift by complicated deformation theory technology
+
+For the special and general fiber stuff, the Noetherian hypothesis is absolutely essential
+	Both theorems fail spectacularly without the Noetherian hypothesis
+	\mu_{p^{\infty}} and Q_p/Z_p over Z_p^{\cycl} illustrate the difficulty
+
+Scholze-Weinstein classify p-divisible groups over C_p
+
+de Jong's theorem fails if we drop the discreteness of the valuation
+
+Condition (2) ensures in some sense that we are n-truncated and not (n-1)-truncated
+
+Grothendieck-Messing theory
+	Describes deformations through nilpotent thickenings
+	Needs the assumption that we have at least one deformation -- then we can describe all of them
+	Grothendieck settled this issue with an annoying affine condition
+	Theory of crystals
+
+p-divisible groups also have something that behaves like de Rham cohomology, with the Lie algebra arising from this thing (this is the "crystal" which can be somewhat complicated)
+Vector bundle comes with filtration analogous to Hodge filtration
+Assuming S --> S' is a PD thickening, the miracle is that the vector bundle over S' only depends on the vector bundle over S
+Reduces whole problem to doing linear algebra on the crystal, independent of choices of lift (assuming only that one exists)
+
+Why should \alpha,\mu_p,\un{\Z/p} be a complete list over an algebraically closed field?
+	Hint: Hilbert Thm 90
+	Also, for Hilbert thm 90 stuff, what happens over a non-algebraically closed field? How exactly do we get non-isomorphic Dieudonne modules?
+Q: Why is every elliptic curve over \ov{\F_p} either ordinary or supersingular?
+	Hint: rule out the \'{e}tale case using the Weil pairing or something like that
+Duality here is something worth thinking about
+	What should the "natural" notion be (e.g., a pairing)?
+	Concretely describe the dual
+	Check compatibility of the dual
+Describe the dual of \alpha_{p^n}
+Check the construction of W_2^2
+	Superscript 2 probably refers to kernel of Frob squared
+	Subscript 2 probably refers to functor that takes k-alg R to the additive group (W_2(R),+)
+Why are Cartier duality and Weil duality compatible for abelian varieties (in other words, why do they capture the same thing)?
+I guess this depends on knowing how D is defined. How do we do that explicitly? Is there some semi-enlightening way to describe it?
+In the case that Frob is an isomorphism we can descend from W(k) to Z_p
+	This works in the etale case
+	Related to deficiencies of Tate module
+
+Isogeny category of abelian varieties
+	Poincare complete reducibility
+		Uses dual abelian variety and choice of polarization to construct a suitable complement
+	Semisimplicity of endomorphism algebras over Q
+	Isogeny variant V_{\l}(A) of the Tate module T_{\l}(A)
+Lefschetz principle
+	In char. 0, statements about algebraic varieties over a field can often be reduced to statements about the same sort of objects over an algebraically closed field (typically \C)
+	Admits various precise formulations
+Berthelot-Breen-Messing
+	Gives proof of result of Mazur-Messing-Oda
+
+The Honda system stuff is trying to lift Hodge filtrations
+The conditions are enough to rule out p-torsion for M/L
+	Is this enough to get torsion-free in general?
+We want L to be a direct summand of L
+Condition (2) is equivalent to F(L+pM)=pM
+
+There are diametrically opposite cases where the image of Frob and the Hodge filtration are far apart
+Are image of Frob and the Hodge filtration always complementary? No? Supersingular elliptic curves?
+
+The Hodge filtration here is defined in analogy with other Hodge filtrations
+Frob-invariant differential forms
+
+Grothendieck-Messing theory applies only when the divided powers are nilpotent or connected
+	For p>2 the nilpotent condition is automatic, but it does not hold when p=2
+	When p=2 we can impose connectivity to get ourselves in the right boat
+
+The discrepancy seems to be due to the BC CMI notes rather than Oh
+	https://mathoverflow.net/questions/282972/clarification-on-relationship-between-grothendieck-messing-and-honda-systems
+
+Rigidity thm follows from Maximum Principle
+	We have a scheme theoretic analogue for proper things
+	Think about the relationship between P^1 and A^1
+Getting the geometric point is a result of faithfully flat descent
+
+Deformation functor takes local Artin algebras (with specified residue field) to groupoids
+	Goal is basically to deform from "special" fiber
+	If working over a perfect field in positive char. then Witt vectors are relevant
+
+With the cotangent complex, extension classes arise from looking at shifts
+	We want to control lifts along nilpotent thickenings
+
+Serre-Tate ordinary theory - Katz
