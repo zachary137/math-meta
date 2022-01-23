@@ -29,3 +29,33 @@ Applications of Tate modules
 	Tate's Isogeny Thm
 	Good form: l-adic perspective on Tate module
 Atkin-Lehner theory
+
+Slope Conjecture
+Section Conjecture
+Andre's Flatness Lemma (reproved by Bhatt and Scholze)
+Skolem-Noether theorem
+
+Quillen-Suslin theorem
+Eakin-Nagata theorem
+Auslander-Buchsbaum theorem
+Bass cancellation theorem
+Nakayama's lemma = Krull-Azumaya theorem
+
+Castelnuovo Thm
+Du Val singularities
+
+Thomason-Neeman localization theorem
+
+Arithmetic Chern-Simons theory
+A^1 homotopy theory
+	Enumerative geometry
+	Etale homotopy theory (nlab, etc.)
+	Kirsten Wickelgren
+Going "under" Z
+	The sphere spectrum S
+	The field of one element F_1 (and motivation for motives)
+	The Fargues-Fontaine curve
+Narasimhan-Seshadri theorem
+	identifies unitary representations of the fundamental group of a compact Riemann surface with polystable bundles
+	probably related to work of Atiyah on Yang-Mills over Riemann surfaces
+	Can we do something similar in p-adic Hodge theory?
