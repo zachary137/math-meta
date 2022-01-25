@@ -1,8 +1,0 @@
-We define the \infty-category DAff of affine derived schemes to be the opposite of SCR. This embeds into derived prestacks over SCR by Yoneda.
-One can show that affine derived schemes satisfy fpqc descent (and thus many other forms of descent like Zariski descent).
-
-We define (Zariski) derived stacks to be derived prestacks satisfying Zariski descent.
-We define derived schemes to be derived stacks admitting a derived affine atlas.
-One can show that derived schemes satisfy fpqc descent.
-Warning: Zariski derived stacks and fpqc derived stacks are not the same in general.
-
