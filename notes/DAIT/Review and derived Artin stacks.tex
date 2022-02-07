@@ -1,0 +1,319 @@
+\documentclass[11pt]{beamer}
+\usetheme{Boadilla}
+
+\usepackage{kernel_of_truth}
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{example*}{Example}
+\newtheorem*{exercise*}{Exercise}
+\newtheorem*{fact*}{Fact}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{question*}{Question}
+\newtheorem*{theorem*}{Theorem}
+
+\renewcommand{\C}{\mathcal{C}}
+\renewcommand{\F}{\mathcal{F}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\begin{document}
+\title{Review and derived Artin stacks}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+Derived arithmetic intersection theory (DAIT) requires a derived input, so let's begin by reviewing derived algebraic geometry (DAG). The key idea of DAG is to build a more ``robust'' version of algebraic geometry using homotopy theory. Let's review the algebraic inputs first.
+\begin{itemize}
+\pause\item $\infty$-category $\der\Ring$ of derived (commutative) rings
+\pause\item $A\in\der\Ring$ has homotopy groups $\pi_i(A)$ for $i\in\Z$, with $\pi_i(A)=0$ for $i<0$
+\pause\item $\pi_0(A)$ is an ordinary commutative ring and each $\pi_i(A)$ is a module over $\pi_0(A)$
+\pause\item $A$ is \textbf{discrete} if $\pi_i(A)=0$ for $i\neq0$
+\pause\item Full subcategory of discrete derived rings in $\der\Ring$ is equivalent to ordinary category $\CRing$ of commutative rings
+\pause\item $\infty$-over-category $\der\Alg_A$ of derived (commutative) $A$-algebras
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Modules}
+\pause Fix $A\in\der\Ring$. Assume first that $A$ is discrete and let $\Mod_A$ denote the ordinary category of (left) $A$-modules.
+\begin{itemize}
+\pause\item Consider the \emph{animation} $\Anim(\Mod_A)$
+\begin{itemize}
+	\pause\item Take product-preserving ($\infty$-)functors $(F_A)^{\op}\to\Anim$
+	\pause\item $F_A$ full subcategory of $\Mod_A$ spanned by finitely generated free $A$-modules
+	\pause\item $\infty$-category $\Anim$ of \textbf{anima}, generalization of ordinary groupoids
+\end{itemize}
+
+\pause\item Can define stable $\infty$-category $\D(A)$ using spectral methods or by applying \emph{non-connective animation} procedure to $\Anim(\Mod_A)$
+
+\pause\item $M\in\D(A)$ has homotopy groups $\pi_i(M)$ for $i\in\Z$, with $\pi_i(M)$ a (left) $\pi_0(A)$-module
+\end{itemize}
+\pause Most of this generalizes to any $A\in\der\Ring$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Modules}
+\pause Fix $M\in\D(A)$ and $n\in\Z$.
+\begin{itemize}
+\pause\item $M$ is \textbf{$n$-connective} if $\pi_i(M)=0$ for every $i<n$
+\begin{itemize}
+	\pause\item Yields full subcategory $\D_{\geq n}(A)\subset\D(A)$
+\end{itemize}
+
+\pause\item $M$ is \textbf{$n$-coconnective} if $\pi_i(M)=0$ for every $i>n$
+\begin{itemize}
+	\pause\item Yields full subcategory $\D_{\leq n}(A)\subset\D(A)$
+\end{itemize}
+
+\pause\item $M$ is \textbf{discrete} if $\pi_i(M)=0$ for every $i\neq0$
+\end{itemize}
+\pause This defines a natural $t$-structure on $\D(A)$ with 
+$$\D(A)^{\heart}:=\D_{\geq0}(A)\cap\D_{\leq0}(A)\simeq\Mod_{\pi_0(A)}.$$
+\pause For $A$ discrete we have $\Anim(\Mod_A)\simeq\D(A)_{\geq0}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Modules}
+\begin{itemize}
+\pause\item There is a forgetful functor $\der\Alg_A\to\D(A)_{\geq0}$
+\pause\item $\D(A)$ has a symmetric monoidal structure encoded by $\tensor_A$
+\pause\item For $A$ discrete, $\Ho(\D(A))\simeq D(A)$ with $\tensor_A$ restricting to the usual derived tensor product $\Ltensor_A$
+\pause\item $\phi\in\Hom_{\der\Ring}(A,B)$ induces adjunction 
+$$\phi^*: \D(B)\rightleftarrows\D(A): \phi_*$$ 
+which is \emph{not} (co-)connective in general
+\pause\item $M\in\D(A)$ is \textbf{strong} if the natural morphism 
+$$\pi_0(M)\tensor_{\pi_0(A)}\pi_i(A)\to\pi_i(M)$$ 
+of $\pi_0(A)$-modules is an isomorphism for every $i\in\Z$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sheaves and Stacks}
+\pause The functor-of-points tells us that we can think of schemes (and, more generally, algebraic spaces) as functors $\CRing\to\Set$. \pause Building off of this, ordinary stacks are (pseudo-)functors $\CRing\to\Grpd$ for $\Grpd$ the ordinary category of groupoids. \pause By extension, derived stacks will be ($\infty$-)functors $\der\Ring\to\Anim$. 
+
+\pause We can say more. The ordinary category $\Sch$ of schemes consists of functors $\CRing\to\Set$ admitting a Zariski open covering by affine schemes and satisfying a descent condition with respect to an appropriate topology (e.g., the fpqc topology). \pause We can simply take the category of affine schemes to be $\Aff:=\CRing^{\op}$. \pause This generalizes to the derived setting by taking $\der\Aff:=\der\Ring^{\op}$. What about the covering and descent conditions?
+\end{frame}
+
+\begin{frame}
+\frametitle{Sheaves and Stacks}
+\pause We need several ingredients to make sense of sheaves in the derived setting.
+\begin{itemize}
+\pause\item \textbf{Presheaves}: for $\infty$-category $\C$ define $\Pre(\C):=\Fun(\C^{\op},\Anim)$
+\pause\item \textbf{Grothendieck Topology}: yields notion of $\infty$-site $\T$
+\pause\item \textbf{Sheaf Condition}: for simplicity, work with pretopology $\twid{\tau}$
+\end{itemize}
+\pause $\F\in\Pre(\T)$ is a \textbf{sheaf} if and only if 
+$$\F(U)\xto{\sim}\hlim\paren{\prod_{\alpha\in\Lambda}\F(U_{\alpha})\rightrightarrows\prod_{\alpha,\beta\in\Lambda}\F(U_{\alpha}\times_UU_{\beta})\cdots}$$
+for every $\U=\{U_{\alpha}\to U\}_{\alpha\in\Lambda}$ in $\twid{\tau}$. The simplicial object inside the limit is the \textbf{\v{C}ech nerve} of $\U$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Classical Notions}
+\pause We can formulate the topologies we want to work with once we have the right properties of morphisms. For this it is best to start with classical notions, beginning with intuition.
+\begin{itemize}
+\pause\item \textbf{Flat}: continuously varying fibers
+\pause\item \textbf{Unramified}: like an unramified topological covering, so branches don't meet
+\pause\item \textbf{Smooth}: smoothly varying fibers \emph{and} good deformation properties
+\pause\item \textbf{\'{E}tale}: smooth and unramified, analogous to a local diffeomorphism
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Classical Notions}
+\pause More rigorously, a map $\phi: A\to B$ of ordinary rings is
+\begin{itemize}
+\pause\item \textbf{flat} if $B\tensor_A(-): \Mod_A\to\Mod_B$ is exact;
+\pause\item \textbf{unramified} if $\Omega_{B/A}^1=0$ and $\phi$ is finitely presented (as an algebra map);
+\pause\item \textbf{\'{e}tale} if $\LL_{B/A}\simeq0$ and $\phi$ is finitely presented;
+\pause\item \textbf{smooth} if $\Omega_{B/A}^1$ is projective, $\LL_{B/A}$ is coconnective (discrete?), and $\phi$ is finitely presented.
+\end{itemize}
+\pause Here, $\Omega_{B/A}^1\in\Mod_B$ is the module of K\"{a}hler differentials characterized by
+$$\Hom_{\Mod_B}(\Omega_{B/A}^1,M)\iso\Der_A(B,M)$$
+natural in $M\in\Mod_B$. \pause We ``left derive'' this to get the \textbf{cotangent complex} $\LL_{B/A}\in\D(B)$, which satisfies a similar universal property.
+\end{frame}
+
+\begin{frame}
+\frametitle{The Cotangent Complex}
+\pause Given $A\in\CRing$ and $M\in\Mod_A$, we have the split square-zero extension $A\oplus M\in\CAlg_A$ with
+\begin{align*}
+\Der_{\Z}(A,M)
+&\iso\Hom_{\CRing/A}(A,A\oplus M) \\
+&=\fib_{\id_A}(\Hom_{\CRing}(A,A\oplus M),\Hom_{\CRing}(A,A))
+\end{align*}
+natural in $M$ ($\Z$ can be omitted). This lets us make sense of derivations without appealing to explicit formulas.
+
+\pause Given $A\to B\to C$ in $\CRing$, there is an exact sequence
+$$C\tensor_B\Omega_{B/A}^1\to\Omega_{C/A}^1\to\Omega_{C/B}^1\to0$$
+in $\Mod_C$. This lets us make sense of the \emph{relative} $\Omega_{B/A}^1$ in terms of the \emph{absolute} $\Omega_A^1$ and $\Omega_B^1$.
+\end{frame}
+
+\begin{frame}
+\frametitle{The Cotangent Complex}
+\pause Let $A\in\der\Ring$, $M\in\D(A)_{\geq0}$, and $B\in\der\Alg_A$. \pause We can make sense of $A\oplus M\in\der\Alg_A$ (e.g., by using animation) and define $\Der(A,M)$ to be the homotopy fiber of 
+$$\Hom_{\der\Ring}(A,A\oplus M)\to\Hom_{\der\Ring}(A,A)$$
+over $\id_A$. \pause $\LL_A\in\D(A)_{\geq0}$ then corepresents $\Der(A,-): \D(A)_{\geq0}\to\Anim$. \pause We can define $\LL_{B/A}$ as sitting in a homotopy cofiber sequence
+$$B\tensor_A\LL_A\to\LL_B\to\LL_{B/A}$$
+in $\D(B)$. \pause Note that $\pi_0(\LL_A)\simeq\Omega_{\pi_0(A)}^1$ and $\LL_{B/A}\simeq0$ if and only if $B\tensor_A\LL_A\xto{\sim}\LL_B$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Notions}
+\pause Fixing $A\in\der\Ring$, we say $P\in\D(A)_{\geq0}$ is \textbf{projective} if $\Hom_{\D(A)_{\geq0}}(P,-): \D(A)_{\geq0}\to\Anim$ commutes with geometric realization (of simplicial objects). This captures the usual notion when $P$ is discrete. \pause Moreover, $\LL_{B/A}\in\D(B)_{\geq0}$ for $B\in\der\Alg_A$ is projective if and only if $B$ is \textbf{formally infinitesimally smooth} over $A$. Explicitly, this means that, given any $C\to\ov{C}$ in $\der\Alg_A$ with $\pi_0(C)\to\pi_0(\ov{C})$ surjective with nilpotent kernel, the induced map
+$$\Hom_{\der\Alg_A}(B,C)\to\Hom_{\der\Alg_A}(B,\ov{C})$$
+is surjective on $\pi_0$. \pause For future reference, we say $B$ is \textbf{homotopically finitely presented} if $B$ is compact in $\der\Alg_A$ -- i.e., $\Hom_{\der\Alg_A}(B,-)$ commutes with filtered homotopy colimits.
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Notions}
+\pause Let's now generalize our earlier classical notions to the derived setting. What things do we want?
+\begin{itemize}
+\pause\item Good formal properties -- e.g., stability under composition and homotopy pushouts
+\pause\item Compatibility with cotangent complexes
+\pause\item Computability, using homotopy groups
+\end{itemize}
+\pause A good way to achieve these goals is to ask that $\phi: A\to B$ in $\der\Ring$ have property $\Sigma$ if and only if $\phi$ is strong and $\pi_0(\phi): \pi_0(A)\to\pi_0(B)$ has property $\Sigma$ (called \emph{strongly} $\Sigma$). \pause With this in mind, we say $\phi$ is
+\begin{itemize}
+\pause\item \textbf{flat} if $\phi^*: \D(B)_{\geq0}\to\D(A)_{\geq0}$ commutes with finite homotopy limits;
+\pause\item \textbf{formally \'{e}tale} if $\LL_{A/B}\simeq0$;
+\pause\item \textbf{\'{e}tale} if it is formally \'{e}tale and homotopically finitely presented.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Notions}
+\pause
+\begin{proposition*}
+Let $B\in\der\Alg_A$ and $M\in\D(A)_{\geq0}$.
+\begin{itemize}
+\pause\item $B$ is flat if and only if it is strongly flat.
+\pause\item $B$ is \'{e}tale if and only if it is strongly \'{e}tale.
+\pause\item $M$ is projective if and only if it is strongly projective. Hence, $B$ is formally infinitesimally smooth if and only if it is strongly formally infinitesimally smooth.
+\end{itemize}
+\end{proposition*}
+\pause Smoothness is a more subtle notion. Let us content ourselves for now by saying that $B$ is \textbf{smooth} if it is formally infinitesimally smooth, homotopically finitely presented, and if $M\in\D(B)_{\geq0}$ with $\pi_0(M)=0$ then $[\LL_{B/A},M]=0$. \pause Note that $B$ is smooth if and only if it is strongly smooth. Later we will encounter other notions of smoothness such as \emph{quasi-smoothness}.
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Notions}
+\pause One last notion to cover. We say $A\to B$ in $\der\Ring$ is a \textbf{(Zariski) open immersion} if it is flat, homotopically finitely presented, and epic (i.e., $B\tensor_AB\xto{\sim}B$). \pause We have the implications
+\begin{center}
+open immersion $\implies$ \'{e}tale $\implies$ smooth $\implies$ flat
+\end{center}
+\pause We transfer all of our derived notions to affine derived schemes $\der\Aff:=\der\Ring^{\op}$ in the expected manner. \pause We then define an \textbf{\'{e}tale covering} in $(\der\Aff)_{/\Spec A}\simeq(\der\Ring_A)^{\op}$ to be a family $\{A\to A_i\}$ such that 
+\begin{itemize}
+\pause\item the collection of $A_i\tensor_A(-): \D(A)_{\geq0}\to\D(A_i)_{\geq0}$ is conservative;
+\pause\item each $A\to A_i$ is \'{e}tale.
+\end{itemize}
+\pause This gives us the small \'{e}tale $\infty$-site $(\Spec A)_{\et}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Stacks}
+\pause We finally get the $\infty$-category $\der\Stk:=\Shv((\Spec\Z)_{\et})$ of \textbf{derived (\'{e}tale) stacks}. \pause We can think of $X\in\der\Stk$ as a functor $\der\Ring\to\Anim$ such that
+\begin{itemize}
+\pause\item $A_1,\ldots,A_n\in\der\Ring\implies X\paren{\displaystyle\prod_iA_i}\xto{\sim}\displaystyle\prod_iX(A_i)$;
+\pause\item $A\to B$ faithfully flat \'{e}tale $\implies X(A)\xto{\sim}\hlim_nX(\check{C}(B/A)^n)$.
+\end{itemize}
+Here, faithful flatness is defined as you would expect. 
+
+\pause
+\begin{theorem*}
+Affine derived schemes satisfy \'{e}tale descent -- i.e., the Yoneda embedding $\der\Aff\inj\Pre(\der\Aff)$ identifies $\der\Aff$ with a full subcategory of $\der\Stk$.
+\end{theorem*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Schemes}
+\pause Our next task is to identify the $\infty$-category $\der\Sch$ of \emph{derived schemes} inside of $\der\Stk$.
+\begin{enumerate}
+\pause\item Generalize notion of open immersion to morphisms of derived stacks
+\pause\item Generalize notion of Zariski open covering to derived stacks
+\pause\item Describe $\der\Sch$ by a Zariski covering condition
+\end{enumerate}
+\pause Let $j: U\to X$ in $\der\Stk$. If $U,X$ are both affine then we already know what it means for $j$ to be an open immersion. \pause Only assuming $X$ is affine, we say $j$ is an \textbf{open immersion} if it is monic and there exists a family $\{U_{\alpha}\to U\}_{\alpha\in\Lambda}$ in $\der\Stk$ such that 
+\begin{itemize}
+\pause\item each $U_{\alpha}$ is affine;
+\pause\item $U_{\alpha}\to U\to X$ is an open immersion;
+\pause\item $V:=\coprod_{\alpha\in\Lambda}U_{\alpha}\to U$ satisfies $\hcolim_n\check{C}(V/U)_n\xto{\sim}U$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Schemes}
+\pause In the general case, we require that $U\times_X\Spec R\to\Spec R$ is an open immersion for every $\Spec R\to X$. One then checks that all of these definitions are compatible. 
+\begin{itemize}
+\pause\item Define \textbf{Zariski covering} of $X\in\der\Stk$ to be a family $\{j_{\alpha}: U_{\alpha}\to X\}$ with each $j_{\alpha}$ an open immersion and $\coprod_{\alpha}U_{\alpha}\to X$ an effective epimorphism
+\pause\item Covering is \textbf{affine} if each $U_{\alpha}$ is affine
+\pause\item $\infty$-category $\der\Sch$ of \textbf{derived schemes} is full subcategory of $\der\Stk$ of derived stacks admitting affine Zariski coverings
+\end{itemize}
+\pause We immediately get that $\der\Aff$ is a full subcategory of $\der\Sch$. \pause Any derived stack $X$ has an underlying \textbf{classical stack} $X_{\cl}$, basically characterized by $(\Spec A)_{\cl}\simeq\Spec\pi_0(A)$.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Extending Notions}
+\pause
+\begin{remark*}
+For clarity, we will use normal font ($X$, $Y$, etc.) to refer to derived schemes and calligraphic font ($\X$, $\Y$, etc.) to refer to general derived stacks. 
+\end{remark*}
+
+\pause We say $X\to Y$ in $\der\Sch$ is \textbf{smooth (resp., flat, \'{e}tale)} if there exist affine Zariski coverings $\{\Spec B_i\to X\}$ and $\{\Spec A_{j_i}\to Y\}$ and commutative squares
+\begin{center}
+\begin{tikzcd}
+\Spec B_i \arrow[r] \arrow[d] & X \arrow[d] \\
+\Spec A_{j_i} \arrow[r] & Y
+\end{tikzcd}
+\end{center}
+such that each $\Spec B_i\to\Spec A_{j_i}$ is smooth (resp., flat, \'{e}tale).
+\end{frame}
+
+\begin{frame}
+\frametitle{Types of Stacks}
+\pause Among all classical stacks, there are certain classes with nice properties. We give here some intuition before jumping into derived variants.
+\begin{itemize}
+\pause\item \textbf{Algebraic Spaces}: Essentially what we get if we take quotients of classical schemes by \'{e}tale equivalence relations (good since the \'{e}tale topology is good)
+\pause\item \textbf{Artin Stacks}: Good setting for many geometric moduli problems (e.g., moduli of elliptic curves) because they encode many ``stacky'' groupoid quotients
+\pause\item \textbf{Deligne-Mumford (DM) Stacks}: Good for working with stack quotients of schemes whose automorphism groups are finite groups (analogous to orbifolds)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Artin Stacks}
+\pause We will proceed by induction. We say $\X\to\Y$ in $\der\Stk$ is 
+\begin{itemize}
+\pause\item \textbf{$0$-Artin} if $\X\times_{\Y}Y\in\der\Sch$ for every $Y\in\der\Sch_{/\Y}$;
+\pause\item \textbf{$0$-smooth} if it is $0$-Artin and $\X\times_{\Y}Y\to Y$ is smooth for every $Y\in\der\Sch_{/\Y}$.
+\end{itemize}
+\pause Moreover, $\X$ is \textbf{$0$-Artin} if it is a derived scheme. \pause Fix now $n>0$ and assume we have defined the relevant notions up to $n-1$.
+\begin{itemize}
+\pause\item $\X$ is \textbf{$n$-Artin} if there exists $X\in\der\Sch_{/\X}$ such that $X\to\X$ is $(n-1)$-smooth and epic.
+\pause\item $\X\to\Y$ is \textbf{$n$-Artin} if $\X\times_{\Y}Y$ is $n$-Artin for every $Y\in\der\Sch_{/\Y}$.
+\pause\item $\X\to\Y$ is \textbf{$n$-smooth} if it is $n$-Artin and for every $Y\in\der\Sch_{/\Y}$ there exists $X\in\der\Sch_{/\X\times_{\Y}Y}$ such that 
+\begin{itemize}
+	\pause\item $X\to\X\times_{\Y}Y$ is $(n-1)$-smooth and epic;
+	\pause\item $X\to\X\times_{\Y}Y\to Y$ is smooth.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derived Artin Stacks}
+\pause Fix $\X\in\der\Stk$.
+\begin{itemize}
+\pause\item $\X$ is a \textbf{derived Artin stack} if it is $n$-Artin for some $n\geq0$.
+\pause\item $\X$ is a \textbf{derived Deligne-Mumford (DM) stack} if it is a derived Artin stack and there exists an \'{e}tale surjection $X\to\X$ with $X\in\der\Sch$.
+\end{itemize}
+\pause We take \emph{derived algebraic stack} to be synonymous with derived Artin stack. \pause Note that one can give equivalent descriptions of derived Artin and DM stacks in terms of representability of the diagonal and derived quotient stacks.
+\end{frame}
+\end{document}
