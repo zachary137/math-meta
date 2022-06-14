@@ -1,0 +1,351 @@
+\documentclass[11pt]{beamer}
+\usetheme{Boadilla}
+
+\usepackage{kernel_of_truth}
+
+\renewcommand{\div}{\mathrm{div}}
+
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+\title{AIT Recap}
+\author{Zachary Gardner}
+\date{\texttt{zachary.gardner@bc.edu}}
+\maketitle
+
+\begin{frame}
+\frametitle{Intro}
+In the past two talks we surveyed many of the foundational notions and constructions in arithmetic intersection theory. Our goal for today is to review the key content and start orienting ourselves toward derived horizons. At the center of it all is the notion of arithmetic Chow groups, which we want to behave like algebraic Chow groups while also capturing key analytic phenomena. The current version of the theory works with arithmetic cycles, which pair algebraic cycles with Green currents. The essential ingredient is an intersection product for these arithmetic cycles, which requires the notion of $*$-product for Green currents. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Forms and Currents}
+Fix $X$ a complex manifold. Given $r\geq0$, we have $A^r(X)$ the space of $\C$-valued smooth $r$-forms on $X$ with decomposition 
+$$A^r(X)=\bigoplus_{p+q=r}A^{p,q}(X).$$ 
+Both of these constructions have compactly supported variants. We define $D_r(X)$ and $D_{p,q}(X)$ to be the continuous $\C$-linear duals of $A_c^r(X)$ and $A_c^{p,q}(X)$, respectively, yielding 
+$$D_r(X)=\bigoplus_{p+q=r}D_{p,q}(X).$$ 
+Letting $n$ be the dimension of $X$, define $D^r(X):=D_{2n-r}(X)$ and $D^{p,q}(X):=D_{n-p,n-q}(X)$ (with expected decomposition).
+\end{frame}
+
+\begin{frame}
+\frametitle{Dirac Currents}
+The space $X$ has an associated \textbf{Dirac current} $\delta_X\in D_{2n}(X)=D^0(X)$ sending $\alpha\in A_c^{2n}(X)$ to $\int_X\alpha$. We can in fact integrate along any analytic subvariety $Y\subset X$ to get $\delta_Y$, by passing to the nonsingular locus and possibly using a resolution of singularities as a computational aid (the choice does not matter; note that we must restrict down from $X$ to $Y$). We have an evaluation pairing
+\begin{align*}
+\wedge: D_{p,q}(X)\times A^{r,s}(X)\to D_{p-r,q-s}(X),\;(T,\alpha)\mapsto(T\wedge\alpha: \beta\mapsto T(\alpha\wedge\beta)),
+\end{align*}
+which is well-defined since $\beta$ and hence $\alpha\wedge\beta$ is compactly supported. We have no reason to prefer this ordering of the inputs and so we also define an evaluation pairing by the same formula but with the inputs swapped. 
+
+\begin{remark}
+This notation is somewhat unfortunate since swapping terms on a traditional wedge product introduces a negative sign. We will, however, follow convention. Some extra care will be needed later to avoid confusion.
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Bracket}
+This gives rise to the map
+$$[\cdot]: A^{p,q}(X)\to D^{p,q}(X),\qquad \alpha\mapsto\delta_X\wedge\alpha,$$
+which by definition satisfies $[\alpha](\beta):=\int_X\alpha\wedge\beta$ and gives $[\cdot]: A^r(X)\inj D^r(X)$ a $\C$-linear embedding. This is injective with dense image but \textbf{not} surjective.
+
+\begin{remark}
+In order to make sense of $[\cdot]$ we need only be able to integrate and so $[\cdot]$ clearly makes sense for forms which are locally $L^1$. This observation will be very important when working with Green currents.
+\end{remark}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Differential Operators}
+Letting $D\in\{d,\partial,\ov{\partial}\}$ be a suitable differential operator, we can uniquely extend $D$ to $D^{\bullet}(X)$ so that 
+\begin{center}
+\begin{tikzcd}
+A^r(X) \arrow[r, hookrightarrow, "{[\cdot]}"] \arrow[d, "D"'] & D^r(X) \arrow[d, "D"] \\
+A^{r+1}(X) \arrow[r, hookrightarrow, "{[\cdot]}"'] & D^{r+1}(X)
+\end{tikzcd}
+\end{center}
+commutes for every $r\geq0$. The recipe is $DT(\alpha):=\pm T(D\alpha)$ with sign depending on $\alpha$. We will have use for the operator
+$$d^c:=\df{i}{4\pi}(\ov{\partial}-\partial),$$
+which satisfies
+$$dd^c=-d^cd=\df{i}{2\pi}\partial\ov{\partial}$$
+noting that $d=\partial+\ov{\partial}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Green Currents}
+Given $Y\subset X$ an irreducible analytic subvariety of codimension $p$, a \textbf{Green current} for $Y$ is a current $g_Y$ such that 
+$$dd^cg_Y+\delta_Y=[\omega_Y]$$
+for $\omega_Y$ smooth. Note that this forces $g_Y\in D^{p-1,p-1}(X)$ and $\omega_Y\in A^{n-p,n-p}(X)$. Why should we care about Green currents?
+\begin{itemize}
+\item They form a suitable class for intersection theory.
+
+\item There are enough of them. 
+
+\item They are sufficiently computable and we understand reasonably well what they look like.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Smoothing of Cohomology}
+Let's elaborate on these points. One of the keys is that the cohomology of currents is computed by the cohomology of forms. We are interested in the complex de Rham cohomology $H_{\dR}^{\bullet}(X):=H_{\dR}^{\bullet}(X;\R)\tensor_{\R}\C$ obtained from $(A^{\bullet}(X),d)$ and the Dolbeault cohomology $H_{\ov{\partial}}^{p,\bullet}(X)$ obtained from $(A^{p,\bullet}(X),\ov{\partial})$. 
+
+\begin{theorem}[Smoothing of Cohomology]
+The natural maps 
+$$H_{\dR}^{\bullet}(X)\to H(D^{\bullet}(X),d),\qquad H_{\ov{\partial}}^{p,\bullet}(X)\to H(D^{p,\bullet}(X),\ov{\partial})$$
+(arising from the underlying complexes) are functorial isomorphisms.
+\end{theorem}
+
+The significance of this result is of course that we can transfer cohomological tools and methods (e.g., cup products) from the setting of forms to the setting of currents. In the derived setting we hope for some analogue.
+\end{frame}
+
+\begin{frame}
+\frametitle{Uniqueness}
+\begin{theorem}
+Let $X$ be a compact K\"{a}hler manifold and $g_1,g_2$ Green currents for the same analytic cycle on $X$. Then, there exist currents $\alpha,\beta$ and a smooth form $\omega$ such that $g_1-g_2=[\omega]+\partial\alpha+\ov{\partial}\beta$.
+\end{theorem}
+
+Where does this uniqueness result come from? The trick is that $T:=g_1-g_2$ is such that $\partial\ov{\partial}T$ is smooth, which allows us to inductively apply Smoothing of Cohomology. 
+
+\begin{remark}
+What about the compactness and K\"{a}hler conditions? Smoothing of Cohomology does not seem to require such conditions, so if we are just bootstrapping then something is fishy\ldots
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{Existence}
+What about existence? Using a mix of Hodge decomposition, K\"{a}hler identities, and Serre duality, we see that $d$-exactness implies $dd^c$-exactness. From this we see that analytic cycles on compact K\"{a}hler manifolds admit compatible Green currents, using Stokes's theorem. This is all wonderfully abstract. We want something a little more hands-on. The previous slide suggests that we work with the quotient complexes
+$$\twid{A}^{\bullet}(X):=A^{\bullet}(X)/(\im\partial+\im\ov{\partial}),\qquad \twid{D}^{\bullet}(X):=D^{\bullet}(X)/(\im\partial+\im\ov{\partial})$$
+in order to avoid worrying about various auxiliary choices. 
+
+\begin{remark}
+If we build a homotopy coherent theory then we can probably avoid the ``brutal'' effect of taking quotients here, allowing us to in some sense work more directly with $A^{\bullet}(X)$ and $D^{\bullet}(X)$. The computations we perform relative to $\twid{A}^{\bullet}(X)$ and $\twid{D}^{\bullet}(X)$ should be more thoroughly ``refined'' so that we understand how they ``lift.''
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{Green Currents Redux}
+On our way to unpacking the other points, let's consider the problem of playing two Green currents off of each other to produce a third. Let $Y,Z$ be analytic cycles on $X$ with Green current setup
+$$dd^cg_Y+\delta_Y=[\omega_Y],\qquad dd^cg_Z+\delta_Z=[\omega_Z].$$
+Assume that $Y,Z$ meet properly so that the intersection product $[Y].[Z]$ is represented by the na\"{i}ve set-theoretic intersection $Y\cap Z$. A natural aim is to produce a current $g_Y*g_Z$ so that 
+$$dd^c(g_Y*g_Z)+\delta_{Y\cap Z}=[\omega_Y\wedge\omega_Z],$$
+which is to say we expect a Green current with some control on the ``shape.'' The key is that we can write down a suitable ``formal expression'' which we can then check actually has the right analytic properties. From there, we want to understand how to generalize to more complicated intersections. All of this makes it necessary to understand how to represent Green currents by forms. With this in mind, we introduce the following definition. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Log Type Forms}
+Let $X$ be a quasi-projective complex manifold and $Y\subset X$ an analytic subvariety not containing any irreducible components of $X$. Let $\eta$ be a form on $X$ which is smooth on $X\setminus Y$. We say that $\eta$ is of \textbf{log type} along $Y$ if there exists a proper map $\pi: M\to X$ and smooth form $\phi$ on $M\setminus\pi^{-1}(Y)$ such that
+\begin{itemize}
+\item $M$ is a complex manifold, $E:=\pi^{-1}(Y)$ is a normal crossings divisor on $M$, and $\pi|_{M\setminus E}: M\setminus E\to X\setminus Y$ is a submersion;
+
+\item $(\pi|_{M\setminus E})_*\phi=\eta$; and
+
+\item given $U\subset M$ nonempty open with holomorphic coordinates $(z_1,\ldots,z_n)$ such that $E\cap U$ looks like $z_1\cdots z_k=0$ for some $k\leq n$, then there exist a smooth form $\beta$ on $U$ and $\partial$- and $\ov{\partial}$-closed forms $\alpha_i$ ($1\leq i\leq k$) on $U$ such that 
+$$\phi|_U=\sum_{i=1}^k\alpha_i\log\abs{z_i}^2+\beta.$$
+\end{itemize}
+\end{frame}
+
+%A common alternative definition is to take $\pi$ projective and drop the submersion condition. We will represent Green currents by so-called Green forms of log type, which rests on the machinery of blowups. It's important to note that other interesting methodologies exist, such as studying the heat flux of associated Dirac currents.
+
+\begin{frame}
+\frametitle{Pushforward and Pullback}
+The unknown ingredient in the previous definition is a pushforward for currents, which actually fits into a good theory of both pushforwards and pullbacks. Given $f: X\to Y$ a proper holomorphic map of complex manifolds, we have $f_*: D_{p,q}(X)\to D_{p,q}(Y)$ induced by $f^*: A_c^{p,q}(Y)\to A_c^{p,q}(X)$. Assuming moreover that $X,Y$ have dimensions $n,m$ and $f$ has constant fiber dimension $r:=n-m$, we have $f^*: D_{p-r,q-r}(Y)\to D_{p,q}(X)$. Note that the relationship of $f_*$ and $f^*$ with the bigrading changes if we use upper instead of lower indexing. Given $T\in D(X)$ and $D\in\{d,\partial,\ov{\partial}\}$, the following hold.
+\begin{itemize}
+\item $D(f_*T)=f_*(DT)$.
+
+\item We have the projection formula $f_*(T\wedge f^*\alpha)=f_*T\wedge\alpha$ for $\alpha\in A^{\bullet}(X)$.
+
+\item Suppose that $g: Y\to Z$ is another proper holomorphic map of complex manifolds. Then, $(g\circ f)_*T=g_*f_*T$.
+
+\item Given $Z\subset X$ an analytic cycle, we have $f_*\delta_Z=\delta_{f_*Z}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pushforward and Pullback}
+What about properties of pullbacks? Suppose moreover that $f$ is a surjective submersion. Then, the following hold.
+\begin{itemize}
+\item $D(f^*T)=f^*(DT)$.
+
+\item $f^*(T\wedge\alpha)=f^*T\wedge f^*\alpha$ for $\alpha\in A^{\bullet}(Y)$.
+
+\item Suppose that $g: Y\to Z$ is another proper surjective submersion of complex manifolds. Then, $(f\circ g)^*T=g^*f^*T$.
+
+\item Given $Z\subset Y$ an analytic cycle, we have $f^*\delta_Z=\delta_{f^*Z}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Poincar\'{e}-Lelong}
+Log type forms arise for us because they play especially nice with $dd^c$ and thus lead us to Green currents. Under suitable conditions which ensure everything is well-defined, the pushforward and pullback of log type forms are themselves log type. In turn, the pushforward and pullback of Green currents represented by log type forms are themselves Green currents represented by log type forms. Understanding how $dd^c$ interacts with log type forms ultimately boils down to the Poincar\'{e}-Lelong formula, which tells us how to construct Green currents in codimension $1$. The bootstrapping technique for dealing with higher codimension is resolution of singularities, which is also often used to prove Poincar\'{e}-Lelong itself.
+\end{frame}
+
+\begin{frame}
+\frametitle{Poincar\'{e}-Lelong}
+\begin{theorem}[Poincar\'{e}-Lelong]
+Let $X$ be a complex manifold and $Y\subset X$ a divisor given as $\div(s)$ for $s$ a meromorphic section of some holomorphic line bundle $L$ on $X$. Choose $\norm{\cdot}$ some smooth Hermitian metric on $L$ and let $c_1(L,\norm{\cdot})$ be the associated first Chern form. Then, $-\log\norm{s}^2$ is $L^1$ on $X$ and we have
+$$dd^c[-\log\norm{s}^2]+\delta_{\div(s)}=[c_1(L,\norm{\cdot})].$$
+\end{theorem}
+
+Unpacking definitions, we have the residue calculation $dd^c[\log\norm{s}^2]-[dd^c\log\norm{s}^2]=\delta_{\div(s)}$ or, in other words,
+$$\int_X\log\norm{s}^2dd^c\eta-\int_Xdd^c(\log\norm{s}^2)\wedge\eta=\int_{\div(s)}\eta$$
+for every $\eta\in A_c^{n-1,n-1}(X)$ with $n:=\dim X$. Poincar\'{e}-Lelong is useful in part because it is somewhat explicit.
+\end{frame}
+
+\begin{frame}
+\frametitle{An Example}
+\begin{example}
+Take $X=\C^2$ with coordinates $z_1,z_2$ and $Y=\{0\}$. The form 
+$$g_0:=\df{1}{2\pi}\log(\abs{z_1}^2+\abs{z_2}^2)\df{(z_1dz_1-z_2dz_2)(\ov{z}_1d\ov{z}_1-\ov{z}_2d\ov{z}_2)}{(\abs{z_1}^2+\abs{z_2}^2)^2}$$
+satisfies $dd^c[g_0]=\delta_0$.
+\end{example}
+
+Note that there is a theory of canonical Green currents associated to Schubert cells in Grassmannians but this theory is not as explicit as one might hope.
+\end{frame}
+
+\begin{frame}
+\frametitle{Green Forms}
+By definition, a \textbf{Green form of log type} is a real form of log type inducing a Green current under $[\cdot]$. Under such conditions I believe it is the case that every Green current for $Y$ is represented by a Green form of log type.
+
+\begin{remark}
+It's a little unclear how the realness condition should be implemented in the derived setting. I'm not sure how much this matters\ldots
+\end{remark}
+
+\begin{theorem}
+Let $X$ be a quasi-projective complex manifold and $Y\subset X$ irreducible closed. Then, there exists a Green form of log type for $Y$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{$*$-Products}
+What, then, can we say about $*$-products? Let $Y,Z\subset X$ be irreducible closed subvarieties of pure codimension with $Z$ not contained in $Y$. Let $\eta$ be a form of log type along $Y$. Define 
+$$\eta\delta_Z:=h_*[h^*\eta]=:\delta_Z\eta,$$ 
+where $h:=i\circ\pi$ for $i: Z\inj X$ the associated closed immersion and $\pi: \twid{Z}\to Z$ a choice of resolution of singularities (which exists!). This is a current on $X$ independent of the choice of $\pi$ (Why?). These notions extend to suitable pairs of analytic cycles by imposing linearity. Let once again $Y,Z$ be analytic cycles on $X$ with Green current setup
+$$dd^cg_Y+\delta_Y=[\omega_Y],\qquad dd^cg_Z+\delta_Z=[\omega_Z].$$
+Ignoring how $Y$ and $Z$ interact, define the $*$-product of $g_Y$ and $g_Z$ to be 
+$$g_Y*g_Z:=g_Y\delta_Z+\omega_Y\wedge g_Z,$$
+which requires a choice of representing Green form for $g_Y$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Commutativity}
+The $*$-product is supposed to be commutative and associative, viewed in the proper context. Let's think about this heuristically. Switching the order and choosing a representing Green form for $g_Z$, we have 
+$$g_Z*g_Y=g_Z\delta_Y+\omega_Z\wedge g_Y.$$
+By assumption we have $[\omega_Y]=dd^cg_Y+\delta_Y$ and so it is reasonable to expect 
+$$\omega_Y\wedge g_Z=dd^c(g_Y)\wedge g_Z+\delta_Yg_Z$$
+as currents. Similarly, we expect 
+$$\omega_Z\wedge g_Y=dd^c(g_Z)\wedge g_Y+\delta_Zg_Y,$$
+which gives the commutator
+$$g_Y*g_Z-g_Z*g_Y=dd^c(g_Y)\wedge g_Z-dd^c(g_Z)\wedge g_Y.$$
+There is in turn some reason to expect $g_Y\wedge g_Z=g_Z\wedge g_Y$ and that we can relate the expression $dd^c(g_Y\wedge g_Z)$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Closure}
+Again heuristically, we expect
+\begin{align*}
+dd^c(g_Y*g_Z)
+&=dd^c(g_Y\delta_Z+\omega_Y\wedge g_Z) \\
+&=dd^c(g_Y)\delta_Z+\omega_Y\wedge dd^c(g_Z) \\
+&=([\omega_Y]-\delta_Y)\delta_Z+\omega_Y\wedge([\omega_Z]-\delta_Z) \\
+&=\omega_Y\delta_Z-\delta_Y\delta_Z+\omega_Y\wedge[\omega_Z]-\omega_Y\wedge\delta_Z \\
+&=-\delta_Y\delta_Z+[\omega_Y\wedge\omega_Z] \\
+&=-\delta_{Y.Z}+[\omega_Y\wedge\omega_Z],
+\end{align*}
+where $\delta_Y\delta_Z$ is at present undefined and $Y.Z$ should be understood as the intersection product $[Y].[Z]$, which is in general only well-defined up to rational equivalence. 
+
+\begin{remark}
+Expected here is the implicit equation $\omega_Y\delta_Z=\omega_Y\wedge\delta_Z$.
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{Associativity}
+Working heuristically, we have 
+\begin{align*}
+(g_Y*g_Z)*g_W
+&=(g_Y*g_Z)\delta_W+(\omega_Y\wedge\omega_Z)\wedge g_W \\
+&=(g_Y\delta_Z+\omega_Y\wedge g_Z)\delta_W+(\omega_Y\wedge\omega_Z)\wedge g_W \\
+&=(g_Y\delta_Z)\delta_W+(\omega\wedge g_Z)\delta_W+(\omega_Y\wedge\omega_Z)\wedge g_W
+\end{align*}
+and
+\begin{align*}
+g_Y*(g_Z*g_W)
+&=g_Y\delta_{Z.W}+\omega_Y\wedge(g_Z*g_W) \\
+&=g_Y\delta_{Z.W}+\omega_Y\wedge(g_Z\delta_W+\omega_Z\wedge g_W) \\
+&=g_Y\delta_{Z.W}+\omega_Y\wedge(g_Z\delta_W)+\omega_Y\wedge(\omega_Z\wedge g_W).
+\end{align*}
+We expect to be able to match terms. 
+
+%\begin{remark}
+%Here are some curiosities. We can view $g_W$ in terms of a representing Green form and then consider $g_W\wedge[\omega_Z]$. Is this the same %as $g_W\wedge\omega_Z$? Since $\omega_Z\wedge\omega_Y=-\omega_Y\wedge\omega_Z$, we have to be careful about trying to compare $[\omega_Y\wedge\omega_Z]$ with $\omega_Y\wedge[\omega_Z]$ and $\omega_Z\wedge[\omega_Y]$.
+%\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Transverse Case}
+Through involved analysis, it is possible to make some headway in the case of transverse intersection.
+
+\begin{theorem}
+Let $Y,Z,W$ be a transverse triple of irreducible closed subvarieties of $X$ of codimension $p,q,r$ with $p,q>0$. Then, 
+$$g_Y\delta_{Z\cdot W}+\omega_Y\wedge g_Z\delta_W=g_Z\delta_{Y.W}+\omega_Z\wedge g_Y\delta_W$$
+in $\twid{D}^{n,n}(X)$ for $n:=p+q+r-1$.
+\end{theorem}
+
+\begin{remark}
+Ideally, we would like to have more refined information about the difference between $g_Y\delta_{Z\cdot W}+\omega_Y\wedge g_Z\delta_W$ and $g_Z\delta_{Y.W}+\omega_Z\wedge g_Y\delta_W$ living in $\im\partial+\im\ov{\partial}$.
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Transverse Case}
+Since $r=0$ is allowed, taking $W=X$ tells us that the $*$-product is commutative at least in the context of $\twid{D}^{\bullet}(X)$. Note that we also get independence from the choice of representing Green form. This follows from taking $g_Y,g'_Y$ to both represent the same Green current and considering the equation
+$$g_Y\delta_{Y.Z}+\omega_Y\wedge g'_Y\delta_Z=g'_Y\delta_{Y.Z}+\omega_Y\wedge g_Y\delta_Z.$$
+\end{frame}
+
+\begin{frame}
+\frametitle{The Transverse Case}
+Associativity for a transverse triple seems a bit suspect but should hold. Let $g_i$ be associated to $\omega_i$ and $Z_i$, for $i\in\{1,2,3\}$. We have 
+\begin{align*}
+g_1*(g_2*g_3)
+&=g_1*(g_3*g_2) \\
+&=g_1\delta_{Z_3.Z_2}+\omega_1\wedge(g_3*g_2) \\
+&=g_1\delta_{Z_3.Z_2}+\omega_1\wedge(g_3\delta_{Z_2}+\omega_3\wedge g_2) \\
+&=g_1\delta_{Z_3.Z_2}+\omega_1\wedge g_3\delta_{Z_2}+\omega_1\wedge(\omega_3\wedge g_2) \\
+&=g_1\delta_{Z_3.Z_2}+\omega_1\wedge g_3\delta_{Z_2}+(\omega_1\wedge\omega_3)\wedge g_2
+\end{align*}
+and
+\begin{align*}
+(g_1*g_2)*g_3
+&=g_3*(g_1*g_2) \\
+&=g_3\delta_{Z_1.Z_2}+\omega_3\wedge g_1\delta_{Z_2}+(\omega_3\wedge\omega_1)\wedge g_2.
+\end{align*}
+\emph{Am I crazy or is there a glaring sign error to deal with here?}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Non-Transverse Case}
+We have access to more elaborate formulas for all of these things when working with non-transverse intersections, though the fully general case is not known. What are we to do with all of this? Let's start off with a first approximation of a derived theory.
+
+\begin{conjecture}
+\begin{itemize}
+\item There is a ``robust'' theory of derived currents on derived complex manifolds, being closely tied to a derived theory of differential forms and admitting nicely behaved homotopical notions of pushforward and pullback.
+
+\item There is a suitably ``stable'' class of derived Green currents, generalizing classical Green currents, which admits a derived $*$-product that is canonically commutative and associative up to coherent homotopy.
+
+\item This derived $*$-product generalizes the classical $*$-product, thereby ``geometrizing'' many ad hoc analytic manipulations.
+\end{itemize}
+\end{conjecture}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some Questions}
+\begin{itemize}
+\item When is the derived $*$-product of classical Green currents itself a classical Green current?
+
+\item What happens if we take the derived $*$-product of a classical Green current with itself?
+
+\item Can we recover the analysis used to compute classical $*$-products, in the transverse case or more generally?
+
+\item How do log type forms fit into the picture and can we generalize their associated blowup arguments using derived blowups?
+
+\item Does the derived setting suggest new classes of ``canonical'' (possibly classical) Green forms?\footnote{Log type forms are stable under the manipulations that go into computing classical $*$-products. Messing with heat flux produces Green forms which are not so stable. Can we get around this by framing things in a derived context?}
+\end{itemize}
+\end{frame}
+\end{document}
